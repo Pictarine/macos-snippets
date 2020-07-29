@@ -14,7 +14,6 @@
 		796B093524D1B95B006904C4 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B093424D1B95B006904C4 /* Color.swift */; };
 		796B093724D1BA1F006904C4 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B093624D1BA1F006904C4 /* Date.swift */; };
 		79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */; };
-		79A6F64A24D2070A0037C5FF /* CodeMirrorViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64924D2070A0037C5FF /* CodeMirrorViewDelegate.swift */; };
 		79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */; };
 		79BC1D2024D16E67008FD16E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D1F24D16E67008FD16E /* AppDelegate.swift */; };
 		79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D2124D16E67008FD16E /* SnipViewApp.swift */; };
@@ -36,7 +35,6 @@
 		796B093424D1B95B006904C4 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		796B093624D1BA1F006904C4 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewConstants.swift; sourceTree = "<group>"; };
-		79A6F64924D2070A0037C5FF /* CodeMirrorViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeMirrorViewDelegate.swift; sourceTree = "<group>"; };
 		79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeMirrorViewController.swift; sourceTree = "<group>"; };
 		79BC1D1C24D16E67008FD16E /* Snip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79BC1D1F24D16E67008FD16E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 			children = (
 				79DBD4C924D1CBE500568364 /* CodeView.swift */,
 				79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */,
-				79A6F64924D2070A0037C5FF /* CodeMirrorViewDelegate.swift */,
 				79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */,
 			);
 			path = Representables;
@@ -235,7 +232,6 @@
 				79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */,
 				796B092924D1B563006904C4 /* Settings.swift in Sources */,
 				79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */,
-				79A6F64A24D2070A0037C5FF /* CodeMirrorViewDelegate.swift in Sources */,
 				796B092724D1B517006904C4 /* SnipFile.swift in Sources */,
 				79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */,
 				79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */,
