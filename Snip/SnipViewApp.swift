@@ -12,7 +12,7 @@ struct SnipViewApp: View {
   
   var body: some View {
     appNavigation
-      .background(Color.BLACK_500)
+//      .background(Color.BLACK_500)
       .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   
@@ -20,6 +20,7 @@ struct SnipViewApp: View {
   var appNavigation: some View {
     NavigationView {
       Sidebar()
+        .visualEffect(material: .sidebar)
         .frame(minWidth: 180, idealWidth: 200, maxWidth: 240)
       CodeViewer()
     }

@@ -49,10 +49,11 @@ struct Sidebar: View {
         .padding(.top, 16)
       }
       .padding(.top, 1)
-      .background(Color.BLACK_200)
+      //.background(Color.BLACK_200)
       
     }
     .listStyle(SidebarListStyle())
+    //.listRowBackground(Color.PURPLE_500)
   }
   
   
