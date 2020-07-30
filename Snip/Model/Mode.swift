@@ -14,9 +14,6 @@ struct Mode: Codable, Equatable {
   let name: String
   let mimeType: String
   
-  static func ==(lhs: Mode, rhs: Mode) -> Bool {
-      return lhs.name == rhs.name && lhs.mimeType == rhs.mimeType
-  }
 }
 
 public enum CodeMode {
