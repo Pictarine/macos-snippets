@@ -77,7 +77,7 @@ public enum CodeMode {
   case yaml
   
   static func list() -> [Mode] {
-    return [
+    var modesList = [
       CodeMode.apl.mode(),
       CodeMode.pgp.mode(),
       CodeMode.asn.mode(),
@@ -133,16 +133,22 @@ public enum CodeMode {
       CodeMode.xml.mode(),
       CodeMode.yaml.mode()
     ]
+      
+    modesList.sort {
+        $0.name < $1.name
+    }
+    
+    return modesList
   }
   
   func mode() -> Mode {
     switch self {
     case .apl:
-      return Mode(name: "APL", mimeType: "text/apl")
+      return Mode(name: "apl", mimeType: "text/apl")
     case .pgp:
-      return Mode(name: "PGP", mimeType: "application/pgp")
+      return Mode(name: "pgp", mimeType: "application/pgp")
     case .asn:
-      return Mode(name: "ASN", mimeType: "text/x-ttcn-asn")
+      return Mode(name: "asn", mimeType: "text/x-ttcn-asn")
     case .cmake:
       return Mode(name: "cmake", mimeType: "text/x-cmake")
     case .c:
@@ -150,13 +156,13 @@ public enum CodeMode {
     case .cplus:
       return Mode(name: "c++", mimeType: "text/x-c++src")
     case .objc:
-      return Mode(name: "Objective-C", mimeType: "text/x-objectivec")
+      return Mode(name: "objective-c", mimeType: "text/x-objectivec")
     case .kotlin:
-      return Mode(name: "Kotlin", mimeType: "text/x-kotlin")
+      return Mode(name: "kotlin", mimeType: "text/x-kotlin")
     case .scala:
       return Mode(name: "scala", mimeType: "text/x-scala")
     case .csharp:
-      return Mode(name: "C#", mimeType: "text/x-csharp")
+      return Mode(name: "c#", mimeType: "text/x-csharp")
     case .java:
       return Mode(name: "java", mimeType: "text/x-java")
     case .cobol:
@@ -190,7 +196,7 @@ public enum CodeMode {
     case .typescript:
       return Mode(name: "typescript", mimeType: "application/typescript")
     case .json:
-      return Mode(name: "JSON", mimeType: "application/json")
+      return Mode(name: "json", mimeType: "application/json")
     case .ecma:
       return Mode(name: "ecma", mimeType: "application/ecmascript")
     case .jinja:
@@ -214,7 +220,7 @@ public enum CodeMode {
     case .python:
       return Mode(name: "python", mimeType: "text/x-cython")
     case .r:
-      return Mode(name: "R", mimeType: "text/x-rsrc")
+      return Mode(name: "r", mimeType: "text/x-rsrc")
     case .ruby:
       return Mode(name: "ruby", mimeType: "text/x-ruby")
     case .rust:
@@ -226,11 +232,11 @@ public enum CodeMode {
     case .shell:
       return Mode(name: "shell", mimeType: "application/x-sh")
     case .sql:
-      return Mode(name: "SQL", mimeType: "text/x-sql")
+      return Mode(name: "sql", mimeType: "text/x-sql")
     case .sqllite:
-      return Mode(name: "SQLlite", mimeType: "text/x-sqlite")
+      return Mode(name: "sqllite", mimeType: "text/x-sqlite")
     case .mysql:
-      return Mode(name: "mySQL", mimeType: "text/x-mysql")
+      return Mode(name: "mysql", mimeType: "text/x-mysql")
     case .latex:
       return Mode(name: "latex", mimeType: "text/x-latex")
     case .swift:
@@ -240,7 +246,7 @@ public enum CodeMode {
     case .vb:
       return Mode(name: "vb", mimeType: "text/x-vb")
     case .vue:
-      return Mode(name: "Vue", mimeType: "text/x-vue")
+      return Mode(name: "vue", mimeType: "text/x-vue")
     case .xml:
       return Mode(name: "xml", mimeType: "application/xml")
     case .yaml:
