@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CodeViewer: View {
   
-  @State var mimeType = "application/json"
+  @State var mode = CodeMode.text.mode()
   @State var code = try! String(contentsOf: Bundle.main.url(forResource: "data", withExtension: "json")!)
   
   var body: some View {
@@ -21,8 +21,13 @@ struct CodeViewer: View {
           .foregroundColor(.white)
       }.padding()
       
+      HStack {
+        ModeSelectionView(currentMode: $mode)
+        .padding(.leading, 8)
+          Spacer()
+      }
       
-      CodeView(code: $code, mimeType: $mimeType)
+      CodeView(code: $code, mode: $mode)
         .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
       
       Divider()

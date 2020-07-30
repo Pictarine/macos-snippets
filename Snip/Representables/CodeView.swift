@@ -13,8 +13,10 @@ import WebKit
 
 struct CodeView: NSViewRepresentable {
   
+  @EnvironmentObject var settings: Settings
+  
   @Binding var code: String
-  @Binding var mimeType: String
+  @Binding var mode: Mode
   
   var onLoadSuccess: (() -> ())? = nil
   var onLoadFail: ((Error) -> ())? = nil
@@ -48,7 +50,7 @@ struct CodeView: NSViewRepresentable {
     let data = try! Data(contentsOf: URL(fileURLWithPath: indexPath))
     webView.load(data, mimeType: "text/html", characterEncodingName: "utf-8", baseURL: bundle.resourceURL!)
     
-    context.coordinator.setThemeName("dracula")
+    context.coordinator.setThemeName(settings.codeMirrorTheme)
     context.coordinator.setTabInsertsSpaces(true)
     context.coordinator.setWebView(webView)
     context.coordinator.setup()
@@ -57,7 +59,7 @@ struct CodeView: NSViewRepresentable {
   }
   
   func updateNSView(_ codeMirrorView: WKWebView, context: Context) {
-    context.coordinator.setMimeType(mimeType)
+    context.coordinator.setMimeType(mode.mimeType)
     context.coordinator.setContent(code)
   }
   

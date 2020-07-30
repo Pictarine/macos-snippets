@@ -13,7 +13,7 @@ public struct SnipFile: Codable {
   
   let name: String
   let content: String
-  let mode: CodeMode
+  let mode: Mode
   let tags: [String]
   let creationDate: Date
   let lastUpdateDate: Date
