@@ -11,6 +11,6 @@ import Foundation
 
 class Settings: ObservableObject {
   
-  @Published var codeMirrorTheme : String = "monokai"
+  @Published var codeMirrorTheme : String = "dracula"
   
 }

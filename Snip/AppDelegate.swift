@@ -27,6 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     window.titleVisibility = .hidden
     window.titlebarAppearsTransparent = true
     window.toolbar?.isVisible = false
+    window.isMovableByWindowBackground = true
     window.center()
     window.setFrameAutosaveName("Main Window")
     window.contentView = NSHostingView(rootView: contentView)
