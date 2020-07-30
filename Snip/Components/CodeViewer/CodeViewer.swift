@@ -15,17 +15,9 @@ struct CodeViewer: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      HStack{
-        Text("Curry Func")
-          .font(Font.custom("HelveticaNeue", size: 20))
-          .foregroundColor(.white)
-      }.padding()
+      CodeActionsTopBar()
       
-      HStack {
-        ModeSelectionView(currentMode: $mode)
-        .padding(.leading, 8)
-          Spacer()
-      }
+      ModeSelectionView(currentMode: $mode)
       
       CodeView(code: $code, mode: $mode)
         .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)

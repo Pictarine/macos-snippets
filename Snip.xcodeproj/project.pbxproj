@@ -30,6 +30,7 @@
 		79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBD4C924D1CBE500568364 /* CodeView.swift */; };
 		79DBD4CD24D1CEFD00568364 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 79DBD4CC24D1CEFD00568364 /* data.json */; };
 		79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */; };
+		79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		79DBD4C924D1CBE500568364 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		79DBD4CC24D1CEFD00568364 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = data.json; path = "../../Downloads/CodeMirror-Swift-master/example/CodeMirror-Swift-Example/CodeMirror-Swift-Example/data.json"; sourceTree = "<group>"; };
 		79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
+		79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeActionsTopBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,8 +114,9 @@
 			isa = PBXGroup;
 			children = (
 				79BC1D3424D17142008FD16E /* CodeViewer.swift */,
-				79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */,
+				79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */,
 				79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */,
+				79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */,
 			);
 			path = CodeViewer;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				796B092924D1B563006904C4 /* Settings.swift in Sources */,
 				79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */,
 				79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */,
+				79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */,
 				796B092724D1B517006904C4 /* SnipFile.swift in Sources */,
 				79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */,
 				79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */,
