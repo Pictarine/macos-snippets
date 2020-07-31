@@ -50,15 +50,19 @@ struct SnipItemView<Content: View>: View {
       },
              label: {
               HStack {
+                Image( self.isExpanded ? "ic_up" : "ic_down")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 15, height: 15, alignment: .center)
+                  
                 Image( self.isExpanded ? "ic_folder_opened" : "ic_folder_closed")
                   .resizable()
                   .frame(width: 15, height: 15, alignment: .center)
-                  .padding(.leading, 4)
                 Text(snipItem.name)
-                Spacer()
               }
-                //.background(Color.blue)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                .background(Color.clear)
                 .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
       })
         //.background(Color.red)
