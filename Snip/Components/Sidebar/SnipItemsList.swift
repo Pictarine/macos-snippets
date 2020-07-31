@@ -55,12 +55,13 @@ struct SnipItemView<Content: View>: View {
                   .frame(width: 15, height: 15, alignment: .center)
                   .padding(.leading, 4)
                 Text(snipItem.name)
-                  .padding(.leading, 4)
                 Spacer()
               }
+                //.background(Color.blue)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
       })
+        //.background(Color.red)
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(0)
         .buttonStyle(PlainButtonStyle())
@@ -76,8 +77,8 @@ struct SnipItemView<Content: View>: View {
           .padding(.leading, 4)
         Spacer()
       }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
     }
     
     if isExpanded {

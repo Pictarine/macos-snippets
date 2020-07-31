@@ -56,17 +56,28 @@ struct Sidebar: View {
       .padding(.top, 1)
       //.background(Color.BLACK_200)
       
+      HStack {
+        Spacer()
+        
+        ImageButton(imageName: "ic_settings", action: settings)
+      }
+      .padding()
     }
     .listStyle(SidebarListStyle())
     //.listRowBackground(Color.PURPLE_500)
   }
   
   
+  func test() {
+    print("Test")
+  }
+  
+  func settings() {
+    print("settings")
+  }
 }
 
-func test() {
-  print("Test")
-}
+
 
 struct Sidebar_Previews: PreviewProvider {
   static var previews: some View {

@@ -18,9 +18,9 @@ struct CodeActionsTopBar: View {
       
       Spacer()
       
-      ImageButton(imageName: "ic_delete", action: delete)
       ImageButton(imageName: "ic_fav", action: addToFavorites)
-      ImageButton(imageName: "ic_settings", action: settings)
+      ImageButton(imageName: "ic_delete", action: delete)
+      
     }.padding()
   }
   
@@ -30,10 +30,6 @@ struct CodeActionsTopBar: View {
   
   func addToFavorites() {
     print("addToFavorites")
-  }
-  
-  func settings() {
-    print("settings")
   }
 }
 

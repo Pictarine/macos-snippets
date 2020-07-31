@@ -71,6 +71,13 @@ extension SnipItem {
                          kind: .folder,
                          content: [
                           SnipItem(id: UUID(),
+                                   name: "Folder #2",
+                                   kind: .folder,
+                                   content: [],
+                                   tags: [],
+                                   creationDate: Date(),
+                                   lastUpdateDate: Date()),
+                          SnipItem(id: UUID(),
                                    name: "File #1",
                                    kind: .file,
                                    content: [],
