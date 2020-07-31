@@ -9,12 +9,21 @@
 import SwiftUI
 
 struct Sidebar: View {
-  private let names = ["Homer", "Marge", "Bart", "Lisa"]
+  private let names = [
+    SnipItem(name: "Hello", kind: .folder, content: [], tags: [], creationDate: Date(), lastUpdateDate: Date()),
+    SnipItem(name: "IM", kind: .folder, content: [
+      SnipItem(name: "Folder #1", kind: .folder, content: [
+        SnipItem(name: "File #1", kind: .file, content: [], tags: [], creationDate: Date(), lastUpdateDate: Date())
+      ], tags: [], creationDate: Date(), lastUpdateDate: Date())
+    ], tags: [], creationDate: Date(), lastUpdateDate: Date()),
+    SnipItem(name: "BATMAN", kind: .folder, content: [], tags: [], creationDate: Date(), lastUpdateDate: Date())
+  ]
+  
   @State private var selection: String?
   
   var body: some View {
     VStack(alignment: .leading) {
-      List(selection: $selection) {
+      List() {
         
         HStack{
           Spacer()
@@ -27,19 +36,13 @@ struct Sidebar: View {
         }
         
         Section(header: Text("Favorites")) {
-          ForEach(names, id: \.self) { name in
-            NavigationLink(destination: CodeViewer()) {
-              Text(name)
-            }
-          }
+          HierarchyList(data: names, children: \.content, rowContent: { Text($0.name) })
         }
         
         Section(header: Text("Local")) {
-          NavigationLink(destination: CodeViewer()) {
-            Text("VC Objc-C")
-          }
+          HierarchyList(data: names, children: \.content, rowContent: { Text($0.name) })
         }
-        .padding(.top, 16)
+        //.padding(.top, 16)
         
         Section(header: Text("Tags")) {
           NavigationLink(destination: CodeViewer()) {

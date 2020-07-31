@@ -14,6 +14,7 @@ struct ModeSelectionView: View {
   @Binding var currentMode: Mode
   
   private let modesList = CodeMode.list()
+  
   var body: some View {
     
     HStack {
@@ -28,13 +29,16 @@ struct ModeSelectionView: View {
           self.selectedModeIndex = $0
           self.currentMode = self.modesList[$0]
       }),
-             label: Text("")) {
+             label: EmptyView()) {
               ForEach(0 ..< modesList.count) {
                 Text(self.modesList[$0].name)
               }
       }
       .frame(minWidth: 100, idealWidth: 150, maxWidth: 150, alignment: .leading)
       .padding(.leading, 8)
+      .pickerStyle(DefaultPickerStyle())
+      .buttonStyle(PlainButtonStyle())
+      .textFieldStyle(PlainTextFieldStyle())
       Spacer()
     }
     

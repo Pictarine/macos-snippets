@@ -10,17 +10,35 @@ import SwiftUI
 
 struct CodeActionsTopBar: View {
   
-    var body: some View {
-        HStack{
-          Text("Curry Func")
-            .font(Font.custom("HelveticaNeue", size: 20))
-            .foregroundColor(.white)
-        }.padding()
-    }
+  var body: some View {
+    HStack{
+      Text("Curry Func")
+        .font(Font.custom("HelveticaNeue", size: 20))
+        .foregroundColor(.white)
+      
+      Spacer()
+      
+      ImageButton(imageName: "ic_delete", action: delete)
+      ImageButton(imageName: "ic_fav", action: addToFavorites)
+      ImageButton(imageName: "ic_settings", action: settings)
+    }.padding()
+  }
+  
+  func delete() {
+    print("delete")
+  }
+  
+  func addToFavorites() {
+    print("addToFavorites")
+  }
+  
+  func settings() {
+    print("settings")
+  }
 }
 
 struct CodeActionsTopBar_Previews: PreviewProvider {
-    static var previews: some View {
-        CodeActionsTopBar()
-    }
+  static var previews: some View {
+    CodeActionsTopBar()
+  }
 }

@@ -32,5 +32,6 @@ struct SnipViewApp: View {
 struct SnipViewApp_Previews: PreviewProvider {
   static var previews: some View {
     SnipViewApp()
+    .environmentObject(Settings())
   }
 }
