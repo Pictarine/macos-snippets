@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7936F88D24D41D4F00F09AE7 /* HierarchyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F88C24D41D4F00F09AE7 /* HierarchyList.swift */; };
+		7936F88F24D450B900F09AE7 /* SnipItemsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F88E24D450B900F09AE7 /* SnipItemsList.swift */; };
 		796B092524D1B4A3006904C4 /* SnipItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092424D1B4A3006904C4 /* SnipItem.swift */; };
 		796B092924D1B563006904C4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092824D1B563006904C4 /* Settings.swift */; };
 		796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */; };
@@ -36,7 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7936F88C24D41D4F00F09AE7 /* HierarchyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyList.swift; sourceTree = "<group>"; };
+		7936F88E24D450B900F09AE7 /* SnipItemsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsList.swift; sourceTree = "<group>"; };
 		796B092424D1B4A3006904C4 /* SnipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItem.swift; sourceTree = "<group>"; };
 		796B092824D1B563006904C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				79BC1D3224D17124008FD16E /* Sidebar.swift */,
-				7936F88C24D41D4F00F09AE7 /* HierarchyList.swift */,
+				7936F88E24D450B900F09AE7 /* SnipItemsList.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -286,13 +286,13 @@
 				79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */,
 				79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */,
 				796B093724D1BA1F006904C4 /* Date.swift in Sources */,
-				7936F88D24D41D4F00F09AE7 /* HierarchyList.swift in Sources */,
 				79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */,
 				79F07A2924D3050500469324 /* ImageButton.swift in Sources */,
 				796B092924D1B563006904C4 /* Settings.swift in Sources */,
 				79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */,
 				79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */,
 				79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */,
+				7936F88F24D450B900F09AE7 /* SnipItemsList.swift in Sources */,
 				79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */,
 				79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */,
 				79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */,

@@ -9,15 +9,7 @@
 import SwiftUI
 
 struct Sidebar: View {
-  private let names = [
-    SnipItem(name: "Hello", kind: .folder, content: [], tags: [], creationDate: Date(), lastUpdateDate: Date()),
-    SnipItem(name: "IM", kind: .folder, content: [
-      SnipItem(name: "Folder #1", kind: .folder, content: [
-        SnipItem(name: "File #1", kind: .file, content: [], tags: [], creationDate: Date(), lastUpdateDate: Date())
-      ], tags: [], creationDate: Date(), lastUpdateDate: Date())
-    ], tags: [], creationDate: Date(), lastUpdateDate: Date()),
-    SnipItem(name: "BATMAN", kind: .folder, content: [], tags: [], creationDate: Date(), lastUpdateDate: Date())
-  ]
+  private let snips: [SnipItem] = SnipItem.preview()
   
   @State private var selection: String?
   
@@ -35,16 +27,16 @@ struct Sidebar: View {
           .buttonStyle(PlainButtonStyle())
         }
         
-        Section(header: Text("Favorites")) {
-          HierarchyList(data: names, children: \.content, rowContent: { Text($0.name) })
+        Section(header: Text("Favorites").foregroundColor(Color.PURPLE_500).padding(.bottom, 3)) {
+          SnipItemsList(snipItems: snips)
         }
         
-        Section(header: Text("Local")) {
-          HierarchyList(data: names, children: \.content, rowContent: { Text($0.name) })
+        Section(header: Text("Local").foregroundColor(Color.PURPLE_500).padding(.bottom, 3)) {
+          Text("OK")
         }
         //.padding(.top, 16)
         
-        Section(header: Text("Tags")) {
+        Section(header: Text("Tags").foregroundColor(Color.PURPLE_500).padding(.bottom, 3)) {
           NavigationLink(destination: CodeViewer()) {
             Text("Quick")
           }
