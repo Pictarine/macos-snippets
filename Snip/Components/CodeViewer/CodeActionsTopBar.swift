@@ -19,6 +19,7 @@ struct CodeActionsTopBar: View {
       Spacer()
       
       ImageButton(imageName: "ic_fav", action: addToFavorites)
+      ImageButton(imageName: "ic_share", action: share)
       ImageButton(imageName: "ic_delete", action: delete)
       
     }.padding()
@@ -26,6 +27,10 @@ struct CodeActionsTopBar: View {
   
   func delete() {
     print("delete")
+  }
+  
+  func share() {
+    print("share")
   }
   
   func addToFavorites() {
