@@ -67,6 +67,10 @@ class CodeMirrorViewController: NSObject {
   func setMimeType(_ value: String) {
       callJavascript(javascriptString: "SetMimeType(\"\(value)\");")
   }
+  
+  func getMimeType(_ block: JavascriptCallback?) {
+      callJavascript(javascriptString: "GetMimeType();", callback: block)
+  }
 
   func setThemeName(_ value: String) {
       callJavascript(javascriptString: "SetTheme(\"\(value)\");")

@@ -55,12 +55,46 @@ struct CodeView: NSViewRepresentable {
     context.coordinator.setWebView(webView)
     context.coordinator.setup()
     
+    context.coordinator.setMimeType(mode.mimeType)
+    context.coordinator.setContent(code)
+    
     return webView
   }
   
   func updateNSView(_ codeMirrorView: WKWebView, context: Context) {
-    context.coordinator.setMimeType(mode.mimeType)
-    context.coordinator.setContent(code)
+    context.coordinator.getMimeType({ result in
+      
+      switch result {
+      case .success(let resp):
+        guard let previousMimeType = resp as? String else { return }
+        
+        if previousMimeType != self.mode.mimeType {
+            context.coordinator.setMimeType(self.mode.mimeType)
+        }
+        
+        return
+      case .failure(let error):
+        print("Error \(error)")
+        return
+      }
+    })
+    
+    context.coordinator.getContent({ result in
+      
+      switch result {
+      case .success(let resp):
+        guard let previousContent = resp as? String else { return }
+        
+        if previousContent != self.code {
+          context.coordinator.setContent(self.code)
+        }
+        
+        return
+      case .failure(let error):
+        print("Error \(error)")
+        return
+      }
+    })
   }
   
   func makeCoordinator() -> CodeMirrorViewController {
