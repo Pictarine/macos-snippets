@@ -62,44 +62,34 @@ struct CodeView: NSViewRepresentable {
   }
   
   func updateNSView(_ codeMirrorView: WKWebView, context: Context) {
-    context.coordinator.getMimeType({ result in
-      
-      switch result {
-      case .success(let resp):
-        guard let previousMimeType = resp as? String else { return }
-        
-        if previousMimeType != self.mode.mimeType {
-            context.coordinator.setMimeType(self.mode.mimeType)
-        }
-        
-        return
-      case .failure(let error):
-        print("Error \(error)")
-        return
-      }
-    })
     
-    context.coordinator.getContent({ result in
-      
-      switch result {
-      case .success(let resp):
-        guard let previousContent = resp as? String else { return }
-        
-        if previousContent != self.code {
-          context.coordinator.setContent(self.code)
-        }
-        
-        return
-      case .failure(let error):
-        print("Error \(error)")
-        return
-      }
-    })
+    updateWhatsNecessary(elementGetter: context.coordinator.getMimeType(_:), elementSetter: context.coordinator.setMimeType(_:), currentElementState: self.mode.mimeType)
+    
+    updateWhatsNecessary(elementGetter: context.coordinator.getContent(_:), elementSetter: context.coordinator.setContent(_:), currentElementState: self.code)
   }
   
   func makeCoordinator() -> CodeMirrorViewController {
     CodeMirrorViewController(self)
   }
   
-  
+  func updateWhatsNecessary(elementGetter: (JavascriptCallback?) -> Void,
+                            elementSetter: @escaping (_ elementState: String) -> Void,
+                            currentElementState: String) {
+    elementGetter({ result in
+      
+      switch result {
+      case .success(let resp):
+        guard let previousElementState = resp as? String else { return }
+        
+        if previousElementState != currentElementState {
+          elementSetter(currentElementState)
+        }
+        
+        return
+      case .failure(let error):
+        print("Error \(error)")
+        return
+      }
+    })
+  }
 }
