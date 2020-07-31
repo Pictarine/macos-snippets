@@ -19,7 +19,9 @@ struct CodeViewer: View {
       
       ModeSelectionView(currentMode: $mode)
       
-      CodeView(code: $code, mode: $mode)
+      CodeView(code: $code, mode: $mode, onContentChange: { content in
+        self.code = content
+      })
         .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
       
       Divider()

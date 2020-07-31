@@ -27,16 +27,26 @@ struct Sidebar: View {
           .buttonStyle(PlainButtonStyle())
         }
         
-        Section(header: Text("Favorites").foregroundColor(Color.PURPLE_500).padding(.bottom, 3)) {
+        HStack(alignment: .center) {
+          Spacer()
+          Image("snip")
+          .resizable()
+          .frame(width: 30, height: 30, alignment: .center)
+          Spacer()
+        }
+        .padding(.top, 16)
+        .padding(.bottom, 16)
+        
+        Section(header: Text("Favorites").padding(.bottom, 3)) {
           SnipItemsList(snipItems: snips)
         }
         
-        Section(header: Text("Local").foregroundColor(Color.PURPLE_500).padding(.bottom, 3)) {
+        Section(header: Text("Local").padding(.bottom, 3)) {
           Text("OK")
         }
         //.padding(.top, 16)
         
-        Section(header: Text("Tags").foregroundColor(Color.PURPLE_500).padding(.bottom, 3)) {
+        Section(header: Text("Tags").padding(.bottom, 3)) {
           NavigationLink(destination: CodeViewer()) {
             Text("Quick")
           }
