@@ -12,12 +12,13 @@ struct CodeViewer: View {
   
   @State var mode = CodeMode.text.mode()
   @State var code = try! String(contentsOf: Bundle.main.url(forResource: "data", withExtension: "json")!)
+  @State var tags = ["json", "matrix", "pinguin"]
   
   var body: some View {
     VStack(alignment: .leading) {
       CodeActionsTopBar()
       
-      ModeSelectionView(currentMode: $mode)
+      ModeSelectionView(currentMode: $mode, tags: $tags)
       
       CodeView(code: $code, mode: $mode, onContentChange: { content in
         self.code = content
