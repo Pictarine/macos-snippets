@@ -35,7 +35,7 @@ struct ModeSelectionView: View {
               }
       }
       .frame(minWidth: 100, idealWidth: 150, maxWidth: 150, alignment: .leading)
-      .padding(.leading, 8)
+      .padding(.leading, 16)
       .pickerStyle(DefaultPickerStyle())
       .buttonStyle(PlainButtonStyle())
       .textFieldStyle(PlainTextFieldStyle())

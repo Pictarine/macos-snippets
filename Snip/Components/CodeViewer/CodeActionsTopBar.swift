@@ -22,7 +22,8 @@ struct CodeActionsTopBar: View {
       ImageButton(imageName: "ic_share", action: share)
       ImageButton(imageName: "ic_delete", action: delete)
       
-    }.padding()
+    }
+    .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
   }
   
   func delete() {
