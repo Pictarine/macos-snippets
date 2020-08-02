@@ -25,36 +25,37 @@ struct Sidebar: View {
           }
           .background(Color.clear)
           .buttonStyle(PlainButtonStyle())
-        }
+        }.background(Color.clear)
         
         HStack(alignment: .center) {
           Spacer()
           Image("snip")
-          .resizable()
-          .frame(width: 30, height: 30, alignment: .center)
+            .resizable()
+            .frame(width: 30, height: 30, alignment: .center)
           Spacer()
         }
         .padding(.top, 16)
         .padding(.bottom, 16)
         
-        Section(header: Text("Favorites").padding(.bottom, 3)) {
-          SnipItemsList(snipItems: snips)
-        }
+        Text("Favorites")
+          .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+          .padding(.bottom, 3)
         
-        Section(header: Text("Local").padding(.bottom, 3)) {
-          Text("OK")
-        }
-        //.padding(.top, 16)
+        SnipItemsList(snipItems: snips)
         
-        Section(header: Text("Tags").padding(.bottom, 3)) {
-          NavigationLink(destination: CodeViewer()) {
-            Text("Quick")
-          }
-        }
-        .padding(.top, 16)
+        Text("Local")
+          .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+          .padding(.bottom, 3)
+          .padding(.top, 16)
+        
+        Text("Tags")
+          .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+          .padding(.bottom, 3)
+          .padding(.top, 16)
       }
+      .removeBackground()
       .padding(.top, 1)
-      //.background(Color.BLACK_200)
+      .background(Color.clear)
       
       HStack {
         Spacer()
@@ -63,9 +64,11 @@ struct Sidebar: View {
       }
       .padding()
     }
-    .listStyle(SidebarListStyle())
+    .background(Color.clear)
+    //.listStyle(SidebarListStyle())
     //.listRowBackground(Color.PURPLE_500)
   }
+  
   
   
   func test() {

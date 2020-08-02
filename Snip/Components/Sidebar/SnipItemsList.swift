@@ -24,11 +24,15 @@ struct SnipItemsList: View {
         }
       }
       
-    }
+    }.onMove(perform: move)
   }
   
   func containsSub(_ element: SnipItem) -> Bool {
     element.content != nil && element.content?.count ?? 0 > 0
+  }
+  
+  func move(from source: IndexSet, to destination: Int) {
+    print("Move from \(source) to \(destination)")
   }
 }
 
@@ -51,24 +55,41 @@ struct SnipItemView<Content: View>: View {
              label: {
               HStack {
                 Image( self.isExpanded ? "ic_up" : "ic_down")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 15, height: 15, alignment: .center)
-                  
+                  .resizable()
+                  .scaledToFit()
+                  .frame(width: 15, height: 15, alignment: .center)
+                
                 Image( self.isExpanded ? "ic_folder_opened" : "ic_folder_closed")
                   .resizable()
                   .frame(width: 15, height: 15, alignment: .center)
                 Text(snipItem.name)
               }
                 
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                .background(Color.clear)
-                .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+              .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+              .background(Color.clear)
+              .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
       })
+        
         //.background(Color.red)
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(0)
         .buttonStyle(PlainButtonStyle())
+        .contextMenu {
+            Button(action: {
+            }) {
+              Text("Add folder")
+            }
+            
+            Button(action: {
+            }) {
+              Text("Add snippet")
+            }
+            
+            Button(action: {
+            }) {
+              Text("Delete")
+            }
+        }
       
     }
     else {
@@ -84,6 +105,8 @@ struct SnipItemView<Content: View>: View {
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
     }
+    
+    
     
     if isExpanded {
       content()

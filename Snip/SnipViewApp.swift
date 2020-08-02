@@ -12,7 +12,6 @@ struct SnipViewApp: View {
   
   var body: some View {
     appNavigation
-//      .background(Color.BLACK_500)
       .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   
@@ -32,6 +31,5 @@ struct SnipViewApp: View {
 struct SnipViewApp_Previews: PreviewProvider {
   static var previews: some View {
     SnipViewApp()
-    .environmentObject(Settings())
   }
 }
