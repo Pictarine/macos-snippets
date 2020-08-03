@@ -16,7 +16,7 @@ struct CodeViewer: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      CodeActionsTopBar(viewModel: CodeActionsModel(id: UUID(),
+      CodeActionsTopBar(viewModel: CodeActionsViewModel(id: UUID(),
       name: "Curry Func",
       isFavorite: true))
       

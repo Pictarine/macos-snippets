@@ -93,17 +93,22 @@ struct SnipItemView<Content: View>: View {
       
     }
     else {
-      HStack {
-        Image("ic_file")
-          .resizable()
-          .frame(width: 15, height: 15, alignment: .center)
-          .padding(.leading, 4)
-        Text(snipItem.name)
-          .padding(.leading, 4)
-        Spacer()
+      NavigationLink(destination: CodeViewer()) {
+        HStack {
+          Image("ic_file")
+            .resizable()
+            .frame(width: 15, height: 15, alignment: .center)
+            .padding(.leading, 4)
+          Text(snipItem.name)
+            .padding(.leading, 4)
+          Spacer()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+      .listRowBackground(Color.PURPLE_500)
+      
     }
     
     

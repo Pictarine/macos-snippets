@@ -16,6 +16,7 @@ extension List {
   /// This workaround works because List is backed by NSTableView.
   func removeBackground() -> some View {
     return introspectTableView { tableView in
+      tableView.selectionHighlightStyle = .none
       tableView.backgroundColor = .clear
       tableView.enclosingScrollView!.drawsBackground = false
     }

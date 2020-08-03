@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CodeActionsTopBar: View {
   
-  @ObservedObject var viewModel: CodeActionsModel
+  @ObservedObject var viewModel: CodeActionsViewModel
   
   var body: some View {
     HStack{
@@ -30,7 +30,7 @@ struct CodeActionsTopBar: View {
   
 }
 
-final class CodeActionsModel: ObservableObject {
+final class CodeActionsViewModel: ObservableObject {
   
   @Published var snipId: UUID
   @Published var snipName: String
@@ -58,7 +58,7 @@ final class CodeActionsModel: ObservableObject {
 
 struct CodeActionsTopBar_Previews: PreviewProvider {
   static var previews: some View {
-    CodeActionsTopBar(viewModel: CodeActionsModel(id: UUID(),
+    CodeActionsTopBar(viewModel: CodeActionsViewModel(id: UUID(),
                                                   name: "Curry Func",
                                                   isFavorite: true)
     )

@@ -9,52 +9,25 @@
 import SwiftUI
 
 struct Sidebar: View {
-  private let snips: [SnipItem] = SnipItem.preview()
   
-  @State private var selection: String?
+  @ObservedObject var viewModel: SideBarViewModel
   
   var body: some View {
     VStack(alignment: .leading) {
       List() {
         
-        HStack{
-          Spacer()
-          Button(action: test) {
-            Text("+")
-              .font(.system(size: 20))
-          }
-          .background(Color.clear)
-          .buttonStyle(PlainButtonStyle())
-        }.background(Color.clear)
+        addElementView
         
-        HStack(alignment: .center) {
-          Spacer()
-          Image("snip")
-            .resizable()
-            .frame(width: 30, height: 30, alignment: .center)
-          Spacer()
-        }
-        .padding(.top, 16)
-        .padding(.bottom, 16)
+        logo
         
-        Text("Favorites")
-          .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
-          .padding(.bottom, 3)
+        favorites
         
-        SnipItemsList(snipItems: snips)
+        local
         
-        Text("Local")
-          .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
-          .padding(.bottom, 3)
-          .padding(.top, 16)
-        
-        Text("Tags")
-          .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
-          .padding(.bottom, 3)
-          .padding(.top, 16)
+        //tags
       }
       .removeBackground()
-      .padding(.top, 1)
+      .padding(.top, 8)
       .background(Color.clear)
       
       HStack {
@@ -65,10 +38,66 @@ struct Sidebar: View {
       .padding()
     }
     .background(Color.clear)
-    //.listStyle(SidebarListStyle())
-    //.listRowBackground(Color.PURPLE_500)
+    .listRowBackground(Color.PURPLE_500)
+      //.listStyle(SidebarListStyle())
+      .environment(\.defaultMinListRowHeight, 36)
   }
   
+  var addElementView: some View {
+    HStack{
+      Spacer()
+      Button(action: test) {
+        Text("+")
+          .font(.system(size: 20))
+      }
+      .background(Color.clear)
+      .buttonStyle(PlainButtonStyle())
+    }.background(Color.clear)
+  }
+  
+  var logo: some View {
+    HStack(alignment: .center) {
+      Spacer()
+      Image("snip")
+        .resizable()
+        .frame(width: 30, height: 30, alignment: .center)
+      Spacer()
+    }
+    .padding(.top, 16)
+    .padding(.bottom, 16)
+  }
+  
+  @ViewBuilder
+  var favorites: some View {
+    Text("Favorites")
+      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+      .padding(.bottom, 3)
+    
+    SnipItemsList(snipItems: viewModel.snips)
+  }
+  
+  @ViewBuilder
+  var local: some View {
+    Text("Local")
+      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+      .padding(.bottom, 3)
+      .padding(.top, 16)
+  }
+  
+  /*@ViewBuilder
+  var tags: some View {
+    Text("Tags")
+      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+      .padding(.bottom, 3)
+      .padding(.top, 16)
+    
+    NavigationLink(destination: CodeViewer()) {
+      Text("Hello")
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+    .listRowBackground(Color.PURPLE_500)
+  }*/
   
   
   func test() {
@@ -81,9 +110,18 @@ struct Sidebar: View {
 }
 
 
+final class SideBarViewModel: ObservableObject {
+  
+  @Published var snips: [SnipItem] = []
+  
+  init(snippets: [SnipItem]) {
+    snips = snippets
+  }
+}
+
 
 struct Sidebar_Previews: PreviewProvider {
   static var previews: some View {
-    Sidebar()
+    Sidebar(viewModel: SideBarViewModel(snippets: SnipItem.preview()))
   }
 }
