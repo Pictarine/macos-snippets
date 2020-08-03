@@ -36,7 +36,7 @@ struct SnipItemsList: View {
         }
       }
       
-    }.onMove(perform: onMove)
+    }//.onMove(perform: onMove)
   }
   
   func containsSub(_ element: SnipItem) -> Bool {
@@ -84,19 +84,19 @@ struct SnipItemView<Content: View>: View {
         .padding(0)
         .buttonStyle(PlainButtonStyle())
         .contextMenu {
-          Button(action: { self.onActionTrigger(.addFolder) }) {
+          Button(action: { self.onActionTrigger(.addFolder(elementName: self.snipItem.name)) }) {
             Text("Add folder")
           }
           
-          Button(action: { self.onActionTrigger(.addSnippet) }) {
+          Button(action: { self.onActionTrigger(.addSnippet(elementName: self.snipItem.name)) }) {
             Text("Add snippet")
           }
           
-          Button(action: { self.onActionTrigger(.rename) }) {
+          Button(action: { self.onActionTrigger(.rename(elementName: self.snipItem.name)) }) {
             Text("Rename")
           }
           
-          Button(action: { self.onActionTrigger(.delete) }) {
+          Button(action: { self.onActionTrigger(.delete(elementName: self.snipItem.name)) }) {
             Text("Delete")
           }
       }
@@ -116,6 +116,15 @@ struct SnipItemView<Content: View>: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+      }
+      .contextMenu {
+        Button(action: { self.onActionTrigger(.rename(elementName: self.snipItem.name)) }) {
+          Text("Rename")
+        }
+        
+        Button(action: { self.onActionTrigger(.delete(elementName: self.snipItem.name)) }) {
+          Text("Delete")
+        }
       }
       .listRowBackground(Color.PURPLE_500)
       
