@@ -11,29 +11,38 @@ import SwiftUI
 struct SnipItemsList: View {
   
   let snipItems: [SnipItem]?
+  let onMove: (_ from: IndexSet, _ to: Int) -> Void
+  let onActionTrigger: (SnipItemsListAction) -> Void
   
   var body: some View {
     ForEach(snipItems ?? [], id: \.id) { snip in
       
       Group {
         if self.containsSub(snip) {
-          SnipItemView(snipItem: snip, content: { SnipItemsList(snipItems: snip.content).padding(.leading) })
+          SnipItemView(snipItem: snip,
+                       content: { SnipItemsList(snipItems: snip.content,
+                                                onMove: self.onMove,
+                                                onActionTrigger: self.onActionTrigger)
+                        .padding(.leading)
+          },
+                       onActionTrigger: self.onActionTrigger
+          )
         }
         else {
-          SnipItemView(snipItem: snip, content: { EmptyView() })
+          SnipItemView(snipItem: snip,
+                       content: { EmptyView() },
+                       onActionTrigger: self.onActionTrigger
+          )
         }
       }
       
-    }.onMove(perform: move)
+    }.onMove(perform: onMove)
   }
   
   func containsSub(_ element: SnipItem) -> Bool {
     element.content != nil && element.content?.count ?? 0 > 0
   }
   
-  func move(from source: IndexSet, to destination: Int) {
-    print("Move from \(source) to \(destination)")
-  }
 }
 
 
@@ -43,6 +52,8 @@ struct SnipItemView<Content: View>: View {
   
   let snipItem: SnipItem
   let content: () -> Content?
+  
+  let onActionTrigger: (SnipItemsListAction) -> Void
   
   @ViewBuilder
   var body: some View {
@@ -69,27 +80,26 @@ struct SnipItemView<Content: View>: View {
               .background(Color.clear)
               .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
       })
-        
-        //.background(Color.red)
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(0)
         .buttonStyle(PlainButtonStyle())
         .contextMenu {
-            Button(action: {
-            }) {
-              Text("Add folder")
-            }
-            
-            Button(action: {
-            }) {
-              Text("Add snippet")
-            }
-            
-            Button(action: {
-            }) {
-              Text("Delete")
-            }
-        }
+          Button(action: { self.onActionTrigger(.addFolder) }) {
+            Text("Add folder")
+          }
+          
+          Button(action: { self.onActionTrigger(.addSnippet) }) {
+            Text("Add snippet")
+          }
+          
+          Button(action: { self.onActionTrigger(.rename) }) {
+            Text("Rename")
+          }
+          
+          Button(action: { self.onActionTrigger(.delete) }) {
+            Text("Delete")
+          }
+      }
       
     }
     else {
@@ -111,8 +121,6 @@ struct SnipItemView<Content: View>: View {
       
     }
     
-    
-    
     if isExpanded {
       content()
     }
@@ -123,6 +131,12 @@ struct SnipItemView<Content: View>: View {
 
 struct SnipItemsList_Previews: PreviewProvider {
   static var previews: some View {
-    return SnipItemsList(snipItems: SnipItem.preview())
+    return SnipItemsList(snipItems: SnipItem.preview(),
+                         onMove: { (from, to) in
+                          print("onMove")
+    },
+                         onActionTrigger: { action in
+                          print("action : \(action)")
+    })
   }
 }
