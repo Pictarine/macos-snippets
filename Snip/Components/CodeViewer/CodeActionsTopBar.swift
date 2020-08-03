@@ -10,20 +10,36 @@ import SwiftUI
 
 struct CodeActionsTopBar: View {
   
+  @ObservedObject var viewModel: CodeActionsModel
+  
   var body: some View {
     HStack{
-      Text("Curry Func")
+      Text(viewModel.snipName)
         .font(Font.custom("HelveticaNeue", size: 20))
         .foregroundColor(.white)
       
       Spacer()
       
-      ImageButton(imageName: "ic_fav", action: addToFavorites)
-      ImageButton(imageName: "ic_share", action: share)
-      ImageButton(imageName: "ic_delete", action: delete)
+      ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav", action: viewModel.addToFavorites)
+      ImageButton(imageName: "ic_delete", action: viewModel.delete)
+      ImageButton(imageName: "ic_share", action: viewModel.share)
       
     }
     .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+  }
+  
+}
+
+final class CodeActionsModel: ObservableObject {
+  
+  @Published var snipId: UUID
+  @Published var snipName: String
+  @Published var isSnipFavorite: Bool
+  
+  init(id: UUID, name: String, isFavorite: Bool) {
+    snipId = id
+    snipName = name
+    isSnipFavorite = isFavorite
   }
   
   func delete() {
@@ -37,10 +53,14 @@ struct CodeActionsTopBar: View {
   func addToFavorites() {
     print("addToFavorites")
   }
+  
 }
 
 struct CodeActionsTopBar_Previews: PreviewProvider {
   static var previews: some View {
-    CodeActionsTopBar()
+    CodeActionsTopBar(viewModel: CodeActionsModel(id: UUID(),
+                                                  name: "Curry Func",
+                                                  isFavorite: true)
+    )
   }
 }

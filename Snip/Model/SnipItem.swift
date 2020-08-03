@@ -22,6 +22,7 @@ public struct SnipItem: Codable, Identifiable {
   let kind: Kind
   var content: [SnipItem]?
   let tags: [String]
+  let isFavorite: Bool
   let creationDate: Date
   let lastUpdateDate: Date
   
@@ -32,6 +33,7 @@ public struct SnipItem: Codable, Identifiable {
       kind: .folder,
       content: [],
       tags: [],
+      isFavorite: false,
       creationDate: Date(),
       lastUpdateDate: Date()
     )
@@ -44,6 +46,7 @@ public struct SnipItem: Codable, Identifiable {
       kind: .file,
       content: [],
       tags: [],
+      isFavorite: false,
       creationDate: Date(),
       lastUpdateDate: Date()
     )
@@ -60,6 +63,7 @@ extension SnipItem {
                kind: .folder,
                content: [],
                tags: [],
+               isFavorite: false,
                creationDate: Date(),
                lastUpdateDate: Date()),
       SnipItem(id: UUID(),
@@ -75,6 +79,7 @@ extension SnipItem {
                                    kind: .folder,
                                    content: [],
                                    tags: [],
+                                   isFavorite: false,
                                    creationDate: Date(),
                                    lastUpdateDate: Date()),
                           SnipItem(id: UUID(),
@@ -82,14 +87,17 @@ extension SnipItem {
                                    kind: .file,
                                    content: [],
                                    tags: [],
+                                   isFavorite: true,
                                    creationDate: Date(),
                                    lastUpdateDate: Date())
                   ],
                          tags: [],
+                         isFavorite: false,
                          creationDate: Date(),
                          lastUpdateDate: Date())
         ],
                tags: [],
+               isFavorite: false,
                creationDate: Date(),
                lastUpdateDate: Date()),
       SnipItem(id: UUID(),
@@ -97,6 +105,7 @@ extension SnipItem {
                kind: .file,
                content: [],
                tags: [],
+               isFavorite: true,
                creationDate: Date(),
                lastUpdateDate: Date())
     ]
