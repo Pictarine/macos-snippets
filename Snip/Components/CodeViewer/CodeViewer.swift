@@ -29,7 +29,7 @@ struct CodeViewer: View {
       
       Divider()
       
-      CodeDetailsBottomBar(code: code)
+      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(), code: code)
     }
     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     .background(Color.BLACK_500)

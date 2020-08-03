@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CodeDetailsBottomBar: View {
   
+  var viewModel: CodeDetailsViewModel
+  
   let code: String
   
   var body: some View {
@@ -25,7 +27,7 @@ struct CodeDetailsBottomBar: View {
       
       Spacer()
       
-      Button(action: copyToClipboard) {
+      Button(action: { self.viewModel.copyToClipboard(self.code) }) {
         Image("ic_clipboard")
           .resizable()
           .frame(width: 15, height: 15, alignment: .center)
@@ -37,17 +39,22 @@ struct CodeDetailsBottomBar: View {
     .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
   }
   
-  func copyToClipboard() {
+}
+
+final class CodeDetailsViewModel {
+  
+  func copyToClipboard(_ code: String) {
     print("Copy to clipboard")
     let pasteboard = NSPasteboard.general
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
     pasteboard.setString(code, forType: NSPasteboard.PasteboardType.string)
 
   }
+  
 }
 
 struct CodeDetailsBottomBar_Previews: PreviewProvider {
   static var previews: some View {
-    CodeDetailsBottomBar(code: "")
+    CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(), code: "")
   }
 }
