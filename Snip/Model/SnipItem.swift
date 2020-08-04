@@ -10,9 +10,7 @@ import Foundation
 import Combine
 
 
-public class SnipItem: Identifiable, ObservableObject, Equatable {
-  
-  var didChange = PassthroughSubject<Void, Never>()
+public class SnipItem: Identifiable, Equatable {
   
   public var id: UUID
   
@@ -21,11 +19,11 @@ public class SnipItem: Identifiable, ObservableObject, Equatable {
     case file
   }
   
-  @Published var snippet: String
-  @Published var mode: Mode
-  @Published var tags: [String]
-  @Published var name: String
-  @Published var isFavorite: Bool
+  var snippet: String
+  var mode: Mode
+  var tags: [String]
+  var name: String
+  var isFavorite: Bool
   
   var kind: Kind
   var content: [SnipItem]?

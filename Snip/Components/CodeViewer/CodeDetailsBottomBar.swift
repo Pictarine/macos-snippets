@@ -10,24 +10,22 @@ import SwiftUI
 
 struct CodeDetailsBottomBar: View {
   
-  var viewModel: CodeDetailsViewModel
-  
-  let code: String
+  @ObservedObject var viewModel: CodeDetailsViewModel
   
   var body: some View {
     HStack {
-      Text("\(code.characterCount()) characters")
+      Text("\(viewModel.code.characterCount()) characters")
         .font(Font.custom("CourierNewPSMT", size: 12))
       
-      Text("\(code.wordCount()) words")
+      Text("\(viewModel.code.wordCount()) words")
         .font(Font.custom("CourierNewPSMT", size: 12))
       
-      Text("\(code.lineCount()) lines")
+      Text("\(viewModel.code.lineCount()) lines")
         .font(Font.custom("CourierNewPSMT", size: 12))
       
       Spacer()
       
-      Button(action: { self.viewModel.copyToClipboard(self.code) }) {
+      Button(action: { self.viewModel.copyToClipboard() }) {
         Image("ic_clipboard")
           .resizable()
           .frame(width: 15, height: 15, alignment: .center)
@@ -41,9 +39,15 @@ struct CodeDetailsBottomBar: View {
   
 }
 
-final class CodeDetailsViewModel {
+final class CodeDetailsViewModel: ObservableObject {
   
-  func copyToClipboard(_ code: String) {
+  @Binding var code: String
+  
+  init(snippetCode: Binding<String>) {
+    _code = snippetCode
+  }
+  
+  func copyToClipboard() {
     print("Copy to clipboard")
     let pasteboard = NSPasteboard.general
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
@@ -55,6 +59,6 @@ final class CodeDetailsViewModel {
 
 struct CodeDetailsBottomBar_Previews: PreviewProvider {
   static var previews: some View {
-    CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(), code: "")
+    CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: .constant("")))
   }
 }

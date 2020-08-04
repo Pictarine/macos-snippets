@@ -32,14 +32,12 @@ struct CodeActionsTopBar: View {
 
 final class CodeActionsViewModel: ObservableObject {
   
-  @Published var snipId: UUID
-  @Published var snipName: String
-  @Published var isSnipFavorite: Bool
+  @Binding var snipName: String
+  @Binding var isSnipFavorite: Bool
   
-  init(id: UUID, name: String, isFavorite: Bool) {
-    snipId = id
-    snipName = name
-    isSnipFavorite = isFavorite
+  init(name: Binding<String>, isFavorite: Binding<Bool>) {
+    _snipName = name
+    _isSnipFavorite = isFavorite
   }
   
   func delete() {
@@ -51,16 +49,15 @@ final class CodeActionsViewModel: ObservableObject {
   }
   
   func addToFavorites() {
-    print("addToFavorites")
+    isSnipFavorite.toggle()
   }
   
 }
 
 struct CodeActionsTopBar_Previews: PreviewProvider {
   static var previews: some View {
-    CodeActionsTopBar(viewModel: CodeActionsViewModel(id: UUID(),
-                                                  name: "Curry Func",
-                                                  isFavorite: true)
+    CodeActionsTopBar(viewModel: CodeActionsViewModel(name: .constant("Curry func"),
+                                                      isFavorite: .constant(true))
     )
   }
 }

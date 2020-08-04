@@ -10,31 +10,31 @@ import SwiftUI
 
 struct CodeViewer: View {
   
-  @ObservedObject var viewModel: SnipItem
+  @ObservedObject var viewModel: CodeViewerViewModel
   
   @ViewBuilder
   var body: some View {
     VStack(alignment: .leading) {
       
-      CodeActionsTopBar(viewModel: CodeActionsViewModel(id: viewModel.id,
-                                                        name: viewModel.name,
-                                                        isFavorite: viewModel.isFavorite))
+      CodeActionsTopBar(viewModel: CodeActionsViewModel(name: $viewModel.snip.name,
+                                                        isFavorite: $viewModel.snip.isFavorite))
       
-      ModeSelectionView(currentMode: $viewModel.mode,
-                        tags: $viewModel.tags)
+      ModeSelectionView(currentMode: $viewModel.snip.mode,
+                        tags: $viewModel.snip.tags)
       
-      CodeView(code: $viewModel.snippet,
-               mode: $viewModel.mode,
+      CodeView(code: $viewModel.snip.snippet,
+               mode: $viewModel.snip.mode,
                onContentChange: { content in
-                self.viewModel.snippet = content
+                self.viewModel.snip.snippet = content
+                self.viewModel.snip.name = "Hello"
+                self.viewModel.objectWillChange.send()
       })
         .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
       
       Divider()
       
-      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(),
-                           code: viewModel.snippet
-      )
+      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: self.$viewModel.snip.snippet))
+      
     }
       
     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
@@ -44,9 +44,19 @@ struct CodeViewer: View {
   
 }
 
+final class CodeViewerViewModel: ObservableObject {
+  
+  @Published var snip: SnipItem
+  
+  init(snipItem: SnipItem) {
+    self.snip = snipItem
+  }
+  
+}
+
 
 struct CodeViewer_Previews: PreviewProvider {
   static var previews: some View {
-    CodeViewer(viewModel: SnipItem.previewSnipItem)
+    CodeViewer(viewModel: CodeViewerViewModel(snipItem: SnipItem.previewSnipItem))
   }
 }
