@@ -19,8 +19,8 @@ struct CodeViewer: View {
       CodeActionsTopBar(viewModel: CodeActionsViewModel(name: $viewModel.snip.name,
                                                         isFavorite: $viewModel.snip.isFavorite))
       
-      ModeSelectionView(currentMode: $viewModel.snip.mode,
-                        tags: $viewModel.snip.tags)
+      ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: $viewModel.snip.mode,
+                                                          snippetTags: $viewModel.snip.tags))
       
       CodeView(code: $viewModel.snip.snippet,
                mode: $viewModel.snip.mode,

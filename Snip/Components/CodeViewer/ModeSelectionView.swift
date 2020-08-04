@@ -10,9 +10,8 @@ import SwiftUI
 
 struct ModeSelectionView: View {
   
+  @ObservedObject var viewModel: ModeSelectionViewModel
   @State var selectedModeIndex: Int = 0
-  @Binding var currentMode: Mode
-  @Binding var tags: [String]
   
   private let modesList = CodeMode.list()
   
@@ -20,8 +19,8 @@ struct ModeSelectionView: View {
     
     HStack {
       
-      ForEach(0..<tags.count) { tagIndex in
-        Text(self.tags[tagIndex])
+      ForEach(0..<viewModel.tags.count) { tagIndex in
+        Text(self.viewModel.tags[tagIndex])
           .padding(4)
           .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.PURPLE_500.opacity(0.7), lineWidth: 1))
           .foregroundColor(Color.PURPLE_500.opacity(0.7))
@@ -32,13 +31,13 @@ struct ModeSelectionView: View {
       Picker(selection: Binding<Int>(
         get: {
           let index = self.modesList.firstIndex(where: { (mode) -> Bool in
-            mode == self.currentMode
+            mode == self.viewModel.currentMode
           }) ?? -1
           return index
       },
         set: {
           self.selectedModeIndex = $0
-          self.currentMode = self.modesList[$0]
+          self.viewModel.currentMode = self.modesList[$0]
       }),
              label: EmptyView()) {
               ForEach(0 ..< modesList.count) {
@@ -56,9 +55,20 @@ struct ModeSelectionView: View {
   }
 }
 
+final class ModeSelectionViewModel: ObservableObject {
+  
+  @Binding var currentMode: Mode
+  @Binding var tags: [String]
+  
+  init(snippetMode: Binding<Mode>, snippetTags: Binding<[String]>) {
+    _currentMode = snippetMode
+    _tags = snippetTags
+  }
+}
+
 struct ModeSelectionView_Previews: PreviewProvider {
   static var previews: some View {
-    ModeSelectionView(currentMode: .constant(CodeMode.text.mode()),
-                      tags: .constant([]))
+    ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: .constant(CodeMode.text.mode()),
+                                                        snippetTags: .constant([])))
   }
 }
