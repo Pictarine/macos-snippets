@@ -12,6 +12,7 @@ struct ModeSelectionView: View {
   
   @ObservedObject var viewModel: ModeSelectionViewModel
   @State var selectedModeIndex: Int = 0
+  @State var newTag: String = ""
   
   private let modesList = CodeMode.list()
   
@@ -19,12 +20,23 @@ struct ModeSelectionView: View {
     
     HStack {
       
-      ForEach(0..<viewModel.tags.count) { tagIndex in
+      ForEach(0..<viewModel.tags.count, id: \.self) { tagIndex in
         Text(self.viewModel.tags[tagIndex])
           .padding(4)
           .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.PURPLE_500.opacity(0.7), lineWidth: 1))
           .foregroundColor(Color.PURPLE_500.opacity(0.7))
       }
+      CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.GREEN_500.opacity(0.4)), text: $newTag, commit: {
+        print("Commit tag \(self.newTag)")
+        self.viewModel.tags.append(self.newTag)
+        self.newTag = ""
+        
+        self.viewModel.objectWillChange.send()
+      })
+        .frame(width: 60)
+        .padding(4)
+        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.GREEN_500.opacity(0.4), lineWidth: 1))
+        .textFieldStyle(PlainTextFieldStyle())
       
       Spacer()
       
@@ -40,7 +52,7 @@ struct ModeSelectionView: View {
           self.viewModel.currentMode = self.modesList[$0]
       }),
              label: EmptyView()) {
-              ForEach(0 ..< modesList.count) {
+              ForEach(0 ..< modesList.count, id: \.self) {
                 Text(self.modesList[$0].name)
               }
       }

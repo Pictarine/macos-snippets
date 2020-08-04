@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		7936F88F24D450B900F09AE7 /* SnipItemsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F88E24D450B900F09AE7 /* SnipItemsList.swift */; };
-		7936F89124D636EF00F09AE7 /* ScrollViewCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89024D636EF00F09AE7 /* ScrollViewCleaner.swift */; };
 		7936F89324D6377D00F09AE7 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89224D6377D00F09AE7 /* List.swift */; };
 		7936F89624D637D800F09AE7 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 7936F89524D637D800F09AE7 /* Introspect */; };
 		7936F89A24D845B600F09AE7 /* SnipItemsListAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */; };
+		7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89E24DA02DD00F09AE7 /* TextField.swift */; };
 		796B092524D1B4A3006904C4 /* SnipItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092424D1B4A3006904C4 /* SnipItem.swift */; };
 		796B092924D1B563006904C4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092824D1B563006904C4 /* Settings.swift */; };
 		796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */; };
@@ -41,10 +41,9 @@
 
 /* Begin PBXFileReference section */
 		7936F88E24D450B900F09AE7 /* SnipItemsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsList.swift; sourceTree = "<group>"; };
-		7936F89024D636EF00F09AE7 /* ScrollViewCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewCleaner.swift; sourceTree = "<group>"; };
 		7936F89224D6377D00F09AE7 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsListAction.swift; sourceTree = "<group>"; };
-		7936F89B24D94F4A00F09AE7 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		7936F89E24DA02DD00F09AE7 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		796B092424D1B4A3006904C4 /* SnipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItem.swift; sourceTree = "<group>"; };
 		796B092824D1B563006904C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
@@ -93,7 +92,6 @@
 				796B092424D1B4A3006904C4 /* SnipItem.swift */,
 				79A6F65624D2C8D80037C5FF /* Mode.swift */,
 				796B092824D1B563006904C4 /* Settings.swift */,
-				7936F89B24D94F4A00F09AE7 /* Test.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -188,6 +186,7 @@
 				79A6F65224D2B9D40037C5FF /* String.swift */,
 				79A6F65424D2BE200037C5FF /* StringProtocol.swift */,
 				7936F89224D6377D00F09AE7 /* List.swift */,
+				7936F89E24DA02DD00F09AE7 /* TextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -210,7 +209,6 @@
 				79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */,
 				79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */,
 				79F07A2624D3028C00469324 /* VisualEffectView.swift */,
-				7936F89024D636EF00F09AE7 /* ScrollViewCleaner.swift */,
 			);
 			path = Representables;
 			sourceTree = "<group>";
@@ -305,6 +303,7 @@
 				79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */,
 				79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */,
 				796B093724D1BA1F006904C4 /* Date.swift in Sources */,
+				7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */,
 				79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */,
 				79F07A2924D3050500469324 /* ImageButton.swift in Sources */,
 				796B092924D1B563006904C4 /* Settings.swift in Sources */,
@@ -316,7 +315,6 @@
 				79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */,
 				79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */,
 				79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */,
-				7936F89124D636EF00F09AE7 /* ScrollViewCleaner.swift in Sources */,
 				79BC1D2024D16E67008FD16E /* AppDelegate.swift in Sources */,
 				79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */,
 				79A6F65324D2B9D40037C5FF /* String.swift in Sources */,

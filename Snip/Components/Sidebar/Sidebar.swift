@@ -77,18 +77,20 @@ struct Sidebar: View {
   @ViewBuilder
   var favorites: some View {
     Text("Favorites")
-      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 12.0))
       .padding(.bottom, 3)
     
-    SnipItemsList(snipItems: viewModel.snips, onMove: viewModel.onMove, onActionTrigger: viewModel.onActionTrigger(action:))
+    
   }
   
   @ViewBuilder
   var local: some View {
     Text("Local")
-      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 12.0))
       .padding(.bottom, 3)
       .padding(.top, 16)
+    
+    SnipItemsList(snipItems: viewModel.snips, onMove: viewModel.onMove, onActionTrigger: viewModel.onActionTrigger(action:))
   }
   
   /*@ViewBuilder

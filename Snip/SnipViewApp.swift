@@ -27,8 +27,8 @@ struct SnipViewApp: View {
   
   var sideBar: some View {
     Sidebar(viewModel: SideBarViewModel(snippets: SnipItem.preview()))
-    .visualEffect(material: .sidebar)
-    .frame(minWidth: 180, idealWidth: 200, maxWidth: 240)
+      .visualEffect(material: .sidebar)
+      .frame(minWidth: 180, idealWidth: 200, maxWidth: 240)
   }
   
   var openingPanel: some View {
@@ -40,6 +40,13 @@ struct SnipViewApp: View {
           .font(Font.custom("HelveticaNeue-Light", size: 20))
         Spacer()
       }
+      HStack {
+        Spacer()
+        Text("Tips: Cmd+F to search words and regex")
+          .font(Font.custom("HelveticaNeue-Light", size: 16))
+        Spacer()
+      }
+      .padding(.top, 8)
       Spacer()
     }
     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
