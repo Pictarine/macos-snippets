@@ -10,6 +10,8 @@ import SwiftUI
 
 struct SnipItemsList: View {
   
+  @State var selection : UUID? = nil
+  
   let snipItems: [SnipItem]?
   let onMove: (_ from: IndexSet, _ to: Int) -> Void
   let onActionTrigger: (SnipItemsListAction) -> Void
@@ -25,13 +27,15 @@ struct SnipItemsList: View {
                                                 onActionTrigger: self.onActionTrigger)
                         .padding(.leading)
           },
-                       onActionTrigger: self.onActionTrigger
+                       onActionTrigger: self.onActionTrigger,
+                       selection: self.$selection
           )
         }
         else {
           SnipItemView(snipItem: snip,
                        content: { EmptyView() },
-                       onActionTrigger: self.onActionTrigger
+                       onActionTrigger: self.onActionTrigger,
+                       selection: self.$selection
           )
         }
       }
@@ -55,6 +59,8 @@ struct SnipItemView<Content: View>: View {
   
   let onActionTrigger: (SnipItemsListAction) -> Void
   
+  @Binding var selection: UUID?
+  
   @ViewBuilder
   var body: some View {
     
@@ -74,6 +80,9 @@ struct SnipItemView<Content: View>: View {
                   .resizable()
                   .frame(width: 15, height: 15, alignment: .center)
                 Text(snipItem.name)
+                  
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.black.opacity(0.0001))
               }
                 
               .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -84,26 +93,26 @@ struct SnipItemView<Content: View>: View {
         .padding(0)
         .buttonStyle(PlainButtonStyle())
         .contextMenu {
-          Button(action: { self.onActionTrigger(.addFolder(elementName: self.snipItem.name)) }) {
+          Button(action: { self.onActionTrigger(.addFolder(id: self.snipItem.id)) }) {
             Text("Add folder")
           }
           
-          Button(action: { self.onActionTrigger(.addSnippet(elementName: self.snipItem.name)) }) {
+          Button(action: { self.onActionTrigger(.addSnippet(id: self.snipItem.id)) }) {
             Text("Add snippet")
           }
           
-          Button(action: { self.onActionTrigger(.rename(elementName: self.snipItem.name)) }) {
+          Button(action: { self.onActionTrigger(.rename(id: self.snipItem.id)) }) {
             Text("Rename")
           }
           
-          Button(action: { self.onActionTrigger(.delete(elementName: self.snipItem.name)) }) {
+          Button(action: { self.onActionTrigger(.delete(id: self.snipItem.id)) }) {
             Text("Delete")
           }
       }
       
     }
     else {
-      NavigationLink(destination: CodeViewer()) {
+      NavigationLink(destination: CodeViewer(viewModel:snipItem), tag: snipItem.id, selection: self.$selection) {
         HStack {
           Image("ic_file")
             .resizable()
@@ -111,6 +120,8 @@ struct SnipItemView<Content: View>: View {
             .padding(.leading, 4)
           Text(snipItem.name)
             .padding(.leading, 4)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .background(Color.black.opacity(0.0001))
           Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -118,15 +129,21 @@ struct SnipItemView<Content: View>: View {
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       }
       .contextMenu {
-        Button(action: { self.onActionTrigger(.rename(elementName: self.snipItem.name)) }) {
+        Button(action: {
+          self.onActionTrigger(.rename(id: self.snipItem.id))
+          self.selection = self.snipItem.id
+        }) {
           Text("Rename")
         }
         
-        Button(action: { self.onActionTrigger(.delete(elementName: self.snipItem.name)) }) {
+        Button(action: {
+          self.onActionTrigger(.delete(id: self.snipItem.id))
+          self.selection = self.snipItem.id
+        }) {
           Text("Delete")
         }
       }
-      .listRowBackground(Color.PURPLE_500)
+      .listRowBackground(self.selection == self.snipItem.id ? Color.PURPLE_500 : Color.clear)
       
     }
     

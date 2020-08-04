@@ -21,7 +21,7 @@ struct SnipViewApp: View {
       Sidebar(viewModel: SideBarViewModel(snippets: SnipItem.preview()))
         .visualEffect(material: .sidebar)
         .frame(minWidth: 180, idealWidth: 200, maxWidth: 240)
-      CodeViewer()
+      EmptyView()
     }
     .edgesIgnoringSafeArea(.top)
   }

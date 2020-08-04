@@ -46,12 +46,19 @@ struct Sidebar: View {
   var addElementView: some View {
     HStack{
       Spacer()
-      Button(action: viewModel.addNewSnippet) {
-        Text("+")
-          .font(.system(size: 20))
-      }
-      .background(Color.clear)
-      .buttonStyle(PlainButtonStyle())
+      MenuButton("+") {
+        Button(action: {self.viewModel.addNewSnippet(id: nil)}) {
+          Text("New snippet")
+            .font(.system(size: 14))
+        }
+        Button(action: {self.viewModel.addNewFolder(id: nil)}) {
+          Text("New folder")
+            .font(.system(size: 14))
+        }
+      }.menuButtonStyle(BorderlessButtonMenuButtonStyle())
+        .font(.system(size: 22))
+        .background(Color.clear)
+        .frame(maxWidth: 16, alignment: .center)
     }.background(Color.clear)
   }
   
@@ -85,19 +92,19 @@ struct Sidebar: View {
   }
   
   /*@ViewBuilder
-  var tags: some View {
-    Text("Tags")
-      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
-      .padding(.bottom, 3)
-      .padding(.top, 16)
-    
-    NavigationLink(destination: CodeViewer()) {
-      Text("Hello")
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-    }
-    .listRowBackground(Color.PURPLE_500)
-  }*/
+   var tags: some View {
+   Text("Tags")
+   .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
+   .padding(.bottom, 3)
+   .padding(.top, 16)
+   
+   NavigationLink(destination: CodeViewer()) {
+   Text("Hello")
+   .frame(maxWidth: .infinity, alignment: .leading)
+   .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+   }
+   .listRowBackground(Color.PURPLE_500)
+   }*/
   
 }
 
@@ -109,20 +116,20 @@ final class SideBarViewModel: ObservableObject {
   init(snippets: [SnipItem]) {
     snips = snippets
   }
- 
-  func addNewSnippet() {
+  
+  func addNewSnippet(id: UUID?) {
     print("New snippet")
   }
   
-  func addFolder() {
+  func addNewFolder(id: UUID?) {
     print("New folder")
   }
   
-  func rename() {
+  func rename(id: UUID) {
     print("Rename")
   }
   
-  func delete() {
+  func delete(id: UUID) {
     print("Delete")
   }
   
@@ -136,14 +143,14 @@ final class SideBarViewModel: ObservableObject {
   
   func onActionTrigger(action: SnipItemsListAction) {
     switch action {
-    case .addFolder:
-      self.addFolder()
-    case .addSnippet:
-      self.addNewSnippet()
-    case .rename:
-      self.rename()
-    case .delete:
-      self.delete()
+    case .addFolder(let id):
+      self.addNewFolder(id: id)
+    case .addSnippet(let id):
+      self.addNewSnippet(id: id)
+    case .rename(let id):
+      self.rename(id: id)
+    case .delete(let id):
+      self.delete(id: id)
     }
   }
 }

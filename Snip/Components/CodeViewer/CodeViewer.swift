@@ -10,37 +10,43 @@ import SwiftUI
 
 struct CodeViewer: View {
   
-  @State var mode = CodeMode.text.mode()
-  @State var code = try! String(contentsOf: Bundle.main.url(forResource: "data", withExtension: "json")!)
-  @State var tags = ["json", "matrix", "pinguin"]
+  @ObservedObject var viewModel: SnipItem
   
+  @ViewBuilder
   var body: some View {
     VStack(alignment: .leading) {
-      CodeActionsTopBar(viewModel: CodeActionsViewModel(id: UUID(),
-      name: "Curry Func",
-      isFavorite: true))
       
-      ModeSelectionView(currentMode: $mode, tags: $tags)
+      CodeActionsTopBar(viewModel: CodeActionsViewModel(id: viewModel.id,
+                                                        name: viewModel.name,
+                                                        isFavorite: viewModel.isFavorite))
       
-      CodeView(code: $code, mode: $mode, onContentChange: { content in
-        self.code = content
+      ModeSelectionView(currentMode: $viewModel.mode,
+                        tags: $viewModel.tags)
+      
+      CodeView(code: $viewModel.snippet,
+               mode: $viewModel.mode,
+               onContentChange: { content in
+                self.viewModel.snippet = content
       })
         .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
       
       Divider()
       
-      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(), code: code)
+      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(),
+                           code: viewModel.snippet
+      )
     }
+      
     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     .background(Color.BLACK_500)
     .listStyle(PlainListStyle())
   }
   
-  
 }
+
 
 struct CodeViewer_Previews: PreviewProvider {
   static var previews: some View {
-    CodeViewer()
+    CodeViewer(viewModel: SnipItem.previewSnipItem)
   }
 }

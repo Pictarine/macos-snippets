@@ -9,8 +9,8 @@
 import Foundation
 
 enum SnipItemsListAction {
-  case addSnippet(elementName: String)
-  case addFolder(elementName: String)
-  case rename(elementName: String)
-  case delete(elementName: String)
+  case addSnippet(id: UUID)
+  case addFolder(id: UUID)
+  case rename(id: UUID)
+  case delete(id: UUID)
 }

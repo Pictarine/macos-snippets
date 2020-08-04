@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import Combine
 
 
-public struct SnipItem: Codable, Identifiable {
+public class SnipItem: Identifiable, ObservableObject, Equatable {
+  
+  var didChange = PassthroughSubject<Void, Never>()
   
   public var id: UUID
   
@@ -18,13 +21,40 @@ public struct SnipItem: Codable, Identifiable {
     case file
   }
   
-  let name: String
-  let kind: Kind
+  @Published var snippet: String
+  @Published var mode: Mode
+  @Published var tags: [String]
+  @Published var name: String
+  @Published var isFavorite: Bool
+  
+  var kind: Kind
   var content: [SnipItem]?
-  let tags: [String]
-  let isFavorite: Bool
-  let creationDate: Date
-  let lastUpdateDate: Date
+  var creationDate: Date
+  var lastUpdateDate: Date
+  
+  init(
+    id: UUID,
+    name: String,
+    kind: Kind,
+    content: [SnipItem],
+    snippet: String,
+    mode: Mode,
+    tags: [String],
+    isFavorite: Bool,
+    creationDate: Date,
+    lastUpdateDate: Date
+  ) {
+    self.id = id
+    self.name = name
+    self.kind = kind
+    self.content = content
+    self.snippet = snippet
+    self.mode = mode
+    self.tags = tags
+    self.isFavorite = isFavorite
+    self.creationDate = creationDate
+    self.lastUpdateDate = lastUpdateDate
+  }
   
   static func folder(name: String) -> SnipItem {
     .init(
@@ -32,6 +62,8 @@ public struct SnipItem: Codable, Identifiable {
       name: name,
       kind: .folder,
       content: [],
+      snippet: "",
+      mode: CodeMode.text.mode(),
       tags: [],
       isFavorite: false,
       creationDate: Date(),
@@ -45,16 +77,33 @@ public struct SnipItem: Codable, Identifiable {
       name: name,
       kind: .file,
       content: [],
+      snippet: "",
+      mode: CodeMode.text.mode(),
       tags: [],
       isFavorite: false,
       creationDate: Date(),
       lastUpdateDate: Date()
     )
   }
+  
+  public static func == (lhs: SnipItem, rhs: SnipItem) -> Bool {
+    return lhs.id == rhs.id
+  }
 }
 
 
 extension SnipItem {
+  
+  static let previewSnipItem = SnipItem(id: UUID(),
+                                        name: "File #1",
+                                        kind: .file,
+                                        content: [],
+                                        snippet: try! String(contentsOf: Bundle.main.url(forResource: "data", withExtension: "json")!),
+                                        mode: CodeMode.json.mode(),
+                                        tags: ["json", "matrix", "pinguin"],
+                                        isFavorite: true,
+                                        creationDate: Date(),
+                                        lastUpdateDate: Date())
   
   static func preview() -> [SnipItem] {
     return [
@@ -62,6 +111,8 @@ extension SnipItem {
                name: "Hello",
                kind: .folder,
                content: [],
+               snippet: "",
+               mode: CodeMode.text.mode(),
                tags: [],
                isFavorite: false,
                creationDate: Date(),
@@ -78,6 +129,8 @@ extension SnipItem {
                                    name: "Folder #2",
                                    kind: .folder,
                                    content: [],
+                                   snippet: "",
+                                   mode: CodeMode.text.mode(),
                                    tags: [],
                                    isFavorite: false,
                                    creationDate: Date(),
@@ -86,16 +139,22 @@ extension SnipItem {
                                    name: "File #1",
                                    kind: .file,
                                    content: [],
-                                   tags: [],
+                                   snippet: try! String(contentsOf: Bundle.main.url(forResource: "data", withExtension: "json")!),
+                                   mode: CodeMode.json.mode(),
+                                   tags: ["json", "matrix", "pinguin"],
                                    isFavorite: true,
                                    creationDate: Date(),
                                    lastUpdateDate: Date())
                   ],
+                         snippet: "",
+                         mode: CodeMode.text.mode(),
                          tags: [],
                          isFavorite: false,
                          creationDate: Date(),
                          lastUpdateDate: Date())
         ],
+               snippet: "",
+               mode: CodeMode.text.mode(),
                tags: [],
                isFavorite: false,
                creationDate: Date(),
@@ -104,7 +163,9 @@ extension SnipItem {
                name: "BATMAN",
                kind: .file,
                content: [],
-               tags: [],
+               snippet: "Create your first Snip",
+               mode: CodeMode.text.mode(),
+               tags:["robin", "alfred", "batwat"],
                isFavorite: true,
                creationDate: Date(),
                lastUpdateDate: Date())

@@ -9,14 +9,13 @@
 import Foundation
 
 
-struct Mode: Codable, Equatable {
+struct Mode: Equatable {
   
   let name: String
   let mimeType: String
-  
 }
 
-public enum CodeMode {
+public enum CodeMode: String {
   
   case apl
   case pgp
@@ -130,9 +129,9 @@ public enum CodeMode {
       CodeMode.xml.mode(),
       CodeMode.yaml.mode()
     ]
-      
+    
     modesList.sort {
-        $0.name < $1.name
+      $0.name < $1.name
     }
     
     return modesList

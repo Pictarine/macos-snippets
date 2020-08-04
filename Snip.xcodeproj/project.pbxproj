@@ -44,6 +44,7 @@
 		7936F89024D636EF00F09AE7 /* ScrollViewCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewCleaner.swift; sourceTree = "<group>"; };
 		7936F89224D6377D00F09AE7 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsListAction.swift; sourceTree = "<group>"; };
+		7936F89B24D94F4A00F09AE7 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		796B092424D1B4A3006904C4 /* SnipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItem.swift; sourceTree = "<group>"; };
 		796B092824D1B563006904C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 				796B092424D1B4A3006904C4 /* SnipItem.swift */,
 				79A6F65624D2C8D80037C5FF /* Mode.swift */,
 				796B092824D1B563006904C4 /* Settings.swift */,
+				7936F89B24D94F4A00F09AE7 /* Test.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
