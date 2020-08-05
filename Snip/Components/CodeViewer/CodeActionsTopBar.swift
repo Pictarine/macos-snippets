@@ -14,9 +14,12 @@ struct CodeActionsTopBar: View {
   
   var body: some View {
     HStack{
-      Text(viewModel.snipName)
+      TextField("Snippet name", text: $viewModel.snipName)
         .font(Font.custom("HelveticaNeue", size: 20))
         .foregroundColor(.white)
+        .frame(maxHeight: .infinity)
+        .textFieldStyle(PlainTextFieldStyle())
+        .background(Color.BLACK_200.opacity(0.4))
       
       Spacer()
       
@@ -25,6 +28,7 @@ struct CodeActionsTopBar: View {
       ImageButton(imageName: "ic_share", action: viewModel.share)
       
     }
+    .frame(height: 40)
     .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
   }
   
