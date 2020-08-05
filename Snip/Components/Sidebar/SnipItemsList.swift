@@ -112,7 +112,7 @@ struct SnipItemView<Content: View>: View {
       
     }
     else {
-      NavigationLink(destination: CodeViewer(viewModel: CodeViewerViewModel(snipItem: snipItem)), tag: snipItem.id, selection: self.$selection) {
+      NavigationLink(destination: LazyView(CodeViewer(viewModel: CodeViewerViewModel(snipItem: self.snipItem))), tag: snipItem.id, selection: self.$selection) {
         HStack {
           Image("ic_file")
             .resizable()

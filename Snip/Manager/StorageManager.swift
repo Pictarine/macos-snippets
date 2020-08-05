@@ -35,10 +35,31 @@ public class StorageManager {
       searchPathDirectory = .applicationSupportDirectory
     }
     
-    if let url = FileManager.default.urls(for: searchPathDirectory, in: .userDomainMask).first {
+    if var url = FileManager.default.urls(for: searchPathDirectory, in: .userDomainMask).first {
+      url = url.appendingPathComponent("Snip")
+      if !FileManager.default.fileExists(atPath: url.path) {
+        do {
+          try FileManager.default.createDirectory(atPath: url.path, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+          fatalError(error.localizedDescription)
+        }
+      }
       return url
     } else {
       fatalError("Could not create URL for specified directory!")
+    }
+  }
+  
+  /// Create folder
+  static func createDirectory(folderName: String, to directory: Directory) {
+    let url = getURL(for: directory).appendingPathComponent(folderName, isDirectory: true)
+    
+    if !FileManager.default.fileExists(atPath: url.path) {
+      do {
+        try FileManager.default.createDirectory(atPath: url.path, withIntermediateDirectories: true, attributes: nil)
+      } catch {
+        fatalError(error.localizedDescription)
+      }
     }
   }
   

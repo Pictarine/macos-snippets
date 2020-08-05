@@ -17,8 +17,16 @@ class SnippetFileManager {
   func saveSnippet(_ snippet: SnipItem) {
     
     saving_queue.async {
-      StorageManager.store(snippet, to: .applicationSupport, as: "snippet.id")
+      print("Saving \(snippet.id)")
+      StorageManager.store(snippet, to: .applicationSupport, as: snippet.id)
     }
-    
+  }
+  
+  func getSnippet(from id: String) -> SnipItem {
+    return StorageManager.retrieve("id", from: .applicationSupport, as: SnipItem.self)
+  }
+  
+  func createFolder(folderName: String) {
+    StorageManager.createDirectory(folderName: folderName, to: .applicationSupport)
   }
 }

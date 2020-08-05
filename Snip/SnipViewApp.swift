@@ -10,6 +10,8 @@ import SwiftUI
 
 struct SnipViewApp: View {
   
+  @EnvironmentObject var settings: Settings
+  
   var body: some View {
     appNavigation
       .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -26,7 +28,7 @@ struct SnipViewApp: View {
   }
   
   var sideBar: some View {
-    Sidebar(viewModel: SideBarViewModel(snippets: SnipItem.preview()))
+    Sidebar(viewModel: SideBarViewModel(snippets: settings.snips))
       .visualEffect(material: .sidebar)
       .frame(minWidth: 180, idealWidth: 200, maxWidth: 240)
   }

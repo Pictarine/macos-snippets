@@ -27,7 +27,7 @@ struct Sidebar: View {
         //tags
       }
       .removeBackground()
-      .padding(.top, 8)
+      .padding(.top, 16)
       .background(Color.clear)
       
       HStack {
@@ -79,7 +79,6 @@ struct Sidebar: View {
     Text("Favorites")
       .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 12.0))
       .padding(.bottom, 3)
-    
     
   }
   
