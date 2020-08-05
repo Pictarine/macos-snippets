@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SnipItemsList: View {
   
-  @State var selection : UUID? = nil
+  @State var selection : String? = nil
   
   let snipItems: [SnipItem]?
   let onMove: (_ from: IndexSet, _ to: Int) -> Void
@@ -59,7 +59,7 @@ struct SnipItemView<Content: View>: View {
   
   let onActionTrigger: (SnipItemsListAction) -> Void
   
-  @Binding var selection: UUID?
+  @Binding var selection: String?
   
   @ViewBuilder
   var body: some View {

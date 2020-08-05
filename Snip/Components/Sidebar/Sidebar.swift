@@ -119,19 +119,19 @@ final class SideBarViewModel: ObservableObject {
     snips = snippets
   }
   
-  func addNewSnippet(id: UUID?) {
+  func addNewSnippet(id: String?) {
     print("New snippet")
   }
   
-  func addNewFolder(id: UUID?) {
+  func addNewFolder(id: String?) {
     print("New folder")
   }
   
-  func rename(id: UUID) {
+  func rename(id: String) {
     print("Rename")
   }
   
-  func delete(id: UUID) {
+  func delete(id: String) {
     print("Delete")
   }
   

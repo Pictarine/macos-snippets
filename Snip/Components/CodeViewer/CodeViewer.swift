@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CodeViewer: View {
   
@@ -42,8 +43,16 @@ struct CodeViewer: View {
 final class CodeViewerViewModel: ObservableObject {
   @Published var snip: SnipItem
   
+  private var cancellables: Set<AnyCancellable> = []
+  
   init(snipItem: SnipItem) {
-    self.snip = snipItem
+    snip = snipItem
+    $snip.sink { (snipItem) in
+      
+      // Save changes
+      SnippetFileManager.shared.saveSnippet(snipItem)
+      
+    }.store(in: &cancellables)
   }
   
 }

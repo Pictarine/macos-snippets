@@ -10,9 +10,9 @@ import Foundation
 import Combine
 
 
-public struct SnipItem: Identifiable, Equatable {
+public struct SnipItem: Identifiable, Equatable, Codable {
   
-  public var id: UUID
+  public var id: String
   
   enum Kind: Int, Codable {
     case folder
@@ -42,7 +42,7 @@ public struct SnipItem: Identifiable, Equatable {
     creationDate: Date,
     lastUpdateDate: Date
   ) {
-    self.id = id
+    self.id = id.uuidString
     self.name = name
     self.kind = kind
     self.content = content

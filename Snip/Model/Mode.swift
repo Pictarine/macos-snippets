@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct Mode: Equatable {
+struct Mode: Equatable, Codable {
   
   let name: String
   let mimeType: String
