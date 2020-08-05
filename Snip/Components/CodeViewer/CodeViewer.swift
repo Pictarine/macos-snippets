@@ -23,12 +23,7 @@ struct CodeViewer: View {
                                                           snippetTags: $viewModel.snip.tags))
       
       CodeView(code: $viewModel.snip.snippet,
-               mode: $viewModel.snip.mode,
-               onContentChange: { content in
-                self.viewModel.snip.snippet = content
-                self.viewModel.snip.name = "Hello"
-                self.viewModel.objectWillChange.send()
-      })
+               mode: $viewModel.snip.mode)
         .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
       
       Divider()
@@ -45,7 +40,6 @@ struct CodeViewer: View {
 }
 
 final class CodeViewerViewModel: ObservableObject {
-  
   @Published var snip: SnipItem
   
   init(snipItem: SnipItem) {
@@ -53,7 +47,6 @@ final class CodeViewerViewModel: ObservableObject {
   }
   
 }
-
 
 struct CodeViewer_Previews: PreviewProvider {
   static var previews: some View {

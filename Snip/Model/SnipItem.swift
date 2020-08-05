@@ -10,7 +10,7 @@ import Foundation
 import Combine
 
 
-public class SnipItem: Identifiable, Equatable {
+public struct SnipItem: Identifiable, Equatable {
   
   public var id: UUID
   

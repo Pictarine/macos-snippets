@@ -33,7 +33,6 @@ class CodeMirrorViewController: NSObject {
   
   fileprivate var pageLoaded = false
   fileprivate var pendingFunctions = [JavascriptFunction]()
-  
   init(_ parent: CodeView) {
       self.parent = parent
   }
@@ -59,7 +58,7 @@ class CodeMirrorViewController: NSObject {
       let script = first + content + end
       callJavascript(javascriptString: script)
   }
-
+  
   func getContent(_ block: JavascriptCallback?) {
       callJavascript(javascriptString: "GetContent();", callback: block)
   }
@@ -165,6 +164,7 @@ extension CodeMirrorViewController: WKNavigationDelegate {
       if message.name == CodeMirrorViewConstants.codeMirrorTextContentDidChange {
           let content = (message.body as? String) ?? ""
         parent.onContentChange?(content)
+        parent.code = content
       }
   }
   

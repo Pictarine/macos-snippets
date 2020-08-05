@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		791AC9BE24DAA4FD00CAB87C /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AC9BD24DAA4FD00CAB87C /* TagView.swift */; };
 		7936F88F24D450B900F09AE7 /* SnipItemsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F88E24D450B900F09AE7 /* SnipItemsList.swift */; };
 		7936F89324D6377D00F09AE7 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89224D6377D00F09AE7 /* List.swift */; };
 		7936F89624D637D800F09AE7 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 7936F89524D637D800F09AE7 /* Introspect */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		791AC9BD24DAA4FD00CAB87C /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		7936F88E24D450B900F09AE7 /* SnipItemsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsList.swift; sourceTree = "<group>"; };
 		7936F89224D6377D00F09AE7 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsListAction.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */,
 				79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */,
 				79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */,
+				791AC9BD24DAA4FD00CAB87C /* TagView.swift */,
 			);
 			path = CodeViewer;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */,
 				79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */,
 				79F07A2924D3050500469324 /* ImageButton.swift in Sources */,
+				791AC9BE24DAA4FD00CAB87C /* TagView.swift in Sources */,
 				796B092924D1B563006904C4 /* Settings.swift in Sources */,
 				79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */,
 				79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */,

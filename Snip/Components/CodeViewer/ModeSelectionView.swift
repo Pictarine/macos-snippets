@@ -12,6 +12,7 @@ struct ModeSelectionView: View {
   
   @ObservedObject var viewModel: ModeSelectionViewModel
   @State var selectedModeIndex: Int = 0
+  
   @State var newTag: String = ""
   
   private let modesList = CodeMode.list()
@@ -20,51 +21,72 @@ struct ModeSelectionView: View {
     
     HStack {
       
-      ForEach(0..<viewModel.tags.count, id: \.self) { tagIndex in
-        Text(self.viewModel.tags[tagIndex])
-          .padding(4)
-          .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.PURPLE_500.opacity(0.7), lineWidth: 1))
-          .foregroundColor(Color.PURPLE_500.opacity(0.7))
-      }
-      CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.GREEN_500.opacity(0.4)), text: $newTag, commit: {
-        print("Commit tag \(self.newTag)")
-        self.viewModel.tags.append(self.newTag)
-        self.newTag = ""
-        
-        self.viewModel.objectWillChange.send()
-      })
-        .frame(width: 60)
-        .padding(4)
-        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.GREEN_500.opacity(0.4), lineWidth: 1))
-        .textFieldStyle(PlainTextFieldStyle())
+      tags
+      
+      addNewTag
       
       Spacer()
       
-      Picker(selection: Binding<Int>(
-        get: {
-          let index = self.modesList.firstIndex(where: { (mode) -> Bool in
-            mode == self.viewModel.currentMode
-          }) ?? -1
-          return index
-      },
-        set: {
-          self.selectedModeIndex = $0
-          self.viewModel.currentMode = self.modesList[$0]
-      }),
-             label: EmptyView()) {
-              ForEach(0 ..< modesList.count, id: \.self) {
-                Text(self.modesList[$0].name)
-              }
-      }
-      .frame(minWidth: 100, idealWidth: 150, maxWidth: 150, alignment: .leading)
-      .pickerStyle(DefaultPickerStyle())
-      .buttonStyle(PlainButtonStyle())
-      .textFieldStyle(PlainTextFieldStyle())
+      codeModeSelector
       
     }
     .padding(.horizontal, 16)
     
   }
+  
+  var tags: some View {
+    ScrollView (.horizontal) {
+      HStack {
+        ForEach(0..<viewModel.tags.count, id: \.self) { tagIndex in
+          TagView(tag: self.viewModel.tags[tagIndex], onRemoveTapped: {
+            self.viewModel.tags.remove(at: tagIndex)
+            self.viewModel.objectWillChange.send()
+          })
+        }
+      }
+    }
+    .frame(height: 55)
+  }
+  
+  var addNewTag: some View {
+    CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.RED_500.opacity(0.4)), text: $newTag, commit: {
+      
+      guard self.newTag.count > 1 else { return }
+      
+      self.viewModel.tags.append(self.newTag)
+      self.newTag = ""
+      
+      self.viewModel.objectWillChange.send()
+    })
+      .frame(width: 60)
+      .padding(4)
+      .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.RED_500.opacity(0.4), lineWidth: 1))
+      .textFieldStyle(PlainTextFieldStyle())
+  }
+  
+  var codeModeSelector: some View {
+    Picker(selection: Binding<Int>(
+      get: {
+        let index = self.modesList.firstIndex(where: { (mode) -> Bool in
+          mode == self.viewModel.currentMode
+        }) ?? -1
+        return index
+    },
+      set: {
+        self.selectedModeIndex = $0
+        self.viewModel.currentMode = self.modesList[$0]
+    }),
+           label: EmptyView()) {
+            ForEach(0 ..< modesList.count, id: \.self) {
+              Text(self.modesList[$0].name)
+            }
+    }
+    .frame(minWidth: 100, idealWidth: 150, maxWidth: 150, alignment: .leading)
+    .pickerStyle(DefaultPickerStyle())
+    .buttonStyle(PlainButtonStyle())
+    .textFieldStyle(PlainTextFieldStyle())
+  }
+  
 }
 
 final class ModeSelectionViewModel: ObservableObject {
@@ -81,6 +103,6 @@ final class ModeSelectionViewModel: ObservableObject {
 struct ModeSelectionView_Previews: PreviewProvider {
   static var previews: some View {
     ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: .constant(CodeMode.text.mode()),
-                                                        snippetTags: .constant([])))
+                                                        snippetTags: .constant(["hellos"])))
   }
 }
