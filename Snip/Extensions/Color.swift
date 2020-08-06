@@ -27,6 +27,8 @@ extension Color {
   
   static let RED_500 = Color.init(hex: "ff5555")
   
+  static let ORANGE_500 = Color.init(hex: "E5946A")
+  
   init(hex: String) {
     let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
     var int: UInt64 = 0

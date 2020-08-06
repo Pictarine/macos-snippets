@@ -49,7 +49,7 @@ struct ModeSelectionView: View {
   }
   
   var addNewTag: some View {
-    CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.RED_500.opacity(0.4)),
+    CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.ORANGE_500.opacity(0.4)),
                     text: $newTag,
                     commit: {
                       
@@ -62,7 +62,7 @@ struct ModeSelectionView: View {
     })
       .frame(width: 60)
       .padding(4)
-      .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.RED_500.opacity(0.4), lineWidth: 1))
+      .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.ORANGE_500.opacity(0.4), lineWidth: 1))
       .textFieldStyle(PlainTextFieldStyle())
   }
   

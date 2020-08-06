@@ -20,8 +20,6 @@ struct Sidebar: View {
         
         addElementView
         
-        logo
-        
         favorites
         
         local
@@ -47,6 +45,10 @@ struct Sidebar: View {
   var addElementView: some View {
     HStack{
       Spacer()
+      Image("snip")
+      .resizable()
+      .frame(width: 15, height: 15, alignment: .center)
+      Spacer()
       MenuButton("+") {
         Button(action: {self.viewModel.addNewSnippet(id: nil)}) {
           Text("New snippet")
@@ -61,18 +63,6 @@ struct Sidebar: View {
         .background(Color.clear)
         .frame(maxWidth: 16, alignment: .center)
     }.background(Color.clear)
-  }
-  
-  var logo: some View {
-    HStack(alignment: .center) {
-      Spacer()
-      Image("snip")
-        .resizable()
-        .frame(width: 30, height: 30, alignment: .center)
-      Spacer()
-    }
-    .padding(.top, 16)
-    .padding(.bottom, 16)
   }
   
   @ViewBuilder

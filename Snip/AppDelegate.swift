@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let contentView = SnipViewApp()
       .environmentObject(Settings())
       .edgesIgnoringSafeArea(.top)
-      .frame(minWidth: 600, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
+      .frame(minWidth: 700, maxWidth: .infinity, minHeight: 500, maxHeight: .infinity)
     
     window = NSWindow(
       contentRect: NSRect(x: 0, y: 0, width: 1000, height: 700),
