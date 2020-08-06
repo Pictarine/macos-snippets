@@ -7,11 +7,10 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 class Settings: ObservableObject {
   
   @Published var codeMirrorTheme : String = "dracula"
-  @Published var snips: [SnipItem] = SnipItem.preview()
   
 }

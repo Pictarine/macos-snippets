@@ -29,7 +29,7 @@ struct CodeViewer: View {
       
       Divider()
       
-      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: self.$viewModel.snip.snippet))
+      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: self.viewModel.snip.snippet))
       
     }
       
@@ -41,24 +41,24 @@ struct CodeViewer: View {
 }
 
 final class CodeViewerViewModel: ObservableObject {
-  @Published var snip: SnipItem
   
-  private var cancellables: Set<AnyCancellable> = []
+  @ObservedObject var snip: SnipItem
+  private var stores = Set<AnyCancellable>()
   
-  init(snipItem: SnipItem) {
+  //var onRemove: (SnipItem) -> Void
+  init(snipItem: SnipItem/*, onRemove: @escaping (SnipItem) -> Void*/) {
     snip = snipItem
-    $snip.sink { (snipItem) in
-      
-      // Save changes
-      SnippetFileManager.shared.saveSnippet(snipItem)
-      
-    }.store(in: &cancellables)
+    snip.objectWillChange.sink { (_) in
+      print("CodeView change \(snipItem.name)")
+    }
+  .store(in: &stores)
+    //self.onRemove = onRemove
   }
   
 }
 
 struct CodeViewer_Previews: PreviewProvider {
   static var previews: some View {
-    CodeViewer(viewModel: CodeViewerViewModel(snipItem: SnipItem.previewSnipItem))
+    CodeViewer(viewModel: CodeViewerViewModel(snipItem: Preview.snipItem))
   }
 }

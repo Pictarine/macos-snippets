@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct Sidebar: View {
   
@@ -33,7 +34,7 @@ struct Sidebar: View {
       HStack {
         Spacer()
         
-        ImageButton(imageName: "ic_settings", action: viewModel.settings)
+        ImageButton(imageName: "ic_settings", action: viewModel.openSettings)
       }
       .padding()
     }
@@ -77,19 +78,25 @@ struct Sidebar: View {
   @ViewBuilder
   var favorites: some View {
     Text("Favorites")
-      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 12.0))
+      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 13.0))
       .padding(.bottom, 3)
     
+    /*SnipItemsList(snipItems: $settings.snips, //SnipItem.getAllFavorites(settings.snips)
+     onMove: viewModel.onMove,
+     onActionTrigger: viewModel.onActionTrigger(action:))*/
   }
   
   @ViewBuilder
   var local: some View {
     Text("Local")
-      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 12.0))
+      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 13.0))
       .padding(.bottom, 3)
       .padding(.top, 16)
     
-    SnipItemsList(snipItems: viewModel.snips, onMove: viewModel.onMove, onActionTrigger: viewModel.onActionTrigger(action:))
+    SnipItemsList(model: SnipItemsListModel(),
+                  onMove: viewModel.onMove,
+                  onActionTrigger: viewModel.onActionTrigger(action:))
+    .environmentObject(viewModel.snippetsStore)
   }
   
   /*@ViewBuilder
@@ -112,10 +119,15 @@ struct Sidebar: View {
 
 final class SideBarViewModel: ObservableObject {
   
-  @Published var snips: [SnipItem] = []
+  @ObservedObject var snippetsStore = SnippetStore(snippets: SnippetFileManager.shared.getSnippets())
   
-  init(snippets: [SnipItem]) {
-    snips = snippets
+  private var stores = Set<AnyCancellable>()
+  
+  init() {
+    snippetsStore.objectWillChange.sink { (_) in
+      print("SideBar objectWillChange")
+    }
+  .store(in: &stores)
   }
   
   func addNewSnippet(id: String?) {
@@ -134,7 +146,7 @@ final class SideBarViewModel: ObservableObject {
     print("Delete")
   }
   
-  func settings() {
+  func openSettings() {
     print("settings")
   }
   
@@ -159,6 +171,6 @@ final class SideBarViewModel: ObservableObject {
 
 struct Sidebar_Previews: PreviewProvider {
   static var previews: some View {
-    Sidebar(viewModel: SideBarViewModel(snippets: SnipItem.preview()))
+    Sidebar(viewModel: SideBarViewModel())
   }
 }

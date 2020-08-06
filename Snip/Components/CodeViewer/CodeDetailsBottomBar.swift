@@ -41,10 +41,10 @@ struct CodeDetailsBottomBar: View {
 
 final class CodeDetailsViewModel: ObservableObject {
   
-  @Binding var code: String
+  @Published var code: String
   
-  init(snippetCode: Binding<String>) {
-    _code = snippetCode
+  init(snippetCode: String) {
+    code = snippetCode
   }
   
   func copyToClipboard() {
@@ -59,6 +59,6 @@ final class CodeDetailsViewModel: ObservableObject {
 
 struct CodeDetailsBottomBar_Previews: PreviewProvider {
   static var previews: some View {
-    CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: .constant("")))
+    CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: ""))
   }
 }

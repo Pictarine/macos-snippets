@@ -7,36 +7,48 @@
 //
 
 import SwiftUI
+import Combine
+
 
 struct SnipItemsList: View {
   
-  @State var selection : String? = nil
+  @EnvironmentObject var snippetsStore: SnippetStore
   
-  let snipItems: [SnipItem]?
+  @State var selection : String? = nil
+  @ObservedObject var model: SnipItemsListModel
+  
   let onMove: (_ from: IndexSet, _ to: Int) -> Void
   let onActionTrigger: (SnipItemsListAction) -> Void
   
   var body: some View {
-    ForEach(snipItems ?? [], id: \.id) { snip in
+    ForEach(snippetsStore.snipItems, id: \.id) { snipItem in
       
       Group {
-        if self.containsSub(snip) {
-          SnipItemView(snipItem: snip,
-                       content: { SnipItemsList(snipItems: snip.content,
-                                                onMove: self.onMove,
-                                                onActionTrigger: self.onActionTrigger)
-                        .padding(.leading)
-          },
-                       onActionTrigger: self.onActionTrigger,
-                       selection: self.$selection
+        if self.containsSub(snipItem) {
+          
+          SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
+                                                    selectedItem: self.$selection,
+                                                    onAction: self.onActionTrigger),
+                       content: {
+                        
+                        SnipItemsList(model: SnipItemsListModel(),
+                                      onMove: self.onMove,
+                                      onActionTrigger: self.onActionTrigger
+                        )
+                          .environmentObject(SnippetStore(snippets: snipItem.content ?? []))
+                          .padding(.leading)
+                        
+          }
           )
+          
         }
         else {
-          SnipItemView(snipItem: snip,
-                       content: { EmptyView() },
-                       onActionTrigger: self.onActionTrigger,
-                       selection: self.$selection
-          )
+          
+          SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
+                                                    selectedItem: self.$selection,
+                                                    onAction: self.onActionTrigger),
+                       content: { EmptyView() })
+          
         }
       }
       
@@ -50,119 +62,27 @@ struct SnipItemsList: View {
 }
 
 
-struct SnipItemView<Content: View>: View {
+class SnipItemsListModel: ObservableObject {
   
-  @State var isExpanded: Bool = false
   
-  let snipItem: SnipItem
-  let content: () -> Content?
   
-  let onActionTrigger: (SnipItemsListAction) -> Void
+  private var stores = Set<AnyCancellable>()
   
-  @Binding var selection: String?
-  
-  @ViewBuilder
-  var body: some View {
+  init() {
     
-    if snipItem.kind == .folder {
-      
-      Button(action: {
-        self.isExpanded.toggle()
-      },
-             label: {
-              HStack {
-                Image( self.isExpanded ? "ic_up" : "ic_down")
-                  .resizable()
-                  .scaledToFit()
-                  .frame(width: 15, height: 15, alignment: .center)
-                
-                Image( self.isExpanded ? "ic_folder_opened" : "ic_folder_closed")
-                  .resizable()
-                  .frame(width: 15, height: 15, alignment: .center)
-                Text(snipItem.name)
-                  
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.black.opacity(0.0001))
-              }
-                
-              .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-              .background(Color.clear)
-              .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-      })
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(0)
-        .buttonStyle(PlainButtonStyle())
-        .contextMenu {
-          Button(action: { self.onActionTrigger(.addFolder(id: self.snipItem.id)) }) {
-            Text("Add folder")
-          }
-          
-          Button(action: { self.onActionTrigger(.addSnippet(id: self.snipItem.id)) }) {
-            Text("Add snippet")
-          }
-          
-          Button(action: { self.onActionTrigger(.rename(id: self.snipItem.id)) }) {
-            Text("Rename")
-          }
-          
-          Button(action: { self.onActionTrigger(.delete(id: self.snipItem.id)) }) {
-            Text("Delete")
-          }
-      }
-      
-    }
-    else {
-      NavigationLink(destination: LazyView(CodeViewer(viewModel: CodeViewerViewModel(snipItem: self.snipItem))), tag: snipItem.id, selection: self.$selection) {
-        HStack {
-          Image("ic_file")
-            .resizable()
-            .frame(width: 15, height: 15, alignment: .center)
-            .padding(.leading, 4)
-          Text(snipItem.name)
-            .padding(.leading, 4)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .background(Color.black.opacity(0.0001))
-          Spacer()
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-      }
-      .contextMenu {
-        Button(action: {
-          self.onActionTrigger(.rename(id: self.snipItem.id))
-          self.selection = self.snipItem.id
-        }) {
-          Text("Rename")
-        }
-        
-        Button(action: {
-          self.onActionTrigger(.delete(id: self.snipItem.id))
-          self.selection = self.snipItem.id
-        }) {
-          Text("Delete")
-        }
-      }
-      .listRowBackground(self.selection == self.snipItem.id ? Color.PURPLE_500 : Color.clear)
-      
-    }
-    
-    if isExpanded {
-      content()
-    }
   }
-  
 }
 
 
-struct SnipItemsList_Previews: PreviewProvider {
-  static var previews: some View {
-    return SnipItemsList(snipItems: SnipItem.preview(),
-                         onMove: { (from, to) in
-                          print("onMove")
-    },
-                         onActionTrigger: { action in
-                          print("action : \(action)")
-    })
-  }
-}
+/*struct SnipItemsList_Previews: PreviewProvider {
+ static var previews: some View {
+ return SnipItemsList(model: SnipItemsListModel(snipItems: SnipItem.preview()),
+ onMove: { (from, to) in
+ print("onMove")
+ },
+ onActionTrigger: { action in
+ print("action : \(action)")
+ })
+ }
+ }
+ */

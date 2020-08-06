@@ -11,6 +11,9 @@
 		791AC9C124DAB60900CAB87C /* SnippetFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AC9C024DAB60900CAB87C /* SnippetFileManager.swift */; };
 		791AC9C324DABF2500CAB87C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AC9C224DABF2500CAB87C /* StorageManager.swift */; };
 		791AC9C524DAE45D00CAB87C /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AC9C424DAE45D00CAB87C /* LazyView.swift */; };
+		791AC9C724DB059A00CAB87C /* SnipItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AC9C624DB059A00CAB87C /* SnipItemView.swift */; };
+		791AC9C924DC380300CAB87C /* SnippetsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AC9C824DC380300CAB87C /* SnippetsStore.swift */; };
+		791AC9CB24DC450D00CAB87C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AC9CA24DC450D00CAB87C /* Preview.swift */; };
 		7936F88F24D450B900F09AE7 /* SnipItemsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F88E24D450B900F09AE7 /* SnipItemsList.swift */; };
 		7936F89324D6377D00F09AE7 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89224D6377D00F09AE7 /* List.swift */; };
 		7936F89624D637D800F09AE7 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 7936F89524D637D800F09AE7 /* Introspect */; };
@@ -48,6 +51,9 @@
 		791AC9C024DAB60900CAB87C /* SnippetFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetFileManager.swift; sourceTree = "<group>"; };
 		791AC9C224DABF2500CAB87C /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		791AC9C424DAE45D00CAB87C /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		791AC9C624DB059A00CAB87C /* SnipItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemView.swift; sourceTree = "<group>"; };
+		791AC9C824DC380300CAB87C /* SnippetsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsStore.swift; sourceTree = "<group>"; };
+		791AC9CA24DC450D00CAB87C /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		7936F88E24D450B900F09AE7 /* SnipItemsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsList.swift; sourceTree = "<group>"; };
 		7936F89224D6377D00F09AE7 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsListAction.swift; sourceTree = "<group>"; };
@@ -97,6 +103,7 @@
 		791AC9BF24DAB5D500CAB87C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				791AC9C824DC380300CAB87C /* SnippetsStore.swift */,
 				791AC9C024DAB60900CAB87C /* SnippetFileManager.swift */,
 				791AC9C224DABF2500CAB87C /* StorageManager.swift */,
 			);
@@ -108,6 +115,7 @@
 			children = (
 				796B092424D1B4A3006904C4 /* SnipItem.swift */,
 				79A6F65624D2C8D80037C5FF /* Mode.swift */,
+				791AC9CA24DC450D00CAB87C /* Preview.swift */,
 				796B092824D1B563006904C4 /* Settings.swift */,
 			);
 			path = Model;
@@ -127,6 +135,7 @@
 			children = (
 				79BC1D3224D17124008FD16E /* Sidebar.swift */,
 				7936F88E24D450B900F09AE7 /* SnipItemsList.swift */,
+				791AC9C624DB059A00CAB87C /* SnipItemView.swift */,
 				7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */,
 			);
 			path = Sidebar;
@@ -320,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				791AC9CB24DC450D00CAB87C /* Preview.swift in Sources */,
 				79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */,
 				79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */,
 				796B093724D1BA1F006904C4 /* Date.swift in Sources */,
@@ -334,11 +344,13 @@
 				79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */,
 				7936F88F24D450B900F09AE7 /* SnipItemsList.swift in Sources */,
 				79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */,
+				791AC9C724DB059A00CAB87C /* SnipItemView.swift in Sources */,
 				79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */,
 				79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */,
 				79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */,
 				79BC1D2024D16E67008FD16E /* AppDelegate.swift in Sources */,
 				79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */,
+				791AC9C924DC380300CAB87C /* SnippetsStore.swift in Sources */,
 				79A6F65324D2B9D40037C5FF /* String.swift in Sources */,
 				791AC9C524DAE45D00CAB87C /* LazyView.swift in Sources */,
 				7936F89A24D845B600F09AE7 /* SnipItemsListAction.swift in Sources */,
