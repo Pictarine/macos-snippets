@@ -12,6 +12,10 @@ public class StorageManager {
   
   fileprivate init() { }
   
+  enum FileManagerError: Error {
+      case noFileFound
+  }
+  
   enum Directory {
     // Only documents and other data that is user-generated, or that cannot otherwise be recreated by your application, should be stored in the <Application_Home>/Documents directory and will be automatically backed up by iCloud.
     case documents
@@ -92,11 +96,11 @@ public class StorageManager {
   ///   - directory: directory where struct data is stored
   ///   - type: struct type (i.e. Message.self)
   /// - Returns: decoded struct model(s) of data
-  static func retrieve<T: Decodable>(_ fileName: String, from directory: Directory, as type: T.Type) -> T {
+  static func retrieve<T: Decodable>(_ fileName: String, from directory: Directory, as type: T.Type) throws -> T {
     let url = getURL(for: directory).appendingPathComponent(fileName, isDirectory: false)
     
     if !FileManager.default.fileExists(atPath: url.path) {
-      fatalError("File at path \(url.path) does not exist!")
+      throw FileManagerError.noFileFound
     }
     
     if let data = FileManager.default.contents(atPath: url.path) {

@@ -23,7 +23,14 @@ class SnippetFileManager {
   }
   
   func getSnippets() -> [SnipItem] {
-    return StorageManager.retrieve("snippets", from: .applicationSupport, as: [SnipItem].self)
+    do {
+      let snippets = try StorageManager.retrieve("snippets", from: .applicationSupport, as: [SnipItem].self)
+      return snippets
+    }
+    catch {
+      return Preview.snipItems
+    }
+    
   }
   
   func createFolder(folderName: String) {

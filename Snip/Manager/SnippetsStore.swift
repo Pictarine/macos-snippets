@@ -24,7 +24,7 @@ class SnippetStore: ObservableObject {
         
         guard let this = self else { return }
         
-        print("Model whill change \(snipItem.name)")
+        print("Model whill change for \(snipItem.name)")
         
         SnippetFileManager.shared.saveSnippet(this.snipItems)
         
