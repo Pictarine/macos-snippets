@@ -42,17 +42,12 @@ struct CodeViewer: View {
 
 final class CodeViewerViewModel: ObservableObject {
   
-  @ObservedObject var snip: SnipItem
-  private var stores = Set<AnyCancellable>()
+  @Published var snip: SnipItem
   
   //var onRemove: (SnipItem) -> Void
   init(snipItem: SnipItem/*, onRemove: @escaping (SnipItem) -> Void*/) {
     snip = snipItem
-    snip.objectWillChange.sink { (_) in
-      print("CodeView change \(snipItem.name)")
-    }
-  .store(in: &stores)
-    //self.onRemove = onRemove
+    
   }
   
 }
