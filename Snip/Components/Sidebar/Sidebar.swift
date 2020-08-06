@@ -121,15 +121,6 @@ final class SideBarViewModel: ObservableObject {
   
   @ObservedObject var snippetsStore = SnippetStore(snippets: SnippetFileManager.shared.getSnippets())
   
-  private var stores = Set<AnyCancellable>()
-  
-  init() {
-    snippetsStore.objectWillChange.sink { (_) in
-      print("SideBar objectWillChange")
-    }
-  .store(in: &stores)
-  }
-  
   func addNewSnippet(id: String?) {
     print("New snippet")
   }

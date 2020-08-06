@@ -47,7 +47,6 @@ final class CodeViewerViewModel: ObservableObject {
   //var onRemove: (SnipItem) -> Void
   init(snipItem: SnipItem/*, onRemove: @escaping (SnipItem) -> Void*/) {
     snip = snipItem
-    
   }
   
 }

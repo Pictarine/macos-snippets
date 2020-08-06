@@ -64,10 +64,6 @@ struct SnipItemsList: View {
 
 class SnipItemsListModel: ObservableObject {
   
-  
-  
-  private var stores = Set<AnyCancellable>()
-  
   init() {
     
   }

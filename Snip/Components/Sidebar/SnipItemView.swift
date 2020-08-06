@@ -125,8 +125,6 @@ class SnipItemViewModel: ObservableObject {
   
   var onActionTrigger: (SnipItemsListAction) -> Void
   
-  private var stores: Set<AnyCancellable> = []
-  
   init(snip: SnipItem, selectedItem: Binding<String?>,onAction: @escaping (SnipItemsListAction) -> Void) {
     snipItem = snip
     _selection = selectedItem
