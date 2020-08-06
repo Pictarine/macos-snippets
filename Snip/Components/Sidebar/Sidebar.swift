@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+
 struct Sidebar: View {
   
   @ObservedObject var viewModel: SideBarViewModel
@@ -40,8 +41,7 @@ struct Sidebar: View {
     }
     .background(Color.clear)
     .listRowBackground(Color.PURPLE_500)
-      //.listStyle(SidebarListStyle())
-      .environment(\.defaultMinListRowHeight, 36)
+    .environment(\.defaultMinListRowHeight, 36)
   }
   
   var addElementView: some View {
@@ -94,7 +94,6 @@ struct Sidebar: View {
       .padding(.top, 16)
     
     SnipItemsList(model: SnipItemsListModel(),
-                  onMove: viewModel.onMove,
                   onActionTrigger: viewModel.onActionTrigger(action:))
     .environmentObject(viewModel.snippetsStore)
   }
@@ -139,10 +138,6 @@ final class SideBarViewModel: ObservableObject {
   
   func openSettings() {
     print("settings")
-  }
-  
-  func onMove(from: IndexSet, to: Int) {
-    
   }
   
   func onActionTrigger(action: SnipItemsListAction) {

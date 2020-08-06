@@ -28,13 +28,18 @@ struct CodeDetailsBottomBar: View {
       Button(action: { self.viewModel.copyToClipboard() }) {
         Image("ic_clipboard")
           .resizable()
-          .frame(width: 15, height: 15, alignment: .center)
+          .frame(width: 15,
+                 height: 15,
+                 alignment: .center)
           .scaledToFit()
         Text("Copy to clipboard")
       }
       .buttonStyle(PlainButtonStyle())
     }
-    .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+    .padding(EdgeInsets(top: 8,
+                        leading: 16,
+                        bottom: 8,
+                        trailing: 16))
   }
   
 }
@@ -48,11 +53,9 @@ final class CodeDetailsViewModel: ObservableObject {
   }
   
   func copyToClipboard() {
-    print("Copy to clipboard")
     let pasteboard = NSPasteboard.general
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
     pasteboard.setString(code, forType: NSPasteboard.PasteboardType.string)
-
   }
   
 }

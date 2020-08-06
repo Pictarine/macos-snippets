@@ -25,7 +25,10 @@ struct CodeViewer: View {
       
       CodeView(code: $viewModel.snip.snippet,
                mode: $viewModel.snip.mode)
-        .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
+        .frame(minWidth: 100,
+               maxWidth: .infinity,
+               minHeight: 100,
+               maxHeight: .infinity)
       
       Divider()
       
@@ -33,7 +36,11 @@ struct CodeViewer: View {
       
     }
       
-    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+    .frame(minWidth: 0,
+           maxWidth: .infinity,
+           minHeight: 0,
+           maxHeight: .infinity,
+           alignment: .topLeading)
     .background(Color.BLACK_500)
     .listStyle(PlainListStyle())
   }
@@ -44,8 +51,7 @@ final class CodeViewerViewModel: ObservableObject {
   
   @Published var snip: SnipItem
   
-  //var onRemove: (SnipItem) -> Void
-  init(snipItem: SnipItem/*, onRemove: @escaping (SnipItem) -> Void*/) {
+  init(snipItem: SnipItem) {
     snip = snipItem
   }
   

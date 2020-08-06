@@ -17,7 +17,6 @@ struct SnipItemsList: View {
   @State var selection : String? = nil
   @ObservedObject var model: SnipItemsListModel
   
-  let onMove: (_ from: IndexSet, _ to: Int) -> Void
   let onActionTrigger: (SnipItemsListAction) -> Void
   
   var body: some View {
@@ -25,34 +24,27 @@ struct SnipItemsList: View {
       
       Group {
         if self.containsSub(snipItem) {
-          
           SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
                                                     selectedItem: self.$selection,
                                                     onAction: self.onActionTrigger),
                        content: {
-                        
                         SnipItemsList(model: SnipItemsListModel(),
-                                      onMove: self.onMove,
-                                      onActionTrigger: self.onActionTrigger
-                        )
+                                      onActionTrigger: self.onActionTrigger)
                           .environmentObject(SnippetStore(snippets: snipItem.content ?? []))
                           .padding(.leading)
-                        
-          }
+                      }
           )
           
         }
         else {
-          
           SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
                                                     selectedItem: self.$selection,
                                                     onAction: self.onActionTrigger),
                        content: { EmptyView() })
-          
         }
       }
       
-    }//.onMove(perform: onMove)
+    }
   }
   
   func containsSub(_ element: SnipItem) -> Bool {
@@ -62,7 +54,7 @@ struct SnipItemsList: View {
 }
 
 
-class SnipItemsListModel: ObservableObject {
+final class SnipItemsListModel: ObservableObject {
   
   init() {
     
@@ -70,15 +62,14 @@ class SnipItemsListModel: ObservableObject {
 }
 
 
-/*struct SnipItemsList_Previews: PreviewProvider {
- static var previews: some View {
- return SnipItemsList(model: SnipItemsListModel(snipItems: SnipItem.preview()),
- onMove: { (from, to) in
- print("onMove")
- },
- onActionTrigger: { action in
- print("action : \(action)")
- })
- }
- }
- */
+struct SnipItemsList_Previews: PreviewProvider {
+  
+  static var previews: some View {
+    return SnipItemsList(model: SnipItemsListModel(),
+                         onActionTrigger: { action in
+                          print("action : \(action)")
+    })
+    .environmentObject(SnippetStore(snippets: Preview.snipItems))
+  }
+}
+

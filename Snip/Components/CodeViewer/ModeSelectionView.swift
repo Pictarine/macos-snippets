@@ -11,8 +11,8 @@ import SwiftUI
 struct ModeSelectionView: View {
   
   @ObservedObject var viewModel: ModeSelectionViewModel
-  @State var selectedModeIndex: Int = 0
   
+  @State var selectedModeIndex: Int = 0
   @State var newTag: String = ""
   
   private let modesList = CodeMode.list()
@@ -49,14 +49,16 @@ struct ModeSelectionView: View {
   }
   
   var addNewTag: some View {
-    CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.RED_500.opacity(0.4)), text: $newTag, commit: {
-      
-      guard self.newTag.count > 1 else { return }
-      
-      self.viewModel.tags.append(self.newTag)
-      self.newTag = ""
-      
-      self.viewModel.objectWillChange.send()
+    CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.RED_500.opacity(0.4)),
+                    text: $newTag,
+                    commit: {
+                      
+                      guard self.newTag.count > 1 else { return }
+                      
+                      self.viewModel.tags.append(self.newTag)
+                      self.newTag = ""
+                      
+                      self.viewModel.objectWillChange.send()
     })
       .frame(width: 60)
       .padding(4)
@@ -81,7 +83,10 @@ struct ModeSelectionView: View {
               Text(self.modesList[$0].name)
             }
     }
-    .frame(minWidth: 100, idealWidth: 150, maxWidth: 150, alignment: .leading)
+    .frame(minWidth: 100,
+           idealWidth: 150,
+           maxWidth: 150,
+           alignment: .leading)
     .pickerStyle(DefaultPickerStyle())
     .buttonStyle(PlainButtonStyle())
     .textFieldStyle(PlainTextFieldStyle())

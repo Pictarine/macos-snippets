@@ -19,17 +19,22 @@ struct CodeActionsTopBar: View {
         .foregroundColor(.white)
         .frame(maxHeight: .infinity)
         .textFieldStyle(PlainTextFieldStyle())
-        .background(Color.BLACK_200.opacity(0.4))
+        
       
-      Spacer()
-      
-      ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav", action: viewModel.addToFavorites)
-      ImageButton(imageName: "ic_delete", action: viewModel.delete)
-      ImageButton(imageName: "ic_share", action: viewModel.share)
+      ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
+                  action: viewModel.addToFavorites)
+      ImageButton(imageName: "ic_delete",
+                  action: viewModel.delete)
+      ImageButton(imageName: "ic_share",
+                  action: viewModel.share)
       
     }
+    .background(Color.BLACK_200.opacity(0.4))
     .frame(height: 40)
-    .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+    .padding(EdgeInsets(top: 16,
+                        leading: 16,
+                        bottom: 0,
+                        trailing: 16))
   }
   
 }

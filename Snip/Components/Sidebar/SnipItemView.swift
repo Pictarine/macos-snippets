@@ -117,7 +117,7 @@ struct SnipItemView<Content: View>: View {
 }
 
 
-class SnipItemViewModel: ObservableObject {
+final class SnipItemViewModel: ObservableObject {
   
   @ObservedObject var snipItem: SnipItem
   

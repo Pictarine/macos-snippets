@@ -115,8 +115,8 @@
 			children = (
 				796B092424D1B4A3006904C4 /* SnipItem.swift */,
 				79A6F65624D2C8D80037C5FF /* Mode.swift */,
-				791AC9CA24DC450D00CAB87C /* Preview.swift */,
 				796B092824D1B563006904C4 /* Settings.swift */,
+				791AC9CA24DC450D00CAB87C /* Preview.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
