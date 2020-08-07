@@ -49,19 +49,23 @@ struct SnipItemView<Content: View>: View {
         .padding(0)
         .buttonStyle(PlainButtonStyle())
         .contextMenu {
-          Button(action: { self.viewModel.onActionTrigger(.addFolder(id: self.viewModel.snipItem.id)) }) {
+          Button(action: {
+            self.viewModel.onTrigger(.addFolder(id: self.viewModel.snipItem.id))
+          }) {
             Text("Add folder")
           }
           
-          Button(action: { self.viewModel.onActionTrigger(.addSnippet(id: self.viewModel.snipItem.id)) }) {
+          Button(action: {
+            self.viewModel.onTrigger(.addSnippet(id: self.viewModel.snipItem.id))
+          }) {
             Text("Add snippet")
           }
           
-          Button(action: { self.viewModel.onActionTrigger(.rename(id: self.viewModel.snipItem.id)) }) {
+          Button(action: { }) {
             Text("Rename")
           }
           
-          Button(action: { self.viewModel.onActionTrigger(.delete(id: self.viewModel.snipItem.id)) }) {
+          Button(action: {  }) {
             Text("Delete")
           }
       }
@@ -69,7 +73,7 @@ struct SnipItemView<Content: View>: View {
     }
     else {
       NavigationLink(destination: LazyView(
-        CodeViewer(viewModel: CodeViewerViewModel(snipItem: self.viewModel.snipItem))
+        CodeViewer(viewModel: CodeViewerViewModel(snipItem: .constant(self.viewModel.snipItem)))
         .environmentObject(Settings())
       ), tag: viewModel.snipItem.id, selection: viewModel.$selection) {
         HStack {
@@ -89,15 +93,14 @@ struct SnipItemView<Content: View>: View {
       }
       .contextMenu {
         Button(action: {
-          self.viewModel.onActionTrigger(.rename(id: self.viewModel.snipItem.id))
+          //self.viewModel.onActionTrigger(.rename(id: self.viewModel.snipItem.id))
           self.viewModel.selection = self.viewModel.snipItem.id
-          self.viewModel.snipItem.name = "bonjou"
         }) {
           Text("Rename")
         }
         
         Button(action: {
-          self.viewModel.onActionTrigger(.delete(id: self.viewModel.snipItem.id))
+          //self.viewModel.onActionTrigger(.delete(id: self.viewModel.snipItem.id))
           self.viewModel.selection = self.viewModel.snipItem.id
         }) {
           Text("Delete")
@@ -119,16 +122,16 @@ struct SnipItemView<Content: View>: View {
 
 final class SnipItemViewModel: ObservableObject {
   
-  @ObservedObject var snipItem: SnipItem
+  var snipItem: SnipItem
   
   @Binding var selection: String?
   
-  var onActionTrigger: (SnipItemsListAction) -> Void
+  var onTrigger: (SnipItemsListAction) -> Void
   
-  init(snip: SnipItem, selectedItem: Binding<String?>,onAction: @escaping (SnipItemsListAction) -> Void) {
+  init(snip: SnipItem, selectedItem: Binding<String?>, onTrigger: @escaping (SnipItemsListAction) -> Void) {
     snipItem = snip
     _selection = selectedItem
-    onActionTrigger = onAction
+    self.onTrigger = onTrigger
   }
   
 }

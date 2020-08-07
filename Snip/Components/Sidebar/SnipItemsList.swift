@@ -12,34 +12,31 @@ import Combine
 
 struct SnipItemsList: View {
   
-  @EnvironmentObject var snippetsStore: SnippetStore
+  @ObservedObject var viewModel: SnipItemsListModel
   
   @State var selection : String? = nil
-  @ObservedObject var model: SnipItemsListModel
-  
-  let onActionTrigger: (SnipItemsListAction) -> Void
   
   var body: some View {
-    ForEach(snippetsStore.snipItems, id: \.id) { snipItem in
+    ForEach(filterSnippets, id: \.id) { snipItem in
       
       Group {
         if self.containsSub(snipItem) {
           SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
                                                     selectedItem: self.$selection,
-                                                    onAction: self.onActionTrigger),
+                                                    onTrigger: self.viewModel.onTrigger),
                        content: {
-                        SnipItemsList(model: SnipItemsListModel(),
-                                      onActionTrigger: self.onActionTrigger)
-                          .environmentObject(SnippetStore(snippets: snipItem.content ?? []))
+                        SnipItemsList(viewModel: SnipItemsListModel(snips: snipItem.content,
+                                                                    applyFilter: self.viewModel.filter,
+                                                                    onTrigger: self.viewModel.onTrigger))
                           .padding(.leading)
-                      }
+          }
           )
           
         }
         else {
           SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
                                                     selectedItem: self.$selection,
-                                                    onAction: self.onActionTrigger),
+                                                    onTrigger: self.viewModel.onTrigger),
                        content: { EmptyView() })
         }
       }
@@ -48,16 +45,38 @@ struct SnipItemsList: View {
   }
   
   func containsSub(_ element: SnipItem) -> Bool {
-    element.content != nil && element.content?.count ?? 0 > 0
+    element.content.count > 0
   }
   
+  var filterSnippets : [SnipItem] {
+    switch viewModel.filter {
+    case .all:
+      return viewModel.snipItems
+    case .favorites:
+      return viewModel.snipItems.allFavorites
+      
+    }
+  }
 }
 
 
 final class SnipItemsListModel: ObservableObject {
   
-  init() {
-    
+  @Published var snipItems: [SnipItem]
+  
+  enum ModelFilters {
+    case all
+    case favorites
+  }
+  
+  var filter : ModelFilters = .all
+  
+  var onTrigger: (SnipItemsListAction) -> Void
+  
+  init(snips: [SnipItem], applyFilter: ModelFilters, onTrigger: @escaping (SnipItemsListAction) -> Void) {
+    self.filter = applyFilter
+    self.snipItems = snips
+    self.onTrigger = onTrigger
   }
 }
 
@@ -65,11 +84,11 @@ final class SnipItemsListModel: ObservableObject {
 struct SnipItemsList_Previews: PreviewProvider {
   
   static var previews: some View {
-    return SnipItemsList(model: SnipItemsListModel(),
-                         onActionTrigger: { action in
-                          print("action : \(action)")
-    })
-    .environmentObject(SnippetStore(snippets: Preview.snipItems))
+    return SnipItemsList(viewModel: SnipItemsListModel(snips: Preview.snipItems,
+                                                       applyFilter: .all,
+                                                       onTrigger: { action in
+                                                        print("action : \(action)")
+    }))
   }
 }
 

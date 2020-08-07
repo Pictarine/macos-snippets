@@ -12,7 +12,6 @@ struct ModeSelectionView: View {
   
   @ObservedObject var viewModel: ModeSelectionViewModel
   
-  @State var selectedModeIndex: Int = 0
   @State var newTag: String = ""
   
   private let modesList = CodeMode.list()
@@ -40,7 +39,7 @@ struct ModeSelectionView: View {
         ForEach(0..<viewModel.tags.count, id: \.self) { tagIndex in
           TagView(tag: self.viewModel.tags[tagIndex], onRemoveTapped: {
             self.viewModel.tags.remove(at: tagIndex)
-            self.viewModel.objectWillChange.send()
+            //self.viewModel.objectWillChange.send()
           })
         }
       }
@@ -58,7 +57,7 @@ struct ModeSelectionView: View {
                       self.viewModel.tags.append(self.newTag)
                       self.newTag = ""
                       
-                      self.viewModel.objectWillChange.send()
+                      //self.viewModel.objectWillChange.send()
     })
       .frame(width: 60)
       .padding(4)
@@ -75,7 +74,6 @@ struct ModeSelectionView: View {
         return index
     },
       set: {
-        self.selectedModeIndex = $0
         self.viewModel.currentMode = self.modesList[$0]
     }),
            label: EmptyView()) {
@@ -102,6 +100,10 @@ final class ModeSelectionViewModel: ObservableObject {
   init(snippetMode: Binding<Mode>, snippetTags: Binding<[String]>) {
     _currentMode = snippetMode
     _tags = snippetTags
+  }
+  
+  func addTag(tagName: String) {
+    
   }
 }
 

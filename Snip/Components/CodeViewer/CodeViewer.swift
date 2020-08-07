@@ -17,14 +17,14 @@ struct CodeViewer: View {
   var body: some View {
     VStack(alignment: .leading) {
       
-      CodeActionsTopBar(viewModel: CodeActionsViewModel(name: $viewModel.snip.name,
-                                                        isFavorite: $viewModel.snip.isFavorite))
+      CodeActionsTopBar(viewModel: CodeActionsViewModel(name: viewModel.$snip.name,
+                                                        isFavorite: viewModel.$snip.isFavorite))
       
-      ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: $viewModel.snip.mode,
-                                                          snippetTags: $viewModel.snip.tags))
+      ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: viewModel.$snip.mode,
+                                                          snippetTags: viewModel.$snip.tags))
       
-      CodeView(code: $viewModel.snip.snippet,
-               mode: $viewModel.snip.mode)
+      CodeView(code: viewModel.$snip.snippet,
+               mode: viewModel.$snip.mode)
         .frame(minWidth: 100,
                maxWidth: .infinity,
                minHeight: 100,
@@ -49,16 +49,16 @@ struct CodeViewer: View {
 
 final class CodeViewerViewModel: ObservableObject {
   
-  @Published var snip: SnipItem
+  @Binding var snip: SnipItem
   
-  init(snipItem: SnipItem) {
-    snip = snipItem
+  init(snipItem: Binding<SnipItem>) {
+    _snip = snipItem
   }
   
 }
 
 struct CodeViewer_Previews: PreviewProvider {
   static var previews: some View {
-    CodeViewer(viewModel: CodeViewerViewModel(snipItem: Preview.snipItem))
+    CodeViewer(viewModel: CodeViewerViewModel(snipItem: .constant(Preview.snipItem)))
   }
 }

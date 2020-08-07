@@ -28,7 +28,7 @@ struct SnipViewApp: View {
   var sideBar: some View {
     Sidebar(viewModel: SideBarViewModel())
       .visualEffect(material: .sidebar)
-      .frame(minWidth: 180, idealWidth: 200, maxWidth: 240)
+      .frame(width: 200)
   }
   
   var openingPanel: some View {

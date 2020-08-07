@@ -33,7 +33,7 @@ struct Sidebar: View {
       HStack {
         Spacer()
         
-        ImageButton(imageName: "ic_settings", action: viewModel.openSettings)
+        ImageButton(imageName: "ic_settings", action: {})
       }
       .padding()
     }
@@ -50,11 +50,15 @@ struct Sidebar: View {
       .frame(width: 15, height: 15, alignment: .center)
       Spacer()
       MenuButton("+") {
-        Button(action: {self.viewModel.addNewSnippet(id: nil)}) {
+        Button(action: {
+          self.viewModel.trigger(action: .addSnippet(id: nil))
+        }) {
           Text("New snippet")
             .font(.system(size: 14))
         }
-        Button(action: {self.viewModel.addNewFolder(id: nil)}) {
+        Button(action: {
+          self.viewModel.trigger(action: .addFolder(id: nil))
+        }) {
           Text("New folder")
             .font(.system(size: 14))
         }
@@ -71,9 +75,7 @@ struct Sidebar: View {
       .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 13.0))
       .padding(.bottom, 3)
     
-    /*SnipItemsList(snipItems: $settings.snips, //SnipItem.getAllFavorites(settings.snips)
-     onMove: viewModel.onMove,
-     onActionTrigger: viewModel.onActionTrigger(action:))*/
+    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets, applyFilter: .favorites, onTrigger: viewModel.trigger(action:)))
   }
   
   @ViewBuilder
@@ -83,9 +85,7 @@ struct Sidebar: View {
       .padding(.bottom, 3)
       .padding(.top, 16)
     
-    SnipItemsList(model: SnipItemsListModel(),
-                  onActionTrigger: viewModel.onActionTrigger(action:))
-    .environmentObject(viewModel.snippetsStore)
+    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets, applyFilter: .all, onTrigger: viewModel.trigger(action:)))
   }
   
   /*@ViewBuilder
@@ -107,40 +107,19 @@ struct Sidebar: View {
 
 
 final class SideBarViewModel: ObservableObject {
+  @Published var snippets: [SnipItem] = []
+  var cancellables: Set<AnyCancellable> = []
   
-  @ObservedObject var snippetsStore = SnippetStore(snippets: SnippetFileManager.shared.getSnippets())
-  
-  func addNewSnippet(id: String?) {
-    print("New snippet")
+  init() {
+    SnippetManager
+      .shared
+      .snipets
+      .assign(to: \.snippets, on: self)
+      .store(in: &cancellables)
   }
   
-  func addNewFolder(id: String?) {
-    print("New folder")
-  }
-  
-  func rename(id: String) {
-    print("Rename")
-  }
-  
-  func delete(id: String) {
-    print("Delete")
-  }
-  
-  func openSettings() {
-    print("settings")
-  }
-  
-  func onActionTrigger(action: SnipItemsListAction) {
-    switch action {
-    case .addFolder(let id):
-      self.addNewFolder(id: id)
-    case .addSnippet(let id):
-      self.addNewSnippet(id: id)
-    case .rename(let id):
-      self.rename(id: id)
-    case .delete(let id):
-      self.delete(id: id)
-    }
+  func trigger(action: SnipItemsListAction) {
+    SnippetManager.shared.trigger(action: action)
   }
 }
 

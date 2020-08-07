@@ -10,9 +10,10 @@ import Foundation
 
 
 struct Mode: Equatable, Codable {
-  
+
   let name: String
   let mimeType: String
+  
 }
 
 public enum CodeMode: String {

@@ -26,7 +26,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   @Published var tags: [String]
   @Published var name: String
   @Published var isFavorite: Bool
-  @Published var content: [SnipItem]?
+  @Published var content: [SnipItem]
   
   var id: String
   var kind: Kind
@@ -95,7 +95,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     tags = try container.decode([String].self, forKey: .tags)
     name = try container.decode(String.self, forKey: .name)
     isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
-    content = try container.decode([SnipItem]?.self, forKey: .content)
+    content = try container.decode([SnipItem].self, forKey: .content)
     id = try container.decode(String.self, forKey: .id)
     kind = try container.decode(Kind.self, forKey: .kind)
     creationDate = try container.decode(Date.self, forKey: .creationDate)
@@ -124,26 +124,4 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   func hash(into hasher: inout Hasher) {
       hasher.combine(id)
   }
-}
-
-
-extension SnipItem {
-  
-  static func getAllFavorites(_ snipItems: [SnipItem]) -> [SnipItem] {
-    var favorites : [SnipItem] = []
-    
-    for snip in snipItems {
-      if snip.isFavorite {
-        favorites.append(snip)
-      }
-      
-      if let subSnips = snip.content {
-        favorites.append(contentsOf: getAllFavorites(subSnips))
-      }
-      
-    }
-    
-    return favorites
-  }
-  
 }
