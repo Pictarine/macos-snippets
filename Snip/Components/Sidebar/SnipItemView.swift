@@ -65,7 +65,9 @@ struct SnipItemView<Content: View>: View {
             Text("Rename")
           }
           
-          Button(action: {  }) {
+          Button(action: {
+            self.viewModel.onTrigger(.delete(id: self.viewModel.snipItem.id))
+          }) {
             Text("Delete")
           }
       }
@@ -93,14 +95,13 @@ struct SnipItemView<Content: View>: View {
       }
       .contextMenu {
         Button(action: {
-          //self.viewModel.onActionTrigger(.rename(id: self.viewModel.snipItem.id))
           self.viewModel.selection = self.viewModel.snipItem.id
         }) {
           Text("Rename")
         }
         
         Button(action: {
-          //self.viewModel.onActionTrigger(.delete(id: self.viewModel.snipItem.id))
+          self.viewModel.onTrigger(.delete(id: self.viewModel.snipItem.id))
           self.viewModel.selection = self.viewModel.snipItem.id
         }) {
           Text("Delete")

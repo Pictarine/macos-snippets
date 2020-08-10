@@ -40,6 +40,12 @@ struct SnipItemsListAction {
     }
   }
   
+  static func delete(id: String) -> SnipItemsListAction {
+    return .init { current in
+      current = SnipItemsListAction.removeNestedArray(for: id, current: current)
+    }
+  }
+  
   static func toggleFavorite(id: String) -> SnipItemsListAction {
     return .init { current in
       let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
@@ -49,4 +55,19 @@ struct SnipItemsListAction {
     }
   }
   
+  private static func removeNestedArray(for id: String,  current: [SnipItem]) -> [SnipItem] {
+    var copy = current
+    for (i, obj) in copy.enumerated() {
+      
+      if obj.id == id {
+        copy.remove(at: i)
+      }
+      else {
+        obj.content = SnipItemsListAction.removeNestedArray(for: id, current: obj.content)
+      }
+      
+    }
+    return copy
+    
+  }
 }
