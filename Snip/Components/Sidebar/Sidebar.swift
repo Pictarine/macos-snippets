@@ -38,7 +38,6 @@ struct Sidebar: View {
       .padding()
     }
     .background(Color.clear)
-    .listRowBackground(Color.PURPLE_500)
     .environment(\.defaultMinListRowHeight, 36)
   }
   

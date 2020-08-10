@@ -14,17 +14,23 @@ struct CodeActionsTopBar: View {
   
   var body: some View {
     HStack{
-      TextField("Snippet name", text: $viewModel.snipName)
+      TextField("Snippet name", text: Binding<String>(get: {
+        self.viewModel.snipName
+      }, set: {
+        self.viewModel.snipName = $0
+        self.viewModel.onRename($0)
+      })
+      )
         .font(Font.custom("HelveticaNeue", size: 20))
         .foregroundColor(.white)
         .frame(maxHeight: .infinity)
         .textFieldStyle(PlainTextFieldStyle())
-        
+      
       
       ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
-                  action: viewModel.addToFavorites)
+                  action: viewModel.onToggleFavorite)
       ImageButton(imageName: "ic_delete",
-                  action: viewModel.delete)
+                  action: viewModel.onDelete)
       ImageButton(imageName: "ic_share",
                   action: viewModel.share)
       
@@ -41,32 +47,39 @@ struct CodeActionsTopBar: View {
 
 final class CodeActionsViewModel: ObservableObject {
   
-  @Binding var snipName: String
-  @Binding var isSnipFavorite: Bool
+  var snipName: String
+  var isSnipFavorite: Bool
   
-  init(name: Binding<String>, isFavorite: Binding<Bool>) {
-    _snipName = name
-    _isSnipFavorite = isFavorite
-  }
+  var onRename: (String) -> Void
+  var onToggleFavorite: () -> Void
+  var onDelete: () -> Void
   
-  func delete() {
-    print("delete")
+  init(name: String,
+       isFavorite: Bool,
+       onRename: @escaping (String) -> Void,
+       onToggleFavorite: @escaping () -> Void,
+       onDelete: @escaping () -> Void) {
+    
+    snipName = name
+    isSnipFavorite = isFavorite
+    self.onRename = onRename
+    self.onToggleFavorite = onToggleFavorite
+    self.onDelete = onDelete
   }
   
   func share() {
     print("share")
   }
   
-  func addToFavorites() {
-    isSnipFavorite.toggle()
-  }
-  
 }
 
 struct CodeActionsTopBar_Previews: PreviewProvider {
   static var previews: some View {
-    CodeActionsTopBar(viewModel: CodeActionsViewModel(name: .constant("Curry func"),
-                                                      isFavorite: .constant(true))
+    CodeActionsTopBar(viewModel: CodeActionsViewModel(name: "Curry func",
+                                                      isFavorite: true,
+                                                      onRename: { _ in print("action")},
+                                                      onToggleFavorite: {},
+                                                      onDelete: {})
     )
   }
 }

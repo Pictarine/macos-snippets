@@ -36,10 +36,10 @@ struct ModeSelectionView: View {
   var tags: some View {
     ScrollView (.horizontal) {
       HStack {
-        ForEach(0..<viewModel.tags.count, id: \.self) { tagIndex in
-          TagView(tag: self.viewModel.tags[tagIndex], onRemoveTapped: {
-            self.viewModel.tags.remove(at: tagIndex)
-            //self.viewModel.objectWillChange.send()
+        ForEach(viewModel.tags, id: \.self) { tag in
+          TagView(tag: tag, onRemoveTapped: {
+            self.viewModel.onTagChange(tag, TagJob.remove)
+            //self.viewModel.tags.remove(at: tagIndex)
           })
         }
       }
@@ -48,20 +48,21 @@ struct ModeSelectionView: View {
   }
   
   var addNewTag: some View {
-    CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.ORANGE_500.opacity(0.4)),
+    CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.white.opacity(0.4)),
                     text: $newTag,
                     commit: {
                       
                       guard self.newTag.count > 1 else { return }
                       
-                      self.viewModel.tags.append(self.newTag)
+                      //self.viewModel.tags.append(self.newTag)
+                      self.viewModel.onTagChange(self.newTag, TagJob.add)
                       self.newTag = ""
                       
                       //self.viewModel.objectWillChange.send()
     })
       .frame(width: 60)
       .padding(4)
-      .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.ORANGE_500.opacity(0.4), lineWidth: 1))
+      .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.white.opacity(0.4), lineWidth: 1))
       .textFieldStyle(PlainTextFieldStyle())
   }
   
@@ -75,6 +76,7 @@ struct ModeSelectionView: View {
     },
       set: {
         self.viewModel.currentMode = self.modesList[$0]
+        self.viewModel.onModeSelection(self.modesList[$0])
     }),
            label: EmptyView()) {
             ForEach(0 ..< modesList.count, id: \.self) {
@@ -94,22 +96,30 @@ struct ModeSelectionView: View {
 
 final class ModeSelectionViewModel: ObservableObject {
   
-  @Binding var currentMode: Mode
-  @Binding var tags: [String]
+  var currentMode: Mode
+  var tags: [String]
   
-  init(snippetMode: Binding<Mode>, snippetTags: Binding<[String]>) {
-    _currentMode = snippetMode
-    _tags = snippetTags
-  }
+  var onModeSelection: (Mode) -> ()
+  var onTagChange: (String, TagJob) -> ()
   
-  func addTag(tagName: String) {
+  init(snippetMode: Mode,
+       snippetTags: [String],
+       onModeSelection: @escaping (Mode) -> (),
+       onTagChange: @escaping (String, TagJob) -> ()) {
+    currentMode = snippetMode
+    tags = snippetTags
+    self.onModeSelection = onModeSelection
+    self.onTagChange = onTagChange
     
+    print("Refresh mode selection")
   }
 }
 
 struct ModeSelectionView_Previews: PreviewProvider {
   static var previews: some View {
-    ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: .constant(CodeMode.text.mode()),
-                                                        snippetTags: .constant(["hellos"])))
+    ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: CodeMode.text.mode(),
+                                                        snippetTags: ["hellos"],
+                                                        onModeSelection: { mode in print("action")},
+                                                        onTagChange: { _, _ in print("action")}))
   }
 }

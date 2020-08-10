@@ -12,19 +12,40 @@ import Combine
 struct CodeViewer: View {
   
   @ObservedObject var viewModel: CodeViewerViewModel
+  @EnvironmentObject var snipItem: SnipItem
   
-  @ViewBuilder
   var body: some View {
     VStack(alignment: .leading) {
       
-      CodeActionsTopBar(viewModel: CodeActionsViewModel(name: viewModel.$snip.name,
-                                                        isFavorite: viewModel.$snip.isFavorite))
+      CodeActionsTopBar(viewModel: CodeActionsViewModel(name: snipItem.name,
+                                                        isFavorite: snipItem.isFavorite,
+                                                        onRename: { name in
+                                                          self.viewModel.onTrigger(.rename(id: self.snipItem.id, name: name))
+      },
+                                                        onToggleFavorite: {
+                                                          self.viewModel.onTrigger(.toggleFavorite(id: self.snipItem.id))
+      },
+                                                        onDelete: {
+                                                          self.viewModel.onTrigger(.delete(id: self.snipItem.id))
+      }))
       
-      ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: viewModel.$snip.mode,
-                                                          snippetTags: viewModel.$snip.tags))
+      ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: snipItem.mode,
+                                                          snippetTags: snipItem.tags,
+                                                          onModeSelection: { mode in
+                                                            self.viewModel.onTrigger(.updateMode(id: self.snipItem.id,
+                                                                                                 mode: mode))
+      },
+                                                          onTagChange: { tag, job in
+                                                            self.viewModel.onTrigger(.updateTags(id: self.snipItem.id,
+                                                                                                 job: job,
+                                                                                                 tag: tag))
+      }))
       
-      CodeView(code: viewModel.$snip.snippet,
-               mode: viewModel.$snip.mode)
+      CodeView(code: .constant(snipItem.snippet),
+               mode: .constant(snipItem.mode),
+               onContentChange: { newCode in
+                self.viewModel.onTrigger(.updateCode(id: self.snipItem.id, code: newCode))
+      })
         .frame(minWidth: 100,
                maxWidth: .infinity,
                minHeight: 100,
@@ -32,7 +53,7 @@ struct CodeViewer: View {
       
       Divider()
       
-      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: self.viewModel.snip.snippet))
+      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: self.snipItem.snippet))
       
     }
       
@@ -41,24 +62,28 @@ struct CodeViewer: View {
            minHeight: 0,
            maxHeight: .infinity,
            alignment: .topLeading)
-    .background(Color.BLACK_500)
-    .listStyle(PlainListStyle())
+      .background(Color.BLACK_500)
+      .listStyle(PlainListStyle())
   }
   
 }
 
-final class CodeViewerViewModel: ObservableObject {
+class CodeViewerViewModel: ObservableObject {
   
-  @Binding var snip: SnipItem
+  var onTrigger: (SnipItemsListAction) -> Void
   
-  init(snipItem: Binding<SnipItem>) {
-    _snip = snipItem
+  init(onTrigger: @escaping (SnipItemsListAction) -> Void) {
+    self.onTrigger = onTrigger
   }
   
 }
 
 struct CodeViewer_Previews: PreviewProvider {
   static var previews: some View {
-    CodeViewer(viewModel: CodeViewerViewModel(snipItem: .constant(Preview.snipItem)))
+    CodeViewer(viewModel: CodeViewerViewModel(onTrigger: { _ in
+      print("action")
+    }))
+      .environmentObject(Preview.snipItem)
   }
 }
+

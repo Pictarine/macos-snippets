@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum TagJob {
+  case add
+  case remove
+}
 
 struct SnipItemsListAction {
   let handleModification: (inout [SnipItem]) -> Void
@@ -52,6 +56,48 @@ struct SnipItemsListAction {
         return snipItem.id == id
       }
       snipItem?.isFavorite.toggle()
+    }
+  }
+  
+  static func rename(id: String, name: String) -> SnipItemsListAction {
+    return .init { current in
+      let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+        return snipItem.id == id
+      }
+      snipItem?.name = name
+    }
+  }
+  
+  static func updateMode(id: String, mode: Mode) -> SnipItemsListAction {
+    return .init { current in
+      let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+        return snipItem.id == id
+      }
+      snipItem?.mode = mode
+    }
+  }
+  
+  static func updateCode(id: String, code: String) -> SnipItemsListAction {
+    return .init { current in
+      let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+        return snipItem.id == id
+      }
+      snipItem?.snippet = code
+    }
+  }
+  
+  static func updateTags(id: String, job: TagJob, tag: String) -> SnipItemsListAction {
+    return .init { current in
+      let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+        return snipItem.id == id
+      }
+      if job == .add {
+        snipItem?.tags.append(tag)
+      }
+      else {
+        guard let tagIndex = snipItem?.tags.firstIndex(of: tag) else { return }
+        snipItem?.tags.remove(at: tagIndex)
+      }
     }
   }
   

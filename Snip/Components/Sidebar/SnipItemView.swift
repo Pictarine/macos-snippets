@@ -74,10 +74,13 @@ struct SnipItemView<Content: View>: View {
       
     }
     else {
-      NavigationLink(destination: LazyView(
-        CodeViewer(viewModel: CodeViewerViewModel(snipItem: .constant(self.viewModel.snipItem)))
+      NavigationLink(destination: //DeferView {
+        CodeViewer(viewModel: CodeViewerViewModel(onTrigger: self.viewModel.onTrigger))
         .environmentObject(Settings())
-      ), tag: viewModel.snipItem.id, selection: viewModel.$selection) {
+        .environmentObject(self.viewModel.snipItem)
+        //}
+      , tag: viewModel.snipItem.id,
+        selection: viewModel.$selection) {
         HStack {
           Image("ic_file")
             .resizable()
@@ -107,7 +110,7 @@ struct SnipItemView<Content: View>: View {
           Text("Delete")
         }
       }
-      .listRowBackground(self.viewModel.selection == self.viewModel.snipItem.id ? Color.PURPLE_500 : Color.clear)
+      .listRowBackground(self.viewModel.selection == self.viewModel.snipItem.id ? Color.PURPLE_700 : Color.clear)
       
     }
     
@@ -123,7 +126,7 @@ struct SnipItemView<Content: View>: View {
 
 final class SnipItemViewModel: ObservableObject {
   
-  var snipItem: SnipItem
+  @Published var snipItem: SnipItem
   
   @Binding var selection: String?
   

@@ -22,8 +22,8 @@ struct TagView: View {
           .frame(minWidth: 20, maxHeight: 18)
           .padding(4)
           .background(Color.black.opacity(0.0001))
-          .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.PURPLE_500.opacity(0.7), lineWidth: 1))
-          .foregroundColor(Color.PURPLE_500.opacity(0.7))
+          .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.PURPLE_700.opacity(0.7), lineWidth: 1))
+          .foregroundColor(Color.PURPLE_700.opacity(0.7))
           .overlay(closeOverlay, alignment: .topTrailing)
           .onHover { (hover) in
             withAnimation(.easeInOut(duration: 0.3)) {
