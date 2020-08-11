@@ -11,6 +11,7 @@ import SwiftUI
 struct CodeActionsTopBar: View {
   
   @ObservedObject var viewModel: CodeActionsViewModel
+  @State var showSharingActions = false
   
   var body: some View {
     HStack{
@@ -28,11 +29,18 @@ struct CodeActionsTopBar: View {
       
       
       ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
-                  action: viewModel.onToggleFavorite)
+                  action: viewModel.onToggleFavorite,
+                  content: { EmptyView() })
       ImageButton(imageName: "ic_delete",
-                  action: viewModel.onDelete)
+                  action: viewModel.onDelete,
+                  content: { EmptyView() })
       ImageButton(imageName: "ic_share",
-                  action: viewModel.share)
+                  action: {
+        self.showSharingActions = true
+      },
+                  content: {
+        SharingsPicker(isPresented: self.$showSharingActions, sharingItems: [self.viewModel.snipCode])
+      })
       
     }
     .background(Color.BLACK_200.opacity(0.4))
@@ -49,26 +57,25 @@ final class CodeActionsViewModel: ObservableObject {
   
   var snipName: String
   var isSnipFavorite: Bool
+  var snipCode: String
   
   var onRename: (String) -> Void
   var onToggleFavorite: () -> Void
   var onDelete: () -> Void
   
   init(name: String,
+       code: String,
        isFavorite: Bool,
        onRename: @escaping (String) -> Void,
        onToggleFavorite: @escaping () -> Void,
        onDelete: @escaping () -> Void) {
     
     snipName = name
+    snipCode = code
     isSnipFavorite = isFavorite
     self.onRename = onRename
     self.onToggleFavorite = onToggleFavorite
     self.onDelete = onDelete
-  }
-  
-  func share() {
-    print("share")
   }
   
 }
@@ -76,6 +83,7 @@ final class CodeActionsViewModel: ObservableObject {
 struct CodeActionsTopBar_Previews: PreviewProvider {
   static var previews: some View {
     CodeActionsTopBar(viewModel: CodeActionsViewModel(name: "Curry func",
+                                                      code: "Hello",
                                                       isFavorite: true,
                                                       onRename: { _ in print("action")},
                                                       onToggleFavorite: {},

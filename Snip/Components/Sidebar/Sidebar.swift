@@ -33,7 +33,7 @@ struct Sidebar: View {
       HStack {
         Spacer()
         
-        ImageButton(imageName: "ic_settings", action: {})
+        ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
       }
       .padding()
     }

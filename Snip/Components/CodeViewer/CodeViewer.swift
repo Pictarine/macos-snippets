@@ -18,6 +18,7 @@ struct CodeViewer: View {
     VStack(alignment: .leading) {
       
       CodeActionsTopBar(viewModel: CodeActionsViewModel(name: snipItem.name,
+                                                        code: snipItem.snippet,
                                                         isFavorite: snipItem.isFavorite,
                                                         onRename: { name in
                                                           self.viewModel.onTrigger(.rename(id: self.snipItem.id, name: name))

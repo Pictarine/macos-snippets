@@ -8,10 +8,11 @@
 
 import SwiftUI
 
-struct ImageButton: View {
+struct ImageButton<Content: View>: View {
   
   let imageName: String
   let action: () -> ()
+  let content: () -> Content?
   
   var body: some View {
     Button(action: action) {
@@ -20,14 +21,7 @@ struct ImageButton: View {
         .frame(width: 20, height: 20, alignment: .center)
         .scaledToFill()
     }
+    .background(content())
     .buttonStyle(PlainButtonStyle())
-  }
-}
-
-struct ImageButton_Previews: PreviewProvider {
-  static var previews: some View {
-    ImageButton(imageName: "ic_delete", action: {
-      print("Preview")
-    })
   }
 }
