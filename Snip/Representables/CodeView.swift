@@ -38,7 +38,6 @@ struct CodeView: NSViewRepresentable {
     let webView = WKWebView(frame: .zero, configuration: configuration)
     webView.navigationDelegate = context.coordinator
     webView.setValue(false, forKey: "drawsBackground")
-    
     webView.allowsMagnification = false
 
     // Load CodeMirror bundle
