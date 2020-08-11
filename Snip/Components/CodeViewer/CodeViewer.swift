@@ -20,6 +20,7 @@ struct CodeViewer: View {
       CodeActionsTopBar(viewModel: CodeActionsViewModel(name: snipItem.name,
                                                         code: snipItem.snippet,
                                                         isFavorite: snipItem.isFavorite,
+                                                        lastUpdate: snipItem.lastUpdateDate,
                                                         onRename: { name in
                                                           self.viewModel.onTrigger(.rename(id: self.snipItem.id, name: name))
       },

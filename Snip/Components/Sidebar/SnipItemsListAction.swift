@@ -56,6 +56,7 @@ struct SnipItemsListAction {
         return snipItem.id == id
       }
       snipItem?.isFavorite.toggle()
+      snipItem?.lastUpdateDate = Date()
     }
   }
   
@@ -65,6 +66,7 @@ struct SnipItemsListAction {
         return snipItem.id == id
       }
       snipItem?.name = name
+      snipItem?.lastUpdateDate = Date()
     }
   }
   
@@ -74,6 +76,7 @@ struct SnipItemsListAction {
         return snipItem.id == id
       }
       snipItem?.mode = mode
+      snipItem?.lastUpdateDate = Date()
     }
   }
   
@@ -83,6 +86,7 @@ struct SnipItemsListAction {
         return snipItem.id == id
       }
       snipItem?.snippet = code
+      snipItem?.lastUpdateDate = Date()
     }
   }
   
@@ -98,6 +102,7 @@ struct SnipItemsListAction {
         guard let tagIndex = snipItem?.tags.firstIndex(of: tag) else { return }
         snipItem?.tags.remove(at: tagIndex)
       }
+      snipItem?.lastUpdateDate = Date()
     }
   }
   

@@ -28,4 +28,12 @@ extension String {
     return numberOfLines
   }
   
+  func size() -> String {
+    let data = self.data(using: .utf8)
+    let bcf = ByteCountFormatter()
+    bcf.allowedUnits = [.useKB] 
+    bcf.countStyle = .file
+    let size = bcf.string(fromByteCount: Int64(data!.count))
+    return size
+  }
 }

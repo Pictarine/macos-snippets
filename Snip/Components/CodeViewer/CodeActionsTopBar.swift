@@ -12,6 +12,7 @@ struct CodeActionsTopBar: View {
   
   @ObservedObject var viewModel: CodeActionsViewModel
   @State var showSharingActions = false
+  @State var showInfos = false
   
   var body: some View {
     HStack{
@@ -41,6 +42,22 @@ struct CodeActionsTopBar: View {
                   content: {
         SharingsPicker(isPresented: self.$showSharingActions, sharingItems: [self.viewModel.snipCode])
       })
+      ImageButton(imageName: "ic_info",
+                  action: { self.showInfos.toggle() },
+      content: { EmptyView() })
+        .popover(
+            isPresented: self.$showInfos,
+            arrowEdge: .bottom
+        ) {
+          VStack {
+            Text("Snip Infos")
+              .font(.headline)
+            Text("Size of \(self.viewModel.snipCode.size())")
+              .padding(.top, 16)
+            Text("Last updated \(self.viewModel.snipLastUpdate.dateAndTimetoString())")
+              .padding(.top)
+          }.padding(16)
+      }
       
     }
     .background(Color.BLACK_200.opacity(0.4))
@@ -58,6 +75,7 @@ final class CodeActionsViewModel: ObservableObject {
   var snipName: String
   var isSnipFavorite: Bool
   var snipCode: String
+  var snipLastUpdate: Date
   
   var onRename: (String) -> Void
   var onToggleFavorite: () -> Void
@@ -66,6 +84,7 @@ final class CodeActionsViewModel: ObservableObject {
   init(name: String,
        code: String,
        isFavorite: Bool,
+       lastUpdate: Date,
        onRename: @escaping (String) -> Void,
        onToggleFavorite: @escaping () -> Void,
        onDelete: @escaping () -> Void) {
@@ -73,6 +92,7 @@ final class CodeActionsViewModel: ObservableObject {
     snipName = name
     snipCode = code
     isSnipFavorite = isFavorite
+    snipLastUpdate = lastUpdate
     self.onRename = onRename
     self.onToggleFavorite = onToggleFavorite
     self.onDelete = onDelete
@@ -85,6 +105,7 @@ struct CodeActionsTopBar_Previews: PreviewProvider {
     CodeActionsTopBar(viewModel: CodeActionsViewModel(name: "Curry func",
                                                       code: "Hello",
                                                       isFavorite: true,
+                                                      lastUpdate: Date(),
                                                       onRename: { _ in print("action")},
                                                       onToggleFavorite: {},
                                                       onDelete: {})

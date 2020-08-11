@@ -26,6 +26,14 @@ extension Date {
     return dateFormatter.date(from: strDate)!
   }
   
+  func dateAndTimetoString() -> String {
+      let format: String = "yyyy-MM-dd HH:mm:ss"
+      let formatter = DateFormatter()
+      formatter.dateStyle = .short
+      formatter.dateFormat = format
+      return formatter.string(from: self)
+  }
+  
   func nextDate() -> Date {
       let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: self)
       return nextDate ?? Date()
