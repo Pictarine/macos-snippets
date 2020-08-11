@@ -147,7 +147,7 @@ struct SnipItemView<Content: View>: View {
           Text("Delete")
         }
       }
-      .listRowBackground(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter == self.viewModel.activeFilter ? Color.PURPLE_700 : Color.clear)
+      .listRowBackground(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? Color.PURPLE_700 : Color.clear)
       
     }
     

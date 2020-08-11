@@ -30,12 +30,12 @@ struct Sidebar: View {
       .padding(.top, 16)
       .background(Color.clear)
       
-      HStack {
-        Spacer()
-        
-        ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
-      }
-      .padding()
+      /*HStack {
+       Spacer()
+       
+       ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
+       }
+       .padding()*/
     }
     .background(Color.clear)
     .environment(\.defaultMinListRowHeight, 36)
@@ -45,8 +45,8 @@ struct Sidebar: View {
     HStack{
       Spacer()
       Image("snip")
-      .resizable()
-      .frame(width: 15, height: 15, alignment: .center)
+        .resizable()
+        .frame(width: 15, height: 15, alignment: .center)
       Spacer()
       MenuButton("+") {
         Button(action: {
@@ -94,19 +94,18 @@ struct Sidebar: View {
   }
   
   /*@ViewBuilder
-   var tags: some View {
-   Text("Tags")
-   .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 11.0))
-   .padding(.bottom, 3)
-   .padding(.top, 16)
-   
-   NavigationLink(destination: CodeViewer()) {
-   Text("Hello")
-   .frame(maxWidth: .infinity, alignment: .leading)
-   .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-   }
-   .listRowBackground(Color.PURPLE_500)
-   }*/
+  var tags: some View {
+    Text("Tags")
+      .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+      .foregroundColor(Color.white.opacity(0.6))
+      .padding(.bottom, 3)
+      .padding(.top, 16)
+    
+    
+    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
+                                                applyFilter: .tag(tagTitle: "modal"),
+                                                onTrigger: viewModel.trigger(action:)))
+  }*/
   
 }
 

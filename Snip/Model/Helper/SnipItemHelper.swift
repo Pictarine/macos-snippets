@@ -15,6 +15,10 @@ extension Array where Element == SnipItem {
     return self.flatternSnippets.filter( { $0.isFavorite })
   }
   
+  func perTag(tag: String) -> [Element] {
+    return self.flatternSnippets.filter( { $0.tags.contains(tag) })
+  }
+  
   var flatternSnippets: [Element] {
     var allSnippets : [Element] = []
     
