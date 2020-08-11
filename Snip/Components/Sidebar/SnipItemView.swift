@@ -15,6 +15,7 @@ struct SnipItemView<Content: View>: View {
   @ObservedObject var viewModel: SnipItemViewModel
   @EnvironmentObject var appState: AppState
   @State var isExpanded: Bool = false
+  @State private var isEditingName = false
   
   let content: () -> Content?
   
@@ -36,10 +37,24 @@ struct SnipItemView<Content: View>: View {
                 Image( self.isExpanded ? "ic_folder_opened" : "ic_folder_closed")
                   .resizable()
                   .frame(width: 15, height: 15, alignment: .center)
-                Text(viewModel.snipItem.name)
-                  
+                
+                TextField("Snip name", text: Binding<String>(
+                  get: {
+                    self.viewModel.snipItem.name
+                }, set: {
+                  self.viewModel.snipItem.name = $0
+                  self.viewModel.onTrigger(.rename(id: self.viewModel.snipItem.id, name: $0))
+                }),
+                          onEditingChanged: { _ in
+                            
+                },
+                          onCommit: {
+                            self.isEditingName.toggle()
+                }
+                )
+                  .disabled(isEditingName == false)
                   .frame(maxWidth: .infinity, alignment: .leading)
-                  .background(Color.black.opacity(0.0001))
+                  .background(isEditingName ? Color.BLACK_500 : Color.black.opacity(0.0001))
               }
                 
               .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -62,7 +77,7 @@ struct SnipItemView<Content: View>: View {
             Text("Add snippet")
           }
           
-          Button(action: { }) {
+          Button(action: { self.isEditingName.toggle() }) {
             Text("Rename")
           }
           
@@ -82,10 +97,10 @@ struct SnipItemView<Content: View>: View {
           .onAppear {
             self.appState.selectedSnippetId = self.viewModel.snipItem.id
             self.appState.selectedSnippetFilter = self.viewModel.activeFilter
-          }
-          .onDisappear {
-            self.appState.selectedSnippetId = nil
-          }
+        }
+        .onDisappear {
+          self.appState.selectedSnippetId = nil
+        }
         }
         /*, tag: viewModel.snipItem.id,
        selection: $appState.selectedSnippetId*/) {
@@ -95,10 +110,24 @@ struct SnipItemView<Content: View>: View {
             .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 4)
-          Text(viewModel.snipItem.name)
+          TextField("Snip name", text: Binding<String>(
+            get: {
+              self.viewModel.snipItem.name
+          }, set: {
+            self.viewModel.snipItem.name = $0
+            self.viewModel.onTrigger(.rename(id: self.viewModel.snipItem.id, name: $0))
+          }),
+                    onEditingChanged: { _ in
+                      
+          },
+                    onCommit: {
+                      self.isEditingName.toggle()
+          }
+          )
+            .disabled(isEditingName == false)
             .padding(.leading, 4)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.black.opacity(0.0001))
+            .background(isEditingName ? Color.BLACK_500 : Color.black.opacity(0.0001))
           Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -107,6 +136,7 @@ struct SnipItemView<Content: View>: View {
       }
       .contextMenu {
         Button(action: {
+          self.isEditingName.toggle()
         }) {
           Text("Rename")
         }
