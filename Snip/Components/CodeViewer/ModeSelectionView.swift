@@ -88,8 +88,6 @@ struct ModeSelectionView: View {
            maxWidth: 150,
            alignment: .leading)
     .pickerStyle(DefaultPickerStyle())
-    .buttonStyle(PlainButtonStyle())
-    .textFieldStyle(PlainTextFieldStyle())
   }
   
 }

@@ -13,6 +13,7 @@ import Combine
 struct SnipItemView<Content: View>: View {
   
   @ObservedObject var viewModel: SnipItemViewModel
+  @EnvironmentObject var appState: AppState
   @State var isExpanded: Bool = false
   
   let content: () -> Content?
@@ -74,13 +75,20 @@ struct SnipItemView<Content: View>: View {
       
     }
     else {
-      NavigationLink(destination: //DeferView {
+      NavigationLink(destination: DeferView {
         CodeViewer(viewModel: CodeViewerViewModel(onTrigger: self.viewModel.onTrigger))
-        .environmentObject(Settings())
-        .environmentObject(self.viewModel.snipItem)
-        //}
-      , tag: viewModel.snipItem.id,
-        selection: viewModel.$selection) {
+          .environmentObject(Settings())
+          .environmentObject(self.viewModel.snipItem)
+          .onAppear {
+            self.appState.selectedSnippetId = self.viewModel.snipItem.id
+            self.appState.selectedSnippetFilter = self.viewModel.activeFilter
+          }
+          .onDisappear {
+            self.appState.selectedSnippetId = nil
+          }
+        }
+        /*, tag: viewModel.snipItem.id,
+       selection: $appState.selectedSnippetId*/) {
         HStack {
           Image("ic_file")
             .resizable()
@@ -98,19 +106,17 @@ struct SnipItemView<Content: View>: View {
       }
       .contextMenu {
         Button(action: {
-          self.viewModel.selection = self.viewModel.snipItem.id
         }) {
           Text("Rename")
         }
         
         Button(action: {
           self.viewModel.onTrigger(.delete(id: self.viewModel.snipItem.id))
-          self.viewModel.selection = self.viewModel.snipItem.id
         }) {
           Text("Delete")
         }
       }
-      .listRowBackground(self.viewModel.selection == self.viewModel.snipItem.id ? Color.PURPLE_700 : Color.clear)
+      .listRowBackground(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter == self.viewModel.activeFilter ? Color.PURPLE_700 : Color.clear)
       
     }
     
@@ -128,13 +134,12 @@ final class SnipItemViewModel: ObservableObject {
   
   @Published var snipItem: SnipItem
   
-  @Binding var selection: String?
-  
+  var activeFilter: ModelFilter
   var onTrigger: (SnipItemsListAction) -> Void
   
-  init(snip: SnipItem, selectedItem: Binding<String?>, onTrigger: @escaping (SnipItemsListAction) -> Void) {
-    snipItem = snip
-    _selection = selectedItem
+  init(snip: SnipItem, activeFilter: ModelFilter, onTrigger: @escaping (SnipItemsListAction) -> Void) {
+    self.snipItem = snip
+    self.activeFilter = activeFilter
     self.onTrigger = onTrigger
   }
   

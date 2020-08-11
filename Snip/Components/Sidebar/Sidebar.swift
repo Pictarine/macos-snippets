@@ -71,20 +71,26 @@ struct Sidebar: View {
   @ViewBuilder
   var favorites: some View {
     Text("Favorites")
-      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 13.0))
+      .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+      .foregroundColor(Color.white.opacity(0.6))
       .padding(.bottom, 3)
     
-    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets, applyFilter: .favorites, onTrigger: viewModel.trigger(action:)))
+    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
+                                                applyFilter: .favorites,
+                                                onTrigger: viewModel.trigger(action:)))
   }
   
   @ViewBuilder
   var local: some View {
     Text("Local")
-      .font(Font.custom("AppleSDGothicNeo-UltraLight", size: 13.0))
+      .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+      .foregroundColor(Color.white.opacity(0.6))
       .padding(.bottom, 3)
       .padding(.top, 16)
     
-    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets, applyFilter: .all, onTrigger: viewModel.trigger(action:)))
+    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
+                                                applyFilter: .all,
+                                                onTrigger: viewModel.trigger(action:)))
   }
   
   /*@ViewBuilder
@@ -107,6 +113,7 @@ struct Sidebar: View {
 
 final class SideBarViewModel: ObservableObject {
   @Published var snippets: [SnipItem] = []
+  
   var cancellables: Set<AnyCancellable> = []
   
   init() {

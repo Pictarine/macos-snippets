@@ -10,11 +10,14 @@ import SwiftUI
 import Combine
 
 
+enum ModelFilter {
+  case all
+  case favorites
+}
+
 struct SnipItemsList: View {
   
   @ObservedObject var viewModel: SnipItemsListModel
-  
-  @State var selection : String? = nil
   
   var body: some View {
     ForEach(filterSnippets, id: \.id) { snipItem in
@@ -22,7 +25,7 @@ struct SnipItemsList: View {
       Group {
         if self.containsSub(snipItem) {
           SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
-                                                    selectedItem: self.$selection,
+                                                    activeFilter: self.viewModel.filter,
                                                     onTrigger: self.viewModel.onTrigger),
                        content: {
                         SnipItemsList(viewModel: SnipItemsListModel(snips: snipItem.content,
@@ -35,7 +38,7 @@ struct SnipItemsList: View {
         }
         else {
           SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
-                                                    selectedItem: self.$selection,
+                                                    activeFilter: self.viewModel.filter,
                                                     onTrigger: self.viewModel.onTrigger),
                        content: { EmptyView() })
         }
@@ -64,16 +67,11 @@ final class SnipItemsListModel: ObservableObject {
   
   @Published var snipItems: [SnipItem]
   
-  enum ModelFilters {
-    case all
-    case favorites
-  }
-  
-  var filter : ModelFilters = .all
+  var filter : ModelFilter = .all
   
   var onTrigger: (SnipItemsListAction) -> Void
   
-  init(snips: [SnipItem], applyFilter: ModelFilters, onTrigger: @escaping (SnipItemsListAction) -> Void) {
+  init(snips: [SnipItem], applyFilter: ModelFilter, onTrigger: @escaping (SnipItemsListAction) -> Void) {
     self.filter = applyFilter
     self.snipItems = snips
     self.onTrigger = onTrigger
