@@ -13,9 +13,9 @@ import Cocoa
 
 extension Color {
   
-  static let BLACK_200 = Color.init(hex: "23252e")
-  static let BLACK_300 = Color.init(hex: "212121")
-  static let BLACK_500 = Color.init(hex: "282A36")
+  static let BLACK_200 = Color.init(hex: "202121") // 23252e
+  static let BLACK_300 = Color.init(hex: "202121")
+  static let BLACK_500 = Color.init(hex: "191919") // 282A36
   
   static let PINK_500 = Color.init(hex: "FE7AC6")
   

@@ -4,7 +4,7 @@
 	font-family: inconsolata, monospace;
 	letter-spacing: 0.3px;
 	word-spacing: 1px;
-	background: #F8F8FF;
+	background: transparent;
 	color: #000000;
 }
 .cm-s-github .CodeMirror-lines {

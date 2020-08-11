@@ -9,7 +9,7 @@
 
 
 .cm-s-dracula.CodeMirror, .cm-s-dracula .CodeMirror-gutters {
-  background-color: #282a36 !important;
+  background-color: transparent !important;
   color: #f8f8f2 !important;
   border: none;
 }

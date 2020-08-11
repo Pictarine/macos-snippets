@@ -90,8 +90,9 @@ struct SnipItemView<Content: View>: View {
         /*, tag: viewModel.snipItem.id,
        selection: $appState.selectedSnippetId*/) {
         HStack {
-          Image("ic_file")
+          Image("ic_snippet")
             .resizable()
+            .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 4)
           Text(viewModel.snipItem.name)

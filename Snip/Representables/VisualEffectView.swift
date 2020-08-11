@@ -65,7 +65,7 @@ struct VisualEffectView<Content: View>: NSViewRepresentable {
         view.autoresizingMask = [.width, .height]
         wrapper.autoresizingMask = [.width, .height]
         wrapper.frame = view.bounds
-        wrapper.layer?.backgroundColor = NSColor(red: 35/255, green: 37/255, blue: 46/255, alpha: 0.6).cgColor
+        wrapper.layer?.backgroundColor = NSColor(red: 33/255, green: 33/255, blue: 33/255, alpha: 0.6).cgColor
       
         view.addSubview(wrapper)
         return view

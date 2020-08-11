@@ -11,6 +11,6 @@ import SwiftUI
 
 class Settings: ObservableObject {
   
-  @Published var codeMirrorTheme : String = "dracula"
+  @Published var codeMirrorTheme : String = "material-palenight"
   
 }
