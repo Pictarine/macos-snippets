@@ -14,7 +14,7 @@ struct SnipItemView<Content: View>: View {
   
   @ObservedObject var viewModel: SnipItemViewModel
   @EnvironmentObject var appState: AppState
-  @State var isExpanded: Bool = false
+  @State private var isExpanded: Bool = false
   @State private var isEditingName = false
   
   let content: () -> Content?
@@ -91,8 +91,12 @@ struct SnipItemView<Content: View>: View {
     }
     else {
       NavigationLink(destination: DeferView {
-        CodeViewer(viewModel: CodeViewerViewModel(onTrigger: self.viewModel.onTrigger))
+        CodeViewer(viewModel: CodeViewerViewModel(onTrigger: self.viewModel.onTrigger,
+                                                  onDimiss: {
+                                                    self.appState.selectedSnippetId = nil
+        }))
           .environmentObject(Settings())
+          .environmentObject(self.appState)
           .environmentObject(self.viewModel.snipItem)
           .onAppear {
             self.appState.selectedSnippetId = self.viewModel.snipItem.id
@@ -101,9 +105,7 @@ struct SnipItemView<Content: View>: View {
         .onDisappear {
           self.appState.selectedSnippetId = nil
         }
-        }
-        /*, tag: viewModel.snipItem.id,
-       selection: $appState.selectedSnippetId*/) {
+      }) {
         HStack {
           Image("ic_snippet")
             .resizable()
@@ -143,6 +145,7 @@ struct SnipItemView<Content: View>: View {
         
         Button(action: {
           self.viewModel.onTrigger(.delete(id: self.viewModel.snipItem.id))
+          self.appState.selectedSnippetId = nil
         }) {
           Text("Delete")
         }

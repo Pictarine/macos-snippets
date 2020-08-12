@@ -16,6 +16,7 @@ struct CodeActionsTopBar: View {
   
   var body: some View {
     HStack{
+      
       TextField("Snippet name", text: Binding<String>(get: {
         self.viewModel.snipName
       }, set: {
@@ -37,17 +38,17 @@ struct CodeActionsTopBar: View {
                   content: { EmptyView() })
       ImageButton(imageName: "ic_share",
                   action: {
-        self.showSharingActions = true
+                    self.showSharingActions = true
       },
                   content: {
-        SharingsPicker(isPresented: self.$showSharingActions, sharingItems: [self.viewModel.snipCode])
+                    SharingsPicker(isPresented: self.$showSharingActions, sharingItems: [self.viewModel.snipCode])
       })
       ImageButton(imageName: "ic_info",
                   action: { self.showInfos.toggle() },
-      content: { EmptyView() })
+                  content: { EmptyView() })
         .popover(
-            isPresented: self.$showInfos,
-            arrowEdge: .bottom
+          isPresented: self.$showInfos,
+          arrowEdge: .bottom
         ) {
           VStack {
             Text("Snip Infos")

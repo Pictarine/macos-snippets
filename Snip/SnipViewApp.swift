@@ -27,9 +27,9 @@ struct SnipViewApp: View {
   
   var sideBar: some View {
     Sidebar(viewModel: SideBarViewModel())
-      .visualEffect(material: .sidebar)
-      .frame(width: 200)
-    .environmentObject(AppState())
+      //.visualEffect(material: .sidebar)
+      .background(Color.BLACK_200)
+      .frame(minWidth: 0, idealWidth: 200, maxWidth: 240)
   }
   
   var openingPanel: some View {

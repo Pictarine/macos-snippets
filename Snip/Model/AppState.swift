@@ -13,5 +13,4 @@ class AppState: ObservableObject {
   
   @Published var selectedSnippetId: String? = ""
   @Published var selectedSnippetFilter: ModelFilter = .all
-  
 }

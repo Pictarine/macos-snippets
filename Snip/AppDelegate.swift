@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let contentView = SnipViewApp()
       .environmentObject(Settings())
+      .environmentObject(AppState())
       .edgesIgnoringSafeArea(.top)
       .frame(minWidth: 700, maxWidth: .infinity, minHeight: 500, maxHeight: .infinity)
     
