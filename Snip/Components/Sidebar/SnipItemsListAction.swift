@@ -85,8 +85,11 @@ struct SnipItemsListAction {
       let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
         return snipItem.id == id
       }
-      snipItem?.snippet = code
-      snipItem?.lastUpdateDate = Date()
+      
+      if snipItem?.snippet != code {
+          snipItem?.snippet = code
+          snipItem?.lastUpdateDate = Date()
+      }
     }
   }
   
