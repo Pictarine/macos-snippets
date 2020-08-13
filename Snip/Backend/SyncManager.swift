@@ -10,13 +10,15 @@ import Foundation
 import Combine
 
 
-class APIManager {
+class SyncManager: ObservableObject {
   
-  public static let shared = APIManager()
+  public static let shared = SyncManager()
+  
+  @Published var isAuthenticated = false
+  @Published var connectedUser : User?
   
   var stores: Set<AnyCancellable> = []
   var oauth : Oauth?
-  var isAuthenticated = false
   
   private let clientId = "c4fd4a181bfc4089385b"
   private let clientSecret = "50273aed8a9f94cc7147cda776696b27207443e6"
@@ -51,19 +53,42 @@ class APIManager {
         print(oauth.access_token)
         self?.oauth = oauth
         self?.isAuthenticated = true
+        self?.requestUser()
       })
       .store(in: &stores)
   }
   
+  func requestUser() {
+    getUser()
+    .receive(on: DispatchQueue.main)
+    .sink(receiveCompletion: { (completion) in
+      if case let .failure(error) = completion {
+        print(error)
+      }
+    }, receiveValue: { [weak self] (user) in
+      self?.connectedUser = user
+    })
+    .store(in: &stores)
+  }
+  
   func requestToken(code: String, state: String) -> AnyPublisher<Oauth, Error> {
     let params = [
-      
       "client_id": clientId,
       "client_secret": clientSecret,
       "redirect_uri": callbackURL,
       "code": code,
       "state": state
     ]
-    return API.run(Endpoint.token, HttpMethod.post, [:], params, oauth)
+    
+    return API.run(Endpoint.token, HttpMethod.post, [:], params, [:], oauth)
+  }
+  
+  func getUser() ->  AnyPublisher<User, Error> {
+    
+    let headerParam = [
+      "Accept": "application/vnd.github.v3+json"
+    ]
+    
+    return API.run(Endpoint.user, HttpMethod.get, [:], [:], headerParam, oauth)
   }
 }

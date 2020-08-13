@@ -19,7 +19,7 @@ extension Color {
   
   static let PINK_500 = Color.init(hex: "FE7AC6")
   
-  static let GREEN_500 = Color.init(hex: "4FFA7B")
+  static let GREEN_500 = Color.init(hex: "74e08f")
   
   static let YELLOW_500 = Color.init(hex: "F2FA8C")
   

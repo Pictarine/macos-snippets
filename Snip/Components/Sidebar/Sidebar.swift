@@ -12,6 +12,7 @@ import Combine
 
 struct Sidebar: View {
   
+  @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: SideBarViewModel
   
   var body: some View {
@@ -33,11 +34,13 @@ struct Sidebar: View {
       HStack {
         Spacer()
         
+        currentUser
         //ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
+        
         Button(action: {
-          NSWorkspace.shared.open(APIManager.oauthURL)
+          NSWorkspace.shared.open(SyncManager.oauthURL)
         }) {
-            Image("ic_github")
+          Image(syncManager.isAuthenticated ? "ic_github_connected" : "ic_github")
               .resizable()
               .scaledToFit()
               .frame(width: 20, height: 20, alignment: .center)
@@ -100,6 +103,16 @@ struct Sidebar: View {
     SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
                                                 applyFilter: .all,
                                                 onTrigger: viewModel.trigger(action:)))
+  }
+  
+  @ViewBuilder
+  var currentUser: some View {
+    if let connectedUser = syncManager.connectedUser {
+      return Text(connectedUser.login)
+    }
+    else {
+      return Text("")
+    }
   }
   
   /*@ViewBuilder

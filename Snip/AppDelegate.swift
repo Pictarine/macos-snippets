@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   func application(_ application: NSApplication, open urls: [URL]) {
-    APIManager.shared.handleDeepLink(urls: urls)
+    SyncManager.shared.handleDeepLink(urls: urls)
   }
 }
 

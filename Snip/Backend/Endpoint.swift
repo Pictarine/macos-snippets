@@ -12,6 +12,7 @@ import Foundation
 public enum Endpoint {
   
   case token
+  case user
   case createGist
   case getGist(id: String)
   
@@ -19,6 +20,8 @@ public enum Endpoint {
     switch self {
     case .token:
       return "https://github.com/login/oauth/access_token"
+    case .user:
+      return "https://api.github.com/user"
     case .createGist:
       return "https://api.github.com/gists"
     case .getGist(let id):
