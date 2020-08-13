@@ -16,6 +16,25 @@ struct Mode: Equatable, Codable {
   
 }
 
+extension Mode {
+  
+  var imageName : String {
+    switch name {
+    case "python":
+      return "code_python"
+    case "javascript", "typescript", "vue":
+      return "code_js"
+    case "swift":
+      return "code_swift"
+    case "html":
+      return "code_html"
+    default:
+      return "ic_file"
+    }
+  }
+  
+}
+
 public enum CodeMode: String {
   
   case apl

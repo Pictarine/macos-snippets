@@ -29,13 +29,18 @@ struct SnipItemView<Content: View>: View {
       },
              label: {
               HStack {
-                Image( self.isExpanded ? "ic_up" : "ic_down")
-                  .resizable()
-                  .scaledToFit()
-                  .frame(width: 15, height: 15, alignment: .center)
+                VStack {
+                  Spacer()
+                  Image( self.isExpanded ? "ic_up" : "ic_down")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 10, height: 10, alignment: .center)
+                  Spacer()
+                }
                 
                 Image( self.isExpanded ? "ic_folder_opened" : "ic_folder_closed")
                   .resizable()
+                  .scaledToFit()
                   .frame(width: 15, height: 15, alignment: .center)
                 
                 TextField("Snip name", text: Binding<String>(
@@ -107,7 +112,7 @@ struct SnipItemView<Content: View>: View {
         }
       }) {
         HStack {
-          Image("ic_snippet")
+          Image(self.viewModel.snipItem.mode.imageName)
             .resizable()
             .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)

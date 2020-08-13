@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "baseline_folder_open_white_24pt_1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "baseline_folder_open_white_24pt_2x.png",
+      "filename" : "folder-open-solid-@3x-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "baseline_folder_open_white_24pt_3x.png",
+      "filename" : "folder-open-solid-@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
