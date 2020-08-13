@@ -34,7 +34,7 @@ struct Sidebar: View {
       HStack {
         Spacer()
         
-        currentUser
+        Text(syncManager.connectedUser?.login ?? "")
         //ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
         
         Button(action: {
@@ -103,16 +103,6 @@ struct Sidebar: View {
     SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
                                                 applyFilter: .all,
                                                 onTrigger: viewModel.trigger(action:)))
-  }
-  
-  @ViewBuilder
-  var currentUser: some View {
-    if let connectedUser = syncManager.connectedUser {
-      return Text(connectedUser.login)
-    }
-    else {
-      return Text("")
-    }
   }
   
   /*@ViewBuilder
