@@ -11,14 +11,14 @@ import Foundation
 
 public enum Endpoint {
   
-  case oauth
+  case token
   case createGist
   case getGist(id: String)
   
   public func path() -> String {
     switch self {
-    case .oauth:
-      return "https://github.com/login/oauth/authorize"
+    case .token:
+      return "https://github.com/login/oauth/access_token"
     case .createGist:
       return "https://api.github.com/gists"
     case .getGist(let id):

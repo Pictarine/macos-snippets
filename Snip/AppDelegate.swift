@@ -8,6 +8,7 @@
 
 import Cocoa
 import SwiftUI
+import Combine
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -42,6 +43,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ aNotification: Notification) {
   }
   
-  
+  func application(_ application: NSApplication, open urls: [URL]) {
+    APIManager.shared.handleDeepLink(urls: urls)
+  }
 }
 

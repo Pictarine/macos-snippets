@@ -31,6 +31,8 @@
 		79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4624E57AC700B823E1 /* Dictionary.swift */; };
 		79956A4924E57AD900B823E1 /* CharacterSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4824E57AD900B823E1 /* CharacterSet.swift */; };
 		79956A4B24E58A0900B823E1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4A24E58A0900B823E1 /* APIManager.swift */; };
+		79956A4E24E5A4A200B823E1 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4D24E5A4A200B823E1 /* OAuth.swift */; };
+		79956A5024E5BC2300B823E1 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4F24E5BC2300B823E1 /* URL.swift */; };
 		79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */; };
 		79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */; };
 		79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */; };
@@ -77,6 +79,8 @@
 		79956A4624E57AC700B823E1 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		79956A4824E57AD900B823E1 /* CharacterSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSet.swift; sourceTree = "<group>"; };
 		79956A4A24E58A0900B823E1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		79956A4D24E5A4A200B823E1 /* OAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
+		79956A4F24E5BC2300B823E1 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewConstants.swift; sourceTree = "<group>"; };
 		79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeMirrorViewController.swift; sourceTree = "<group>"; };
 		79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeDetailsBottomBar.swift; sourceTree = "<group>"; };
@@ -156,11 +160,20 @@
 		79956A4524E577B900B823E1 /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				79956A4C24E5A49400B823E1 /* Model */,
 				79956A4124E5463300B823E1 /* API.swift */,
 				79956A4324E5772200B823E1 /* Endpoint.swift */,
 				79956A4A24E58A0900B823E1 /* APIManager.swift */,
 			);
 			path = Backend;
+			sourceTree = "<group>";
+		};
+		79956A4C24E5A49400B823E1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				79956A4D24E5A4A200B823E1 /* OAuth.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		79A6F64D24D2B06C0037C5FF /* Sidebar */ = {
@@ -251,6 +264,7 @@
 				7936F89E24DA02DD00F09AE7 /* TextField.swift */,
 				79956A4624E57AC700B823E1 /* Dictionary.swift */,
 				79956A4824E57AD900B823E1 /* CharacterSet.swift */,
+				79956A4F24E5BC2300B823E1 /* URL.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -378,8 +392,10 @@
 				791AC9BE24DAA4FD00CAB87C /* TagView.swift in Sources */,
 				796B092924D1B563006904C4 /* Settings.swift in Sources */,
 				79956A4924E57AD900B823E1 /* CharacterSet.swift in Sources */,
+				79956A4E24E5A4A200B823E1 /* OAuth.swift in Sources */,
 				791B8D7824E2C6C200851E2A /* SharePicker.swift in Sources */,
 				79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */,
+				79956A5024E5BC2300B823E1 /* URL.swift in Sources */,
 				791AC9C124DAB60900CAB87C /* SnippetManager.swift in Sources */,
 				79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */,
 				79956A4424E5772200B823E1 /* Endpoint.swift in Sources */,
