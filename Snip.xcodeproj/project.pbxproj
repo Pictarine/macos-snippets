@@ -26,6 +26,11 @@
 		796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */; };
 		796B093524D1B95B006904C4 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B093424D1B95B006904C4 /* Color.swift */; };
 		796B093724D1BA1F006904C4 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B093624D1BA1F006904C4 /* Date.swift */; };
+		79956A4224E5463300B823E1 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4124E5463300B823E1 /* API.swift */; };
+		79956A4424E5772200B823E1 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4324E5772200B823E1 /* Endpoint.swift */; };
+		79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4624E57AC700B823E1 /* Dictionary.swift */; };
+		79956A4924E57AD900B823E1 /* CharacterSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4824E57AD900B823E1 /* CharacterSet.swift */; };
+		79956A4B24E58A0900B823E1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4A24E58A0900B823E1 /* APIManager.swift */; };
 		79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */; };
 		79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */; };
 		79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */; };
@@ -67,6 +72,11 @@
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
 		796B093424D1B95B006904C4 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		796B093624D1BA1F006904C4 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		79956A4124E5463300B823E1 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		79956A4324E5772200B823E1 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		79956A4624E57AC700B823E1 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		79956A4824E57AD900B823E1 /* CharacterSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSet.swift; sourceTree = "<group>"; };
+		79956A4A24E58A0900B823E1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewConstants.swift; sourceTree = "<group>"; };
 		79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeMirrorViewController.swift; sourceTree = "<group>"; };
 		79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeDetailsBottomBar.swift; sourceTree = "<group>"; };
@@ -143,6 +153,16 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		79956A4524E577B900B823E1 /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				79956A4124E5463300B823E1 /* API.swift */,
+				79956A4324E5772200B823E1 /* Endpoint.swift */,
+				79956A4A24E58A0900B823E1 /* APIManager.swift */,
+			);
+			path = Backend;
+			sourceTree = "<group>";
+		};
 		79A6F64D24D2B06C0037C5FF /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				796B093324D1B901006904C4 /* External */,
+				79956A4524E577B900B823E1 /* Backend */,
 				79BC1D3824D1AFDF008FD16E /* Extensions */,
 				796B092324D1B48F006904C4 /* Model */,
 				791AC9BF24DAB5D500CAB87C /* Manager */,
@@ -228,6 +249,8 @@
 				79A6F65424D2BE200037C5FF /* StringProtocol.swift */,
 				7936F89224D6377D00F09AE7 /* List.swift */,
 				7936F89E24DA02DD00F09AE7 /* TextField.swift */,
+				79956A4624E57AC700B823E1 /* Dictionary.swift */,
+				79956A4824E57AD900B823E1 /* CharacterSet.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -348,18 +371,23 @@
 				79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */,
 				796B093724D1BA1F006904C4 /* Date.swift in Sources */,
 				7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */,
+				79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */,
 				79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */,
 				791B8D7624E28EF800851E2A /* AppState.swift in Sources */,
 				79F07A2924D3050500469324 /* ImageButton.swift in Sources */,
 				791AC9BE24DAA4FD00CAB87C /* TagView.swift in Sources */,
 				796B092924D1B563006904C4 /* Settings.swift in Sources */,
+				79956A4924E57AD900B823E1 /* CharacterSet.swift in Sources */,
 				791B8D7824E2C6C200851E2A /* SharePicker.swift in Sources */,
 				79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */,
 				791AC9C124DAB60900CAB87C /* SnippetManager.swift in Sources */,
 				79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */,
+				79956A4424E5772200B823E1 /* Endpoint.swift in Sources */,
 				79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */,
 				7936F88F24D450B900F09AE7 /* SnipItemsList.swift in Sources */,
 				79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */,
+				79956A4B24E58A0900B823E1 /* APIManager.swift in Sources */,
+				79956A4224E5463300B823E1 /* API.swift in Sources */,
 				791AC9C724DB059A00CAB87C /* SnipItemView.swift in Sources */,
 				79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */,
 				79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */,

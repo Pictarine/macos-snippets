@@ -20,7 +20,7 @@ extension Mode {
   
   var imageName : String {
     switch name {
-    case "python":
+    case "python", "jinja":
       return "code_python"
     case "javascript", "typescript", "vue":
       return "code_js"
@@ -28,6 +28,14 @@ extension Mode {
       return "code_swift"
     case "html":
       return "code_html"
+    case "css/scss":
+      return "code_css"
+    case "dockerfile":
+      return "code_docker"
+    case "powershell", "shell", "cmake":
+      return "code_terminal"
+    case "xml", "json":
+      return "code_xml"
     default:
       return "ic_file"
     }

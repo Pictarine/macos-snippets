@@ -30,12 +30,21 @@ struct Sidebar: View {
       .padding(.top, 16)
       .background(Color.clear)
       
-      /*HStack {
-       Spacer()
-       
-       ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
-       }
-       .padding()*/
+      HStack {
+        Spacer()
+        
+        //ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
+        Button(action: {
+          NSWorkspace.shared.open(APIManager.oauthURL)
+        }) {
+            Image("ic_github")
+              .resizable()
+              .scaledToFit()
+              .frame(width: 20, height: 20, alignment: .center)
+        }
+        .buttonStyle(PlainButtonStyle())
+      }
+      .padding()
     }
     .background(Color.clear)
     .environment(\.defaultMinListRowHeight, 36)
@@ -94,18 +103,18 @@ struct Sidebar: View {
   }
   
   /*@ViewBuilder
-  var tags: some View {
-    Text("Tags")
-      .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-      .foregroundColor(Color.white.opacity(0.6))
-      .padding(.bottom, 3)
-      .padding(.top, 16)
-    
-    
-    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
-                                                applyFilter: .tag(tagTitle: "modal"),
-                                                onTrigger: viewModel.trigger(action:)))
-  }*/
+   var tags: some View {
+   Text("Tags")
+   .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+   .foregroundColor(Color.white.opacity(0.6))
+   .padding(.bottom, 3)
+   .padding(.top, 16)
+   
+   
+   SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
+   applyFilter: .tag(tagTitle: "modal"),
+   onTrigger: viewModel.trigger(action:)))
+   }*/
   
 }
 
