@@ -19,7 +19,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>
@@ -32,7 +34,5 @@
 	<true/>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
-  <key>LSApplicationCategoryType</key>
-  <string>public.app-category.productivity</string>
 </dict>
 </plist>
