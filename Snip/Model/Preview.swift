@@ -19,7 +19,8 @@ struct Preview {
                                         tags: ["json", "matrix", "pinguin"],
                                         isFavorite: true,
                                         creationDate: Date(),
-                                        lastUpdateDate: Date())
+                                        lastUpdateDate: Date(),
+                                        syncState: .local)
   
   static let snipItems = [
       SnipItem(id: UUID(),
@@ -31,7 +32,8 @@ struct Preview {
                tags: [],
                isFavorite: false,
                creationDate: Date(),
-               lastUpdateDate: Date()),
+               lastUpdateDate: Date(),
+               syncState: .local),
       SnipItem(id: UUID(),
                name: "IM",
                kind: .folder,
@@ -49,7 +51,8 @@ struct Preview {
                                    tags: [],
                                    isFavorite: false,
                                    creationDate: Date(),
-                                   lastUpdateDate: Date()),
+                                   lastUpdateDate: Date(),
+                                   syncState: .local),
                           SnipItem(id: UUID(),
                                    name: "File #1",
                                    kind: .file,
@@ -59,21 +62,24 @@ struct Preview {
                                    tags: ["json", "matrix", "pinguin"],
                                    isFavorite: true,
                                    creationDate: Date(),
-                                   lastUpdateDate: Date())
+                                   lastUpdateDate: Date(),
+                                   syncState: .local)
                   ],
                          snippet: "",
                          mode: CodeMode.text.mode(),
                          tags: [],
                          isFavorite: false,
                          creationDate: Date(),
-                         lastUpdateDate: Date())
+                         lastUpdateDate: Date(),
+                         syncState: .local)
         ],
                snippet: "",
                mode: CodeMode.text.mode(),
                tags: [],
                isFavorite: false,
                creationDate: Date(),
-               lastUpdateDate: Date()),
+               lastUpdateDate: Date(),
+               syncState: .local),
       SnipItem(id: UUID(),
                name: "BATMAN",
                kind: .file,
@@ -83,7 +89,8 @@ struct Preview {
                tags:["robin", "alfred", "batwat"],
                isFavorite: true,
                creationDate: Date(),
-               lastUpdateDate: Date())
+               lastUpdateDate: Date(),
+               syncState: .local)
     ]
   
 }

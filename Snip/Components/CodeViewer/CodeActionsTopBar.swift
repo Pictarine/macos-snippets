@@ -29,7 +29,9 @@ struct CodeActionsTopBar: View {
         .frame(maxHeight: .infinity)
         .textFieldStyle(PlainTextFieldStyle())
       
-      
+      ImageButton(imageName: "ic_sync",
+                  action: {},
+                  content: { EmptyView() })
       ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
                   action: viewModel.onToggleFavorite,
                   content: { EmptyView() })

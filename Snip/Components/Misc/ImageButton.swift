@@ -18,8 +18,8 @@ struct ImageButton<Content: View>: View {
     Button(action: action) {
       Image(imageName)
         .resizable()
+        .scaledToFit()
         .frame(width: 20, height: 20, alignment: .center)
-        .scaledToFill()
     }
     .background(content())
     .buttonStyle(PlainButtonStyle())
