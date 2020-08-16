@@ -13,7 +13,7 @@ import Combine
 class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   
   enum CodingKeys: CodingKey {
-      case snippet, mode, tags, name, isFavorite, content, id, kind, creationDate, lastUpdateDate, syncState
+      case snippet, mode, tags, name, isFavorite, content, id, kind, creationDate, lastUpdateDate, syncState, gistId, gistURL
   }
   
   enum Kind: Int, Codable {
@@ -33,7 +33,9 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   @Published var name: String
   @Published var isFavorite: Bool
   @Published var content: [SnipItem]
-  @Published var syncState: SyncState
+  @Published var syncState: SyncState?
+  @Published var gistId: String?
+  @Published var gistURL: String?
   
   var id: String
   var kind: Kind
@@ -51,7 +53,9 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     isFavorite: Bool,
     creationDate: Date,
     lastUpdateDate: Date,
-    syncState: SyncState
+    syncState: SyncState?,
+    gistId: String?,
+    gistURL: String?
   ) {
     self.id = id.uuidString
     self.name = name
@@ -64,6 +68,8 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     self.creationDate = creationDate
     self.lastUpdateDate = lastUpdateDate
     self.syncState = syncState
+    self.gistId = gistId
+    self.gistURL = gistURL
   }
   
   static func folder(name: String) -> SnipItem {
@@ -78,7 +84,9 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       isFavorite: false,
       creationDate: Date(),
       lastUpdateDate: Date(),
-      syncState: .local
+      syncState: .local,
+      gistId: nil,
+      gistURL: nil
     )
   }
   
@@ -94,7 +102,9 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       isFavorite: false,
       creationDate: Date(),
       lastUpdateDate: Date(),
-      syncState: .local
+      syncState: .local,
+      gistId: nil,
+      gistURL: nil
     )
   }
 
@@ -111,7 +121,9 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     kind = try container.decode(Kind.self, forKey: .kind)
     creationDate = try container.decode(Date.self, forKey: .creationDate)
     lastUpdateDate = try container.decode(Date.self, forKey: .lastUpdateDate)
-    syncState = try container.decode(SyncState.self, forKey: .syncState)
+    syncState = try? container.decode(SyncState.self, forKey: .syncState)
+    gistId = try? container.decode(String.self, forKey: .gistId)
+    gistURL = try? container.decode(String.self, forKey: .gistURL)
   }
   
   func encode(to encoder: Encoder) throws {
@@ -128,6 +140,8 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     try container.encode(creationDate, forKey: .creationDate)
     try container.encode(lastUpdateDate, forKey: .lastUpdateDate)
     try container.encode(syncState, forKey: .syncState)
+    try container.encode(gistId, forKey: .gistId)
+    try container.encode(gistURL, forKey: .gistURL)
   }
   
   static func == (lhs: SnipItem, rhs: SnipItem) -> Bool {

@@ -72,7 +72,7 @@ class SyncManager: ObservableObject {
   }
   
   func requestToken(code: String, state: String) -> AnyPublisher<Oauth, Error> {
-    let params = [
+    let bodyParams = [
       "client_id": clientId,
       "client_secret": clientSecret,
       "redirect_uri": callbackURL,
@@ -80,15 +80,30 @@ class SyncManager: ObservableObject {
       "state": state
     ]
     
-    return API.run(Endpoint.token, HttpMethod.post, [:], params, [:], oauth)
+    return API.run(Endpoint.token, HttpMethod.post, [:], bodyParams, [:], oauth)
   }
   
   func getUser() ->  AnyPublisher<User, Error> {
     
-    let headerParam = [
+    let headerParams = [
       "Accept": "application/vnd.github.v3+json"
     ]
     
-    return API.run(Endpoint.user, HttpMethod.get, [:], [:], headerParam, oauth)
+    return API.run(Endpoint.user, HttpMethod.get, [:], [:], headerParams, oauth)
+  }
+  
+  func createGist() -> AnyPublisher<Gist, Error> {
+    
+    let headerParams = [
+      "Accept": "application/vnd.github.v3+json"
+    ]
+    
+    let bodyParams = [
+      "files": "",
+      "description": "",
+      "public": "\(false)"
+    ]
+    
+    return API.run(Endpoint.createGist, HttpMethod.post, [:], bodyParams, headerParams, oauth)
   }
 }

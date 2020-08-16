@@ -20,7 +20,9 @@ struct Preview {
                                         isFavorite: true,
                                         creationDate: Date(),
                                         lastUpdateDate: Date(),
-                                        syncState: .local)
+                                        syncState: .local,
+                                        gistId: nil,
+                                        gistURL: nil)
   
   static let snipItems = [
       SnipItem(id: UUID(),
@@ -33,7 +35,9 @@ struct Preview {
                isFavorite: false,
                creationDate: Date(),
                lastUpdateDate: Date(),
-               syncState: .local),
+               syncState: .local,
+               gistId: nil,
+               gistURL: nil),
       SnipItem(id: UUID(),
                name: "IM",
                kind: .folder,
@@ -52,7 +56,9 @@ struct Preview {
                                    isFavorite: false,
                                    creationDate: Date(),
                                    lastUpdateDate: Date(),
-                                   syncState: .local),
+                                   syncState: .local,
+                                   gistId: nil,
+                                   gistURL: nil),
                           SnipItem(id: UUID(),
                                    name: "File #1",
                                    kind: .file,
@@ -63,7 +69,9 @@ struct Preview {
                                    isFavorite: true,
                                    creationDate: Date(),
                                    lastUpdateDate: Date(),
-                                   syncState: .local)
+                                   syncState: .local,
+                                   gistId: nil,
+                                   gistURL: nil)
                   ],
                          snippet: "",
                          mode: CodeMode.text.mode(),
@@ -71,7 +79,9 @@ struct Preview {
                          isFavorite: false,
                          creationDate: Date(),
                          lastUpdateDate: Date(),
-                         syncState: .local)
+                         syncState: .local,
+                         gistId: nil,
+                         gistURL: nil)
         ],
                snippet: "",
                mode: CodeMode.text.mode(),
@@ -79,7 +89,9 @@ struct Preview {
                isFavorite: false,
                creationDate: Date(),
                lastUpdateDate: Date(),
-               syncState: .local),
+               syncState: .local,
+               gistId: nil,
+               gistURL: nil),
       SnipItem(id: UUID(),
                name: "BATMAN",
                kind: .file,
@@ -90,7 +102,9 @@ struct Preview {
                isFavorite: true,
                creationDate: Date(),
                lastUpdateDate: Date(),
-               syncState: .local)
+               syncState: .local,
+               gistId: nil,
+               gistURL: nil)
     ]
   
 }
