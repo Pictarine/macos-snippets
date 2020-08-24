@@ -12,6 +12,7 @@ import Combine
 public enum HttpMethod: String {
   case post = "POST"
   case get = "GET"
+  case patch = "PATCH"
 }
 
 

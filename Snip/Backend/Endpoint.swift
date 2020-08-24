@@ -15,6 +15,7 @@ public enum Endpoint {
   case user
   case createGist
   case getGist(id: String)
+  case updateGist(id: String)
   
   public func path() -> String {
     switch self {
@@ -24,7 +25,7 @@ public enum Endpoint {
       return "https://api.github.com/user"
     case .createGist:
       return "https://api.github.com/gists"
-    case .getGist(let id):
+    case .getGist(let id), .updateGist(let id):
       return "https://api.github.com/gists/\(id)"
     }
   }
