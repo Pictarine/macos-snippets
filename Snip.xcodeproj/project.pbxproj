@@ -50,6 +50,7 @@
 		79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3224D17124008FD16E /* Sidebar.swift */; };
 		79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3424D17142008FD16E /* CodeViewer.swift */; };
 		79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3624D17151008FD16E /* SearchBar.swift */; };
+		79C463CE24F43E17009B2DA3 /* Ink in Frameworks */ = {isa = PBXBuildFile; productRef = 79C463CD24F43E17009B2DA3 /* Ink */; };
 		79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBD4C924D1CBE500568364 /* CodeView.swift */; };
 		79DBD4CD24D1CEFD00568364 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 79DBD4CC24D1CEFD00568364 /* data.json */; };
 		79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */; };
@@ -116,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79C463CE24F43E17009B2DA3 /* Ink in Frameworks */,
 				79956A5B24F3B45300B823E1 /* KeychainAccess in Frameworks */,
 				7936F89624D637D800F09AE7 /* Introspect in Frameworks */,
 			);
@@ -328,6 +330,7 @@
 			packageProductDependencies = (
 				7936F89524D637D800F09AE7 /* Introspect */,
 				79956A5A24F3B45300B823E1 /* KeychainAccess */,
+				79C463CD24F43E17009B2DA3 /* Ink */,
 			);
 			productName = Snip;
 			productReference = 79BC1D1C24D16E67008FD16E /* Snip.app */;
@@ -360,6 +363,7 @@
 			packageReferences = (
 				7936F89424D637D800F09AE7 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				79956A5924F3B45300B823E1 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				79C463CC24F43E17009B2DA3 /* XCRemoteSwiftPackageReference "ink" */,
 			);
 			productRefGroup = 79BC1D1D24D16E67008FD16E /* Products */;
 			projectDirPath = "";
@@ -654,6 +658,14 @@
 				minimumVersion = 4.2.0;
 			};
 		};
+		79C463CC24F43E17009B2DA3 /* XCRemoteSwiftPackageReference "ink" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnsundell/ink.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -666,6 +678,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 79956A5924F3B45300B823E1 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		79C463CD24F43E17009B2DA3 /* Ink */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79C463CC24F43E17009B2DA3 /* XCRemoteSwiftPackageReference "ink" */;
+			productName = Ink;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
