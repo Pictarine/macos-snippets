@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import Combine
+
+var stores: Set<AnyCancellable> = []
 
 enum TagJob {
   case add
@@ -15,6 +18,7 @@ enum TagJob {
 
 struct SnipItemsListAction {
   let handleModification: (inout [SnipItem]) -> Void
+  
   
   static func addSnippet(id: String?) -> SnipItemsListAction {
     return .init { current in
@@ -47,6 +51,31 @@ struct SnipItemsListAction {
   static func delete(id: String) -> SnipItemsListAction {
     return .init { current in
       current = SnipItemsListAction.removeNestedArray(for: id, current: current)
+    }
+  }
+  
+  static func createGist(id: String) -> SnipItemsListAction {
+    return .init { current in
+      let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+        return snipItem.id == id
+      }
+      
+      guard let snip = snipItem else { return }
+      
+      snip.syncState = .syncing
+      
+      SyncManager.shared.createGist(title: snip.name, code: snip.snippet)
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { (completion) in
+          if case let .failure(error) = completion {
+            print(error)
+          }
+        }, receiveValue: { (gist) in
+          snip.gistId = gist.id
+          snip.gistURL = gist.url
+          snip.syncState = .synced
+        })
+        .store(in: &stores)
     }
   }
   
@@ -87,8 +116,8 @@ struct SnipItemsListAction {
       }
       
       if snipItem?.snippet != code {
-          snipItem?.snippet = code
-          snipItem?.lastUpdateDate = Date()
+        snipItem?.snippet = code
+        snipItem?.lastUpdateDate = Date()
       }
     }
   }

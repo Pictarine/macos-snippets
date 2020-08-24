@@ -31,9 +31,17 @@ struct CodeActionsTopBar: View {
         .textFieldStyle(PlainTextFieldStyle())
       
       if syncManager.isAuthenticated {
-          ImageButton(imageName: "ic_sync",
-          action: {},
-          content: { EmptyView() })
+        ZStack {
+          if viewModel.syncState == .syncing {
+            ActivityIndicator(isAnimating: .constant(true), style: .spinning)
+          }
+          else {
+            ImageButton(imageName: viewModel.syncState == .local ? "ic_sync" : "ic_synced",
+            action: viewModel.onUpload,
+            content: { EmptyView() })
+          }
+          
+        }
       }
       
       ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
@@ -83,26 +91,32 @@ final class CodeActionsViewModel: ObservableObject {
   var isSnipFavorite: Bool
   var snipCode: String
   var snipLastUpdate: Date
+  var syncState: SnipItem.SyncState
   
   var onRename: (String) -> Void
   var onToggleFavorite: () -> Void
   var onDelete: () -> Void
+  var onUpload: () -> Void
   
   init(name: String,
        code: String,
        isFavorite: Bool,
        lastUpdate: Date,
+       syncState: SnipItem.SyncState,
        onRename: @escaping (String) -> Void,
        onToggleFavorite: @escaping () -> Void,
-       onDelete: @escaping () -> Void) {
+       onDelete: @escaping () -> Void,
+       onUpload: @escaping () -> Void) {
     
     snipName = name
     snipCode = code
     isSnipFavorite = isFavorite
     snipLastUpdate = lastUpdate
+    self.syncState = syncState
     self.onRename = onRename
     self.onToggleFavorite = onToggleFavorite
     self.onDelete = onDelete
+    self.onUpload = onUpload
   }
   
 }
@@ -113,9 +127,11 @@ struct CodeActionsTopBar_Previews: PreviewProvider {
                                                       code: "Hello",
                                                       isFavorite: true,
                                                       lastUpdate: Date(),
+                                                      syncState: .local,
                                                       onRename: { _ in print("action")},
                                                       onToggleFavorite: {},
-                                                      onDelete: {})
+                                                      onDelete: {},
+                                                      onUpload: {})
     )
   }
 }

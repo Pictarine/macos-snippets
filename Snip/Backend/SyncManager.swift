@@ -130,17 +130,19 @@ class SyncManager: ObservableObject {
     return API.run(Endpoint.user, HttpMethod.get, [:], [:], headerParams, oauth)
   }
   
-  func createGist() -> AnyPublisher<Gist, Error> {
+  func createGist(title: String, code: String) -> AnyPublisher<Gist, Error> {
     
     let headerParams = [
       "Accept": "application/vnd.github.v3+json"
     ]
     
     let bodyParams = [
-      "files": "",
-      "description": "",
+      "files": [
+        title: [ "content": code ]
+      ],
+      "description": title,
       "public": "\(false)"
-    ]
+      ] as [String : Any]
     
     return API.run(Endpoint.createGist, HttpMethod.post, [:], bodyParams, headerParams, oauth)
   }

@@ -23,6 +23,7 @@ struct CodeViewer: View {
                                                           code: snipItem.snippet,
                                                           isFavorite: snipItem.isFavorite,
                                                           lastUpdate: snipItem.lastUpdateDate,
+                                                          syncState: snipItem.syncState ?? .local,
                                                           onRename: { name in
                                                             self.viewModel.onTrigger(.rename(id: self.snipItem.id, name: name))
         },
@@ -32,6 +33,9 @@ struct CodeViewer: View {
                                                           onDelete: {
                                                             self.viewModel.onTrigger(.delete(id: self.snipItem.id))
                                                             self.viewModel.onDimiss()
+        },
+                                                          onUpload: {
+                                                            self.viewModel.onTrigger(.createGist(id: self.snipItem.id))
         }))
         
         ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: snipItem.mode,

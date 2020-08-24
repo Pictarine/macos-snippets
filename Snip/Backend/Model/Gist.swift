@@ -11,11 +11,10 @@ import Foundation
 
 struct GistFile: Codable {
   let filename: String
-  let language: String
+  let language: String?
   let size: Int
   let content: String
 }
-
 
 struct Gist: Codable {
   
@@ -25,7 +24,7 @@ struct Gist: Codable {
   
   let url: String
   let id: String
-  let files: [GistFile]
+  let files: [String: GistFile]
   let isPublic: Bool
   
   init(from decoder: Decoder) throws {
@@ -33,7 +32,7 @@ struct Gist: Codable {
     
     url = try container.decode(String.self, forKey: .url)
     id = try container.decode(String.self, forKey: .id)
-    files = try container.decode([GistFile].self, forKey: .files)
+    files = try container.decode([String: GistFile].self, forKey: .files)
     isPublic = try container.decode(Bool.self, forKey: .isPublic)
   }
   
