@@ -35,6 +35,7 @@
 		79956A5024E5BC2300B823E1 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4F24E5BC2300B823E1 /* URL.swift */; };
 		79956A5224E5D26700B823E1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A5124E5D26700B823E1 /* User.swift */; };
 		79956A5424E9EF5900B823E1 /* Gist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A5324E9EF5900B823E1 /* Gist.swift */; };
+		79956A5B24F3B45300B823E1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 79956A5A24F3B45300B823E1 /* KeychainAccess */; };
 		79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */; };
 		79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */; };
 		79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */; };
@@ -115,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79956A5B24F3B45300B823E1 /* KeychainAccess in Frameworks */,
 				7936F89624D637D800F09AE7 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,6 +327,7 @@
 			name = Snip;
 			packageProductDependencies = (
 				7936F89524D637D800F09AE7 /* Introspect */,
+				79956A5A24F3B45300B823E1 /* KeychainAccess */,
 			);
 			productName = Snip;
 			productReference = 79BC1D1C24D16E67008FD16E /* Snip.app */;
@@ -356,6 +359,7 @@
 			mainGroup = 79BC1D1324D16E67008FD16E;
 			packageReferences = (
 				7936F89424D637D800F09AE7 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				79956A5924F3B45300B823E1 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 79BC1D1D24D16E67008FD16E /* Products */;
 			projectDirPath = "";
@@ -642,6 +646,14 @@
 				minimumVersion = 0.1.0;
 			};
 		};
+		79956A5924F3B45300B823E1 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -649,6 +661,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7936F89424D637D800F09AE7 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
+		};
+		79956A5A24F3B45300B823E1 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79956A5924F3B45300B823E1 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

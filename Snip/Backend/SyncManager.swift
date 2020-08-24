@@ -8,11 +8,15 @@
 
 import Foundation
 import Combine
+import KeychainAccess
 
 
 class SyncManager: ObservableObject {
   
   public static let shared = SyncManager()
+  
+  private let keychainService = "com.pictarine.Snip"
+  private let keychainAuthTokenKey = "oauth_github_key"
   
   @Published var isAuthenticated = false
   @Published var connectedUser : User?
@@ -25,6 +29,20 @@ class SyncManager: ObservableObject {
   private let callbackURL = "snip://callback"
   static let oauthURL = URL(string: "https://github.com/login/oauth/authorize?client_id=c4fd4a181bfc4089385b&redirect_uri=snip://callback&scope=gist,user&state=snip")!
   
+  func initialize() {
+    
+    let keychain = Keychain(service: keychainService)
+    if let token = keychain[keychainAuthTokenKey] {
+      
+      oauth = Oauth(access_token: token)
+      isAuthenticated = true
+      
+      DispatchQueue.global(qos: .utility).async { [weak self] in
+        self?.requestUser()
+      }
+    }
+  }
+  
   func handleDeepLink(urls: [URL]) {
     let url = urls.first
     if let url = url,
@@ -33,7 +51,7 @@ class SyncManager: ObservableObject {
       
       if let code = params["code"],
         let state = params["state"] {
-          requestAccessToken(code: code, state: state)
+        requestAccessToken(code: code, state: state)
       }
       else {
         print(url.absoluteString)
@@ -50,25 +68,32 @@ class SyncManager: ObservableObject {
           print(error)
         }
       }, receiveValue: { [weak self] (oauth) in
+        
+        guard let this = self else { return }
+        
         print(oauth.access_token)
-        self?.oauth = oauth
-        self?.isAuthenticated = true
-        self?.requestUser()
+        this.oauth = oauth
+        this.isAuthenticated = true
+        this.requestUser()
+        
+        let keychain = Keychain(service: this.keychainService)
+        keychain[this.keychainAuthTokenKey] = oauth.access_token
+        
       })
       .store(in: &stores)
   }
   
   func requestUser() {
     getUser()
-    .receive(on: DispatchQueue.main)
-    .sink(receiveCompletion: { (completion) in
-      if case let .failure(error) = completion {
-        print(error)
-      }
-    }, receiveValue: { [weak self] (user) in
-      self?.connectedUser = user
-    })
-    .store(in: &stores)
+      .receive(on: DispatchQueue.main)
+      .sink(receiveCompletion: { (completion) in
+        if case let .failure(error) = completion {
+          print(error)
+        }
+      }, receiveValue: { [weak self] (user) in
+        self?.connectedUser = user
+      })
+      .store(in: &stores)
   }
   
   func requestToken(code: String, state: String) -> AnyPublisher<Oauth, Error> {

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CodeActionsTopBar: View {
   
+  @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: CodeActionsViewModel
   @State var showSharingActions = false
   @State var showInfos = false
@@ -29,9 +30,12 @@ struct CodeActionsTopBar: View {
         .frame(maxHeight: .infinity)
         .textFieldStyle(PlainTextFieldStyle())
       
-      ImageButton(imageName: "ic_sync",
-                  action: {},
-                  content: { EmptyView() })
+      if syncManager.isAuthenticated {
+          ImageButton(imageName: "ic_sync",
+          action: {},
+          content: { EmptyView() })
+      }
+      
       ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
                   action: viewModel.onToggleFavorite,
                   content: { EmptyView() })
