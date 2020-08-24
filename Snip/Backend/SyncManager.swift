@@ -43,6 +43,19 @@ class SyncManager: ObservableObject {
     }
   }
   
+  func logout() {
+    oauth = nil
+    isAuthenticated = false
+    connectedUser = nil
+    
+    do {
+        let keychain = Keychain(service: keychainService)
+        try keychain.remove(keychainAuthTokenKey)
+    } catch let error {
+        print("error: \(error)")
+    }
+  }
+  
   func handleDeepLink(urls: [URL]) {
     let url = urls.first
     if let url = url,

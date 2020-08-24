@@ -15,6 +15,8 @@ struct Sidebar: View {
   @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: SideBarViewModel
   
+  @State private var showingLogoutAlert = false
+  
   var body: some View {
     VStack(alignment: .leading) {
       List() {
@@ -38,12 +40,26 @@ struct Sidebar: View {
         //ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
         
         Button(action: {
-          NSWorkspace.shared.open(SyncManager.oauthURL)
+          if self.syncManager.isAuthenticated {
+            self.showingLogoutAlert = true
+          }
+          else {
+            NSWorkspace.shared.open(SyncManager.oauthURL)
+          }
         }) {
           Image(syncManager.isAuthenticated ? "ic_github_connected" : "ic_github")
-              .resizable()
-              .scaledToFit()
-              .frame(width: 20, height: 20, alignment: .center)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 20, alignment: .center)
+        }
+        .alert(isPresented: $showingLogoutAlert) {
+          Alert(title: Text("Logout from Github"),
+                message: Text("Are you sure about that?"),
+                primaryButton: .default(Text("YES"), action: {
+                  self.syncManager.logout()
+                }),
+                secondaryButton: .cancel(Text("Cancel"))
+          )
         }
         .buttonStyle(PlainButtonStyle())
       }
