@@ -41,7 +41,6 @@ struct CodeActionsTopBar: View {
                 .foregroundColor(.PURPLE_500)
                 .frame(width: 20, height: 20)
                 .rotationEffect(.degrees(moveRightLeft ? 360 : 0))
-                //.scaleEffect(moveRightLeft ? 1 : 0.2 )
                 .animation(Animation.easeOut(duration: 1).repeatForever(autoreverses: false))
                 .onAppear() {
                   self.moveRightLeft.toggle()
