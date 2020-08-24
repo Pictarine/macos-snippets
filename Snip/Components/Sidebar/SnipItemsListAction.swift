@@ -122,7 +122,8 @@ struct SnipItemsListAction {
         snip.lastUpdateDate = Date()
       }
       
-      if let gistId = snip.gistId {
+      if let gistId = snip.gistId,
+      gistId.count > 0 {
           
         snip.syncState = .syncing
         

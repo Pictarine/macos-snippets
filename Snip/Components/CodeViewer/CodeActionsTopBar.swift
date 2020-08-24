@@ -14,6 +14,7 @@ struct CodeActionsTopBar: View {
   @ObservedObject var viewModel: CodeActionsViewModel
   @State var showSharingActions = false
   @State var showInfos = false
+  @State private var moveRightLeft = false
   
   var body: some View {
     HStack{
@@ -33,12 +34,24 @@ struct CodeActionsTopBar: View {
       if syncManager.isAuthenticated {
         ZStack {
           if viewModel.syncState == .syncing {
-            ActivityIndicator(isAnimating: .constant(true), style: .spinning)
+            ZStack {
+              Circle()
+                .trim(from: 1/4, to: 1)
+                .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+                .foregroundColor(.PURPLE_500)
+                .frame(width: 20, height: 20)
+                .rotationEffect(.degrees(moveRightLeft ? 360 : 0))
+                //.scaleEffect(moveRightLeft ? 1 : 0.2 )
+                .animation(Animation.easeOut(duration: 1).repeatForever(autoreverses: false))
+                .onAppear() {
+                  self.moveRightLeft.toggle()
+              }
+            }
           }
           else {
             ImageButton(imageName: viewModel.syncState == .local ? "ic_sync" : "ic_synced",
-            action: viewModel.onUpload,
-            content: { EmptyView() })
+                        action: viewModel.onUpload,
+                        content: { EmptyView() })
           }
           
         }
@@ -127,7 +140,7 @@ struct CodeActionsTopBar_Previews: PreviewProvider {
                                                       code: "Hello",
                                                       isFavorite: true,
                                                       lastUpdate: Date(),
-                                                      syncState: .local,
+                                                      syncState: .syncing,
                                                       onRename: { _ in print("action")},
                                                       onToggleFavorite: {},
                                                       onDelete: {},
