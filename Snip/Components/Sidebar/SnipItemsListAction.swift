@@ -115,10 +115,27 @@ struct SnipItemsListAction {
         return snipItem.id == id
       }
       
-      if snipItem?.snippet != code {
-        snipItem?.snippet = code
-        snipItem?.lastUpdateDate = Date()
+      guard let snip = snipItem else { return }
+      
+      if snip.snippet != code {
+        snip.snippet = code
+        snip.lastUpdateDate = Date()
       }
+      
+      snip.syncState = .syncing
+      
+      SyncManager.shared.createGist(title: snip.name, code: snip.snippet)
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { (completion) in
+          if case let .failure(error) = completion {
+            print(error)
+          }
+        }, receiveValue: { (gist) in
+          snip.gistId = gist.id
+          snip.gistURL = gist.url
+          snip.syncState = .synced
+        })
+        .store(in: &stores)
     }
   }
   
