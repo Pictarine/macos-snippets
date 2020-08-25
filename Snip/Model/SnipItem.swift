@@ -122,6 +122,11 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     creationDate = try container.decode(Date.self, forKey: .creationDate)
     lastUpdateDate = try container.decode(Date.self, forKey: .lastUpdateDate)
     syncState = try? container.decode(SyncState.self, forKey: .syncState)
+    
+    if syncState == .syncing {
+      syncState = .synced
+    }
+    
     gistId = try? container.decode(String.self, forKey: .gistId)
     gistURL = try? container.decode(String.self, forKey: .gistURL)
   }

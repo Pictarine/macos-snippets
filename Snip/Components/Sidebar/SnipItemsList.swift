@@ -42,7 +42,7 @@ struct SnipItemsList: View {
                         SnipItemsList(viewModel: SnipItemsListModel(snips: snipItem.content,
                                                                     applyFilter: self.viewModel.filter,
                                                                     onTrigger: self.viewModel.onTrigger))
-                          .padding(.leading)
+                          .padding(.leading, 26)
           }
           )
           
