@@ -51,8 +51,8 @@
 		79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3424D17142008FD16E /* CodeViewer.swift */; };
 		79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3624D17151008FD16E /* SearchBar.swift */; };
 		79C463CE24F43E17009B2DA3 /* Ink in Frameworks */ = {isa = PBXBuildFile; productRef = 79C463CD24F43E17009B2DA3 /* Ink */; };
+		79C463D024F44233009B2DA3 /* MarkdownHTMLViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C463CF24F44233009B2DA3 /* MarkdownHTMLViewer.swift */; };
 		79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBD4C924D1CBE500568364 /* CodeView.swift */; };
-		79DBD4CD24D1CEFD00568364 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 79DBD4CC24D1CEFD00568364 /* data.json */; };
 		79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */; };
 		79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */; };
 		79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2624D3028C00469324 /* VisualEffectView.swift */; };
@@ -104,8 +104,8 @@
 		79BC1D3224D17124008FD16E /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		79BC1D3424D17142008FD16E /* CodeViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewer.swift; sourceTree = "<group>"; };
 		79BC1D3624D17151008FD16E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		79C463CF24F44233009B2DA3 /* MarkdownHTMLViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownHTMLViewer.swift; sourceTree = "<group>"; };
 		79DBD4C924D1CBE500568364 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
-		79DBD4CC24D1CEFD00568364 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = data.json; path = "../../Downloads/CodeMirror-Swift-master/example/CodeMirror-Swift-Example/CodeMirror-Swift-Example/data.json"; sourceTree = "<group>"; };
 		79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
 		79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeActionsTopBar.swift; sourceTree = "<group>"; };
 		79F07A2624D3028C00469324 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -245,7 +245,6 @@
 				79DBD4C824D1CBBD00568364 /* Representables */,
 				79BC1D2124D16E67008FD16E /* SnipViewApp.swift */,
 				79BC1D1F24D16E67008FD16E /* AppDelegate.swift */,
-				79DBD4CC24D1CEFD00568364 /* data.json */,
 				79BC1D2324D16E6A008FD16E /* Assets.xcassets */,
 				79BC1D2824D16E6A008FD16E /* Main.storyboard */,
 				79BC1D2B24D16E6A008FD16E /* Info.plist */,
@@ -298,6 +297,7 @@
 				79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */,
 				79F07A2624D3028C00469324 /* VisualEffectView.swift */,
 				791B8D7724E2C6C200851E2A /* SharePicker.swift */,
+				79C463CF24F44233009B2DA3 /* MarkdownHTMLViewer.swift */,
 			);
 			path = Representables;
 			sourceTree = "<group>";
@@ -382,7 +382,6 @@
 				796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */,
 				79BC1D2A24D16E6A008FD16E /* Main.storyboard in Resources */,
 				79BC1D2724D16E6A008FD16E /* Preview Assets.xcassets in Resources */,
-				79DBD4CD24D1CEFD00568364 /* data.json in Resources */,
 				79BC1D2424D16E6A008FD16E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,6 +398,7 @@
 				79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */,
 				796B093724D1BA1F006904C4 /* Date.swift in Sources */,
 				7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */,
+				79C463D024F44233009B2DA3 /* MarkdownHTMLViewer.swift in Sources */,
 				79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */,
 				79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */,
 				791B8D7624E28EF800851E2A /* AppState.swift in Sources */,

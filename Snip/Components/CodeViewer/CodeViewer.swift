@@ -15,6 +15,8 @@ struct CodeViewer: View {
   @EnvironmentObject var appState: AppState
   @EnvironmentObject var snipItem: SnipItem
   
+  @State private var shouldShowPreview = false
+  
   var body: some View {
     
     VStack(alignment: .leading) {
@@ -36,7 +38,13 @@ struct CodeViewer: View {
         },
                                                           onUpload: {
                                                             self.viewModel.onTrigger(.createGist(id: self.snipItem.id))
-        }))
+        },
+                                                          onPreviewToggle: self.snipItem.mode == CodeMode.html.mode() ? {
+                                                            withAnimation(Animation.easeOut(duration: 0.6)) { () -> () in
+                                                              self.shouldShowPreview.toggle()
+                                                            }
+          } : nil
+        ))
         
         ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: snipItem.mode,
                                                             snippetTags: snipItem.tags,
@@ -50,8 +58,8 @@ struct CodeViewer: View {
                                                                                                    tag: tag))
         }))
         
-        CodeView(code: .constant(snipItem.snippet),
-                 mode: .constant(snipItem.mode),
+        CodeView(code: .constant(self.snipItem.snippet),
+                 mode: .constant(self.snipItem.mode),
                  onContentChange: { newCode in
                   self.viewModel.onTrigger(.updateCode(id: self.snipItem.id, code: newCode))
         })
@@ -59,6 +67,18 @@ struct CodeViewer: View {
                  maxWidth: .infinity,
                  minHeight: 100,
                  maxHeight: .infinity)
+          .overlay(
+            HStack() {
+              Text("ok")
+            }
+            .frame(minWidth: 100,
+                   maxWidth: .infinity,
+                   minHeight: 100,
+                   maxHeight: .infinity)
+              .background(Color.YELLOW_500)
+              .offset(x: self.shouldShowPreview ? 0 : 10000, y: 0)
+              .transition(AnyTransition.move(edge: .trailing)), alignment: .topLeading)
+        
         
         Divider()
         
@@ -110,7 +130,7 @@ class CodeViewerViewModel: ObservableObject {
 struct CodeViewer_Previews: PreviewProvider {
   static var previews: some View {
     CodeViewer(viewModel: CodeViewerViewModel(onTrigger: { _ in
-                                                print("action")
+      print("action")
     },
                                               onDimiss:  { print("onDismiss")}
     ))

@@ -12,9 +12,10 @@ struct CodeActionsTopBar: View {
   
   @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: CodeActionsViewModel
-  @State var showSharingActions = false
-  @State var showInfos = false
+  @State private var showSharingActions = false
+  @State private var showInfos = false
   @State private var moveRightLeft = false
+  @State private var isPreviewEnabled = false
   
   var body: some View {
     HStack{
@@ -54,6 +55,18 @@ struct CodeActionsTopBar: View {
           }
           
         }
+      }
+      
+      if viewModel.onPreviewToggle != nil {
+        ImageButton(imageName: isPreviewEnabled ? "ic_preview_hide" : "ic_preview_show",
+        action: {
+          self.viewModel.onPreviewToggle?()
+          
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            self.isPreviewEnabled.toggle()
+          }
+        },
+        content: { EmptyView() })
       }
       
       ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
@@ -109,6 +122,7 @@ final class CodeActionsViewModel: ObservableObject {
   var onToggleFavorite: () -> Void
   var onDelete: () -> Void
   var onUpload: () -> Void
+  var onPreviewToggle: (() -> Void)?
   
   init(name: String,
        code: String,
@@ -118,17 +132,19 @@ final class CodeActionsViewModel: ObservableObject {
        onRename: @escaping (String) -> Void,
        onToggleFavorite: @escaping () -> Void,
        onDelete: @escaping () -> Void,
-       onUpload: @escaping () -> Void) {
+       onUpload: @escaping () -> Void,
+       onPreviewToggle: (() -> Void)?) {
     
-    snipName = name
-    snipCode = code
-    isSnipFavorite = isFavorite
-    snipLastUpdate = lastUpdate
+    self.snipName = name
+    self.snipCode = code
+    self.isSnipFavorite = isFavorite
+    self.snipLastUpdate = lastUpdate
     self.syncState = syncState
     self.onRename = onRename
     self.onToggleFavorite = onToggleFavorite
     self.onDelete = onDelete
     self.onUpload = onUpload
+    self.onPreviewToggle = onPreviewToggle
   }
   
 }
@@ -143,7 +159,8 @@ struct CodeActionsTopBar_Previews: PreviewProvider {
                                                       onRename: { _ in print("action")},
                                                       onToggleFavorite: {},
                                                       onDelete: {},
-                                                      onUpload: {})
+                                                      onUpload: {},
+                                                      onPreviewToggle: {})
     )
   }
 }
