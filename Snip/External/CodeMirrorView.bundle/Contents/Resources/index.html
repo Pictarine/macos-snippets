@@ -75,6 +75,10 @@
           var content = GetContent();
           window.webkit.messageHandlers.codeMirrorTextContentDidChange.postMessage(content);
       });
+    
+      function getStringFromHex(content) {
+        return decodeURIComponent(content.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'));
+      }
 
       function SupportedMimeTypes() {
         return Object.keys(CodeMirror.mimeModes).join(",");
@@ -141,7 +145,8 @@
       }
 
       function SetContent(content) {
-        editor.doc.setValue(content);
+        var text = getStringFromHex(content);
+        editor.doc.setValue(text);
         editor.doc.clearHistory();
         editor.doc.markClean();
       }

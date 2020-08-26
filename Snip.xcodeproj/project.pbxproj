@@ -23,6 +23,8 @@
 		7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89E24DA02DD00F09AE7 /* TextField.swift */; };
 		794D27CE24F672E4006E3B3D /* SnipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794D27CD24F672E4006E3B3D /* SnipTests.swift */; };
 		794D27D924F68FF2006E3B3D /* Down in Frameworks */ = {isa = PBXBuildFile; productRef = 794D27D824F68FF2006E3B3D /* Down */; };
+		794D27DB24F6A19C006E3B3D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794D27DA24F6A19C006E3B3D /* Data.swift */; };
+		794D27DE24F6A39B006E3B3D /* md.css in Resources */ = {isa = PBXBuildFile; fileRef = 794D27DD24F6A39B006E3B3D /* md.css */; };
 		796B092524D1B4A3006904C4 /* SnipItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092424D1B4A3006904C4 /* SnipItem.swift */; };
 		796B092924D1B563006904C4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092824D1B563006904C4 /* Settings.swift */; };
 		796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */; };
@@ -87,6 +89,8 @@
 		794D27CB24F672E4006E3B3D /* SnipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		794D27CD24F672E4006E3B3D /* SnipTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipTests.swift; sourceTree = "<group>"; };
 		794D27CF24F672E4006E3B3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		794D27DA24F6A19C006E3B3D /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		794D27DD24F6A39B006E3B3D /* md.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = md.css; sourceTree = "<group>"; };
 		796B092424D1B4A3006904C4 /* SnipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItem.swift; sourceTree = "<group>"; };
 		796B092824D1B563006904C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
@@ -171,6 +175,14 @@
 				794D27CF24F672E4006E3B3D /* Info.plist */,
 			);
 			path = SnipTests;
+			sourceTree = "<group>";
+		};
+		794D27DC24F6A37E006E3B3D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				794D27DD24F6A39B006E3B3D /* md.css */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		796B092324D1B48F006904C4 /* Model */ = {
@@ -277,6 +289,7 @@
 				79DBD4C824D1CBBD00568364 /* Representables */,
 				79BC1D2124D16E67008FD16E /* SnipViewApp.swift */,
 				79BC1D1F24D16E67008FD16E /* AppDelegate.swift */,
+				794D27DC24F6A37E006E3B3D /* Resources */,
 				79BC1D2324D16E6A008FD16E /* Assets.xcassets */,
 				79BC1D2824D16E6A008FD16E /* Main.storyboard */,
 				79BC1D2B24D16E6A008FD16E /* Info.plist */,
@@ -306,6 +319,7 @@
 				79956A4624E57AC700B823E1 /* Dictionary.swift */,
 				79956A4824E57AD900B823E1 /* CharacterSet.swift */,
 				79956A4F24E5BC2300B823E1 /* URL.swift */,
+				794D27DA24F6A19C006E3B3D /* Data.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -441,6 +455,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				794D27DE24F6A39B006E3B3D /* md.css in Resources */,
 				796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */,
 				79BC1D2A24D16E6A008FD16E /* Main.storyboard in Resources */,
 				79BC1D2724D16E6A008FD16E /* Preview Assets.xcassets in Resources */,
@@ -478,6 +493,7 @@
 				79956A4924E57AD900B823E1 /* CharacterSet.swift in Sources */,
 				79956A4E24E5A4A200B823E1 /* OAuth.swift in Sources */,
 				791B8D7824E2C6C200851E2A /* SharePicker.swift in Sources */,
+				794D27DB24F6A19C006E3B3D /* Data.swift in Sources */,
 				79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */,
 				79956A5024E5BC2300B823E1 /* URL.swift in Sources */,
 				791AC9C124DAB60900CAB87C /* SnippetManager.swift in Sources */,
