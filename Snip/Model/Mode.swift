@@ -36,6 +36,8 @@ extension Mode {
       return "code_terminal"
     case "xml", "json":
       return "code_xml"
+    case "markdown":
+      return "code_md"
     default:
       return "ic_file"
     }

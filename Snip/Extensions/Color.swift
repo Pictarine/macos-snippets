@@ -30,6 +30,8 @@ extension Color {
   
   static let ORANGE_500 = Color.init(hex: "E5946A")
   
+  static let GREY_200 = Color.init(hex: "F6F8FA")
+  
   init(hex: String) {
     let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
     var int: UInt64 = 0

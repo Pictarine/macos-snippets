@@ -51,7 +51,7 @@ struct ModeSelectionView: View {
     CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.white.opacity(0.7)),
                     text: $newTag,
                     commit: {
-                      
+                      print("Commit")
                       guard self.newTag.count > 1 else { return }
                       
                       //self.viewModel.tags.append(self.newTag)

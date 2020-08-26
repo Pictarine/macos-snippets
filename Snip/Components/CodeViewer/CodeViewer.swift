@@ -39,7 +39,7 @@ struct CodeViewer: View {
                                                           onUpload: {
                                                             self.viewModel.onTrigger(.createGist(id: self.snipItem.id))
         },
-                                                          onPreviewToggle: self.snipItem.mode == CodeMode.html.mode() ? {
+                                                          onPreviewToggle: self.snipItem.mode == CodeMode.html.mode() || self.snipItem.mode == CodeMode.markdown.mode() ? {
                                                             withAnimation(Animation.easeOut(duration: 0.6)) { () -> () in
                                                               self.shouldShowPreview.toggle()
                                                             }
@@ -68,14 +68,12 @@ struct CodeViewer: View {
                  minHeight: 100,
                  maxHeight: .infinity)
           .overlay(
-            HStack() {
-              Text("ok")
-            }
+            MarkdownHTMLViewer(code: self.snipItem.snippet, mode: self.snipItem.mode)
             .frame(minWidth: 100,
                    maxWidth: .infinity,
                    minHeight: 100,
                    maxHeight: .infinity)
-              .background(Color.YELLOW_500)
+              .background(Color.GREY_200)
               .offset(x: self.shouldShowPreview ? 0 : 10000, y: 0)
               .transition(AnyTransition.move(edge: .trailing)), alignment: .topLeading)
         

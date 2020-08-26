@@ -21,6 +21,8 @@
 		7936F89624D637D800F09AE7 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 7936F89524D637D800F09AE7 /* Introspect */; };
 		7936F89A24D845B600F09AE7 /* SnipItemsListAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */; };
 		7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89E24DA02DD00F09AE7 /* TextField.swift */; };
+		794D27CE24F672E4006E3B3D /* SnipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794D27CD24F672E4006E3B3D /* SnipTests.swift */; };
+		794D27D924F68FF2006E3B3D /* Down in Frameworks */ = {isa = PBXBuildFile; productRef = 794D27D824F68FF2006E3B3D /* Down */; };
 		796B092524D1B4A3006904C4 /* SnipItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092424D1B4A3006904C4 /* SnipItem.swift */; };
 		796B092924D1B563006904C4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092824D1B563006904C4 /* Settings.swift */; };
 		796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */; };
@@ -50,7 +52,6 @@
 		79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3224D17124008FD16E /* Sidebar.swift */; };
 		79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3424D17142008FD16E /* CodeViewer.swift */; };
 		79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3624D17151008FD16E /* SearchBar.swift */; };
-		79C463CE24F43E17009B2DA3 /* Ink in Frameworks */ = {isa = PBXBuildFile; productRef = 79C463CD24F43E17009B2DA3 /* Ink */; };
 		79C463D024F44233009B2DA3 /* MarkdownHTMLViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C463CF24F44233009B2DA3 /* MarkdownHTMLViewer.swift */; };
 		79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBD4C924D1CBE500568364 /* CodeView.swift */; };
 		79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */; };
@@ -58,6 +59,16 @@
 		79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2624D3028C00469324 /* VisualEffectView.swift */; };
 		79F07A2924D3050500469324 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2824D3050500469324 /* ImageButton.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		794D27D024F672E4006E3B3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79BC1D1424D16E67008FD16E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 79BC1D1B24D16E67008FD16E;
+			remoteInfo = Snip;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		791AC9BD24DAA4FD00CAB87C /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
@@ -73,6 +84,9 @@
 		7936F89224D6377D00F09AE7 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsListAction.swift; sourceTree = "<group>"; };
 		7936F89E24DA02DD00F09AE7 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		794D27CB24F672E4006E3B3D /* SnipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		794D27CD24F672E4006E3B3D /* SnipTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipTests.swift; sourceTree = "<group>"; };
+		794D27CF24F672E4006E3B3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		796B092424D1B4A3006904C4 /* SnipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItem.swift; sourceTree = "<group>"; };
 		796B092824D1B563006904C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
@@ -113,13 +127,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		794D27C824F672E4006E3B3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		79BC1D1924D16E67008FD16E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79C463CE24F43E17009B2DA3 /* Ink in Frameworks */,
 				79956A5B24F3B45300B823E1 /* KeychainAccess in Frameworks */,
 				7936F89624D637D800F09AE7 /* Introspect in Frameworks */,
+				794D27D924F68FF2006E3B3D /* Down in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +162,15 @@
 				791AC9CD24DCA06200CAB87C /* SnipItemHelper.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		794D27CC24F672E4006E3B3D /* SnipTests */ = {
+			isa = PBXGroup;
+			children = (
+				794D27CD24F672E4006E3B3D /* SnipTests.swift */,
+				794D27CF24F672E4006E3B3D /* Info.plist */,
+			);
+			path = SnipTests;
 			sourceTree = "<group>";
 		};
 		796B092324D1B48F006904C4 /* Model */ = {
@@ -221,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				79BC1D1E24D16E67008FD16E /* Snip */,
+				794D27CC24F672E4006E3B3D /* SnipTests */,
 				79BC1D1D24D16E67008FD16E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -229,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				79BC1D1C24D16E67008FD16E /* Snip.app */,
+				794D27CB24F672E4006E3B3D /* SnipTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -314,6 +346,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		794D27CA24F672E4006E3B3D /* SnipTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 794D27D424F672E4006E3B3D /* Build configuration list for PBXNativeTarget "SnipTests" */;
+			buildPhases = (
+				794D27C724F672E4006E3B3D /* Sources */,
+				794D27C824F672E4006E3B3D /* Frameworks */,
+				794D27C924F672E4006E3B3D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				794D27D124F672E4006E3B3D /* PBXTargetDependency */,
+			);
+			name = SnipTests;
+			productName = SnipTests;
+			productReference = 794D27CB24F672E4006E3B3D /* SnipTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		79BC1D1B24D16E67008FD16E /* Snip */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 79BC1D2F24D16E6A008FD16E /* Build configuration list for PBXNativeTarget "Snip" */;
@@ -330,7 +380,7 @@
 			packageProductDependencies = (
 				7936F89524D637D800F09AE7 /* Introspect */,
 				79956A5A24F3B45300B823E1 /* KeychainAccess */,
-				79C463CD24F43E17009B2DA3 /* Ink */,
+				794D27D824F68FF2006E3B3D /* Down */,
 			);
 			productName = Snip;
 			productReference = 79BC1D1C24D16E67008FD16E /* Snip.app */;
@@ -346,6 +396,10 @@
 				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = pictarine;
 				TargetAttributes = {
+					794D27CA24F672E4006E3B3D = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = 79BC1D1B24D16E67008FD16E;
+					};
 					79BC1D1B24D16E67008FD16E = {
 						CreatedOnToolsVersion = 11.6;
 					};
@@ -363,18 +417,26 @@
 			packageReferences = (
 				7936F89424D637D800F09AE7 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				79956A5924F3B45300B823E1 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				79C463CC24F43E17009B2DA3 /* XCRemoteSwiftPackageReference "ink" */,
+				794D27D724F68FF2006E3B3D /* XCRemoteSwiftPackageReference "Down" */,
 			);
 			productRefGroup = 79BC1D1D24D16E67008FD16E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				79BC1D1B24D16E67008FD16E /* Snip */,
+				794D27CA24F672E4006E3B3D /* SnipTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		794D27C924F672E4006E3B3D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		79BC1D1A24D16E67008FD16E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -389,6 +451,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		794D27C724F672E4006E3B3D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				794D27CE24F672E4006E3B3D /* SnipTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		79BC1D1824D16E67008FD16E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -441,6 +511,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		794D27D124F672E4006E3B3D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 79BC1D1B24D16E67008FD16E /* Snip */;
+			targetProxy = 794D27D024F672E4006E3B3D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		79BC1D2824D16E6A008FD16E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -453,6 +531,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		794D27D224F672E4006E3B3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7XBGRFP286;
+				INFOPLIST_FILE = SnipTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pictarine.SnipTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Snip.app/Contents/MacOS/Snip";
+			};
+			name = Debug;
+		};
+		794D27D324F672E4006E3B3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7XBGRFP286;
+				INFOPLIST_FILE = SnipTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pictarine.SnipTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Snip.app/Contents/MacOS/Snip";
+			};
+			name = Release;
+		};
 		79BC1D2D24D16E6A008FD16E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -621,6 +739,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		794D27D424F672E4006E3B3D /* Build configuration list for PBXNativeTarget "SnipTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				794D27D224F672E4006E3B3D /* Debug */,
+				794D27D324F672E4006E3B3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		79BC1D1724D16E67008FD16E /* Build configuration list for PBXProject "Snip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -650,20 +777,20 @@
 				minimumVersion = 0.1.0;
 			};
 		};
+		794D27D724F68FF2006E3B3D /* XCRemoteSwiftPackageReference "Down" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iwasrobbed/Down";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.3;
+			};
+		};
 		79956A5924F3B45300B823E1 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.2.0;
-			};
-		};
-		79C463CC24F43E17009B2DA3 /* XCRemoteSwiftPackageReference "ink" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/johnsundell/ink.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.5.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -674,15 +801,15 @@
 			package = 7936F89424D637D800F09AE7 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
 		};
+		794D27D824F68FF2006E3B3D /* Down */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 794D27D724F68FF2006E3B3D /* XCRemoteSwiftPackageReference "Down" */;
+			productName = Down;
+		};
 		79956A5A24F3B45300B823E1 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 79956A5924F3B45300B823E1 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
-		};
-		79C463CD24F43E17009B2DA3 /* Ink */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 79C463CC24F43E17009B2DA3 /* XCRemoteSwiftPackageReference "ink" */;
-			productName = Ink;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
