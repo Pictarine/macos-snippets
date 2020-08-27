@@ -91,6 +91,7 @@
 		794D27CF24F672E4006E3B3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		794D27DA24F6A19C006E3B3D /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		794D27DD24F6A39B006E3B3D /* md.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = md.css; sourceTree = "<group>"; };
+		794D27DF24F79F8D006E3B3D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		796B092424D1B4A3006904C4 /* SnipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItem.swift; sourceTree = "<group>"; };
 		796B092824D1B563006904C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
@@ -262,6 +263,7 @@
 		79BC1D1324D16E67008FD16E = {
 			isa = PBXGroup;
 			children = (
+				794D27DF24F79F8D006E3B3D /* README.md */,
 				79BC1D1E24D16E67008FD16E /* Snip */,
 				794D27CC24F672E4006E3B3D /* SnipTests */,
 				79BC1D1D24D16E67008FD16E /* Products */,
