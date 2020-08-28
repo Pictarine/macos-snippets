@@ -39,12 +39,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       .environmentObject(Settings())
       .environmentObject(AppState())
       .edgesIgnoringSafeArea(.top)
-      .frame(minWidth: 700, maxWidth: .infinity, minHeight: 500, maxHeight: .infinity)
+      .frame(minWidth: 700,
+             maxWidth: .infinity,
+             minHeight: 500,
+             maxHeight: .infinity)
     
     window = NSWindow(
-      contentRect: NSRect(x: 0, y: 0, width: 1000, height: 700),
-      styleMask: [.unifiedTitleAndToolbar, .texturedBackground, .fullSizeContentView, .titled, .closable, .miniaturizable, .resizable, .texturedBackground],
-      backing: .buffered, defer: false)
+      contentRect: NSRect(x: 0,
+                          y: 0,
+                          width: 1000,
+                          height: 700),
+      styleMask: [.unifiedTitleAndToolbar,
+                  .texturedBackground,
+                  .fullSizeContentView,
+                  .titled, .closable,
+                  .miniaturizable,
+                  .resizable,
+                  .texturedBackground],
+      backing: .buffered,
+      defer: false)
     window.titleVisibility = .hidden
     window.titlebarAppearsTransparent = true
     window.toolbar?.isVisible = false
@@ -61,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
     if !flag {
-        sender.windows.forEach { $0.makeKeyAndOrderFront(self) }
+      sender.windows.forEach { $0.makeKeyAndOrderFront(self) }
     }
     return true
   }
