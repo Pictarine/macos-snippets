@@ -1,6 +1,10 @@
 Snip
 ====
 
+[![GitHub issues](https://img.shields.io/github/issues/Pictarine/macos-snippets)](https://github.com/Pictarine/macos-snippets/issues)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Pictarine/macos-snippets)
+![GitHub Releases](https://img.shields.io/github/downloads/Pictarine/macos-snippets/v1.1.0/total)
+
 Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 10.15+.
 
 🌟 Star us on GitHub — it helps!
