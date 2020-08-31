@@ -16,12 +16,15 @@ struct CodeDetailsBottomBar: View {
     HStack {
       Text("\(viewModel.code.characterCount()) characters")
         .font(Font.custom("CourierNewPSMT", size: 12))
+        .foregroundColor(.text)
       
       Text("\(viewModel.code.wordCount()) words")
         .font(Font.custom("CourierNewPSMT", size: 12))
+        .foregroundColor(.text)
       
       Text("\(viewModel.code.lineCount()) lines")
         .font(Font.custom("CourierNewPSMT", size: 12))
+        .foregroundColor(.text)
       
       Spacer()
       
@@ -33,6 +36,7 @@ struct CodeDetailsBottomBar: View {
                  alignment: .center)
           .scaledToFit()
         Text("Copy to clipboard")
+        .foregroundColor(.text)
       }
       .buttonStyle(PlainButtonStyle())
     }

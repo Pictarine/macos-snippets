@@ -13,6 +13,7 @@ import WebKit
 
 struct CodeView: NSViewRepresentable {
   
+  @Environment(\.colorScheme) var colorScheme
   @EnvironmentObject var settings: Settings
   
   @Binding var code: String
@@ -49,7 +50,7 @@ struct CodeView: NSViewRepresentable {
     let data = try! Data(contentsOf: URL(fileURLWithPath: indexPath))
     webView.load(data, mimeType: "text/html", characterEncodingName: "utf-8", baseURL: bundle.resourceURL!)
     
-    context.coordinator.setThemeName(settings.codeMirrorTheme)
+    context.coordinator.setThemeName((colorScheme == .dark) ? "material-palenight" : "base16-light")
     context.coordinator.setTabInsertsSpaces(true)
     context.coordinator.setWebView(webView)
     context.coordinator.setup()
@@ -65,6 +66,8 @@ struct CodeView: NSViewRepresentable {
     updateWhatsNecessary(elementGetter: context.coordinator.getMimeType(_:), elementSetter: context.coordinator.setMimeType(_:), currentElementState: self.mode.mimeType)
     
     updateWhatsNecessary(elementGetter: context.coordinator.getContent(_:), elementSetter: context.coordinator.setContent(_:), currentElementState: self.code)
+    
+    context.coordinator.setThemeName((colorScheme == .dark) ? "material-palenight" : "base16-light")
   }
   
   func makeCoordinator() -> CodeMirrorViewController {

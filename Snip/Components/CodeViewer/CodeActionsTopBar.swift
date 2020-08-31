@@ -28,7 +28,7 @@ struct CodeActionsTopBar: View {
       })
       )
         .font(Font.custom("HelveticaNeue", size: 20))
-        .foregroundColor(.white)
+        .foregroundColor(.text)
         .frame(maxHeight: .infinity)
         .textFieldStyle(PlainTextFieldStyle())
       
@@ -39,7 +39,7 @@ struct CodeActionsTopBar: View {
               Circle()
                 .trim(from: 1/4, to: 1)
                 .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
-                .foregroundColor(.PURPLE_500)
+                .foregroundColor(Color.accent)
                 .frame(width: 20, height: 20)
                 .rotationEffect(.degrees(moveRightLeft ? 360 : 0))
                 .animation(Animation.easeOut(duration: 1).repeatForever(autoreverses: false))
@@ -100,7 +100,7 @@ struct CodeActionsTopBar: View {
       }
       
     }
-    .background(Color.BLACK_200.opacity(0.4))
+    .background(Color.secondary.opacity(0.4))
     .frame(height: 40)
     .padding(EdgeInsets(top: 16,
                         leading: 16,

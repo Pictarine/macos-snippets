@@ -18,6 +18,8 @@ struct ImageButton<Content: View>: View {
     Button(action: action) {
       Image(imageName)
         .resizable()
+        .renderingMode(.template)
+        .colorMultiply(.text)
         .scaledToFit()
         .frame(width: 20, height: 20, alignment: .center)
     }

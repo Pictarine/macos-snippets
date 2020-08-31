@@ -30,6 +30,7 @@
 		796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */; };
 		796B093524D1B95B006904C4 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B093424D1B95B006904C4 /* Color.swift */; };
 		796B093724D1BA1F006904C4 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B093624D1BA1F006904C4 /* Date.swift */; };
+		797B92EC24FCDE2900071669 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797B92EB24FCDE2900071669 /* Colors.xcassets */; };
 		79956A4224E5463300B823E1 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4124E5463300B823E1 /* API.swift */; };
 		79956A4424E5772200B823E1 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4324E5772200B823E1 /* Endpoint.swift */; };
 		79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4624E57AC700B823E1 /* Dictionary.swift */; };
@@ -97,6 +98,7 @@
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
 		796B093424D1B95B006904C4 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		796B093624D1BA1F006904C4 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		797B92EB24FCDE2900071669 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		79956A4124E5463300B823E1 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		79956A4324E5772200B823E1 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		79956A4624E57AC700B823E1 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				79BC1D1F24D16E67008FD16E /* AppDelegate.swift */,
 				794D27DC24F6A37E006E3B3D /* Resources */,
 				79BC1D2324D16E6A008FD16E /* Assets.xcassets */,
+				797B92EB24FCDE2900071669 /* Colors.xcassets */,
 				79BC1D2824D16E6A008FD16E /* Main.storyboard */,
 				79BC1D2B24D16E6A008FD16E /* Info.plist */,
 				79BC1D2C24D16E6A008FD16E /* Snip.entitlements */,
@@ -460,6 +463,7 @@
 				794D27DE24F6A39B006E3B3D /* md.css in Resources */,
 				796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */,
 				79BC1D2A24D16E6A008FD16E /* Main.storyboard in Resources */,
+				797B92EC24FCDE2900071669 /* Colors.xcassets in Resources */,
 				79BC1D2724D16E6A008FD16E /* Preview Assets.xcassets in Resources */,
 				79BC1D2424D16E6A008FD16E /* Assets.xcassets in Resources */,
 			);
@@ -710,7 +714,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Snip/Preview Content\"";
 				DEVELOPMENT_TEAM = 7XBGRFP286;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -737,7 +741,7 @@
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Snip/Preview Content\"";
 				DEVELOPMENT_TEAM = 7XBGRFP286;
 				ENABLE_HARDENED_RUNTIME = YES;

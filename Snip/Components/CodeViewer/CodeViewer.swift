@@ -88,12 +88,14 @@ struct CodeViewer: View {
           Spacer()
           Text("Snippet Successfully deleted")
             .font(Font.custom("HelveticaNeue-Light", size: 20))
+            .foregroundColor(.text)
           Spacer()
         }
         HStack {
           Spacer()
           Text("Tips: Connect Snip to your GitHub account and save your snippet on Gist.")
             .font(Font.custom("HelveticaNeue-Light", size: 16))
+            .foregroundColor(.text)
           Spacer()
         }
         .padding(.top, 8)
@@ -105,7 +107,7 @@ struct CodeViewer: View {
            minHeight: 0,
            maxHeight: .infinity,
            alignment: .topLeading)
-      .background(Color.BLACK_500)
+      .background(Color.primary)
       .listStyle(PlainListStyle())
     
   }

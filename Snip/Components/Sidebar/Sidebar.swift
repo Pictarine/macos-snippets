@@ -37,6 +37,7 @@ struct Sidebar: View {
         Spacer()
         
         Text(syncManager.connectedUser?.login ?? "")
+          .foregroundColor(.text)
         //ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
         
         Button(action: {
@@ -49,8 +50,11 @@ struct Sidebar: View {
         }) {
           Image(syncManager.isAuthenticated ? "ic_github_connected" : "ic_github")
             .resizable()
+            .renderingMode(.template)
+            .colorMultiply(.text)
             .scaledToFit()
             .frame(width: 20, height: 20, alignment: .center)
+          
         }
         .alert(isPresented: $showingLogoutAlert) {
           Alert(title: Text("Logout from Github"),
@@ -82,14 +86,17 @@ struct Sidebar: View {
         }) {
           Text("New snippet")
             .font(.system(size: 14))
+            .foregroundColor(Color.white)
         }
         Button(action: {
           self.viewModel.trigger(action: .addFolder(id: nil))
         }) {
           Text("New folder")
             .font(.system(size: 14))
+            .foregroundColor(Color.white)
         }
       }.menuButtonStyle(BorderlessButtonMenuButtonStyle())
+        .foregroundColor(.text)
         .font(.system(size: 22))
         .background(Color.clear)
         .frame(maxWidth: 16, alignment: .center)
@@ -100,7 +107,7 @@ struct Sidebar: View {
   var favorites: some View {
     Text("Favorites")
       .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-      .foregroundColor(Color.white.opacity(0.6))
+      .foregroundColor(Color.text.opacity(0.6))
       .padding(.bottom, 3)
     
     SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
@@ -112,7 +119,7 @@ struct Sidebar: View {
   var local: some View {
     Text("Local")
       .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-      .foregroundColor(Color.white.opacity(0.6))
+      .foregroundColor(Color.text.opacity(0.6))
       .padding(.bottom, 3)
       .padding(.top, 16)
     

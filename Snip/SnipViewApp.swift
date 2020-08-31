@@ -28,7 +28,7 @@ struct SnipViewApp: View {
   var sideBar: some View {
     Sidebar(viewModel: SideBarViewModel())
       //.visualEffect(material: .sidebar)
-      .background(Color.BLACK_200)
+      .background(Color.secondary)
       .frame(minWidth: 0, idealWidth: 200, maxWidth: 240)
   }
   
@@ -39,19 +39,21 @@ struct SnipViewApp: View {
         Spacer()
         Text("Create your first Snipppet")
           .font(Font.custom("HelveticaNeue-Light", size: 20))
+          .foregroundColor(Color.text)
         Spacer()
       }
       HStack {
         Spacer()
         Text("Tips: Cmd+F to search words and regex")
           .font(Font.custom("HelveticaNeue-Light", size: 16))
+          .foregroundColor(Color.text)
         Spacer()
       }
       .padding(.top, 8)
       Spacer()
     }
     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-    .background(Color.BLACK_500)
+    .background(Color.primary)
   }
 }
 
