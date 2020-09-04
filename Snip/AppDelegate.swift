@@ -40,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   
   func createWindow() {
     
-    let snipAppView = SnipViewApp()
+    let snipAppView = SnipViewApp(viewModel: SnipViewAppViewModel())
       .environmentObject(Settings())
       .environmentObject(AppState())
       .edgesIgnoringSafeArea(.top)

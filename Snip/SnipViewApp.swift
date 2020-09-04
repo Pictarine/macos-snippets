@@ -7,10 +7,11 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SnipViewApp: View {
   
-  @ObservedObject var syncManager = SyncManager.shared
+  @ObservedObject var viewModel : SnipViewAppViewModel
   @EnvironmentObject var settings: Settings
   
   var body: some View {
@@ -35,7 +36,7 @@ struct SnipViewApp: View {
   }
   
   var sideBar: some View {
-    Sidebar(viewModel: SideBarViewModel())
+    Sidebar(viewModel: SideBarViewModel(snipppets: viewModel.snippets, onTrigger: viewModel.trigger(action:)))
       //.visualEffect(material: .sidebar)
       .background(Color.secondary)
       .frame(minWidth: 0, idealWidth: 200, maxWidth: 240)
@@ -85,8 +86,28 @@ struct SnipViewApp: View {
 }
 
 
+final class SnipViewAppViewModel: ObservableObject {
+  
+  @Published var snippets: [SnipItem] = []
+  
+  var cancellables: Set<AnyCancellable> = []
+  
+  init() {
+    SnippetManager
+      .shared
+      .snipets
+      .assign(to: \.snippets, on: self)
+      .store(in: &cancellables)
+  }
+  
+  func trigger(action: SnipItemsListAction) {
+    SnippetManager.shared.trigger(action: action)
+  }
+}
+
+
 struct SnipViewApp_Previews: PreviewProvider {
   static var previews: some View {
-    SnipViewApp()
+    SnipViewApp(viewModel: SnipViewAppViewModel())
   }
 }

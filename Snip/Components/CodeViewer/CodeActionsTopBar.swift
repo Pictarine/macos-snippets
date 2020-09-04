@@ -54,9 +54,9 @@ struct CodeActionsTopBar: View {
                         content: { EmptyView() })
               .overlay(
                 Circle()
-                  .fill(syncManager.isAuthenticated ? Color.green : Color.RED_500)
+                  .fill(viewModel.syncState == .local ? Color.RED_500 : Color.green)
                   .frame(width: 8, height: 8)
-                  .offset(x: 8, y: 8)
+                  .offset(x: 7, y: 6)
             )
           }
           

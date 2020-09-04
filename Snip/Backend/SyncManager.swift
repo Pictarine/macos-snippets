@@ -45,11 +45,11 @@ class SyncManager: ObservableObject {
       }
     }
     
-    SnippetManager
+    /*SnippetManager
     .shared
     .snipets
     .assign(to: \.snippets, on: self)
-    .store(in: &stores)
+    .store(in: &stores)*/
   }
   
   func logout() {

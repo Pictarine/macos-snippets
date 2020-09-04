@@ -7,8 +7,6 @@
 //
 
 import SwiftUI
-import Combine
-
 
 struct Sidebar: View {
   
@@ -88,14 +86,14 @@ struct Sidebar: View {
       Spacer()
       MenuButton("+") {
         Button(action: {
-          self.viewModel.trigger(action: .addSnippet())
+          self.viewModel.onTrigger(.addSnippet(id: nil))
         }) {
           Text("New snippet")
             .font(.system(size: 14))
             .foregroundColor(Color.white)
         }
         Button(action: {
-          self.viewModel.trigger(action: .addFolder())
+          self.viewModel.onTrigger(.addFolder())
         }) {
           Text("New folder")
             .font(.system(size: 14))
@@ -118,7 +116,7 @@ struct Sidebar: View {
     
     SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
                                                 applyFilter: .favorites,
-                                                onTrigger: viewModel.trigger(action:)))
+                                                onTrigger: viewModel.onTrigger))
   }
   
   @ViewBuilder
@@ -131,7 +129,7 @@ struct Sidebar: View {
     
     SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
                                                 applyFilter: .all,
-                                                onTrigger: viewModel.trigger(action:)))
+                                                onTrigger: viewModel.onTrigger))
   }
   
   /*@ViewBuilder
@@ -152,26 +150,20 @@ struct Sidebar: View {
 
 
 final class SideBarViewModel: ObservableObject {
-  @Published var snippets: [SnipItem] = []
   
-  var cancellables: Set<AnyCancellable> = []
+  var snippets: [SnipItem]
   
-  init() {
-    SnippetManager
-      .shared
-      .snipets
-      .assign(to: \.snippets, on: self)
-      .store(in: &cancellables)
-  }
+  var onTrigger: (SnipItemsListAction) -> Void
   
-  func trigger(action: SnipItemsListAction) {
-    SnippetManager.shared.trigger(action: action)
+  init(snipppets: [SnipItem], onTrigger: @escaping (SnipItemsListAction) -> Void) {
+    self.snippets = snipppets
+    self.onTrigger = onTrigger
   }
 }
 
 
 struct Sidebar_Previews: PreviewProvider {
   static var previews: some View {
-    Sidebar(viewModel: SideBarViewModel())
+    Sidebar(viewModel: SideBarViewModel(snipppets: [], onTrigger: {_ in }))
   }
 }
