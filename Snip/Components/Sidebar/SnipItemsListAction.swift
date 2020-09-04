@@ -20,30 +20,38 @@ struct SnipItemsListAction {
   let handleModification: (inout [SnipItem]) -> Void
   
   
-  static func addSnippet(id: String?) -> SnipItemsListAction {
+  static func addSnippet(id: String? = nil, name: String? = nil, code: String? = nil, tags: [String]? = nil) -> SnipItemsListAction {
     return .init { current in
+      
+      let file = SnipItem.file(name: name ?? "New Snippet")
+      file.snippet = code ?? ""
+      file.tags = tags ?? []
+      
       if let idParentFolder = id {
         let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
           return snipItem.id == idParentFolder
         }
-        snipItem?.content.append(SnipItem.file(name: "New Snippet"))
+        snipItem?.content.append(SnipItem.file(name: name ?? "New Snippet"))
       }
       else {
-        current.append(SnipItem.file(name: "New Snippet"))
+        current.append(SnipItem.file(name: name ?? "New Snippet"))
       }
     }
   }
   
-  static func addFolder(id: String?) -> SnipItemsListAction {
+  static func addFolder(id: String? = nil, name: String? = nil) -> SnipItemsListAction {
     return .init { current in
+      
+      let folder = SnipItem.folder(name: name ?? "New Folder")
+      
       if let idParentFolder = id {
         let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
           return snipItem.id == idParentFolder
         }
-        snipItem?.content.append(SnipItem.folder(name: "New Folder"))
+        snipItem?.content.append(folder)
       }
       else {
-        current.append(SnipItem.folder(name: "New Folder"))
+        current.append(folder)
       }
     }
   }

@@ -54,6 +54,12 @@ struct Sidebar: View {
             .colorMultiply(.text)
             .scaledToFit()
             .frame(width: 20, height: 20, alignment: .center)
+            .overlay(
+              Circle()
+                .fill(syncManager.isAuthenticated ? Color.green : Color.RED_500)
+                .frame(width: 8, height: 8)
+                .offset(x: 8, y: 8)
+            )
           
         }
         .alert(isPresented: $showingLogoutAlert) {
@@ -82,14 +88,14 @@ struct Sidebar: View {
       Spacer()
       MenuButton("+") {
         Button(action: {
-          self.viewModel.trigger(action: .addSnippet(id: nil))
+          self.viewModel.trigger(action: .addSnippet())
         }) {
           Text("New snippet")
             .font(.system(size: 14))
             .foregroundColor(Color.white)
         }
         Button(action: {
-          self.viewModel.trigger(action: .addFolder(id: nil))
+          self.viewModel.trigger(action: .addFolder())
         }) {
           Text("New folder")
             .font(.system(size: 14))

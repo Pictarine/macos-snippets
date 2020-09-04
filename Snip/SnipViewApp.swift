@@ -10,6 +10,9 @@ import SwiftUI
 
 struct SnipViewApp: View {
   
+  @ObservedObject var syncManager = SyncManager.shared
+  @EnvironmentObject var settings: Settings
+  
   var body: some View {
     appNavigation
       .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -17,10 +20,16 @@ struct SnipViewApp: View {
   
   @ViewBuilder
   var appNavigation: some View {
-    NavigationView {
-      
-      sideBar
-      openingPanel
+    GeometryReader { reader in
+      ZStack {
+        NavigationView {
+          
+          self.sideBar
+          self.openingPanel
+        }
+        self.settingPanel
+          .frame(width: reader.size.width, height: reader.size.height)
+      }
     }
     .edgesIgnoringSafeArea(.top)
   }
@@ -54,6 +63,24 @@ struct SnipViewApp: View {
     }
     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
     .background(Color.primary)
+  }
+  
+  var settingPanel: some View {
+    GeometryReader { reader in
+      ZStack {
+        
+        VStack {
+          Text("Hello")
+        }
+        .frame(width: reader.size.width / 2.5, height: reader.size.height, alignment: .center)
+        .background(Color.BLACK_500)
+        .offset(x: 0, y: self.settings.isSettingsOpened ? 120 : 10000)
+        .transition(AnyTransition.move(edge: .bottom))
+        
+      }
+    }
+    .background(self.settings.isSettingsOpened ? Color.RED_500.opacity(0.6) : Color.clear)
+    .transition(AnyTransition.opacity)
   }
 }
 

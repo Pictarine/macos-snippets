@@ -27,6 +27,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   func application(_ application: NSApplication, open urls: [URL]) {
+    
+    // Bring app in front
+    NSApp.activate(ignoringOtherApps: true)
+    
+    // Handle deeplinks
     SyncManager.shared.handleDeepLink(urls: urls)
   }
   

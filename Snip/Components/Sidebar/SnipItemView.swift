@@ -66,9 +66,8 @@ struct SnipItemView<Content: View>: View {
                   .frame(maxWidth: .infinity, alignment: .leading)
                   .background(isEditingName ? .primary : Color.black.opacity(0.0001))
               }
-                
               .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-              .background(Color.clear)
+              .background(Color.black.opacity(0.0001))
               .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
       })
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -169,7 +168,7 @@ struct SnipItemView<Content: View>: View {
             .foregroundColor(.text)
         }
       }
-      .listRowBackground(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .accentDark : Color.clear)
+      .listRowBackground(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .accentDark : Color.black.opacity(0.0001))
       
     }
     

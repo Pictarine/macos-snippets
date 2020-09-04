@@ -52,6 +52,12 @@ struct CodeActionsTopBar: View {
             ImageButton(imageName: viewModel.syncState == .local ? "ic_sync" : "ic_synced",
                         action: viewModel.onUpload,
                         content: { EmptyView() })
+              .overlay(
+                Circle()
+                  .fill(syncManager.isAuthenticated ? Color.green : Color.RED_500)
+                  .frame(width: 8, height: 8)
+                  .offset(x: 8, y: 8)
+            )
           }
           
         }
@@ -59,14 +65,14 @@ struct CodeActionsTopBar: View {
       
       if viewModel.onPreviewToggle != nil {
         ImageButton(imageName: isPreviewEnabled ? "ic_preview_hide" : "ic_preview_show",
-        action: {
-          self.viewModel.onPreviewToggle?()
-          
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            self.isPreviewEnabled.toggle()
-          }
+                    action: {
+                      self.viewModel.onPreviewToggle?()
+                      
+                      DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        self.isPreviewEnabled.toggle()
+                      }
         },
-        content: { EmptyView() })
+                    content: { EmptyView() })
       }
       
       ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
