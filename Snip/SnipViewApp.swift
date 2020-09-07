@@ -71,18 +71,7 @@ struct SnipViewApp: View {
   
   var settingPanel: some View {
     GeometryReader { reader in
-      ZStack {
-        
-        VStack(alignment: .leading) {
-          Text("Hello")
-        }
-        .frame(width: reader.size.width / 2.5, height: reader.size.height / 1.5, alignment: .center)
-        .background(Color.primary)
-        .cornerRadius(4.0)
-        .offset(x: 0, y: self.snippetManager.hasExternalSnippetQueued ? ((reader.size.height / 2) - ((reader.size.height / 1.5) / 1.5)) : 10000)
-        .transition(AnyTransition.move(edge: .bottom))
-        
-      }
+      SettingsView(viewModel: SettingsViewModel(readerSize: reader.size))
     }
     .background(self.settings.isSettingsOpened ? Color.black.opacity(0.8) : Color.clear)
     .transition(AnyTransition.opacity)
@@ -90,68 +79,8 @@ struct SnipViewApp: View {
   
   var addExternalSnipPanel: some View {
     GeometryReader { reader in
-      ZStack {
-        
-        VStack(alignment: .leading) {
-          VStack {
-            TextField("Snippet name", text: .constant(self.snippetManager.tempSnipItem?.name ?? ""))
-              .font(Font.custom("HelveticaNeue", size: 20))
-              .foregroundColor(.text)
-              .frame(maxWidth: .infinity)
-              .textFieldStyle(PlainTextFieldStyle())
-          }
-          .padding(EdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 4))
-          .background(Color.secondary.opacity(0.8))
-          
-          CodeView(code: .constant(self.snippetManager.tempSnipItem?.snippet ?? ""),
-                   mode: .constant(self.snippetManager.tempSnipItem?.mode ?? CodeMode.json.mode()),
-                   onContentChange: { newCode in
-                    self.snippetManager.tempSnipItem?.snippet = newCode
-          })
-            .frame(maxWidth: .infinity,
-                   maxHeight: .infinity)
-          
-          HStack {
-            Spacer()
-            Button(action: {
-              
-              withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 40.0, damping: 11, initialVelocity: 0)) { () -> () in
-                self.snippetManager.hasExternalSnippetQueued = false
-                self.snippetManager.tempSnipItem = nil
-              }
-            }) {
-              Text("Cancel")
-                .foregroundColor(.white)
-                .padding(4)
-            }
-            .buttonStyle(PlainButtonStyle())
-            .background(Color.transparent)
-            
-            Button(action: {
-              withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 40.0, damping: 11, initialVelocity: 0)) { () -> () in
-                self.viewModel.trigger(action: .addExternalSnippet(name: self.snippetManager.tempSnipItem?.name ?? "",
-                                                                   code: self.snippetManager.tempSnipItem?.snippet ?? "",
-                                                                   tags: self.snippetManager.tempSnipItem?.tags ?? []))
-                self.snippetManager.hasExternalSnippetQueued = false
-                self.snippetManager.tempSnipItem = nil
-              }
-            }) {
-              Text("Add Snippet")
-                .foregroundColor(.white)
-                .padding(8)
-            }
-            .buttonStyle(PlainButtonStyle())
-            .background(Color.accent)
-            .cornerRadius(4)
-          }
-        }
-        .frame(width: reader.size.width / 2.5, height: reader.size.height / 1.5, alignment: .center)
-        .padding()
-        .background(Color.primary)
-        .cornerRadius(4.0)
-        .offset(x: 0, y: self.snippetManager.hasExternalSnippetQueued ? ((reader.size.height / 2) - ((reader.size.height / 1.5) / 1.5)) : 10000)
-        .transition(AnyTransition.move(edge: .bottom))
-      }
+      ExternalSnippet(viewModel: ExternalSnippetViewModel(readerSize: reader.size,
+                                                          onTrigger: self.viewModel.trigger(action:)))
     }
     .background(self.snippetManager.hasExternalSnippetQueued ? Color.black.opacity(0.8) : Color.clear)
     .transition(AnyTransition.opacity)

@@ -37,16 +37,16 @@ struct SnipItemsListAction {
     }
   }
   
-  static func addExternalSnippet(name: String, code: String, tags: [String]) -> SnipItemsListAction {
+  static func addExternalSnippet(name: String? = nil, code: String? = nil, tags: [String]? = nil) -> SnipItemsListAction {
 
     return .init { current in
       let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
         return snipItem.kind == .folder && snipItem.name == "StackOverflow"
       }
       
-      let snip = SnipItem.file(name: name)
-      snip.snippet = code
-      snip.tags = tags
+      let snip = SnipItem.file(name: name ?? "New Snippet")
+      snip.snippet = code ?? ""
+      snip.tags = tags ?? []
       
       if let snipItem = snipItem {
         
