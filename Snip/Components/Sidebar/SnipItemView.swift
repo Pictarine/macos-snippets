@@ -64,10 +64,10 @@ struct SnipItemView<Content: View>: View {
                   .disabled(isEditingName == false)
                   .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
                   .frame(maxWidth: .infinity, alignment: .leading)
-                  .background(isEditingName ? .primary : Color.black.opacity(0.0001))
+                  .background(isEditingName ? .primary : Color.transparent)
               }
               .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-              .background(Color.black.opacity(0.0001))
+              .background(Color.transparent)
               .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
       })
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -145,7 +145,7 @@ struct SnipItemView<Content: View>: View {
             .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
             .padding(.leading, 4)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(isEditingName ? .primary : Color.black.opacity(0.0001))
+            .background(isEditingName ? .primary : Color.transparent)
           Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -168,7 +168,7 @@ struct SnipItemView<Content: View>: View {
             .foregroundColor(.text)
         }
       }
-      .listRowBackground(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .accentDark : Color.black.opacity(0.0001))
+      .listRowBackground(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .accentDark : Color.transparent)
       
     }
     

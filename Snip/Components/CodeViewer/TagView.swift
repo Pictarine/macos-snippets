@@ -21,7 +21,7 @@ struct TagView: View {
         Text(tag)
           .frame(minWidth: 20, maxHeight: 18)
           .padding(4)
-          .background(Color.black.opacity(0.0001))
+          .background(Color.transparent)
           .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.accentDark.opacity(0.9), lineWidth: 1))
           .foregroundColor(Color.accentDark.opacity(0.9))
           .overlay(closeOverlay, alignment: .topTrailing)

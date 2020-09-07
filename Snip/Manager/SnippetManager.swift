@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 
 class SnippetManager: ObservableObject {
@@ -15,6 +16,7 @@ class SnippetManager: ObservableObject {
   static let shared = SnippetManager()
   
   @Published var hasExternalSnippetQueued = false
+  @Published var tempSnipItem : SnipItem? = nil
   
   public var snipets: AnyPublisher<[SnipItem], Never>
   fileprivate let snippetActionSubject: PassthroughSubject<SnipItemsListAction, Never> = .init()
@@ -46,7 +48,13 @@ extension SnippetManager {
   
   public func addSnippet(code: String, title: String, tags: [String], from: String) {
     
-    hasExternalSnippetQueued = true
+    tempSnipItem = SnipItem.file(name: title)
+    tempSnipItem?.snippet = code
+    tempSnipItem?.tags = tags
+    
+    withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 40.0, damping: 11, initialVelocity: 0)) { () -> () in
+      hasExternalSnippetQueued = true
+    }
     
     /*var index = snippets.firstIndex(where: { (snip) -> Bool in
       snip.kind == .folder && snip.name == "StackOverflow"

@@ -18,6 +18,7 @@ extension Color {
   static let text = Color("Text")
   static let accent = Color("Accent")
   static let accentDark = Color("AccentDark")
+  static let transparent = Color.black.opacity(0.0001)
   
   static let BLACK_200 = Color.init(hex: "202121") // 23252e
   static let BLACK_300 = Color.init(hex: "202121")
