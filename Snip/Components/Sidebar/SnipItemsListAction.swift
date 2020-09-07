@@ -20,29 +20,55 @@ struct SnipItemsListAction {
   let handleModification: (inout [SnipItem]) -> Void
   
   
-  static func addSnippet(id: String? = nil, name: String? = nil, code: String? = nil, tags: [String]? = nil) -> SnipItemsListAction {
+  static func addSnippet(id: String? = nil) -> SnipItemsListAction {
     return .init { current in
       
-      let file = SnipItem.file(name: name ?? "New Snippet")
-      file.snippet = code ?? ""
-      file.tags = tags ?? []
+      let file = SnipItem.file(name: "New Snippet")
       
       if let idParentFolder = id {
         let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
           return snipItem.id == idParentFolder
         }
-        snipItem?.content.append(SnipItem.file(name: name ?? "New Snippet"))
+        snipItem?.content.append(file)
       }
       else {
-        current.append(SnipItem.file(name: name ?? "New Snippet"))
+        current.append(file)
       }
     }
   }
   
-  static func addFolder(id: String? = nil, name: String? = nil) -> SnipItemsListAction {
+  static func addExternalSnippet(name: String, code: String, tags: [String]) -> SnipItemsListAction {
+
+    return .init { current in
+      let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+        return snipItem.kind == .folder && snipItem.name == "StackOverflow"
+      }
+      
+      let snip = SnipItem.file(name: name)
+      snip.snippet = code
+      snip.tags = tags
+      
+      if let snipItem = snipItem {
+        
+        snipItem.content.append(snip)
+      }
+      else {
+        current.append(SnipItem.folder(name: "StackOverflow"))
+        
+        let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+          return snipItem.kind == .folder && snipItem.name == "StackOverflow"
+        }
+        
+        snipItem?.content.append(snip)
+      }
+      
+    }
+  }
+  
+  static func addFolder(id: String? = nil) -> SnipItemsListAction {
     return .init { current in
       
-      let folder = SnipItem.folder(name: name ?? "New Folder")
+      let folder = SnipItem.folder(name: "New Folder")
       
       if let idParentFolder = id {
         let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in

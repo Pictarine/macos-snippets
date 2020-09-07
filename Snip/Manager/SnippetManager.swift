@@ -55,24 +55,6 @@ extension SnippetManager {
     withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 40.0, damping: 11, initialVelocity: 0)) { () -> () in
       hasExternalSnippetQueued = true
     }
-    
-    /*var index = snippets.firstIndex(where: { (snip) -> Bool in
-      snip.kind == .folder && snip.name == "StackOverflow"
-    }) ?? -1
-    
-    if index >= 0 {
-      print("Contains")
-    }
-    else {
-      print("Does not contains")
-      SnippetManager.shared.trigger(action: .addFolder(name: "StackOverflow"))
-      
-      index = snippets.firstIndex(where: { (snip) -> Bool in
-        snip.kind == .folder && snip.name == "StackOverflow"
-      }) ?? -1
-    }
-    
-    trigger(action: .addSnippet(id: snippets[index].id, name: title, code: code, tags: tags))*/
   }
 }
 

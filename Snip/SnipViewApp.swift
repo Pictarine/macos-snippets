@@ -127,7 +127,15 @@ struct SnipViewApp: View {
             .buttonStyle(PlainButtonStyle())
             .background(Color.transparent)
             
-            Button(action: {}) {
+            Button(action: {
+              withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 40.0, damping: 11, initialVelocity: 0)) { () -> () in
+                self.viewModel.trigger(action: .addExternalSnippet(name: self.snippetManager.tempSnipItem?.name ?? "",
+                                                                   code: self.snippetManager.tempSnipItem?.snippet ?? "",
+                                                                   tags: self.snippetManager.tempSnipItem?.tags ?? []))
+                self.snippetManager.hasExternalSnippetQueued = false
+                self.snippetManager.tempSnipItem = nil
+              }
+            }) {
               Text("Add Snippet")
                 .foregroundColor(.white)
                 .padding(8)
