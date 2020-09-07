@@ -11,6 +11,7 @@ import Combine
 
 struct SnipViewApp: View {
   
+  @ObservedObject var snippetManager = SnippetManager.shared
   @ObservedObject var viewModel : SnipViewAppViewModel
   @EnvironmentObject var settings: Settings
   
@@ -30,6 +31,8 @@ struct SnipViewApp: View {
         }
         self.settingPanel
           .frame(width: reader.size.width, height: reader.size.height)
+        self.addExternalSnipPanel
+        .frame(width: reader.size.width, height: reader.size.height)
       }
     }
     .edgesIgnoringSafeArea(.top)
@@ -73,14 +76,34 @@ struct SnipViewApp: View {
         VStack {
           Text("Hello")
         }
-        .frame(width: reader.size.width / 2.5, height: reader.size.height, alignment: .center)
+        .frame(width: reader.size.width / 2.5, height: reader.size.height / 1.5, alignment: .center)
         .background(Color.BLACK_500)
-        .offset(x: 0, y: self.settings.isSettingsOpened ? 120 : 10000)
+        .cornerRadius(4.0)
+        .offset(x: 0, y: self.snippetManager.hasExternalSnippetQueued ? ((reader.size.height / 2) - ((reader.size.height / 1.5) / 1.5)) : 10000)
         .transition(AnyTransition.move(edge: .bottom))
         
       }
     }
-    .background(self.settings.isSettingsOpened ? Color.RED_500.opacity(0.6) : Color.clear)
+    .background(self.settings.isSettingsOpened ? Color.black.opacity(0.85) : Color.clear)
+    .transition(AnyTransition.opacity)
+  }
+  
+  var addExternalSnipPanel: some View {
+    GeometryReader { reader in
+      ZStack {
+        
+        VStack {
+          Text("Hello")
+        }
+        .frame(width: reader.size.width / 2.5, height: reader.size.height / 1.5, alignment: .center)
+        .background(Color.BLACK_500)
+        .cornerRadius(4.0)
+        .offset(x: 0, y: self.snippetManager.hasExternalSnippetQueued ? ((reader.size.height / 2) - ((reader.size.height / 1.5) / 1.5)) : 10000)
+        .transition(AnyTransition.move(edge: .bottom))
+        
+      }
+    }
+    .background(self.snippetManager.hasExternalSnippetQueued ? Color.black.opacity(0.85) : Color.clear)
     .transition(AnyTransition.opacity)
   }
 }

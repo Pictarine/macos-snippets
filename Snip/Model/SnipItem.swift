@@ -10,6 +10,15 @@ import Foundation
 import Combine
 
 
+struct TempSnipItemToAdd {
+  let name: String
+  let url : String
+  let tags: [String]
+  let snippet: String
+  let mode: Mode
+}
+
+
 class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   
   enum CodingKeys: CodingKey {

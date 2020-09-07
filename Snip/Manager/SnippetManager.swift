@@ -10,8 +10,11 @@ import Foundation
 import Combine
 
 
-class SnippetManager {
+class SnippetManager: ObservableObject {
+  
   static let shared = SnippetManager()
+  
+  @Published var hasExternalSnippetQueued = false
   
   public var snipets: AnyPublisher<[SnipItem], Never>
   fileprivate let snippetActionSubject: PassthroughSubject<SnipItemsListAction, Never> = .init()
@@ -41,6 +44,28 @@ extension SnippetManager {
     snippetActionSubject.send(action)
   }
   
+  public func addSnippet(code: String, title: String, tags: [String], from: String) {
+    
+    hasExternalSnippetQueued = true
+    
+    /*var index = snippets.firstIndex(where: { (snip) -> Bool in
+      snip.kind == .folder && snip.name == "StackOverflow"
+    }) ?? -1
+    
+    if index >= 0 {
+      print("Contains")
+    }
+    else {
+      print("Does not contains")
+      SnippetManager.shared.trigger(action: .addFolder(name: "StackOverflow"))
+      
+      index = snippets.firstIndex(where: { (snip) -> Bool in
+        snip.kind == .folder && snip.name == "StackOverflow"
+      }) ?? -1
+    }
+    
+    trigger(action: .addSnippet(id: snippets[index].id, name: title, code: code, tags: tags))*/
+  }
 }
 
 

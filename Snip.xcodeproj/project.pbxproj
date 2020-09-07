@@ -56,6 +56,7 @@
 		79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3424D17142008FD16E /* CodeViewer.swift */; };
 		79BC1D3724D17151008FD16E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BC1D3624D17151008FD16E /* SearchBar.swift */; };
 		79C463D024F44233009B2DA3 /* MarkdownHTMLViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C463CF24F44233009B2DA3 /* MarkdownHTMLViewer.swift */; };
+		79C612B12506278D008672BA /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C612B02506278D008672BA /* DeepLinkManager.swift */; };
 		79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBD4C924D1CBE500568364 /* CodeView.swift */; };
 		79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */; };
 		79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */; };
@@ -126,6 +127,7 @@
 		79BC1D3424D17142008FD16E /* CodeViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewer.swift; sourceTree = "<group>"; };
 		79BC1D3624D17151008FD16E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		79C463CF24F44233009B2DA3 /* MarkdownHTMLViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownHTMLViewer.swift; sourceTree = "<group>"; };
+		79C612B02506278D008672BA /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		79DBD4C924D1CBE500568364 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
 		79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeActionsTopBar.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			children = (
 				791AC9C024DAB60900CAB87C /* SnippetManager.swift */,
 				791AC9C224DABF2500CAB87C /* StorageManager.swift */,
+				79C612B02506278D008672BA /* DeepLinkManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				79BC1D3524D17142008FD16E /* CodeViewer.swift in Sources */,
 				796B093724D1BA1F006904C4 /* Date.swift in Sources */,
 				7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */,
+				79C612B12506278D008672BA /* DeepLinkManager.swift in Sources */,
 				79C463D024F44233009B2DA3 /* MarkdownHTMLViewer.swift in Sources */,
 				79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */,
 				79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */,

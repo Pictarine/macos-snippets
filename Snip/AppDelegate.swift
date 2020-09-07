@@ -32,7 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     NSApp.activate(ignoringOtherApps: true)
     
     // Handle deeplinks
-    SyncManager.shared.handleDeepLink(urls: urls)
+    DeepLinkManager.handleDeepLink(urls: urls)
   }
   
   
