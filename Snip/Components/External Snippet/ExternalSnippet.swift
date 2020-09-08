@@ -76,10 +76,7 @@ struct ExternalSnippet: View {
           
           Button(action: {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-              self.viewModel.onTrigger(.addExternalSnippet(name: self.externalSnipItem.name,
-                                                           code: self.externalSnipItem.snippet,
-                                                           tags: self.externalSnipItem.tags,
-                                                           source: self.externalSnipItem.source))
+              self.viewModel.onTrigger(.addExternalSnippet(externalSnipItem: self.externalSnipItem))
             }
           }) {
             Text("Add Snippet")
