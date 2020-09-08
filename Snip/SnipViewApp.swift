@@ -78,7 +78,7 @@ struct SnipViewApp: View {
   
   var welcomePanel: some View {
     GeometryReader { reader in
-      WelcomeView(viewModel: WelcomeViewModel(isVisible: false, readerSize: reader.size))
+      WelcomeView(viewModel: WelcomeViewModel(isVisible: true, readerSize: reader.size))
     }
   }
   
