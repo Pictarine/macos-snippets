@@ -16,6 +16,10 @@ struct ExternalSnippet: View {
   var body: some View {
     ZStack {
       
+      backgroundView
+      .frame(width: viewModel.size.width, height: viewModel.size.height)
+      .transition(AnyTransition.opacity)
+      
       VStack(alignment: .leading) {
         VStack {
           TextField("Snippet name", text: self.$externalSnipItem.name)
@@ -91,13 +95,17 @@ struct ExternalSnippet: View {
       .frame(width: viewModel.size.width / 2.5,
              height: viewModel.size.height / 1.5,
              alignment: .center)
-        .padding()
-        .background(Color.primary)
-        .cornerRadius(4.0)
-        .offset(x: 0,
-                y: self.viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
-        .transition(AnyTransition.move(edge: .bottom))
+      .padding()
+      .background(Color.primary)
+      .cornerRadius(4.0)
+      .offset(x: 0,
+              y: self.viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
+      .transition(AnyTransition.move(edge: .bottom))
     }
+  }
+  
+  var backgroundView: some View {
+      self.viewModel.isVisible ? Color.black.opacity(0.8) : Color.clear
   }
 }
 

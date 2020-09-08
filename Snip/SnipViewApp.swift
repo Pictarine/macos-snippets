@@ -29,6 +29,8 @@ struct SnipViewApp: View {
           self.sideBar
           self.openingPanel
         }
+        self.welcomePanel
+          .frame(width: reader.size.width, height: reader.size.height)
         self.settingPanel
           .frame(width: reader.size.width, height: reader.size.height)
         self.addExternalSnipPanel
@@ -40,7 +42,6 @@ struct SnipViewApp: View {
   
   var sideBar: some View {
     Sidebar(viewModel: SideBarViewModel(snipppets: viewModel.snippets, onTrigger: viewModel.trigger(action:)))
-      //.visualEffect(material: .sidebar)
       .background(Color.secondary)
       .frame(minWidth: 0, idealWidth: 200, maxWidth: 240)
   }
@@ -71,10 +72,14 @@ struct SnipViewApp: View {
   
   var settingPanel: some View {
     GeometryReader { reader in
-      SettingsView(viewModel: SettingsViewModel(readerSize: reader.size))
+      SettingsView(viewModel: SettingsViewModel(isVisible: self.settings.isSettingsOpened, readerSize: reader.size))
     }
-    .background(self.settings.isSettingsOpened ? Color.black.opacity(0.8) : Color.clear)
-    .transition(AnyTransition.opacity)
+  }
+  
+  var welcomePanel: some View {
+    GeometryReader { reader in
+      WelcomeView(viewModel: WelcomeViewModel(isVisible: false, readerSize: reader.size))
+    }
   }
   
   var addExternalSnipPanel: some View {
@@ -88,8 +93,6 @@ struct SnipViewApp: View {
                                                           onCancel: self.viewModel.resetExternalSnippetAdding),
                       externalSnipItem: self.$snippetManager.tempSnipItem)
     }
-    .background(self.snippetManager.hasExternalSnippetQueued ? Color.black.opacity(0.8) : Color.clear)
-    .transition(AnyTransition.opacity)
   }
 }
 

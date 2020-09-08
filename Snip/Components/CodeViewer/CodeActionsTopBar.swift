@@ -92,7 +92,7 @@ struct CodeActionsTopBar: View {
                     self.showSharingActions = true
       },
                   content: {
-                    SharingsPicker(isPresented: self.$showSharingActions, sharingItems: [self.viewModel.snipCode])
+                    SharingsPicker(isPresented: self.$showSharingActions, sharingItems: ["\(self.viewModel.snipCode) \n\n - Shared via Snip https://cutt.ly/snip"])
       })
       ImageButton(imageName: "ic_info",
                   action: { self.showInfos.toggle() },
