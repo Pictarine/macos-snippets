@@ -25,6 +25,8 @@ struct CodeView: NSViewRepresentable {
   
   func makeNSView(context: Context) -> WKWebView {
     
+    let theme = (colorScheme == .dark) ? "material-palenight" : "base16-light"
+    
     let preferences = WKPreferences()
     preferences.javaScriptEnabled = true
     
@@ -48,9 +50,10 @@ struct CodeView: NSViewRepresentable {
             fatalError("CodeMirrorBundle is missing")
     }
     let data = try! Data(contentsOf: URL(fileURLWithPath: indexPath))
-    webView.load(data, mimeType: "text/html", characterEncodingName: "utf-8", baseURL: bundle.resourceURL!)
+    let htmlString = String(data: data, encoding: .utf8)!.replacingOccurrences(of: "$theme", with: "\"\(theme)\"")
+    webView.load(htmlString.data(using: .utf8)!, mimeType: "text/html", characterEncodingName: "utf-8", baseURL: bundle.resourceURL!)
     
-    context.coordinator.setThemeName((colorScheme == .dark) ? "material-palenight" : "base16-light")
+    context.coordinator.setThemeName(theme)
     context.coordinator.setTabInsertsSpaces(true)
     context.coordinator.setWebView(webView)
     context.coordinator.setup()

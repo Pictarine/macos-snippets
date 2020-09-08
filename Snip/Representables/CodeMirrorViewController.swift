@@ -158,6 +158,8 @@ extension CodeMirrorViewController: WKNavigationDelegate {
       let content = (message.body as? String) ?? ""
       
       if content != parent.code {
+        
+        print("Code changes ! \(content)")
         parent.onContentChange?(content)
         parent.code = content
       }

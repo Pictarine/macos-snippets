@@ -11,14 +11,14 @@ import SwiftUI
 struct ExternalSnippet: View {
   
   @ObservedObject var viewModel: ExternalSnippetViewModel
-  @ObservedObject var snippetManager = SnippetManager.shared
+  @Binding var externalSnipItem: ExternalSnipItem
   
   var body: some View {
     ZStack {
       
       VStack(alignment: .leading) {
         VStack {
-          TextField("Snippet name", text: self.$viewModel.tempSnipItem.name)
+          TextField("Snippet name", text: self.$externalSnipItem.name)
             .font(Font.custom("HelveticaNeue", size: 20))
             .foregroundColor(.text)
             .frame(maxWidth: .infinity)
@@ -31,16 +31,15 @@ struct ExternalSnippet: View {
           .background(Color.secondary.opacity(0.8))
         
         Picker(selection: Binding<Int>(
-                get: {
-                  let index = self.viewModel.modesList.firstIndex(where: { (mode) -> Bool in
-                    mode == self.viewModel.tempSnipItem.mode
-                  }) ?? -1
-                  return index
-                },
-                  set: {
-                    self.viewModel.tempSnipItem.mode = self.viewModel.modesList[$0]
-                    self.viewModel.objectWillChange.send()
-                }),
+          get: {
+            let index = self.viewModel.modesList.firstIndex(where: { (mode) -> Bool in
+              mode == self.externalSnipItem.mode
+            }) ?? -1
+            return index
+        },
+          set: {
+            self.externalSnipItem.mode = self.viewModel.modesList[$0]
+        }),
                label: EmptyView()) {
                 ForEach(0 ..< self.viewModel.modesList.count, id: \.self) {
                   Text(self.viewModel.modesList[$0].name)
@@ -52,11 +51,10 @@ struct ExternalSnippet: View {
                alignment: .leading)
           .pickerStyle(DefaultPickerStyle())
         
-        CodeView(code: .constant(self.viewModel.tempSnipItem.snippet),
-                 mode: .constant(self.viewModel.tempSnipItem.mode),
+        CodeView(code: .constant(self.externalSnipItem.snippet),
+                 mode: .constant(self.externalSnipItem.mode),
                  onContentChange: { newCode in
-                  self.viewModel.tempSnipItem.snippet = newCode
-                  self.viewModel.objectWillChange.send()
+                  self.externalSnipItem.snippet = newCode
         })
           .frame(maxWidth: .infinity,
                  maxHeight: .infinity)
@@ -66,12 +64,11 @@ struct ExternalSnippet: View {
           Button(action: {
             
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-              self.snippetManager.hasExternalSnippetQueued = false
-              self.snippetManager.tempSnipItem = nil
+              self.viewModel.onCancel()
             }
           }) {
             Text("Cancel")
-              .foregroundColor(.white)
+              .foregroundColor(Color.text)
               .padding(4)
           }
           .buttonStyle(PlainButtonStyle())
@@ -79,12 +76,10 @@ struct ExternalSnippet: View {
           
           Button(action: {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-              self.viewModel.onTrigger(.addExternalSnippet(name: self.snippetManager.tempSnipItem?.name,
-                                                           code: self.snippetManager.tempSnipItem?.snippet,
-                                                           tags: self.snippetManager.tempSnipItem?.tags,
-                                                           source: self.snippetManager.tempSnipItem?.remoteURL))
-              self.snippetManager.hasExternalSnippetQueued = false
-              self.snippetManager.tempSnipItem = nil
+              self.viewModel.onTrigger(.addExternalSnippet(name: self.externalSnipItem.name,
+                                                           code: self.externalSnipItem.snippet,
+                                                           tags: self.externalSnipItem.tags,
+                                                           source: self.externalSnipItem.source))
             }
           }) {
             Text("Add Snippet")
@@ -103,7 +98,7 @@ struct ExternalSnippet: View {
         .background(Color.primary)
         .cornerRadius(4.0)
         .offset(x: 0,
-                y: self.snippetManager.hasExternalSnippetQueued ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
+                y: self.externalSnipItem.name.count > 0 ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
         .transition(AnyTransition.move(edge: .bottom))
     }
   }
@@ -111,27 +106,27 @@ struct ExternalSnippet: View {
 
 final class ExternalSnippetViewModel: ObservableObject {
   
-  @Published var tempSnipItem: SnipItem
-  
   var onTrigger: (SnipItemsListAction) -> Void
+  var onCancel: () -> Void
   var size: CGSize
   
   let modesList = CodeMode.list()
   
-  init(tempSnipItem: SnipItem,
-       readerSize: CGSize,
-       onTrigger: @escaping (SnipItemsListAction) -> Void) {
-    self.tempSnipItem = tempSnipItem
+  init(readerSize: CGSize,
+       onTrigger: @escaping (SnipItemsListAction) -> Void,
+       onCancel: @escaping () -> Void) {
+    
     self.size = readerSize
     self.onTrigger = onTrigger
+    self.onCancel = onCancel
   }
 }
 
 struct ExternalSnippet_Previews: PreviewProvider {
   static var previews: some View {
-    ExternalSnippet(viewModel: ExternalSnippetViewModel(tempSnipItem: SnipItem.file(name: "Test"),
-                                                        readerSize: CGSize(width: 400,
-                                                                           height: 300),
-                                                        onTrigger: {_ in }))
+    ExternalSnippet(viewModel: ExternalSnippetViewModel(readerSize: CGSize(width: 400, height: 300),
+                                                        onTrigger: {_ in },
+                                                        onCancel: {}),
+                    externalSnipItem: .constant(ExternalSnipItem.blank()))
   }
 }

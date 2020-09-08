@@ -90,14 +90,14 @@ struct Sidebar: View {
         }) {
           Text("New snippet")
             .font(.system(size: 14))
-            .foregroundColor(Color.white)
+            .foregroundColor(Color.text)
         }
         Button(action: {
           self.viewModel.onTrigger(.addFolder())
         }) {
           Text("New folder")
             .font(.system(size: 14))
-            .foregroundColor(Color.white)
+            .foregroundColor(Color.text)
         }
       }.menuButtonStyle(BorderlessButtonMenuButtonStyle())
         .foregroundColor(.text)

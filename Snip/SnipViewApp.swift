@@ -79,9 +79,13 @@ struct SnipViewApp: View {
   
   var addExternalSnipPanel: some View {
     GeometryReader { reader in
-      ExternalSnippet(viewModel: ExternalSnippetViewModel(tempSnipItem: self.snippetManager.tempSnipItem != nil ? self.snippetManager.tempSnipItem! : SnipItem.file(name: ""),
-                                                          readerSize: reader.size,
-                                                          onTrigger: self.viewModel.trigger(action:)))
+      ExternalSnippet(viewModel: ExternalSnippetViewModel(readerSize: reader.size,
+                                                          onTrigger: { action in
+                                                            self.viewModel.trigger(action:action)
+                                                            self.viewModel.resetExternalSnippetAdding()
+      },
+                                                          onCancel: self.viewModel.resetExternalSnippetAdding),
+                      externalSnipItem: self.$snippetManager.tempSnipItem)
     }
     .background(self.snippetManager.hasExternalSnippetQueued ? Color.black.opacity(0.8) : Color.clear)
     .transition(AnyTransition.opacity)
@@ -105,6 +109,11 @@ final class SnipViewAppViewModel: ObservableObject {
   
   func trigger(action: SnipItemsListAction) {
     SnippetManager.shared.trigger(action: action)
+  }
+  
+  func resetExternalSnippetAdding() {
+    SnippetManager.shared.hasExternalSnippetQueued = false
+    SnippetManager.shared.tempSnipItem = ExternalSnipItem.blank()
   }
 }
 
