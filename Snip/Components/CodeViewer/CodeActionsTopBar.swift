@@ -63,6 +63,12 @@ struct CodeActionsTopBar: View {
         }
       }
       
+      if viewModel.remoteURL != nil {
+        ImageButton(imageName: "ic_open",
+                    action: viewModel.openRemoteURL,
+                    content: { EmptyView() })
+      }
+      
       if viewModel.onPreviewToggle != nil {
         ImageButton(imageName: isPreviewEnabled ? "ic_preview_hide" : "ic_preview_show",
                     action: {
@@ -123,6 +129,7 @@ final class CodeActionsViewModel: ObservableObject {
   var snipCode: String
   var snipLastUpdate: Date
   var syncState: SnipItem.SyncState
+  var remoteURL: String?
   
   var onRename: (String) -> Void
   var onToggleFavorite: () -> Void
@@ -135,6 +142,7 @@ final class CodeActionsViewModel: ObservableObject {
        isFavorite: Bool,
        lastUpdate: Date,
        syncState: SnipItem.SyncState,
+       remoteURL: String?,
        onRename: @escaping (String) -> Void,
        onToggleFavorite: @escaping () -> Void,
        onDelete: @escaping () -> Void,
@@ -146,6 +154,7 @@ final class CodeActionsViewModel: ObservableObject {
     self.isSnipFavorite = isFavorite
     self.snipLastUpdate = lastUpdate
     self.syncState = syncState
+    self.remoteURL = remoteURL
     self.onRename = onRename
     self.onToggleFavorite = onToggleFavorite
     self.onDelete = onDelete
@@ -153,6 +162,11 @@ final class CodeActionsViewModel: ObservableObject {
     self.onPreviewToggle = onPreviewToggle
   }
   
+  func openRemoteURL() {
+    guard let sourceURL = remoteURL,
+          let url = URL(string: sourceURL) else { return }
+    NSWorkspace.shared.open(url)
+  }
 }
 
 struct CodeActionsTopBar_Previews: PreviewProvider {
@@ -162,6 +176,7 @@ struct CodeActionsTopBar_Previews: PreviewProvider {
                                                       isFavorite: true,
                                                       lastUpdate: Date(),
                                                       syncState: .syncing,
+                                                      remoteURL: nil,
                                                       onRename: { _ in print("action")},
                                                       onToggleFavorite: {},
                                                       onDelete: {},

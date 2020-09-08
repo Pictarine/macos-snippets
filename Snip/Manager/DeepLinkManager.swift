@@ -29,9 +29,9 @@ struct DeepLinkManager {
       
     else if url.absoluteString.starts(with: addURL),
       let code = params["code"],
-      let from = params["from"],
       let title = params["title"],
-      let tags = params["tags"] {
+      let tags = params["tags"],
+      let source = params["source"] {
       
       let tagsArray = tags.fromBase64()!.split(separator: ";").map({ (substring) in
         return String(substring)
@@ -40,7 +40,7 @@ struct DeepLinkManager {
       SnippetManager.shared.addSnippet(code: code.fromBase64()!,
                                        title: title.fromBase64()!,
                                        tags: tagsArray,
-                                       from: from)
+                                       source: source.fromBase64()!)
     }
       
     else {

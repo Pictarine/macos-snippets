@@ -22,7 +22,8 @@ struct Preview {
                                         lastUpdateDate: Date(),
                                         syncState: .local,
                                         gistId: nil,
-                                        gistURL: nil)
+                                        gistURL: nil,
+                                        remoteURL: nil)
   
   static let snipItems = [
       SnipItem(id: UUID(),
@@ -37,7 +38,8 @@ struct Preview {
                lastUpdateDate: Date(),
                syncState: .local,
                gistId: nil,
-               gistURL: nil),
+               gistURL: nil,
+               remoteURL: nil),
       SnipItem(id: UUID(),
                name: "IM",
                kind: .folder,
@@ -58,7 +60,8 @@ struct Preview {
                                    lastUpdateDate: Date(),
                                    syncState: .local,
                                    gistId: nil,
-                                   gistURL: nil),
+                                   gistURL: nil,
+                                   remoteURL: nil),
                           SnipItem(id: UUID(),
                                    name: "File #1",
                                    kind: .file,
@@ -71,7 +74,8 @@ struct Preview {
                                    lastUpdateDate: Date(),
                                    syncState: .local,
                                    gistId: nil,
-                                   gistURL: nil)
+                                   gistURL: nil,
+                                   remoteURL: nil)
                   ],
                          snippet: "",
                          mode: CodeMode.text.mode(),
@@ -81,7 +85,8 @@ struct Preview {
                          lastUpdateDate: Date(),
                          syncState: .local,
                          gistId: nil,
-                         gistURL: nil)
+                         gistURL: nil,
+                         remoteURL: nil)
         ],
                snippet: "",
                mode: CodeMode.text.mode(),
@@ -91,7 +96,8 @@ struct Preview {
                lastUpdateDate: Date(),
                syncState: .local,
                gistId: nil,
-               gistURL: nil),
+               gistURL: nil,
+               remoteURL: nil),
       SnipItem(id: UUID(),
                name: "BATMAN",
                kind: .file,
@@ -104,7 +110,8 @@ struct Preview {
                lastUpdateDate: Date(),
                syncState: .local,
                gistId: nil,
-               gistURL: nil)
+               gistURL: nil,
+               remoteURL: nil)
     ]
   
 }

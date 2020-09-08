@@ -46,13 +46,14 @@ extension SnippetManager {
     snippetActionSubject.send(action)
   }
   
-  public func addSnippet(code: String, title: String, tags: [String], from: String) {
+  public func addSnippet(code: String, title: String, tags: [String], source: String) {
     
     tempSnipItem = SnipItem.file(name: title)
     tempSnipItem?.snippet = code
     tempSnipItem?.tags = tags
+    tempSnipItem?.remoteURL = source
     
-    withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 40.0, damping: 11, initialVelocity: 0)) { () -> () in
+    withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
       hasExternalSnippetQueued = true
     }
   }

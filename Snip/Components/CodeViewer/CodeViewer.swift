@@ -26,6 +26,7 @@ struct CodeViewer: View {
                                                           isFavorite: snipItem.isFavorite,
                                                           lastUpdate: snipItem.lastUpdateDate,
                                                           syncState: snipItem.syncState ?? .local,
+                                                          remoteURL: snipItem.remoteURL,
                                                           onRename: { name in
                                                             self.viewModel.onTrigger(.rename(id: self.snipItem.id, name: name))
         },

@@ -13,7 +13,7 @@ import Combine
 class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   
   enum CodingKeys: CodingKey {
-      case snippet, mode, tags, name, isFavorite, content, id, kind, creationDate, lastUpdateDate, syncState, gistId, gistURL
+      case snippet, mode, tags, name, isFavorite, content, id, kind, creationDate, lastUpdateDate, syncState, gistId, gistURL, remoteURL
   }
   
   enum Kind: Int, Codable {
@@ -41,6 +41,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   var kind: Kind
   var creationDate: Date
   var lastUpdateDate: Date
+  var remoteURL: String?
   
   init(
     id: UUID,
@@ -55,7 +56,8 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     lastUpdateDate: Date,
     syncState: SyncState?,
     gistId: String?,
-    gistURL: String?
+    gistURL: String?,
+    remoteURL: String?
   ) {
     self.id = id.uuidString
     self.name = name
@@ -70,6 +72,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     self.syncState = syncState
     self.gistId = gistId
     self.gistURL = gistURL
+    self.remoteURL = remoteURL
   }
   
   static func folder(name: String) -> SnipItem {
@@ -86,7 +89,8 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       lastUpdateDate: Date(),
       syncState: .local,
       gistId: nil,
-      gistURL: nil
+      gistURL: nil,
+      remoteURL: nil
     )
   }
   
@@ -104,7 +108,8 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       lastUpdateDate: Date(),
       syncState: .local,
       gistId: nil,
-      gistURL: nil
+      gistURL: nil,
+      remoteURL: nil
     )
   }
 
@@ -129,6 +134,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     
     gistId = try? container.decode(String.self, forKey: .gistId)
     gistURL = try? container.decode(String.self, forKey: .gistURL)
+    remoteURL = try? container.decode(String.self, forKey: .remoteURL)
   }
   
   func encode(to encoder: Encoder) throws {
@@ -147,6 +153,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     try container.encode(syncState, forKey: .syncState)
     try container.encode(gistId, forKey: .gistId)
     try container.encode(gistURL, forKey: .gistURL)
+    try container.encode(remoteURL, forKey: .remoteURL)
   }
   
   static func == (lhs: SnipItem, rhs: SnipItem) -> Bool {
