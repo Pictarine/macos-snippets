@@ -79,7 +79,8 @@ struct SnipViewApp: View {
   
   var addExternalSnipPanel: some View {
     GeometryReader { reader in
-      ExternalSnippet(viewModel: ExternalSnippetViewModel(readerSize: reader.size,
+      ExternalSnippet(viewModel: ExternalSnippetViewModel(isVisible: self.snippetManager.hasExternalSnippetQueued,
+                                                          readerSize: reader.size,
                                                           onTrigger: { action in
                                                             self.viewModel.trigger(action:action)
                                                             self.viewModel.resetExternalSnippetAdding()

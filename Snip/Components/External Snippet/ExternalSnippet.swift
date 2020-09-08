@@ -95,7 +95,7 @@ struct ExternalSnippet: View {
         .background(Color.primary)
         .cornerRadius(4.0)
         .offset(x: 0,
-                y: self.externalSnipItem.name.count > 0 ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
+                y: self.viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
         .transition(AnyTransition.move(edge: .bottom))
     }
   }
@@ -105,14 +105,16 @@ final class ExternalSnippetViewModel: ObservableObject {
   
   var onTrigger: (SnipItemsListAction) -> Void
   var onCancel: () -> Void
+  var isVisible: Bool
   var size: CGSize
   
   let modesList = CodeMode.list()
   
-  init(readerSize: CGSize,
+  init(isVisible: Bool,
+       readerSize: CGSize,
        onTrigger: @escaping (SnipItemsListAction) -> Void,
        onCancel: @escaping () -> Void) {
-    
+    self.isVisible = isVisible
     self.size = readerSize
     self.onTrigger = onTrigger
     self.onCancel = onCancel
@@ -121,7 +123,8 @@ final class ExternalSnippetViewModel: ObservableObject {
 
 struct ExternalSnippet_Previews: PreviewProvider {
   static var previews: some View {
-    ExternalSnippet(viewModel: ExternalSnippetViewModel(readerSize: CGSize(width: 400, height: 300),
+    ExternalSnippet(viewModel: ExternalSnippetViewModel(isVisible: true,
+                                                        readerSize: CGSize(width: 400, height: 300),
                                                         onTrigger: {_ in },
                                                         onCancel: {}),
                     externalSnipItem: .constant(ExternalSnipItem.blank()))
