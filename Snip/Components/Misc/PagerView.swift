@@ -4,7 +4,7 @@
 //
 //  Created by Anthony Fernandez on 9/8/20.
 //  Copyright © 2020 pictarine. All rights reserved.
-//
+//  FROM : https://swiftwithmajid.com/2019/12/25/building-pager-view-in-swiftui/
 
 import SwiftUI
 
