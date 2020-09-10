@@ -39,6 +39,8 @@ extension Color {
   
   static let GREY_200 = Color.init(hex: "F6F8FA")
   
+  static let BLUE_700 = Color.init(hex: "0C1021")
+  
   init(hex: String) {
     let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
     var int: UInt64 = 0

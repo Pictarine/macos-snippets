@@ -13,4 +13,14 @@ class AppState: ObservableObject {
   
   @Published var selectedSnippetId: String? = ""
   @Published var selectedSnippetFilter: ModelFilter = .all
+  
+  @Published var shouldShowChangelogModel: Bool {
+    didSet {
+      UserDefaults.standard.set(Bundle.main.buildVersionNumber, forKey: "previous_launched_version")
+    }
+  }
+  
+  init() {
+    self.shouldShowChangelogModel = (UserDefaults.standard.object(forKey: "previous_launched_version") as? String ?? "") != Bundle.main.buildVersionNumber
+  }
 }

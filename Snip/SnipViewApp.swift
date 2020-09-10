@@ -14,6 +14,7 @@ struct SnipViewApp: View {
   @ObservedObject var snippetManager = SnippetManager.shared
   @ObservedObject var viewModel : SnipViewAppViewModel
   @EnvironmentObject var settings: Settings
+  @EnvironmentObject var appState: AppState
   
   var body: some View {
     appNavigation
@@ -78,7 +79,7 @@ struct SnipViewApp: View {
   
   var welcomePanel: some View {
     GeometryReader { reader in
-      WelcomeView(viewModel: WelcomeViewModel(isVisible: true, readerSize: reader.size))
+      WelcomeView(viewModel: WelcomeViewModel(isVisible: self.$appState.shouldShowChangelogModel, readerSize: reader.size))
     }
   }
   
