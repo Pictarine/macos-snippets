@@ -11,8 +11,6 @@
 .cm-s-base16-light.CodeMirror {
    background: #ffffff;
    color: #202020;
-   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-   font-variant-numeric: tabular-nums;
 }
 .cm-s-base16-light div.CodeMirror-selected { background: rgb(247, 247, 247); }
 .cm-s-base16-light .CodeMirror-line::selection, .cm-s-base16-light .CodeMirror-line > span::selection, .cm-s-base16-light .CodeMirror-line > span > span::selection { background: rgb(247, 247, 247); }

@@ -67,9 +67,7 @@ struct WelcomeView: View {
       Spacer()
       HStack {
         Spacer()
-        Button(action: {
-          self.viewModel.isVisible = false
-        }) {
+        Button(action: self.viewModel.close) {
           Text("Close")
             .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
             .foregroundColor(.text)
@@ -113,9 +111,18 @@ final class WelcomeViewModel: ObservableObject {
     self.size = readerSize
   }
   
+  func close() {
+    
+    withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
+      self.isVisible = false
+    }
+  }
+  
   func openSnipWebsite() {
     guard let url = URL(string: "https://snip.picta-hub.io") else { return }
     NSWorkspace.shared.open(url)
+    
+    self.close()
   }
 }
 
