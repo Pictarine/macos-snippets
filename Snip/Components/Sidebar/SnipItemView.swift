@@ -78,26 +78,26 @@ struct SnipItemView<Content: View>: View {
             self.viewModel.onTrigger(.addFolder(id: self.viewModel.snipItem.id))
           }) {
             Text("Add folder")
-            .foregroundColor(.text)
+              .foregroundColor(.text)
           }
           
           Button(action: {
             self.viewModel.onTrigger(.addSnippet(id: self.viewModel.snipItem.id))
           }) {
             Text("Add snippet")
-            .foregroundColor(.text)
+              .foregroundColor(.text)
           }
           
           Button(action: { self.isEditingName.toggle() }) {
             Text("Rename")
-            .foregroundColor(.text)
+              .foregroundColor(.text)
           }
           
           Button(action: {
             self.viewModel.onTrigger(.delete(id: self.viewModel.snipItem.id))
           }) {
             Text("Delete")
-            .foregroundColor(.text)
+              .foregroundColor(.text)
           }
       }
       
@@ -127,6 +127,12 @@ struct SnipItemView<Content: View>: View {
             .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 4)
+            .overlay(
+              Circle()
+                .fill(self.viewModel.snipItem.syncState == .local ? Color.clear : Color.green)
+                .frame(width: 8, height: 8)
+                .offset(x: 7, y: 6)
+          )
           TextField("Snip name", text: Binding<String>(
             get: {
               self.viewModel.snipItem.name
@@ -157,7 +163,7 @@ struct SnipItemView<Content: View>: View {
           self.isEditingName.toggle()
         }) {
           Text("Rename")
-          .foregroundColor(.text)
+            .foregroundColor(.text)
         }
         
         Button(action: {

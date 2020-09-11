@@ -16,6 +16,7 @@ extension Color {
   static let primary = Color("Primary")
   static let secondary = Color("Secondary")
   static let text = Color("Text")
+  static let shadow = Color("Shadow")
   static let accent = Color("Accent")
   static let accentDark = Color("AccentDark")
   static let transparent = Color.black.opacity(0.0001)

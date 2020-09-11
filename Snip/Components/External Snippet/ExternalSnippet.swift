@@ -105,7 +105,7 @@ struct ExternalSnippet: View {
   }
   
   var backgroundView: some View {
-      self.viewModel.isVisible ? Color.black.opacity(0.8) : Color.clear
+      self.viewModel.isVisible ? Color.shadow.opacity(0.7) : Color.clear
   }
 }
 

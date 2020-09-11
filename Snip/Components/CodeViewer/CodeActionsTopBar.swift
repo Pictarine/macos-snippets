@@ -164,7 +164,7 @@ final class CodeActionsViewModel: ObservableObject {
   
   func openRemoteURL() {
     guard let sourceURL = remoteURL,
-          let url = URL(string: sourceURL) else { return }
+      let url = URL(string: sourceURL) else { return }
     NSWorkspace.shared.open(url)
   }
 }

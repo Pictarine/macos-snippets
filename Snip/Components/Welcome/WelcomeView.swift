@@ -29,7 +29,7 @@ struct WelcomeView: View {
       .frame(width: viewModel.size.width / 2.5,
              height: viewModel.size.height / 1.5,
              alignment: .center)
-        .background(Color.BLACK_500)
+        .background(Color.secondary)
         .cornerRadius(4.0)
         .offset(x: 0,
                 y: viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
@@ -53,7 +53,7 @@ struct WelcomeView: View {
       HStack {
         Text("- Fix 'non clickable' area\n- Add snippet from StackOverflow via a Chrome Ext.\n- A StackOverflow snippet has a special top bar button to open the dedicated StackOverflow Post")
           .font(Font.custom("CourierNewPSMT", size: 12))
-          .foregroundColor(.text)
+          .foregroundColor(.white)
         Spacer()
       }
       .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
@@ -72,12 +72,14 @@ struct WelcomeView: View {
         }) {
           Text("Close")
             .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
+            .foregroundColor(.text)
             .background(Color.transparent)
         }
         .buttonStyle(PlainButtonStyle())
         Button(action: self.viewModel.openSnipWebsite) {
           Text("JOIN US")
             .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
+            .foregroundColor(.white)
             .background(Color.accentDark)
             .cornerRadius(4)
         }
@@ -97,7 +99,7 @@ struct WelcomeView: View {
   }
   
   var backgroundView: some View {
-    viewModel.isVisible ? Color.black.opacity(0.8) : Color.clear
+    viewModel.isVisible ? Color.shadow.opacity(0.7) : Color.clear
   }
 }
 
