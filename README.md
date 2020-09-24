@@ -25,6 +25,7 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 10
 * Favorites snippets
 * Tags
 * Light & Dark Mode
+* Create snippets via deeplinks from StackOverflow via [a Chrome Extension](https://chrome.google.com/webstore/detail/snip-extractor/fioamfejealgknedajclejcnbilifopf)
 
 
 ## Editor 
@@ -40,7 +41,6 @@ Fork from [CodeMirror-Swift](https://github.com/ProxymanApp/CodeMirror-Swift) by
 
 - Editor customization with font, font size, tab size and more
 - Create snippets from files
-- Create snippets via deeplinks from StackOverflow
 - iCloud Sync & Restore
 - Themes
 - Search
