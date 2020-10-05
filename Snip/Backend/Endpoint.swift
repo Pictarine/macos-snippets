@@ -20,7 +20,7 @@ public enum Endpoint {
   public func path() -> String {
     switch self {
     case .token:
-      return "https://github.com/login/oauth/access_token"
+      return "https://snip.picta-hub.io/github-token"
     case .user:
       return "https://api.github.com/user"
     case .createGist:
