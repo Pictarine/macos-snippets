@@ -29,7 +29,7 @@ class SyncManager: ObservableObject {
   private let clientId = "c4fd4a181bfc4089385b"
   private let clientSecret = "50273aed8a9f94cc7147cda776696b27207443e6"
   private let callbackURL = "snip://callback"
-  static let oauthURL = URL(string: "https://github.com/login/oauth/authorize?client_id=c4fd4a181bfc4089385b&redirect_uri=snip://callback&scope=gist,user&state=snip")!
+  static let oauthURL = URL(string: "https://github.com/login/oauth/authorize?client_id=c4fd4a181bfc4089385b&redirect_uri=snip://callback&scope=gist,read:user&state=snip")!
   
   func initialize() {
     
