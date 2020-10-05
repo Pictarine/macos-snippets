@@ -62,7 +62,9 @@ struct WelcomeView: View {
       .font(.subheadline)
       .foregroundColor(.text)
       .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
-      CodeView(code: .constant("Snip needs your help to grow!\n\nWant to translate snip into your native language?\nWant to have first-day in our next features?\n\nJOIN US now!"), mode: .constant(CodeMode.text.mode()))
+      CodeView(code: .constant("Snip needs your help to grow!\n\nWant to translate snip into your native language?\nWant to have first-day in our next features?\n\nJOIN US now!"),
+               mode: .constant(CodeMode.text.mode()),
+               isReadOnly: true)
         .frame(maxWidth: .infinity)
       Spacer()
       HStack {

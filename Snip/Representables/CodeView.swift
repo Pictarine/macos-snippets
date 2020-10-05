@@ -18,6 +18,7 @@ struct CodeView: NSViewRepresentable {
   
   @Binding var code: String
   @Binding var mode: Mode
+  var isReadOnly = false
   
   var onLoadSuccess: (() -> ())? = nil
   var onLoadFail: ((Error) -> ())? = nil
@@ -60,6 +61,7 @@ struct CodeView: NSViewRepresentable {
     
     context.coordinator.setMimeType(mode.mimeType)
     context.coordinator.setContent(code)
+    context.coordinator.setReadonly(isReadOnly)
     
     return webView
   }
@@ -71,6 +73,7 @@ struct CodeView: NSViewRepresentable {
     updateWhatsNecessary(elementGetter: context.coordinator.getContent(_:), elementSetter: context.coordinator.setContent(_:), currentElementState: self.code)
     
     context.coordinator.setThemeName((colorScheme == .dark) ? "material-palenight" : "base16-light")
+    context.coordinator.setReadonly(isReadOnly)
   }
   
   func makeCoordinator() -> CodeMirrorViewController {
