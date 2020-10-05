@@ -10,6 +10,8 @@ import SwiftUI
 
 struct Sidebar: View {
   
+  @EnvironmentObject var settings: Settings
+  
   @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: SideBarViewModel
   
@@ -32,11 +34,15 @@ struct Sidebar: View {
       .background(Color.clear)
       
       HStack {
+        ImageButton(imageName: "ic_settings", action: {
+          withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
+            settings.isSettingsOpened.toggle()
+          }
+        }, content: { EmptyView() })
         Spacer()
         
         Text(syncManager.connectedUser?.login ?? "")
           .foregroundColor(.text)
-        //ImageButton(imageName: "ic_settings", action: {}, content: { EmptyView() })
         
         Button(action: {
           if self.syncManager.isAuthenticated {

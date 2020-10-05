@@ -1,7 +1,8 @@
 .cm-s-all-hallow-eve {
-	font-family: inconsolata, monospace;
 	background: #000000;
 	color: #FFFFFF;
+  font-size: 12px;
+  line-height: 1.3em;
 }
 .cm-s-all-hallow-eve .CodeMirror-lines {
 	padding: 8px 0;

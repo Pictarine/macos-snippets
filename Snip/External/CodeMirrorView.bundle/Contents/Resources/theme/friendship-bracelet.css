@@ -1,11 +1,8 @@
 .cm-s-friendship-bracelet {
-	font-size: 1em;
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
 	background: #1F1F1F;
 	color: #F1F1F1;
+  font-size: 12px;
+  line-height: 1.3em;
 }
 .cm-s-friendship-bracelet .CodeMirror-lines {
 	padding: 8px 0;

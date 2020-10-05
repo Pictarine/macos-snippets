@@ -10,17 +10,75 @@ import SwiftUI
 
 struct SettingsView: View {
   
+  @EnvironmentObject var settings: Settings
   @ObservedObject var viewModel: SettingsViewModel
+  
+  @State private var selectedTheme = 0
+  @State private var codeBlock = try! String(contentsOf: Bundle.main.url(forResource: "Demo", withExtension: "txt")!)
   
   var body: some View {
     ZStack {
       
       backgroundView
-      .frame(width: viewModel.size.width, height: viewModel.size.height)
-      .transition(AnyTransition.opacity)
+        .frame(width: viewModel.size.width, height: viewModel.size.height)
+        .transition(AnyTransition.opacity)
       
       VStack(alignment: .leading) {
-        Text("Hello")
+        
+        HStack {
+          Spacer()
+          Text("Settings")
+            .font(.largeTitle)
+          Spacer()
+        }
+        .padding(.top, 16)
+        
+        Picker(selection: Binding<Int>(
+                get: {
+                  let index = CodeViewTheme.list.firstIndex(where: { (theme) -> Bool in
+                    theme == settings.codeMirrorTheme
+                  }) ?? 0
+                  return index
+                },
+                set: {
+                  selectedTheme = $0
+                  settings.codeMirrorTheme = CodeViewTheme.list[$0]
+                }), label: Text("CodeView Theme")) {
+          ForEach(0 ..< CodeViewTheme.list.count) {
+            Text(CodeViewTheme.list[$0].rawValue)
+          }
+        }
+        .pickerStyle(DefaultPickerStyle())
+        .frame(maxWidth: .infinity)
+        .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+        
+        CodeView(theme: settings.codeMirrorTheme,
+                 code: $codeBlock,
+                 mode: .constant(CodeMode.swift.mode()),
+                 isReadOnly: true)
+          .frame(maxWidth: .infinity, maxHeight: 150)
+          .padding(EdgeInsets(top: 16, leading: 32, bottom: 0, trailing: 32))
+        
+        Spacer()
+        
+        HStack {
+          Spacer()
+          Button(action: {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
+              settings.isSettingsOpened.toggle()
+            }
+          }) {
+            Text("Close")
+              .foregroundColor(.white)
+              .frame(width: 50)
+              .padding(8)
+          }
+          .buttonStyle(PlainButtonStyle())
+          .background(Color.accent)
+          .cornerRadius(4)
+          Spacer()
+        }
+        .padding(8)
       }
       .frame(width: viewModel.size.width / 2.5,
              height: viewModel.size.height / 1.5,

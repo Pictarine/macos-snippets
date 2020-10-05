@@ -88,6 +88,10 @@ class CodeMirrorViewController: NSObject {
     callJavascript(javascriptString: "GetTextSelection();", callback: block)
   }
   
+  func setShowInvisibleCharacters(_ show: Bool) {
+    callJavascript(javascriptString: "ToggleInvisible(\(show));")
+  }
+  
   fileprivate func configCodeMirror() {
     setTabInsertsSpaces(true)
   }

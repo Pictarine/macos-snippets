@@ -12,6 +12,5 @@ import SwiftUI
 class Settings: ObservableObject {
   
   @Published var isSettingsOpened : Bool = false
-  @Published var codeMirrorTheme : String = "material-palenight"
-  
+  @Published var codeMirrorTheme : CodeViewTheme? = nil
 }

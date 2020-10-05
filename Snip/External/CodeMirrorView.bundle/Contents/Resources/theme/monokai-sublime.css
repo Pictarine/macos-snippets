@@ -1,11 +1,8 @@
 .cm-s-monokai-sublime {
-	font-size: 1em;
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
 	background: #272822;
 	color: #F8F8F2;
+  font-size: 12px;
+  line-height: 1.3em;
 }
 .cm-s-monokai-sublime .CodeMirror-lines {
 	padding: 8px 0;

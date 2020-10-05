@@ -44,7 +44,7 @@ struct SnipViewApp: View {
   var sideBar: some View {
     Sidebar(viewModel: SideBarViewModel(snipppets: viewModel.snippets, onTrigger: viewModel.trigger(action:)))
       .background(Color.secondary)
-      .frame(minWidth: 0, idealWidth: 200, maxWidth: 240)
+      .frame(minWidth: 0, idealWidth: 300, maxWidth: 350)
   }
   
   var openingPanel: some View {

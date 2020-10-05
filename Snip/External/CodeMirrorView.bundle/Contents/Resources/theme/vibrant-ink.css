@@ -1,11 +1,8 @@
 .cm-s-vibrant-ink {
-	font-size: 1em;
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
 	background: #000000;
 	color: #FFFFFF;
+  font-size: 12px;
+  line-height: 1.3em;
 }
 .cm-s-vibrant-ink .CodeMirror-lines {
 	padding: 8px 0;

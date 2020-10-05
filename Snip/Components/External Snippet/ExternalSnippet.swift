@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ExternalSnippet: View {
   
+  @EnvironmentObject var settings: Settings
   @ObservedObject var viewModel: ExternalSnippetViewModel
   @Binding var externalSnipItem: ExternalSnipItem
   
@@ -17,8 +18,8 @@ struct ExternalSnippet: View {
     ZStack {
       
       backgroundView
-      .frame(width: viewModel.size.width, height: viewModel.size.height)
-      .transition(AnyTransition.opacity)
+        .frame(width: viewModel.size.width, height: viewModel.size.height)
+        .transition(AnyTransition.opacity)
       
       VStack(alignment: .leading) {
         VStack {
@@ -32,34 +33,35 @@ struct ExternalSnippet: View {
                             leading: 4,
                             bottom: 8,
                             trailing: 4))
-          .background(Color.secondary.opacity(0.8))
+        .background(Color.secondary.opacity(0.8))
         
         Picker(selection: Binding<Int>(
-          get: {
-            let index = self.viewModel.modesList.firstIndex(where: { (mode) -> Bool in
-              mode == self.externalSnipItem.mode
-            }) ?? -1
-            return index
-        },
-          set: {
-            self.externalSnipItem.mode = self.viewModel.modesList[$0]
-        }),
+                get: {
+                  let index = self.viewModel.modesList.firstIndex(where: { (mode) -> Bool in
+                    mode == self.externalSnipItem.mode
+                  }) ?? -1
+                  return index
+                },
+                set: {
+                  self.externalSnipItem.mode = self.viewModel.modesList[$0]
+                }),
                label: EmptyView()) {
-                ForEach(0 ..< self.viewModel.modesList.count, id: \.self) {
-                  Text(self.viewModel.modesList[$0].name)
-                }
+          ForEach(0 ..< self.viewModel.modesList.count, id: \.self) {
+            Text(self.viewModel.modesList[$0].name)
+          }
         }
         .frame(minWidth: 100,
                idealWidth: 150,
                maxWidth: 150,
                alignment: .leading)
-          .pickerStyle(DefaultPickerStyle())
+        .pickerStyle(DefaultPickerStyle())
         
-        CodeView(code: .constant(self.externalSnipItem.snippet),
-                 mode: .constant(self.externalSnipItem.mode),
-                 onContentChange: { newCode in
-                  self.externalSnipItem.snippet = newCode
-        })
+        CodeView(theme: settings.codeMirrorTheme,
+                 code: .constant(self.externalSnipItem.snippet),
+                 mode: .constant(self.externalSnipItem.mode))
+          .onContentChange { newCode in
+            self.externalSnipItem.snippet = newCode
+          }
           .frame(maxWidth: .infinity,
                  maxHeight: .infinity)
         
@@ -105,7 +107,7 @@ struct ExternalSnippet: View {
   }
   
   var backgroundView: some View {
-      self.viewModel.isVisible ? Color.shadow.opacity(0.7) : Color.clear
+    self.viewModel.isVisible ? Color.shadow.opacity(0.7) : Color.clear
   }
 }
 

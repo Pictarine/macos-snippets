@@ -13,6 +13,7 @@ struct CodeViewer: View {
   
   @ObservedObject var viewModel: CodeViewerViewModel
   @EnvironmentObject var appState: AppState
+  @EnvironmentObject var settings: Settings
   @EnvironmentObject var snipItem: SnipItem
   
   @State private var shouldShowPreview = false
@@ -59,11 +60,12 @@ struct CodeViewer: View {
                                                                                                    tag: tag))
         }))
         
-        CodeView(code: .constant(self.snipItem.snippet),
-                 mode: .constant(self.snipItem.mode),
-                 onContentChange: { newCode in
-                  self.viewModel.onTrigger(.updateCode(id: self.snipItem.id, code: newCode))
-        })
+        CodeView(theme: settings.codeMirrorTheme,
+                 code: .constant(self.snipItem.snippet),
+                 mode: .constant(self.snipItem.mode))
+          .onContentChange { newCode in
+            self.viewModel.onTrigger(.updateCode(id: self.snipItem.id, code: newCode))
+          }
           .frame(minWidth: 100,
                  maxWidth: .infinity,
                  minHeight: 100,

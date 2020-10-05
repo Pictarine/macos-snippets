@@ -1,11 +1,8 @@
 .cm-s-summer-sun {
-	font-size: 1em;
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
 	background: #110F0A;
 	color: #F2F8CB;
+  font-size: 12px;
+  line-height: 1.3em;
 }
 .cm-s-summer-sun .CodeMirror-lines {
 	padding: 8px 0;

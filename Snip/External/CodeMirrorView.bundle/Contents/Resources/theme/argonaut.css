@@ -1,11 +1,8 @@
 .cm-s-argonaut {
-	font-size: 1em;
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
 	background: #151515;
 	color: #B2B2B2;
+  font-size: 12px;
+  line-height: 1.3em;
 }
 .cm-s-argonaut .CodeMirror-lines {
 	padding: 8px 0;

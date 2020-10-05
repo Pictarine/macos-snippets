@@ -28,6 +28,9 @@
 		794D27D924F68FF2006E3B3D /* Down in Frameworks */ = {isa = PBXBuildFile; productRef = 794D27D824F68FF2006E3B3D /* Down */; };
 		794D27DB24F6A19C006E3B3D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794D27DA24F6A19C006E3B3D /* Data.swift */; };
 		794D27DE24F6A39B006E3B3D /* md.css in Resources */ = {isa = PBXBuildFile; fileRef = 794D27DD24F6A39B006E3B3D /* md.css */; };
+		794DBE92252B454B000DFCF2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794DBE91252B454B000DFCF2 /* Theme.swift */; };
+		795D51EB252B686C00613D0F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795D51EA252B686C00613D0F /* Binding.swift */; };
+		795D51EF252B691700613D0F /* Demo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 795D51EE252B691700613D0F /* Demo.txt */; };
 		796B092524D1B4A3006904C4 /* SnipItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092424D1B4A3006904C4 /* SnipItem.swift */; };
 		796B092924D1B563006904C4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092824D1B563006904C4 /* Settings.swift */; };
 		796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */; };
@@ -102,6 +105,9 @@
 		794D27DA24F6A19C006E3B3D /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		794D27DD24F6A39B006E3B3D /* md.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = md.css; sourceTree = "<group>"; };
 		794D27DF24F79F8D006E3B3D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		794DBE91252B454B000DFCF2 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		795D51EA252B686C00613D0F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
+		795D51EE252B691700613D0F /* Demo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Demo.txt; sourceTree = "<group>"; };
 		796B092424D1B4A3006904C4 /* SnipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItem.swift; sourceTree = "<group>"; };
 		796B092824D1B563006904C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
@@ -205,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				794D27DD24F6A39B006E3B3D /* md.css */,
+				795D51EE252B691700613D0F /* Demo.txt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -215,6 +222,7 @@
 				791AC9CC24DCA04D00CAB87C /* Helper */,
 				796B092424D1B4A3006904C4 /* SnipItem.swift */,
 				79A6F65624D2C8D80037C5FF /* Mode.swift */,
+				794DBE91252B454B000DFCF2 /* Theme.swift */,
 				796B092824D1B563006904C4 /* Settings.swift */,
 				791AC9CA24DC450D00CAB87C /* Preview.swift */,
 				791B8D7524E28EF800851E2A /* AppState.swift */,
@@ -347,6 +355,7 @@
 				79956A4F24E5BC2300B823E1 /* URL.swift */,
 				794D27DA24F6A19C006E3B3D /* Data.swift */,
 				79284D6E250A23E900210E61 /* Bundle.swift */,
+				795D51EA252B686C00613D0F /* Binding.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -454,7 +463,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = pictarine;
 				TargetAttributes = {
 					794D27CA24F672E4006E3B3D = {
@@ -505,6 +514,7 @@
 				794D27DE24F6A39B006E3B3D /* md.css in Resources */,
 				796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */,
 				79BC1D2A24D16E6A008FD16E /* Main.storyboard in Resources */,
+				795D51EF252B691700613D0F /* Demo.txt in Resources */,
 				797B92EC24FCDE2900071669 /* Colors.xcassets in Resources */,
 				79BC1D2724D16E6A008FD16E /* Preview Assets.xcassets in Resources */,
 				79BC1D2424D16E6A008FD16E /* Assets.xcassets in Resources */,
@@ -533,6 +543,7 @@
 				7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */,
 				79C612B12506278D008672BA /* DeepLinkManager.swift in Sources */,
 				79C463D024F44233009B2DA3 /* MarkdownHTMLViewer.swift in Sources */,
+				795D51EB252B686C00613D0F /* Binding.swift in Sources */,
 				79284D6D2507DE7F00210E61 /* PagerView.swift in Sources */,
 				79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */,
 				79BC1D2224D16E67008FD16E /* SnipViewApp.swift in Sources */,
@@ -559,6 +570,7 @@
 				79C612B92506B27F008672BA /* SettingsView.swift in Sources */,
 				79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */,
 				79956A4B24E58A0900B823E1 /* SyncManager.swift in Sources */,
+				794DBE92252B454B000DFCF2 /* Theme.swift in Sources */,
 				79956A4224E5463300B823E1 /* API.swift in Sources */,
 				791AC9C724DB059A00CAB87C /* SnipItemView.swift in Sources */,
 				79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */,
@@ -667,6 +679,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -727,6 +740,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -762,7 +776,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"Snip/Preview Content\"";
 				DEVELOPMENT_TEAM = 7XBGRFP286;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -773,7 +787,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pictarine.Snip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Snip DEBUG";
@@ -789,7 +803,7 @@
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"Snip/Preview Content\"";
 				DEVELOPMENT_TEAM = 7XBGRFP286;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -800,7 +814,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pictarine.Snip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Snip APPSTORE";

@@ -1,0 +1,6 @@
+@propertyWrapper
+struct Wrapper<T> {
+    var wrappedValue: T
+
+    func foo() { print("Foo") }
+}

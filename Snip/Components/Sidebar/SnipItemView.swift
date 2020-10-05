@@ -14,6 +14,7 @@ struct SnipItemView<Content: View>: View {
   
   @ObservedObject var viewModel: SnipItemViewModel
   @EnvironmentObject var appState: AppState
+  @EnvironmentObject var settings: Settings
   @State private var isExpanded: Bool = false
   @State private var isEditingName = false
   
@@ -108,8 +109,8 @@ struct SnipItemView<Content: View>: View {
                                                   onDimiss: {
                                                     self.appState.selectedSnippetId = nil
         }))
-          .environmentObject(Settings())
           .environmentObject(self.appState)
+          .environmentObject(self.settings)
           .environmentObject(self.viewModel.snipItem)
           .onAppear {
             self.appState.selectedSnippetId = self.viewModel.snipItem.id
