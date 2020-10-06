@@ -12,6 +12,8 @@ struct Sidebar: View {
   
   @EnvironmentObject var settings: Settings
   
+  @Environment(\.themeTextColor) var themeTextColor
+  
   @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: SideBarViewModel
   
@@ -42,7 +44,7 @@ struct Sidebar: View {
         Spacer()
         
         Text(syncManager.connectedUser?.login ?? "")
-          .foregroundColor(.text)
+          .foregroundColor(themeTextColor)
         
         Button(action: {
           if self.syncManager.isAuthenticated {
@@ -54,8 +56,8 @@ struct Sidebar: View {
         }) {
           Image(syncManager.isAuthenticated ? "ic_github_connected" : "ic_github")
             .resizable()
-            .renderingMode(.template)
-            .colorMultiply(.text)
+            .renderingMode(.original)
+            .colorMultiply(themeTextColor)
             .scaledToFit()
             .frame(width: 20, height: 20, alignment: .center)
             .overlay(
@@ -117,7 +119,7 @@ struct Sidebar: View {
   var favorites: some View {
     Text("Favorites")
       .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-      .foregroundColor(Color.text.opacity(0.6))
+      .foregroundColor(themeTextColor.opacity(0.6))
       .padding(.bottom, 3)
     
     SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
@@ -129,7 +131,7 @@ struct Sidebar: View {
   var local: some View {
     Text("Local")
       .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-      .foregroundColor(Color.text.opacity(0.6))
+      .foregroundColor(themeTextColor.opacity(0.6))
       .padding(.bottom, 3)
       .padding(.top, 16)
     

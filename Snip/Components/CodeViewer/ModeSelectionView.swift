@@ -12,6 +12,8 @@ struct ModeSelectionView: View {
   
   @ObservedObject var viewModel: ModeSelectionViewModel
   
+  @Environment(\.themeTextColor) var themeTextColor
+  
   @State var newTag: String = ""
   
   private let modesList = CodeMode.list()
@@ -48,7 +50,7 @@ struct ModeSelectionView: View {
   }
   
   var addNewTag: some View {
-    CustomTextField(placeholder: Text("New Tag").foregroundColor(Color.text.opacity(0.7)),
+    CustomTextField(placeholder: Text("New Tag").foregroundColor(themeTextColor.opacity(0.7)),
                     text: $newTag,
                     commit: {
                       print("Commit")
@@ -62,7 +64,7 @@ struct ModeSelectionView: View {
     })
       .frame(width: 60)
       .padding(4)
-      .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.text.opacity(0.7), lineWidth: 1))
+      .overlay(RoundedRectangle(cornerRadius: 4).stroke(themeTextColor.opacity(0.7), lineWidth: 1))
       .textFieldStyle(PlainTextFieldStyle())
   }
   

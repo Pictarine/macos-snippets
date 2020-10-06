@@ -12,31 +12,35 @@ struct CodeDetailsBottomBar: View {
   
   @ObservedObject var viewModel: CodeDetailsViewModel
   
+  @Environment(\.themeTextColor) var themeTextColor
+  
   var body: some View {
     HStack {
       Text("\(viewModel.code.characterCount()) characters")
         .font(Font.custom("CourierNewPSMT", size: 12))
-        .foregroundColor(.text)
+        .foregroundColor(themeTextColor)
       
       Text("\(viewModel.code.wordCount()) words")
         .font(Font.custom("CourierNewPSMT", size: 12))
-        .foregroundColor(.text)
+        .foregroundColor(themeTextColor)
       
       Text("\(viewModel.code.lineCount()) lines")
         .font(Font.custom("CourierNewPSMT", size: 12))
-        .foregroundColor(.text)
+        .foregroundColor(themeTextColor)
       
       Spacer()
       
       Button(action: { self.viewModel.copyToClipboard() }) {
         Image("ic_clipboard")
           .resizable()
+          .renderingMode(.original)
+          .colorMultiply(themeTextColor)
           .frame(width: 15,
                  height: 15,
                  alignment: .center)
           .scaledToFit()
         Text("Copy to clipboard")
-        .foregroundColor(.text)
+        .foregroundColor(themeTextColor)
       }
       .buttonStyle(PlainButtonStyle())
     }

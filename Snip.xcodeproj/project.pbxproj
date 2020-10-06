@@ -67,6 +67,7 @@
 		79C612B62506A020008672BA /* ExternalSnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C612B52506A020008672BA /* ExternalSnippet.swift */; };
 		79C612B92506B27F008672BA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C612B82506B27F008672BA /* SettingsView.swift */; };
 		79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBD4C924D1CBE500568364 /* CodeView.swift */; };
+		79EC4827252CA90E00E45AC3 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC4826252CA90E00E45AC3 /* EnvironmentValues.swift */; };
 		79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */; };
 		79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */; };
 		79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2624D3028C00469324 /* VisualEffectView.swift */; };
@@ -147,6 +148,7 @@
 		79C612B52506A020008672BA /* ExternalSnippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSnippet.swift; sourceTree = "<group>"; };
 		79C612B82506B27F008672BA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		79DBD4C924D1CBE500568364 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
+		79EC4826252CA90E00E45AC3 /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
 		79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeActionsTopBar.swift; sourceTree = "<group>"; };
 		79F07A2624D3028C00469324 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 				794D27DA24F6A19C006E3B3D /* Data.swift */,
 				79284D6E250A23E900210E61 /* Bundle.swift */,
 				795D51EA252B686C00613D0F /* Binding.swift */,
+				79EC4826252CA90E00E45AC3 /* EnvironmentValues.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 				7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */,
 				79C612B12506278D008672BA /* DeepLinkManager.swift in Sources */,
 				79C463D024F44233009B2DA3 /* MarkdownHTMLViewer.swift in Sources */,
+				79EC4827252CA90E00E45AC3 /* EnvironmentValues.swift in Sources */,
 				795D51EB252B686C00613D0F /* Binding.swift in Sources */,
 				79284D6D2507DE7F00210E61 /* PagerView.swift in Sources */,
 				79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */,

@@ -11,7 +11,14 @@ import SwiftUI
 struct ExternalSnippet: View {
   
   @EnvironmentObject var settings: Settings
+  
+  @Environment(\.themePrimaryColor) var themePrimaryColor
+  @Environment(\.themeSecondaryColor) var themeSecondaryColor
+  @Environment(\.themeTextColor) var themeTextColor
+  @Environment(\.themeShadowColor) var themeShadowColor
+  
   @ObservedObject var viewModel: ExternalSnippetViewModel
+  
   @Binding var externalSnipItem: ExternalSnipItem
   
   var body: some View {
@@ -25,7 +32,7 @@ struct ExternalSnippet: View {
         VStack {
           TextField("Snippet name", text: self.$externalSnipItem.name)
             .font(Font.custom("HelveticaNeue", size: 20))
-            .foregroundColor(.text)
+            .foregroundColor(themeTextColor)
             .frame(maxWidth: .infinity)
             .textFieldStyle(PlainTextFieldStyle())
         }
@@ -33,7 +40,7 @@ struct ExternalSnippet: View {
                             leading: 4,
                             bottom: 8,
                             trailing: 4))
-        .background((settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme).opacity(0.8))
+        .background(themeSecondaryColor.opacity(0.8))
         
         Picker(selection: Binding<Int>(
                 get: {
@@ -77,7 +84,7 @@ struct ExternalSnippet: View {
             }
           }) {
             Text("Cancel")
-              .foregroundColor(Color.text)
+              .foregroundColor(themeTextColor)
               .padding(4)
           }
           .buttonStyle(PlainButtonStyle())
@@ -101,7 +108,7 @@ struct ExternalSnippet: View {
              height: viewModel.size.height / 1.5,
              alignment: .center)
       .padding()
-      .background((settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme))
+      .background(themePrimaryColor)
       .cornerRadius(4.0)
       .offset(x: 0,
               y: self.viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
@@ -110,7 +117,7 @@ struct ExternalSnippet: View {
   }
   
   var backgroundView: some View {
-    self.viewModel.isVisible ? Color.shadow : Color.clear
+    self.viewModel.isVisible ? themeShadowColor : Color.clear
   }
 }
 

@@ -11,8 +11,13 @@ import SwiftUI
 struct CodeActionsTopBar: View {
   
   @EnvironmentObject var settings: Settings
+  
+  @Environment(\.themeSecondaryColor) var themeSecondaryColor
+  @Environment(\.themeTextColor) var themeTextColor
+  
   @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: CodeActionsViewModel
+  
   @State private var showSharingActions = false
   @State private var showInfos = false
   @State private var moveRightLeft = false
@@ -29,7 +34,7 @@ struct CodeActionsTopBar: View {
       })
       )
         .font(Font.custom("HelveticaNeue", size: 20))
-        .foregroundColor(.text)
+        .foregroundColor(themeTextColor)
         .frame(maxHeight: .infinity)
         .textFieldStyle(PlainTextFieldStyle())
       
@@ -113,7 +118,7 @@ struct CodeActionsTopBar: View {
       }
       
     }
-    .background((settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme).opacity(0.4))
+    .background(themeSecondaryColor.opacity(0.4))
     .frame(height: 40)
     .padding(EdgeInsets(top: 16,
                         leading: 16,

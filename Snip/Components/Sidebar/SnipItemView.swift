@@ -13,8 +13,13 @@ import Combine
 struct SnipItemView<Content: View>: View {
   
   @ObservedObject var viewModel: SnipItemViewModel
+  
   @EnvironmentObject var appState: AppState
   @EnvironmentObject var settings: Settings
+  
+  @Environment(\.themeTextColor) var themeTextColor
+  @Environment(\.themePrimaryColor) var themePrimaryColor
+  
   @State private var isExpanded: Bool = false
   @State private var isEditingName = false
   
@@ -34,7 +39,7 @@ struct SnipItemView<Content: View>: View {
                   Spacer()
                   Image( self.isExpanded ? "ic_up" : "ic_down")
                     .resizable()
-                    .renderingMode(.template)
+                    .renderingMode(.original)
                     .colorMultiply(Color.BLUE_200)
                     .scaledToFit()
                     .frame(width: 10, height: 10, alignment: .center)
@@ -43,7 +48,7 @@ struct SnipItemView<Content: View>: View {
                 
                 Image( self.isExpanded ? "ic_folder_opened" : "ic_folder_closed")
                   .resizable()
-                  .renderingMode(.template)
+                  .renderingMode(.original)
                   .colorMultiply(Color.BLUE_200)
                   .scaledToFit()
                   .frame(width: 15, height: 15, alignment: .center)
@@ -63,9 +68,9 @@ struct SnipItemView<Content: View>: View {
                 }
                 )
                   .disabled(isEditingName == false)
-                  .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+                  .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : themeTextColor)
                   .frame(maxWidth: .infinity, alignment: .leading)
-                  .background(isEditingName ? (settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme) : Color.transparent)
+                  .background(isEditingName ? themePrimaryColor : Color.transparent)
               }
               .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
               .background(Color.transparent)
@@ -143,10 +148,10 @@ struct SnipItemView<Content: View>: View {
           }
           )
             .disabled(isEditingName == false)
-            .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+            .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : themeTextColor)
             .padding(.leading, 4)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(isEditingName ? (settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme) : Color.transparent)
+            .background(isEditingName ? themePrimaryColor : Color.transparent)
           Spacer()
           Circle()
             .fill(self.viewModel.snipItem.syncState == .local ? Color.clear : Color.green)

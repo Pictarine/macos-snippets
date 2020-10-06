@@ -11,7 +11,13 @@ import SwiftUI
 struct WelcomeView: View {
   
   @EnvironmentObject var settings: Settings
+  
+  @Environment(\.themeSecondaryColor) var themeSecondaryColor
+  @Environment(\.themeTextColor) var themeTextColor
+  @Environment(\.themeShadowColor) var themeShadowColor
+  
   @ObservedObject var viewModel: WelcomeViewModel
+  
   @State var currentPage = 0
   
   var body: some View {
@@ -30,7 +36,7 @@ struct WelcomeView: View {
       .frame(width: viewModel.size.width / 2.5,
              height: viewModel.size.height / 1.5,
              alignment: .center)
-        .background(settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme)
+        .background(themeSecondaryColor)
         .cornerRadius(4.0)
         .offset(x: 0,
                 y: viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
@@ -43,25 +49,25 @@ struct WelcomeView: View {
       HStack {
         Spacer()
         Text("Welcome!")
-          .foregroundColor(.text)
+          .foregroundColor(themeShadowColor)
           .font(.title)
         Spacer()
       }
       Text("Changelog Ver. 1.2")
         .font(.subheadline)
-        .foregroundColor(.text)
+        .foregroundColor(themeShadowColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       HStack {
         Text("- Fix 'non clickable' area\n- Add snippet from StackOverflow via a Chrome Ext.\n- A StackOverflow snippet has a special top bar button to open the dedicated StackOverflow Post")
           .font(Font.custom("CourierNewPSMT", size: 12))
-          .foregroundColor(.white)
+          .foregroundColor(themeShadowColor)
         Spacer()
       }
       .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
       .background(Color.BLACK_200)
       Text("We Need Your Help!")
       .font(.subheadline)
-      .foregroundColor(.text)
+      .foregroundColor(themeShadowColor)
       .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       CodeView(code: .constant("Snip needs your help to grow!\n\nWant to translate snip into your native language?\nWant to have first-day in our next features?\n\nJOIN US now!"),
                mode: .constant(CodeMode.text.mode()),
@@ -73,7 +79,7 @@ struct WelcomeView: View {
         Button(action: self.viewModel.close) {
           Text("Close")
             .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
-            .foregroundColor(.text)
+            .foregroundColor(themeShadowColor)
             .background(Color.transparent)
         }
         .buttonStyle(PlainButtonStyle())
@@ -100,7 +106,7 @@ struct WelcomeView: View {
   }
   
   var backgroundView: some View {
-    viewModel.isVisible ? Color.shadow : Color.clear
+    viewModel.isVisible ? themeShadowColor : Color.clear
   }
 }
 

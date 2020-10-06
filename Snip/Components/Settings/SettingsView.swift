@@ -11,6 +11,11 @@ import SwiftUI
 struct SettingsView: View {
   
   @EnvironmentObject var settings: Settings
+  
+  @Environment(\.themePrimaryColor) var themePrimaryColor
+  @Environment(\.themeTextColor) var themeTextColor
+  @Environment(\.themeShadowColor) var themeShadowColor
+  
   @ObservedObject var viewModel: SettingsViewModel
   
   @State private var selectedTheme = 0
@@ -30,6 +35,7 @@ struct SettingsView: View {
           Spacer()
           Text("Settings")
             .font(.largeTitle)
+            .foregroundColor(themeTextColor)
           Spacer()
         }
         .padding(.top, 16)
@@ -45,7 +51,10 @@ struct SettingsView: View {
                 set: {
                   selectedAppTheme = $0
                   settings.snipAppTheme = SnipAppTheme.allCases[$0]
-                }), label: Text("Application Theme")) {
+                }), label:
+                  Text("Application Theme")
+                  .foregroundColor(themeTextColor)
+        ) {
           ForEach(0 ..< SnipAppTheme.allCases.count) { index in
             Text(SnipAppTheme.allCases[index].rawValue).tag(index)
           }
@@ -66,7 +75,10 @@ struct SettingsView: View {
                   set: {
                     selectedTheme = $0
                     settings.codeViewTheme = CodeViewTheme.list[$0]
-                  }), label: Text("CodeView Theme")) {
+                  }), label:
+                    Text("CodeView Theme")
+                    .foregroundColor(themeTextColor)
+          ) {
             ForEach(0 ..< CodeViewTheme.list.count) {
               Text(CodeViewTheme.list[$0].rawValue)
             }
@@ -98,7 +110,7 @@ struct SettingsView: View {
         
         HStack {
           Text("CodeView Text Size")
-            .foregroundColor(.text)
+            .foregroundColor(themeTextColor)
           Spacer()
           Slider(value: Binding<Float>(
                   get: {
@@ -127,7 +139,7 @@ struct SettingsView: View {
           Spacer()
           Button(action: {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-              settings.isSettingsOpened.toggle()
+              viewModel.isVisible = false
             }
           }) {
             Text("Close")
@@ -145,7 +157,7 @@ struct SettingsView: View {
       .frame(width: viewModel.size.width / 2.5,
              height: viewModel.size.height / 1.5,
              alignment: .center)
-      .background((settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme))
+      .background(themePrimaryColor)
       .cornerRadius(4.0)
       .offset(x: 0,
               y: viewModel.isVisible ? (( viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
@@ -155,17 +167,17 @@ struct SettingsView: View {
   }
   
   var backgroundView: some View {
-    viewModel.isVisible ? Color.shadow : Color.clear
+    viewModel.isVisible ? themeShadowColor : Color.clear
   }
 }
 
 final class SettingsViewModel: ObservableObject {
   
-  var isVisible: Bool
+  @Binding var isVisible: Bool
   var size: CGSize
   
-  init(isVisible: Bool, readerSize: CGSize) {
-    self.isVisible = isVisible
+  init(isVisible: Binding<Bool>, readerSize: CGSize) {
+    self._isVisible = isVisible
     self.size = readerSize
   }
   
@@ -173,7 +185,7 @@ final class SettingsViewModel: ObservableObject {
 
 struct SettingsView_Previews: PreviewProvider {
   static var previews: some View {
-    SettingsView(viewModel: SettingsViewModel(isVisible: true,
+    SettingsView(viewModel: SettingsViewModel(isVisible: .constant(true),
                                               readerSize: CGSize(width: 400,height: 300)))
   }
 }

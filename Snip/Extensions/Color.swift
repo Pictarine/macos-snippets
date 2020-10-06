@@ -19,13 +19,14 @@ extension Color {
   static let secondaryTheme = Color("SecondaryTheme")
   static let text = Color("Text")
   static let shadow = Color("Shadow")
+  static let shadowTheme = Color("ShadowTheme")
   static let accent = Color("Accent")
   static let accentDark = Color("AccentDark")
   static let transparent = Color.black.opacity(0.0001)
   
-  static let BLACK_200 = Color.init(hex: "202121") // 23252e
+  static let BLACK_200 = Color.init(hex: "202121")
   static let BLACK_300 = Color.init(hex: "202121")
-  static let BLACK_500 = Color.init(hex: "191919") // 282A36
+  static let BLACK_500 = Color.init(hex: "191919") 
   
   static let PINK_500 = Color.init(hex: "FE7AC6")
   

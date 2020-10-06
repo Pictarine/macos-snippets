@@ -13,6 +13,7 @@ struct SnipViewApp: View {
   
   @ObservedObject var snippetManager = SnippetManager.shared
   @ObservedObject var viewModel : SnipViewAppViewModel
+  
   @EnvironmentObject var settings: Settings
   @EnvironmentObject var appState: AppState
   
@@ -37,6 +38,10 @@ struct SnipViewApp: View {
         self.addExternalSnipPanel
           .frame(width: reader.size.width, height: reader.size.height)
       }
+      .environment(\.themePrimaryColor, settings.snipAppTheme == .auto ? .primary : .primaryTheme)
+      .environment(\.themeSecondaryColor, settings.snipAppTheme == .auto ? .secondary : .secondaryTheme)
+      .environment(\.themeTextColor, settings.snipAppTheme == .auto ? .text : .white)
+      .environment(\.themeShadowColor, settings.snipAppTheme == .auto ? .shadow : .shadowTheme)
     }
     .edgesIgnoringSafeArea(.top)
   }
@@ -54,14 +59,14 @@ struct SnipViewApp: View {
         Spacer()
         Text("Create your first Snipppet")
           .font(Font.custom("HelveticaNeue-Light", size: 20))
-          .foregroundColor(Color.text)
+          .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
         Spacer()
       }
       HStack {
         Spacer()
         Text("Tips: Cmd+F to search words and regex")
           .font(Font.custom("HelveticaNeue-Light", size: 16))
-          .foregroundColor(Color.text)
+          .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
         Spacer()
       }
       .padding(.top, 8)
@@ -73,7 +78,7 @@ struct SnipViewApp: View {
   
   var settingPanel: some View {
     GeometryReader { reader in
-      SettingsView(viewModel: SettingsViewModel(isVisible: self.settings.isSettingsOpened, readerSize: reader.size))
+      SettingsView(viewModel: SettingsViewModel(isVisible: self.$settings.isSettingsOpened, readerSize: reader.size))
     }
   }
   
@@ -90,7 +95,7 @@ struct SnipViewApp: View {
                                                           onTrigger: { action in
                                                             self.viewModel.trigger(action:action)
                                                             self.viewModel.resetExternalSnippetAdding()
-      },
+                                                          },
                                                           onCancel: self.viewModel.resetExternalSnippetAdding),
                       externalSnipItem: self.$snippetManager.tempSnipItem)
     }

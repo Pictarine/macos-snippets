@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ImageButton<Content: View>: View {
   
+  @Environment(\.themeTextColor) var themeTextColor
+  
   let imageName: String
   let action: () -> ()
   let content: () -> Content?
@@ -18,8 +20,8 @@ struct ImageButton<Content: View>: View {
     Button(action: action) {
       Image(imageName)
         .resizable()
-        .renderingMode(.template)
-        .colorMultiply(.text)
+        .renderingMode(.original)
+        .colorMultiply(themeTextColor)
         .scaledToFit()
         .frame(width: 20, height: 20, alignment: .center)
     }

@@ -12,9 +12,13 @@ import Combine
 struct CodeViewer: View {
   
   @ObservedObject var viewModel: CodeViewerViewModel
+  
   @EnvironmentObject var appState: AppState
   @EnvironmentObject var settings: Settings
   @EnvironmentObject var snipItem: SnipItem
+  
+  @Environment(\.themeTextColor) var themeTextColor
+  @Environment(\.themePrimaryColor) var themePrimaryColor
   
   @State private var shouldShowPreview = false
   
@@ -94,14 +98,14 @@ struct CodeViewer: View {
           Spacer()
           Text("Snippet Successfully deleted")
             .font(Font.custom("HelveticaNeue-Light", size: 20))
-            .foregroundColor(.text)
+            .foregroundColor(themeTextColor)
           Spacer()
         }
         HStack {
           Spacer()
           Text("Tips: Connect Snip to your GitHub account and save your snippet on Gist.")
             .font(Font.custom("HelveticaNeue-Light", size: 16))
-            .foregroundColor(.text)
+            .foregroundColor(themeTextColor)
           Spacer()
         }
         .padding(.top, 8)
@@ -113,7 +117,7 @@ struct CodeViewer: View {
            minHeight: 0,
            maxHeight: .infinity,
            alignment: .topLeading)
-      .background(settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme)
+      .background(themePrimaryColor)
       .listStyle(PlainListStyle())
     
   }
