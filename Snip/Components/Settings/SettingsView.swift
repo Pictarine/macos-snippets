@@ -14,6 +14,7 @@ struct SettingsView: View {
   @ObservedObject var viewModel: SettingsViewModel
   
   @State private var selectedTheme = 0
+  @State private var selectedAppTheme = 0
   @State private var codeBlock = try! String(contentsOf: Bundle.main.url(forResource: "Demo", withExtension: "txt")!)
   
   var body: some View {
@@ -33,44 +34,67 @@ struct SettingsView: View {
         }
         .padding(.top, 16)
         
+        
         Picker(selection: Binding<Int>(
                 get: {
-                  let index = CodeViewTheme.list.firstIndex(where: { (theme) -> Bool in
-                    theme == settings.codeViewTheme
+                  let index = SnipAppTheme.allCases.firstIndex(where: { (theme) -> Bool in
+                    theme == settings.snipAppTheme
                   }) ?? 0
                   return index
                 },
                 set: {
-                  selectedTheme = $0
-                  settings.codeViewTheme = CodeViewTheme.list[$0]
-                }), label: Text("CodeView Theme")) {
-          ForEach(0 ..< CodeViewTheme.list.count) {
-            Text(CodeViewTheme.list[$0].rawValue)
+                  selectedAppTheme = $0
+                  settings.snipAppTheme = SnipAppTheme.allCases[$0]
+                }), label: Text("Application Theme")) {
+          ForEach(0 ..< SnipAppTheme.allCases.count) { index in
+            Text(SnipAppTheme.allCases[index].rawValue).tag(index)
           }
         }
-        .pickerStyle(DefaultPickerStyle())
-        .frame(maxWidth: .infinity)
+        .pickerStyle(SegmentedPickerStyle())
         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
         Divider()
           .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
         
-        ToggleItem(option: Binding<Bool>(
-                    get: {
-                      return settings.codeViewShowInvisibleCharacters
-                    },
-                    set: {
-                      settings.codeViewShowInvisibleCharacters = $0
-                    }),
-                   optionText: "CodeView Show Invisible Characters")
-        
-        ToggleItem(option: Binding<Bool>(
-                    get: {
-                      return settings.codeViewLineWrapping
-                    },
-                    set: {
-                      settings.codeViewLineWrapping = $0
-                    }),
-                   optionText: "CodeView Line Wrapping")
+        Group {
+          Picker(selection: Binding<Int>(
+                  get: {
+                    let index = CodeViewTheme.list.firstIndex(where: { (theme) -> Bool in
+                      theme == settings.codeViewTheme
+                    }) ?? 0
+                    return index
+                  },
+                  set: {
+                    selectedTheme = $0
+                    settings.codeViewTheme = CodeViewTheme.list[$0]
+                  }), label: Text("CodeView Theme")) {
+            ForEach(0 ..< CodeViewTheme.list.count) {
+              Text(CodeViewTheme.list[$0].rawValue)
+            }
+          }
+          .pickerStyle(DefaultPickerStyle())
+          .frame(maxWidth: .infinity)
+          .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+          Divider()
+            .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
+          
+          ToggleItem(option: Binding<Bool>(
+                      get: {
+                        return settings.codeViewShowInvisibleCharacters
+                      },
+                      set: {
+                        settings.codeViewShowInvisibleCharacters = $0
+                      }),
+                     optionText: "CodeView Show Invisible Characters")
+          
+          ToggleItem(option: Binding<Bool>(
+                      get: {
+                        return settings.codeViewLineWrapping
+                      },
+                      set: {
+                        settings.codeViewLineWrapping = $0
+                      }),
+                     optionText: "CodeView Line Wrapping")
+        }
         
         HStack {
           Text("CodeView Text Size")
@@ -121,7 +145,7 @@ struct SettingsView: View {
       .frame(width: viewModel.size.width / 2.5,
              height: viewModel.size.height / 1.5,
              alignment: .center)
-      .background(Color.primary)
+      .background((settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme))
       .cornerRadius(4.0)
       .offset(x: 0,
               y: viewModel.isVisible ? (( viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)

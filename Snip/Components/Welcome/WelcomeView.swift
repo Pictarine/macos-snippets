@@ -10,6 +10,7 @@ import SwiftUI
 
 struct WelcomeView: View {
   
+  @EnvironmentObject var settings: Settings
   @ObservedObject var viewModel: WelcomeViewModel
   @State var currentPage = 0
   
@@ -29,7 +30,7 @@ struct WelcomeView: View {
       .frame(width: viewModel.size.width / 2.5,
              height: viewModel.size.height / 1.5,
              alignment: .center)
-        .background(Color.secondary)
+        .background(settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme)
         .cornerRadius(4.0)
         .offset(x: 0,
                 y: viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)

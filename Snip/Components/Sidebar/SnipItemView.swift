@@ -65,7 +65,7 @@ struct SnipItemView<Content: View>: View {
                   .disabled(isEditingName == false)
                   .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
                   .frame(maxWidth: .infinity, alignment: .leading)
-                  .background(isEditingName ? .primary : Color.transparent)
+                  .background(isEditingName ? (settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme) : Color.transparent)
               }
               .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
               .background(Color.transparent)
@@ -123,6 +123,8 @@ struct SnipItemView<Content: View>: View {
         HStack {
           Image(self.viewModel.snipItem.mode.imageName)
             .resizable()
+            .renderingMode(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .template : .original)
+            .colorMultiply(.white)
             .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 4)
@@ -144,7 +146,7 @@ struct SnipItemView<Content: View>: View {
             .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
             .padding(.leading, 4)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(isEditingName ? .primary : Color.transparent)
+            .background(isEditingName ? (settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme) : Color.transparent)
           Spacer()
           Circle()
             .fill(self.viewModel.snipItem.syncState == .local ? Color.clear : Color.green)

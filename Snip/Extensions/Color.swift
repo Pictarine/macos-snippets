@@ -14,7 +14,9 @@ import Cocoa
 extension Color {
   
   static let primary = Color("Primary")
+  static let primaryTheme = Color("PrimaryTheme")
   static let secondary = Color("Secondary")
+  static let secondaryTheme = Color("SecondaryTheme")
   static let text = Color("Text")
   static let shadow = Color("Shadow")
   static let accent = Color("Accent")

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CodeActionsTopBar: View {
   
+  @EnvironmentObject var settings: Settings
   @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: CodeActionsViewModel
   @State private var showSharingActions = false
@@ -112,7 +113,7 @@ struct CodeActionsTopBar: View {
       }
       
     }
-    .background(Color.secondary.opacity(0.4))
+    .background((settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme).opacity(0.4))
     .frame(height: 40)
     .padding(EdgeInsets(top: 16,
                         leading: 16,

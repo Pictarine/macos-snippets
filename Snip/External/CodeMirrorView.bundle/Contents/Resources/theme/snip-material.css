@@ -1,0 +1,131 @@
+.cm-s-snip-material.CodeMirror {
+  background-color: #21232D;
+  color: #A6ACCD;
+  font-size: 12px;
+  line-height: 1.3em;
+}
+
+.cm-s-snip-material .CodeMirror-gutters {
+  background: #21232D; 
+  color: #676E95;
+  border: none;
+}
+
+.cm-s-snip-material .CodeMirror-guttermarker,
+.cm-s-snip-material .CodeMirror-guttermarker-subtle,
+.cm-s-snip-material .CodeMirror-linenumber {
+  color: #676E95;
+}
+
+.cm-s-snip-material .CodeMirror-cursor {
+  border-left: 1px solid #FFCC00;
+}
+
+.cm-s-snip-material div.CodeMirror-selected {
+  background: rgba(113, 124, 180, 0.2);
+}
+
+.cm-s-snip-material.CodeMirror-focused div.CodeMirror-selected {
+  background: rgba(113, 124, 180, 0.2);
+}
+
+.cm-s-snip-material .CodeMirror-line::selection,
+.cm-s-snip-material .CodeMirror-line>span::selection,
+.cm-s-snip-material .CodeMirror-line>span>span::selection {
+  background: rgba(128, 203, 196, 0.2);
+}
+
+.cm-s-snip-material .CodeMirror-line::-moz-selection,
+.cm-s-snip-material .CodeMirror-line>span::-moz-selection,
+.cm-s-snip-material .CodeMirror-line>span>span::-moz-selection {
+  background: rgba(128, 203, 196, 0.2);
+}
+
+.cm-s-snip-material .CodeMirror-activeline-background {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cm-s-snip-material .cm-keyword {
+  color: #C792EA;
+}
+
+.cm-s-snip-material .cm-operator {
+  color: #89DDFF;
+}
+
+.cm-s-snip-material .cm-variable-2 {
+  color: #EEFFFF;
+}
+
+.cm-s-snip-material .cm-variable-3,
+.cm-s-snip-material .cm-type {
+  color: #f07178;
+}
+
+.cm-s-snip-material .cm-builtin {
+  color: #FFCB6B;
+}
+
+.cm-s-snip-material .cm-atom {
+  color: #F78C6C;
+}
+
+.cm-s-snip-material .cm-number {
+  color: #FF5370;
+}
+
+.cm-s-snip-material .cm-def {
+  color: #82AAFF;
+}
+
+.cm-s-snip-material .cm-string {
+  color: #C3E88D;
+}
+
+.cm-s-snip-material .cm-string-2 {
+  color: #f07178;
+}
+
+.cm-s-snip-material .cm-comment {
+  color: #676E95;
+}
+
+.cm-s-snip-material .cm-variable {
+  color: #f07178;
+}
+
+.cm-s-snip-material .cm-tag {
+  color: #FF5370;
+}
+
+.cm-s-snip-material .cm-meta {
+  color: #FFCB6B;
+}
+
+.cm-s-snip-material .cm-attribute {
+  color: #C792EA;
+}
+
+.cm-s-snip-material .cm-property {
+  color: #C792EA;
+}
+
+.cm-s-snip-material .cm-qualifier {
+  color: #DECB6B;
+}
+
+.cm-s-snip-material .cm-variable-3,
+.cm-s-snip-material .cm-type {
+  color: #DECB6B;
+}
+
+
+.cm-s-snip-material .cm-error {
+  color: rgba(255, 255, 255, 1.0);
+  background-color: #FF5370;
+}
+
+.cm-s-snip-material .CodeMirror-matchingbracket {
+  text-decoration: underline;
+  color: white !important;
+}

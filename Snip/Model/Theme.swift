@@ -9,6 +9,12 @@
 import Foundation
 
 
+public enum SnipAppTheme: String, CaseIterable {
+  case auto = "Auto Light/Dark"
+  case violet = "Material"
+}
+
+
 public enum CodeViewTheme: String, CaseIterable {
   
   case bbedit = "bbedit"
@@ -43,6 +49,7 @@ public enum CodeViewTheme: String, CaseIterable {
   case pastelsOnDark = "pastels-on-dark"
   case irBlack = "ir_black"
   case material = "material"
+  case snipMaterial = "snip-material"
   case monokaiFannonedition = "monokai-fannonedition"
   case monokaiBright = "monokai-bright"
   case eiffel = "eiffel"

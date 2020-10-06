@@ -113,7 +113,7 @@ struct CodeViewer: View {
            minHeight: 0,
            maxHeight: .infinity,
            alignment: .topLeading)
-      .background(Color.primary)
+      .background(settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme)
       .listStyle(PlainListStyle())
     
   }

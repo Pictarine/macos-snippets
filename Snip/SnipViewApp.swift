@@ -43,7 +43,7 @@ struct SnipViewApp: View {
   
   var sideBar: some View {
     Sidebar(viewModel: SideBarViewModel(snipppets: viewModel.snippets, onTrigger: viewModel.trigger(action:)))
-      .background(Color.secondary)
+      .background(settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme)
       .frame(minWidth: 0, idealWidth: 300, maxWidth: 350)
   }
   
@@ -68,7 +68,7 @@ struct SnipViewApp: View {
       Spacer()
     }
     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-    .background(Color.primary)
+    .background(settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme)
   }
   
   var settingPanel: some View {

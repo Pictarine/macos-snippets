@@ -22,7 +22,7 @@ extension Mode {
     switch name {
     case "python":
       return "code_python"
-    case "javascript", "vue":
+    case "javascript":
       return "code_js"
     case "swift":
       return "code_swift"
@@ -30,9 +30,7 @@ extension Mode {
       return "code_html"
     case "css/scss":
       return "code_css"
-    case "dockerfile":
-      return "code_docker"
-    case "powershell", "shell", "cmake":
+    case "powershell", "shell":
       return "code_terminal"
     case "xml":
       return "code_xml"
@@ -70,6 +68,30 @@ extension Mode {
       return "code_sass"
     case "scala":
       return "code_scala"
+    case "http":
+      return "code_http"
+    case "go":
+      return "code_go"
+    case "dockerfile":
+      return "code_dockerfile"
+    case "c#":
+      return "code_csharp"
+    case "objective-c":
+      return "code_objc"
+    case "django":
+      return "code_django"
+    case "ruby":
+      return "code_ruby"
+    case "scheme":
+      return "code_scheme"
+    case "cmake":
+      return "code_cmake"
+    case "sql", "sqlite", "mysql":
+      return "code_sql"
+    case "vb":
+      return "code_vb"
+    case "vue":
+      return "code_vue"
     default:
       return "ic_file"
     }

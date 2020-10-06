@@ -16,9 +16,16 @@ class Settings: ObservableObject {
     case theme = "codeview_active_theme"
     case lineWrapping = "codeview_line_wrapping"
     case textSize = "codeview_text_size"
+    case appTheme = "snip_app_theme"
   }
   
   @Published var isSettingsOpened : Bool = false
+  
+  @Published var snipAppTheme : SnipAppTheme = .auto {
+    didSet {
+      UserDefaults.standard.set(snipAppTheme.rawValue, forKey: keys.appTheme.rawValue)
+    }
+  }
   
   @Published var codeViewTextSize : Int = 12 {
     didSet {
@@ -48,6 +55,13 @@ class Settings: ObservableObject {
   init() {
     if let activeTheme = UserDefaults.standard.object(forKey: keys.theme.rawValue) as? String {
       codeViewTheme = CodeViewTheme(rawValue: activeTheme)
+    }
+    
+    if let appTheme = UserDefaults.standard.object(forKey: keys.appTheme.rawValue) as? String {
+      snipAppTheme = SnipAppTheme(rawValue: appTheme) ?? .auto
+    }
+    else {
+      snipAppTheme = .auto
     }
     
     codeViewShowInvisibleCharacters = UserDefaults.standard.bool(forKey: keys.invisibleCharacters.rawValue)

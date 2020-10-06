@@ -33,7 +33,7 @@ struct ExternalSnippet: View {
                             leading: 4,
                             bottom: 8,
                             trailing: 4))
-        .background(Color.secondary.opacity(0.8))
+        .background((settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme).opacity(0.8))
         
         Picker(selection: Binding<Int>(
                 get: {
@@ -101,7 +101,7 @@ struct ExternalSnippet: View {
              height: viewModel.size.height / 1.5,
              alignment: .center)
       .padding()
-      .background(Color.primary)
+      .background((settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme))
       .cornerRadius(4.0)
       .offset(x: 0,
               y: self.viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
