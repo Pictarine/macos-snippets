@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "shFile-1.svg",
+      "filename" : "text.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "shFile.svg",
+      "filename" : "text-1.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

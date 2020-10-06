@@ -20,9 +20,9 @@ extension Mode {
   
   var imageName : String {
     switch name {
-    case "python", "jinja":
+    case "python":
       return "code_python"
-    case "javascript", "typescript", "vue":
+    case "javascript", "vue":
       return "code_js"
     case "swift":
       return "code_swift"
@@ -34,10 +34,42 @@ extension Mode {
       return "code_docker"
     case "powershell", "shell", "cmake":
       return "code_terminal"
-    case "xml", "json":
+    case "xml":
       return "code_xml"
     case "markdown":
       return "code_md"
+    case "text":
+      return "code_text"
+    case "properties":
+      return "code_properties"
+    case "yaml":
+      return "code_yaml"
+    case "json":
+      return "code_json"
+    case "java":
+      return "code_java"
+    case "c":
+      return "code_c"
+    case "c++":
+      return "code_cpp"
+    case "typescript":
+      return "code_typescript"
+    case "coffeescript":
+      return "code_coffeescript"
+    case "groovy":
+      return "code_groovy"
+    case "kotlin":
+      return "code_kotlin"
+    case "php":
+      return "code_php"
+    case "jinja":
+      return "code_jinja"
+    case "r":
+      return "code_r"
+    case "sass":
+      return "code_sass"
+    case "scala":
+      return "code_scala"
     default:
       return "ic_file"
     }

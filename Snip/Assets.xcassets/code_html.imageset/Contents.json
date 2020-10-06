@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "html5-brands-1.png",
+      "filename" : "html.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "html5-brands.png",
+      "filename" : "html-1.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

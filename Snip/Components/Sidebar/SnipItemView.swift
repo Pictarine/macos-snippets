@@ -123,8 +123,6 @@ struct SnipItemView<Content: View>: View {
         HStack {
           Image(self.viewModel.snipItem.mode.imageName)
             .resizable()
-            .renderingMode(.original)
-            .colorMultiply(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
             .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 4)

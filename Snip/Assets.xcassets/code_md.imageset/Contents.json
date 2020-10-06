@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "markdown-brands-1.png",
+      "filename" : "MarkdownPlugin.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "markdown-brands.png",
+      "filename" : "MarkdownPlugin-1.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }
