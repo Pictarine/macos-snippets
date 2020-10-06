@@ -13,6 +13,7 @@ struct WelcomeView: View {
   @EnvironmentObject var settings: Settings
   
   @Environment(\.themeSecondaryColor) var themeSecondaryColor
+  @Environment(\.themePrimaryColor) var themePrimaryColor
   @Environment(\.themeTextColor) var themeTextColor
   @Environment(\.themeShadowColor) var themeShadowColor
   
@@ -49,25 +50,25 @@ struct WelcomeView: View {
       HStack {
         Spacer()
         Text("Welcome!")
-          .foregroundColor(themeShadowColor)
+          .foregroundColor(themeTextColor)
           .font(.title)
         Spacer()
       }
-      Text("Changelog Ver. 1.2")
+      Text("Changelog Ver. 1.3.0")
         .font(.subheadline)
-        .foregroundColor(themeShadowColor)
+        .foregroundColor(themeTextColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       HStack {
-        Text("- Fix 'non clickable' area\n- Add snippet from StackOverflow via a Chrome Ext.\n- A StackOverflow snippet has a special top bar button to open the dedicated StackOverflow Post")
+        Text("- Added CodeView settings\n- Added app theme selection\n- Updated sidebar UI\n- Add atom file icons\n- GitHub scope updated to only request the minimum needed information")
           .font(Font.custom("CourierNewPSMT", size: 12))
-          .foregroundColor(themeShadowColor)
+          .foregroundColor(themeTextColor)
         Spacer()
       }
       .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
-      .background(Color.BLACK_200)
+      .background(themePrimaryColor)
       Text("We Need Your Help!")
       .font(.subheadline)
-      .foregroundColor(themeShadowColor)
+      .foregroundColor(themeTextColor)
       .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       CodeView(code: .constant("Snip needs your help to grow!\n\nWant to translate snip into your native language?\nWant to have first-day in our next features?\n\nJOIN US now!"),
                mode: .constant(CodeMode.text.mode()),
@@ -79,7 +80,7 @@ struct WelcomeView: View {
         Button(action: self.viewModel.close) {
           Text("Close")
             .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
-            .foregroundColor(themeShadowColor)
+            .foregroundColor(themeTextColor)
             .background(Color.transparent)
         }
         .buttonStyle(PlainButtonStyle())
