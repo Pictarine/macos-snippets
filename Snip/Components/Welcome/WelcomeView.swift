@@ -99,7 +99,7 @@ struct WelcomeView: View {
   }
   
   var backgroundView: some View {
-    viewModel.isVisible ? Color.shadow.opacity(0.7) : Color.clear
+    viewModel.isVisible ? Color.shadow : Color.clear
   }
 }
 

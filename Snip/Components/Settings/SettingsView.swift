@@ -93,7 +93,7 @@ struct SettingsView: View {
   }
   
   var backgroundView: some View {
-    viewModel.isVisible ? Color.black.opacity(0.8) : Color.clear
+    viewModel.isVisible ? Color.shadow : Color.clear
   }
 }
 
