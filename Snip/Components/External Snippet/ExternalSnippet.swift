@@ -56,9 +56,12 @@ struct ExternalSnippet: View {
                alignment: .leading)
         .pickerStyle(DefaultPickerStyle())
         
-        CodeView(theme: settings.codeMirrorTheme,
+        CodeView(theme: settings.codeViewTheme,
                  code: .constant(self.externalSnipItem.snippet),
-                 mode: .constant(self.externalSnipItem.mode))
+                 mode: .constant(self.externalSnipItem.mode),
+                 fontSize: settings.codeViewTextSize,
+                 showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
+                 lineWrapping: settings.codeViewLineWrapping)
           .onContentChange { newCode in
             self.externalSnipItem.snippet = newCode
           }

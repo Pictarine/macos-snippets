@@ -36,13 +36,13 @@ struct SettingsView: View {
         Picker(selection: Binding<Int>(
                 get: {
                   let index = CodeViewTheme.list.firstIndex(where: { (theme) -> Bool in
-                    theme == settings.codeMirrorTheme
+                    theme == settings.codeViewTheme
                   }) ?? 0
                   return index
                 },
                 set: {
                   selectedTheme = $0
-                  settings.codeMirrorTheme = CodeViewTheme.list[$0]
+                  settings.codeViewTheme = CodeViewTheme.list[$0]
                 }), label: Text("CodeView Theme")) {
           ForEach(0 ..< CodeViewTheme.list.count) {
             Text(CodeViewTheme.list[$0].rawValue)
@@ -51,10 +51,48 @@ struct SettingsView: View {
         .pickerStyle(DefaultPickerStyle())
         .frame(maxWidth: .infinity)
         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+        Divider()
+          .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
         
-        CodeView(theme: settings.codeMirrorTheme,
+        ToggleItem(option: Binding<Bool>(
+                    get: {
+                      return settings.codeViewShowInvisibleCharacters
+                    },
+                    set: {
+                      settings.codeViewShowInvisibleCharacters = $0
+                    }),
+                   optionText: "CodeView Show Invisible Characters")
+        
+        ToggleItem(option: Binding<Bool>(
+                    get: {
+                      return settings.codeViewLineWrapping
+                    },
+                    set: {
+                      settings.codeViewLineWrapping = $0
+                    }),
+                   optionText: "CodeView Line Wrapping")
+        
+        HStack {
+          Text("CodeView Text Size")
+            .foregroundColor(.text)
+          Spacer()
+          Slider(value: Binding<Float>(
+                  get: {
+                    return Float(settings.codeViewTextSize)
+                  },
+                  set: {
+                    settings.codeViewTextSize = Int($0)
+                  }), in: 6...30, step: 1)
+        }
+        .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+        Divider()
+          .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
+        
+        CodeView(theme: settings.codeViewTheme,
                  code: $codeBlock,
                  mode: .constant(CodeMode.swift.mode()),
+                 fontSize: settings.codeViewTextSize,
+                 showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
                  isReadOnly: true)
           .frame(maxWidth: .infinity, maxHeight: 150)
           .padding(EdgeInsets(top: 16, leading: 32, bottom: 0, trailing: 32))

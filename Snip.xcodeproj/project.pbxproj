@@ -31,6 +31,7 @@
 		794DBE92252B454B000DFCF2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794DBE91252B454B000DFCF2 /* Theme.swift */; };
 		795D51EB252B686C00613D0F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795D51EA252B686C00613D0F /* Binding.swift */; };
 		795D51EF252B691700613D0F /* Demo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 795D51EE252B691700613D0F /* Demo.txt */; };
+		795D51F5252C51D600613D0F /* ToggleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795D51F4252C51D600613D0F /* ToggleItem.swift */; };
 		796B092524D1B4A3006904C4 /* SnipItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092424D1B4A3006904C4 /* SnipItem.swift */; };
 		796B092924D1B563006904C4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B092824D1B563006904C4 /* Settings.swift */; };
 		796B093124D1B8F5006904C4 /* CodeMirrorView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */; };
@@ -108,6 +109,7 @@
 		794DBE91252B454B000DFCF2 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		795D51EA252B686C00613D0F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		795D51EE252B691700613D0F /* Demo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Demo.txt; sourceTree = "<group>"; };
+		795D51F4252C51D600613D0F /* ToggleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleItem.swift; sourceTree = "<group>"; };
 		796B092424D1B4A3006904C4 /* SnipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItem.swift; sourceTree = "<group>"; };
 		796B092824D1B563006904C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		796B092F24D1B8F5006904C4 /* CodeMirrorView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CodeMirrorView.bundle; path = Snip/External/CodeMirrorView.bundle; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				79C612B82506B27F008672BA /* SettingsView.swift */,
+				795D51F4252C51D600613D0F /* ToggleItem.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				79956A4E24E5A4A200B823E1 /* OAuth.swift in Sources */,
 				791B8D7824E2C6C200851E2A /* SharePicker.swift in Sources */,
 				794D27DB24F6A19C006E3B3D /* Data.swift in Sources */,
+				795D51F5252C51D600613D0F /* ToggleItem.swift in Sources */,
 				79F07A2724D3028C00469324 /* VisualEffectView.swift in Sources */,
 				79956A5024E5BC2300B823E1 /* URL.swift in Sources */,
 				79284D6B2507CCDC00210E61 /* WelcomeView.swift in Sources */,

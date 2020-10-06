@@ -60,9 +60,12 @@ struct CodeViewer: View {
                                                                                                    tag: tag))
         }))
         
-        CodeView(theme: settings.codeMirrorTheme,
+        CodeView(theme: settings.codeViewTheme,
                  code: .constant(self.snipItem.snippet),
-                 mode: .constant(self.snipItem.mode))
+                 mode: .constant(self.snipItem.mode),
+                 fontSize: settings.codeViewTextSize,
+                 showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
+                 lineWrapping: settings.codeViewLineWrapping)
           .onContentChange { newCode in
             self.viewModel.onTrigger(.updateCode(id: self.snipItem.id, code: newCode))
           }
