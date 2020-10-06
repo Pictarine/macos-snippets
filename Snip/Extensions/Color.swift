@@ -34,6 +34,8 @@ extension Color {
   static let PURPLE_500 = Color.init(hex: "bd93f9")
   static let PURPLE_700 = Color.init(hex: "735CD1")
   
+  static let BLUE_200 = Color.init(hex: "BBDEFB")
+  
   static let RED_500 = Color.init(hex: "ff5555")
   
   static let ORANGE_500 = Color.init(hex: "E5946A")

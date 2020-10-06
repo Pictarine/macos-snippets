@@ -35,7 +35,7 @@ struct SnipItemView<Content: View>: View {
                   Image( self.isExpanded ? "ic_up" : "ic_down")
                     .resizable()
                     .renderingMode(.template)
-                    .colorMultiply(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+                    .colorMultiply(Color.BLUE_200)
                     .scaledToFit()
                     .frame(width: 10, height: 10, alignment: .center)
                   Spacer()
@@ -44,7 +44,7 @@ struct SnipItemView<Content: View>: View {
                 Image( self.isExpanded ? "ic_folder_opened" : "ic_folder_closed")
                   .resizable()
                   .renderingMode(.template)
-                  .colorMultiply(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+                  .colorMultiply(Color.BLUE_200)
                   .scaledToFit()
                   .frame(width: 15, height: 15, alignment: .center)
                 
@@ -126,12 +126,6 @@ struct SnipItemView<Content: View>: View {
             .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 4)
-            .overlay(
-              Circle()
-                .fill(self.viewModel.snipItem.syncState == .local ? Color.clear : Color.green)
-                .frame(width: 8, height: 8)
-                .offset(x: 7, y: 6)
-          )
           TextField("Snip name", text: Binding<String>(
             get: {
               self.viewModel.snipItem.name
@@ -152,6 +146,10 @@ struct SnipItemView<Content: View>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(isEditingName ? .primary : Color.transparent)
           Spacer()
+          Circle()
+            .fill(self.viewModel.snipItem.syncState == .local ? Color.clear : Color.green)
+            .frame(width: 8, height: 8)
+            .padding(.trailing, 8)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
