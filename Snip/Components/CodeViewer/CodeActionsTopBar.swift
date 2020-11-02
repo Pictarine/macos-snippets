@@ -33,10 +33,10 @@ struct CodeActionsTopBar: View {
         self.viewModel.onRename($0)
       })
       )
-        .font(Font.custom("HelveticaNeue", size: 20))
-        .foregroundColor(themeTextColor)
-        .frame(maxHeight: .infinity)
-        .textFieldStyle(PlainTextFieldStyle())
+      .font(Font.custom("HelveticaNeue", size: 20))
+      .foregroundColor(themeTextColor)
+      .frame(maxHeight: .infinity)
+      .textFieldStyle(PlainTextFieldStyle())
       
       if syncManager.isAuthenticated {
         ZStack {
@@ -51,7 +51,7 @@ struct CodeActionsTopBar: View {
                 .animation(Animation.easeOut(duration: 1).repeatForever(autoreverses: false))
                 .onAppear() {
                   self.moveRightLeft.toggle()
-              }
+                }
             }
           }
           else {
@@ -63,7 +63,8 @@ struct CodeActionsTopBar: View {
                   .fill(viewModel.syncState == .local ? Color.RED_500 : Color.green)
                   .frame(width: 8, height: 8)
                   .offset(x: 7, y: 6)
-            )
+              )
+              .tooltip("Add to Gist")
           }
           
         }
@@ -73,6 +74,7 @@ struct CodeActionsTopBar: View {
         ImageButton(imageName: "ic_open",
                     action: viewModel.openRemoteURL,
                     content: { EmptyView() })
+          .tooltip("Open snippet post")
       }
       
       if viewModel.onPreviewToggle != nil {
@@ -83,26 +85,31 @@ struct CodeActionsTopBar: View {
                       DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         self.isPreviewEnabled.toggle()
                       }
-        },
+                    },
                     content: { EmptyView() })
+          .tooltip("Show/Hide preview")
       }
       
       ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
                   action: viewModel.onToggleFavorite,
                   content: { EmptyView() })
+        .tooltip("Add to favorites")
       ImageButton(imageName: "ic_delete",
                   action: viewModel.onDelete,
                   content: { EmptyView() })
+        .tooltip("Delete snippet")
       ImageButton(imageName: "ic_share",
                   action: {
                     self.showSharingActions = true
-      },
+                  },
                   content: {
                     SharingsPicker(isPresented: self.$showSharingActions, sharingItems: ["\(self.viewModel.snipCode) \n\n - Shared via Snip https://cutt.ly/snip"])
-      })
+                  })
+        .tooltip("Share snippet")
       ImageButton(imageName: "ic_info",
                   action: { self.showInfos.toggle() },
                   content: { EmptyView() })
+        .tooltip("Snippet info")
         .popover(
           isPresented: self.$showInfos,
           arrowEdge: .bottom
@@ -115,7 +122,7 @@ struct CodeActionsTopBar: View {
             Text("Last updated \(self.viewModel.snipLastUpdate.dateAndTimetoString())")
               .padding(.top)
           }.padding(16)
-      }
+        }
       
     }
     .background(themeSecondaryColor.opacity(0.4))
@@ -170,7 +177,7 @@ final class CodeActionsViewModel: ObservableObject {
   
   func openRemoteURL() {
     guard let sourceURL = remoteURL,
-      let url = URL(string: sourceURL) else { return }
+          let url = URL(string: sourceURL) else { return }
     NSWorkspace.shared.open(url)
   }
 }

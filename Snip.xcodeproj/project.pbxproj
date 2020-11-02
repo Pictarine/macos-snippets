@@ -38,6 +38,7 @@
 		796B093524D1B95B006904C4 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B093424D1B95B006904C4 /* Color.swift */; };
 		796B093724D1BA1F006904C4 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B093624D1BA1F006904C4 /* Date.swift */; };
 		797B92EC24FCDE2900071669 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797B92EB24FCDE2900071669 /* Colors.xcassets */; };
+		798AA66725500FE300CBDC9C /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798AA66625500FE300CBDC9C /* Tooltip.swift */; };
 		79956A4224E5463300B823E1 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4124E5463300B823E1 /* API.swift */; };
 		79956A4424E5772200B823E1 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4324E5772200B823E1 /* Endpoint.swift */; };
 		79956A4724E57AC700B823E1 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A4624E57AC700B823E1 /* Dictionary.swift */; };
@@ -117,6 +118,7 @@
 		796B093424D1B95B006904C4 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		796B093624D1BA1F006904C4 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		797B92EB24FCDE2900071669 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		798AA66625500FE300CBDC9C /* Tooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		79956A4124E5463300B823E1 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		79956A4324E5772200B823E1 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		79956A4624E57AC700B823E1 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				79F07A2824D3050500469324 /* ImageButton.swift */,
 				791AC9C424DAE45D00CAB87C /* DeferView.swift */,
 				79284D6C2507DE7F00210E61 /* PagerView.swift */,
+				798AA66625500FE300CBDC9C /* Tooltip.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */,
 				79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */,
 				79BC1D2024D16E67008FD16E /* AppDelegate.swift in Sources */,
+				798AA66725500FE300CBDC9C /* Tooltip.swift in Sources */,
 				79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */,
 				79A6F65324D2B9D40037C5FF /* String.swift in Sources */,
 				791AC9C524DAE45D00CAB87C /* DeferView.swift in Sources */,
@@ -784,7 +788,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"Snip/Preview Content\"";
 				DEVELOPMENT_TEAM = 7XBGRFP286;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -795,7 +799,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pictarine.Snip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Snip DEBUG";
@@ -811,7 +815,7 @@
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"Snip/Preview Content\"";
 				DEVELOPMENT_TEAM = 7XBGRFP286;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -822,7 +826,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pictarine.Snip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Snip APPSTORE";

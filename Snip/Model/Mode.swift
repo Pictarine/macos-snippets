@@ -133,6 +133,7 @@ public enum CodeMode: String {
   case lua
   case markdown
   case maths
+  case ntriples
   case pascal
   case perl
   case php
@@ -148,10 +149,12 @@ public enum CodeMode: String {
   case shell
   case sql
   case sqllite
+  case sparql
   case mysql
   case latex
   case swift
   case text
+  case turtle
   case vb
   case vue
   case xml
@@ -191,6 +194,7 @@ public enum CodeMode: String {
       CodeMode.lua.mode(),
       CodeMode.markdown.mode(),
       CodeMode.maths.mode(),
+      CodeMode.ntriples.mode(),
       CodeMode.pascal.mode(),
       CodeMode.perl.mode(),
       CodeMode.php.mode(),
@@ -206,10 +210,12 @@ public enum CodeMode: String {
       CodeMode.shell.mode(),
       CodeMode.sql.mode(),
       CodeMode.sqllite.mode(),
+      CodeMode.sparql.mode(),
       CodeMode.mysql.mode(),
       CodeMode.latex.mode(),
       CodeMode.swift.mode(),
       CodeMode.text.mode(),
+      CodeMode.turtle.mode(),
       CodeMode.vb.mode(),
       CodeMode.vue.mode(),
       CodeMode.xml.mode(),
@@ -289,6 +295,8 @@ public enum CodeMode: String {
       return Mode(name: "markdown", mimeType: "text/markdown")
     case .maths:
       return Mode(name: "maths", mimeType: "text/x-mathematica")
+    case .ntriples:
+      return Mode(name: "ntriples", mimeType: "application/n-triples")
     case .pascal:
       return Mode(name: "pascal", mimeType: "text/x-pascal")
     case .perl:
@@ -319,6 +327,8 @@ public enum CodeMode: String {
       return Mode(name: "sql", mimeType: "text/x-sql")
     case .sqllite:
       return Mode(name: "sqllite", mimeType: "text/x-sqlite")
+    case .sparql:
+      return Mode(name: "sparql", mimeType: "application/sparql-query")
     case .mysql:
       return Mode(name: "mysql", mimeType: "text/x-mysql")
     case .latex:
@@ -327,6 +337,8 @@ public enum CodeMode: String {
       return Mode(name: "swift", mimeType: "text/x-swift")
     case .text:
       return Mode(name: "text", mimeType: "text/plain-text")
+    case .turtle:
+      return Mode(name: "turtle", mimeType: "text/turtle")
     case .vb:
       return Mode(name: "vb", mimeType: "text/x-vb")
     case .vue:

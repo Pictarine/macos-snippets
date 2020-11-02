@@ -41,6 +41,7 @@ struct Sidebar: View {
             settings.isSettingsOpened.toggle()
           }
         }, content: { EmptyView() })
+        .tooltip("Settings")
         Spacer()
         
         Text(syncManager.connectedUser?.login ?? "")
@@ -68,6 +69,7 @@ struct Sidebar: View {
             )
           
         }
+        .tooltip("Connect to Gist from GitHub")
         .alert(isPresented: $showingLogoutAlert) {
           Alert(title: Text("Logout from Github"),
                 message: Text("Are you sure about that?"),
