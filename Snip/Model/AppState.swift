@@ -16,11 +16,11 @@ class AppState: ObservableObject {
   
   @Published var shouldShowChangelogModel: Bool {
     didSet {
-      UserDefaults.standard.set(Bundle.main.buildVersionNumber, forKey: "previous_launched_version_v1.3.0")
+      UserDefaults.standard.set(Bundle.main.buildVersionNumber, forKey: "previous_launched_version_v1.4.0")
     }
   }
   
   init() {
-    self.shouldShowChangelogModel = (UserDefaults.standard.object(forKey: "previous_launched_version_v1.3.0") as? String ?? "") != Bundle.main.buildVersionNumber
+    self.shouldShowChangelogModel = (UserDefaults.standard.object(forKey: "previous_launched_version_v1.4.0") as? String ?? "") != Bundle.main.buildVersionNumber
   }
 }
