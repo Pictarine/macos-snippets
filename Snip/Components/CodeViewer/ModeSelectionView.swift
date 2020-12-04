@@ -37,14 +37,14 @@ struct ModeSelectionView: View {
   
   var tags: some View {
     ScrollView (.horizontal) {
-      HStack {
+      HStack(spacing: 8) {
         ForEach(viewModel.tags, id: \.self) { tag in
           TagView(tag: tag, onRemoveTapped: {
             self.viewModel.onTagChange(tag, TagJob.remove)
             //self.viewModel.tags.remove(at: tagIndex)
           })
         }
-      }
+      }.padding(.leading, 4)
     }
     .frame(height: 55)
   }

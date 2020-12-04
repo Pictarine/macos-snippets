@@ -34,6 +34,7 @@ struct CodeActionsTopBar: View {
       .font(Font.custom("HelveticaNeue", size: 20))
       .foregroundColor(themeTextColor)
       .frame(maxHeight: .infinity)
+      .padding(.leading, 8)
       .textFieldStyle(PlainTextFieldStyle())
     }
     .background(themeSecondaryColor.opacity(0.4))
