@@ -24,28 +24,28 @@ extension Color {
   static let accentDark = Color("AccentDark")
   static let transparent = Color.black.opacity(0.0001)
   
-  static let BLACK_200 = Color.init(hex: "202121")
-  static let BLACK_300 = Color.init(hex: "202121")
-  static let BLACK_500 = Color.init(hex: "191919") 
+  static let BLACK_200 = Color(hex: "202121")
+  static let BLACK_300 = Color(hex: "202121")
+  static let BLACK_500 = Color(hex: "191919")
   
-  static let PINK_500 = Color.init(hex: "FE7AC6")
+  static let PINK_500 = Color(hex: "FE7AC6")
   
-  static let GREEN_500 = Color.init(hex: "74e08f")
+  static let GREEN_500 = Color(hex: "74e08f")
   
-  static let YELLOW_500 = Color.init(hex: "F2FA8C")
+  static let YELLOW_500 = Color(hex: "F2FA8C")
   
-  static let PURPLE_500 = Color.init(hex: "bd93f9")
-  static let PURPLE_700 = Color.init(hex: "735CD1")
+  static let PURPLE_500 = Color(hex: "bd93f9")
+  static let PURPLE_700 = Color(hex: "735CD1")
   
-  static let BLUE_200 = Color.init(hex: "BBDEFB")
+  static let BLUE_200 = Color(hex: "BBDEFB")
   
-  static let RED_500 = Color.init(hex: "ff5555")
+  static let RED_500 = Color(hex: "ff5555")
   
-  static let ORANGE_500 = Color.init(hex: "E5946A")
+  static let ORANGE_500 = Color(hex: "E5946A")
   
-  static let GREY_200 = Color.init(hex: "F6F8FA")
+  static let GREY_200 = Color(hex: "F6F8FA")
   
-  static let BLUE_700 = Color.init(hex: "0C1021")
+  static let BLUE_700 = Color(hex: "0C1021")
   
   init(hex: String) {
     let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

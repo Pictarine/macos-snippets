@@ -10,22 +10,6 @@ import SwiftUI
 import Combine
 
 
-enum ModelFilter {
-  case all
-  case favorites
-  case tag(tagTitle: String)
-  
-  enum Case { case all, favorites, tag }
-
-  var `case`: Case {
-    switch self {
-    case .all: return .all
-    case .favorites: return .favorites
-    case .tag: return .tag
-    }
-  }
-}
-
 struct SnipItemsList: View {
   
   @ObservedObject var viewModel: SnipItemsListModel

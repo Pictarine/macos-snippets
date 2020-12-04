@@ -29,7 +29,18 @@ struct SnipViewApp: View {
         NavigationView {
           
           self.sideBar
-          self.openingPanel
+          
+          if viewModel.selectionSnipItem == nil {
+            self.openingPanel
+          }
+          else {
+            CodeViewer(viewModel: CodeViewerViewModel(onTrigger: viewModel.trigger(action:),
+                                                      onDimiss: {
+                                                        appState.selectedSnippetId = nil
+                                                      }))
+              .environmentObject(viewModel.selectionSnipItem!)
+          }
+          
         }
         self.welcomePanel
           .frame(width: reader.size.width, height: reader.size.height)
@@ -43,13 +54,18 @@ struct SnipViewApp: View {
       .environment(\.themeTextColor, settings.snipAppTheme == .auto ? .text : .white)
       .environment(\.themeShadowColor, settings.snipAppTheme == .auto ? .shadow : .shadowTheme)
     }
-    .edgesIgnoringSafeArea(.top)
   }
   
   var sideBar: some View {
-    Sidebar(viewModel: SideBarViewModel(snipppets: viewModel.snippets, onTrigger: viewModel.trigger(action:)))
-      .background(settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme)
-      .frame(minWidth: 0, idealWidth: 300, maxWidth: 350)
+    Sidebar(viewModel: SideBarViewModel(snipppets: viewModel.snippets,
+                                        onTrigger: viewModel.trigger(action:),
+                                        onSnippetSelection: { snipItem, filter in
+                                          appState.selectedSnippetId = snipItem.id
+                                          appState.selectedSnippetFilter = filter
+                                          viewModel.didSelectSnipItem(snipItem)
+                                        }))
+      //.background(settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme)
+      .frame(minWidth: 300)
   }
   
   var openingPanel: some View {
@@ -106,8 +122,10 @@ struct SnipViewApp: View {
 final class SnipViewAppViewModel: ObservableObject {
   
   @Published var snippets: [SnipItem] = []
+  @Published var selectionSnipItem: SnipItem?
   
   var cancellables: Set<AnyCancellable> = []
+   
   
   init() {
     SnippetManager
@@ -124,6 +142,10 @@ final class SnipViewAppViewModel: ObservableObject {
   func resetExternalSnippetAdding() {
     SnippetManager.shared.hasExternalSnippetQueued = false
     SnippetManager.shared.tempSnipItem = ExternalSnipItem.blank()
+  }
+  
+  func didSelectSnipItem(_ snip: SnipItem) {
+    selectionSnipItem = snip
   }
 }
 

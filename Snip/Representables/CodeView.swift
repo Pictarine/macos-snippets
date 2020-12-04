@@ -51,7 +51,6 @@ struct CodeView: NSViewRepresentable {
     let theme = syntaxTheme == .`default` ? ((colorScheme == .dark) ? CodeViewTheme.materialPalenight.rawValue : CodeViewTheme.base16Light.rawValue) : syntaxTheme.rawValue
     
     let preferences = WKPreferences()
-    preferences.javaScriptEnabled = true
     
     let userController = WKUserContentController()
     userController.add(context.coordinator, name: CodeMirrorViewConstants.codeMirrorDidReady)

@@ -43,7 +43,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let snipAppView = SnipViewApp(viewModel: SnipViewAppViewModel())
       .environmentObject(Settings())
       .environmentObject(AppState())
-      .edgesIgnoringSafeArea(.top)
       .frame(minWidth: 700,
              maxWidth: .infinity,
              minHeight: 500,
@@ -53,19 +52,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       contentRect: NSRect(x: 0,
                           y: 0,
                           width: 1000,
-                          height: 700),
+                          height: 600),
       styleMask: [.unifiedTitleAndToolbar,
-                  .texturedBackground,
                   .fullSizeContentView,
                   .titled, .closable,
                   .miniaturizable,
-                  .resizable,
-                  .texturedBackground],
+                  .resizable],
       backing: .buffered,
       defer: false)
-    window.titleVisibility = .hidden
-    window.titlebarAppearsTransparent = true
-    window.toolbar?.isVisible = false
+    //window.titleVisibility = .hidden
+    //window.titlebarAppearsTransparent = true
+    //window.toolbar?.isVisible = false
     window.isMovableByWindowBackground = true
     window.center()
     window.setFrameAutosaveName("Main Window")

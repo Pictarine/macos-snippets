@@ -46,7 +46,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   @Published var tags: [String]
   @Published var name: String
   @Published var isFavorite: Bool
-  @Published var content: [SnipItem]
+  @Published var content: [SnipItem]?
   @Published var syncState: SyncState?
   @Published var gistId: String?
   @Published var gistURL: String?
@@ -61,7 +61,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     id: UUID,
     name: String,
     kind: Kind,
-    content: [SnipItem],
+    content: [SnipItem]?,
     snippet: String,
     mode: Mode,
     tags: [String],
@@ -94,7 +94,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       id: UUID(),
       name: name,
       kind: .folder,
-      content: [],
+      content: nil,
       snippet: "",
       mode: CodeMode.text.mode(),
       tags: [],
@@ -113,7 +113,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       id: UUID(),
       name: name,
       kind: .file,
-      content: [],
+      content: nil,
       snippet: "",
       mode: CodeMode.text.mode(),
       tags: [],
@@ -135,7 +135,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     tags = try container.decode([String].self, forKey: .tags)
     name = try container.decode(String.self, forKey: .name)
     isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
-    content = try container.decode([SnipItem].self, forKey: .content)
+    
     id = try container.decode(String.self, forKey: .id)
     kind = try container.decode(Kind.self, forKey: .kind)
     creationDate = try container.decode(Date.self, forKey: .creationDate)
@@ -144,6 +144,13 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     
     if syncState == .syncing {
       syncState = .synced
+    }
+    
+    if kind == .file {
+      content = nil
+    }
+    else {
+      content = try? container.decode([SnipItem].self, forKey: .content)
     }
     
     gistId = try? container.decode(String.self, forKey: .gistId)

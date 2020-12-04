@@ -119,9 +119,14 @@ struct CodeViewer: View {
            alignment: .topLeading)
       .background(themePrimaryColor)
       .listStyle(PlainListStyle())
-    
+    .toolbar {
+        ToolbarItem(placement: .status) {
+            Button("Press Me") {
+                print("Pressed")
+            }
+        }
+    }
   }
-  
 }
 
 class CodeViewerViewModel: ObservableObject {
@@ -131,6 +136,9 @@ class CodeViewerViewModel: ObservableObject {
   
   init(onTrigger: @escaping (SnipItemsListAction) -> Void,
        onDimiss: @escaping () -> Void) {
+    
+    print("Loead code viewer")
+    
     self.onTrigger = onTrigger
     self.onDimiss = onDimiss
   }

@@ -73,7 +73,6 @@ struct MarkdownHTMLViewer: NSViewRepresentable {
   func makeNSView(context: Context) -> WKWebView {
     
     let preferences = WKPreferences()
-    preferences.javaScriptEnabled = true
     
     let configuration = WKWebViewConfiguration()
     configuration.preferences = preferences

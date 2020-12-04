@@ -21,9 +21,10 @@ struct Sidebar: View {
   
   var body: some View {
     VStack(alignment: .leading) {
+      
+      addElementView
+      
       List() {
-        
-        addElementView
         
         favorites
         
@@ -31,9 +32,8 @@ struct Sidebar: View {
         
         //tags
       }
-      .removeBackground()
+      .listStyle(SidebarListStyle())
       .padding(.top, 16)
-      .background(Color.clear)
       
       HStack {
         ImageButton(imageName: "ic_settings", action: {
@@ -88,58 +88,88 @@ struct Sidebar: View {
   }
   
   var addElementView: some View {
-    HStack{
-      Spacer()
-      Image("snip")
-        .resizable()
-        .frame(width: 15, height: 15, alignment: .center)
-      Spacer()
-      MenuButton("+") {
-        Button(action: {
-          self.viewModel.onTrigger(.addSnippet(id: nil))
-        }) {
-          Text("New snippet")
-            .font(.system(size: 14))
-            .foregroundColor(Color.text)
+    ZStack {
+      
+      // Logo
+      HStack{
+        Spacer()
+        Image("snip")
+          .resizable()
+          .frame(width: 16, height: 16, alignment: .center)
+        Spacer()
+      }
+      
+      // Action
+      HStack {
+        Spacer()
+        MenuButton(label:
+                    Text("+")
+                    .foregroundColor(.text)
+                    .font(.system(size: 22))
+        ) {
+          Button(action: {
+            self.viewModel.onTrigger(.addSnippet(id: nil))
+          }) {
+            Text("New snippet")
+              .font(.system(size: 14))
+              .foregroundColor(Color.text)
+          }
+          Button(action: {
+            self.viewModel.onTrigger(.addFolder())
+          }) {
+            Text("New folder")
+              .font(.system(size: 14))
+              .foregroundColor(Color.text)
+          }
         }
-        Button(action: {
-          self.viewModel.onTrigger(.addFolder())
-        }) {
-          Text("New folder")
-            .font(.system(size: 14))
-            .foregroundColor(Color.text)
-        }
-      }.menuButtonStyle(BorderlessButtonMenuButtonStyle())
+        .menuButtonStyle(BorderlessButtonMenuButtonStyle())
         .foregroundColor(.text)
-        .font(.system(size: 22))
-        .background(Color.clear)
-        .frame(maxWidth: 16, alignment: .center)
-    }.background(Color.clear)
+        .padding(.horizontal, 16)
+        .frame(maxWidth: 50, alignment: .center)
+        .background(Color.transparent)
+      }
+    }
   }
   
   @ViewBuilder
   var favorites: some View {
-    Text("Favorites")
-      .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-      .foregroundColor(themeTextColor.opacity(0.6))
-      .padding(.bottom, 3)
-    
-    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
-                                                applyFilter: .favorites,
-                                                onTrigger: viewModel.onTrigger))
+    Section(header:
+              Text("Favorites")
+              .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+              .foregroundColor(themeTextColor.opacity(0.6))
+              .padding(.bottom, 8)
+              .padding(.top, 16)
+    ) {
+      
+      OutlineGroup(viewModel.filterSnippets(filter: .favorites), id: \.id, children: \.content) {
+        SnipItemView(viewModel: SnipItemViewModel(snip: $0,
+                                                  activeFilter: .favorites,
+                                                  onTrigger: viewModel.onTrigger,
+                                                  onSnippetSelection: viewModel.onSnippetSelection))
+      }
+      
+    }
   }
   
   @ViewBuilder
   var local: some View {
-    Text("Local")
-      .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-      .foregroundColor(themeTextColor.opacity(0.6))
-      .padding(.bottom, 3)
-      .padding(.top, 16)
+    Section(header:
+              Text("Local")
+              .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+              .foregroundColor(themeTextColor.opacity(0.6))
+              .padding(.bottom, 8)
+              .padding(.top, 16)
+    ) {
+      
+      OutlineGroup(viewModel.filterSnippets(filter: .all), id: \.id, children: \.content) {
+        SnipItemView(viewModel: SnipItemViewModel(snip: $0,
+                                                  activeFilter: .all,
+                                                  onTrigger: viewModel.onTrigger,
+                                                  onSnippetSelection: viewModel.onSnippetSelection))
+      }
+      
+    }
     
-    SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
-                                                applyFilter: .all,
-                                                onTrigger: viewModel.onTrigger))
   }
   
   /*@ViewBuilder
@@ -164,16 +194,24 @@ final class SideBarViewModel: ObservableObject {
   var snippets: [SnipItem]
   
   var onTrigger: (SnipItemsListAction) -> Void
+  var onSnippetSelection: (SnipItem, ModelFilter) -> Void
   
-  init(snipppets: [SnipItem], onTrigger: @escaping (SnipItemsListAction) -> Void) {
+  init(snipppets: [SnipItem],
+       onTrigger: @escaping (SnipItemsListAction) -> Void,
+       onSnippetSelection: @escaping (SnipItem, ModelFilter) -> Void) {
     self.snippets = snipppets
     self.onTrigger = onTrigger
+    self.onSnippetSelection = onSnippetSelection
   }
-}
-
-
-struct Sidebar_Previews: PreviewProvider {
-  static var previews: some View {
-    Sidebar(viewModel: SideBarViewModel(snipppets: [], onTrigger: {_ in }))
+  
+  func filterSnippets(filter: ModelFilter) -> [SnipItem] {
+    switch filter {
+      case .all:
+        return snippets
+      case .favorites:
+        return snippets.allFavorites
+      case .tag(let tagTitle):
+        return snippets.perTag(tag: tagTitle)
+    }
   }
 }
