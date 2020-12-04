@@ -49,6 +49,7 @@ struct SnipViewApp: View {
         self.addExternalSnipPanel
           .frame(width: reader.size.width, height: reader.size.height)
       }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
       .environment(\.themePrimaryColor, settings.snipAppTheme == .auto ? .primary : .primaryTheme)
       .environment(\.themeSecondaryColor, settings.snipAppTheme == .auto ? .secondary : .secondaryTheme)
       .environment(\.themeTextColor, settings.snipAppTheme == .auto ? .text : .white)
@@ -125,7 +126,7 @@ final class SnipViewAppViewModel: ObservableObject {
   @Published var selectionSnipItem: SnipItem?
   
   var cancellables: Set<AnyCancellable> = []
-   
+  
   
   init() {
     SnippetManager

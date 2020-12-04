@@ -10,17 +10,15 @@ import Cocoa
 import SwiftUI
 import Combine
 
-@NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
   
-  lazy var windows = NSWindow()
   var window: NSWindow!
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     
     SyncManager.shared.initialize()
     
-    createWindow()
+    //createWindow()
   }
   
   func applicationWillTerminate(_ aNotification: Notification) {
@@ -35,57 +33,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     DeepLinkManager.handleDeepLink(urls: urls)
   }
   
-  
-  // Window
-  
-  func createWindow() {
-    
-    let snipAppView = SnipViewApp(viewModel: SnipViewAppViewModel())
-      .environmentObject(Settings())
-      .environmentObject(AppState())
-      .frame(minWidth: 700,
-             maxWidth: .infinity,
-             minHeight: 500,
-             maxHeight: .infinity)
-    
-    window = NSWindow(
-      contentRect: NSRect(x: 0,
-                          y: 0,
-                          width: 1000,
-                          height: 600),
-      styleMask: [.unifiedTitleAndToolbar,
-                  .fullSizeContentView,
-                  .titled, .closable,
-                  .miniaturizable,
-                  .resizable],
-      backing: .buffered,
-      defer: false)
-    //window.titleVisibility = .hidden
-    //window.titlebarAppearsTransparent = true
-    //window.toolbar?.isVisible = false
-    window.isMovableByWindowBackground = true
-    window.center()
-    window.setFrameAutosaveName("Main Window")
-    window.contentView = NSHostingView(rootView: snipAppView)
-    window.isReleasedWhenClosed = false
-    DispatchQueue.main.async {
-      self.window.orderOut(nil)
-      self.window.makeKeyAndOrderFront(nil)
-    }
-  }
-  
-  func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-    if !flag {
-      sender.windows.forEach { $0.makeKeyAndOrderFront(self) }
-    }
-    return true
-  }
-  
-  
-  // Menu
-  
-  @IBAction func newWindow(_ sender: Any) {
-    window.makeKeyAndOrderFront(self)
-  }
 }
 

@@ -34,22 +34,22 @@ struct CodeViewer: View {
                                                           remoteURL: snipItem.remoteURL,
                                                           onRename: { name in
                                                             self.viewModel.onTrigger(.rename(id: self.snipItem.id, name: name))
-        },
+                                                          },
                                                           onToggleFavorite: {
                                                             self.viewModel.onTrigger(.toggleFavorite(id: self.snipItem.id))
-        },
+                                                          },
                                                           onDelete: {
                                                             self.viewModel.onTrigger(.delete(id: self.snipItem.id))
                                                             self.viewModel.onDimiss()
-        },
+                                                          },
                                                           onUpload: {
                                                             self.viewModel.onTrigger(.createGist(id: self.snipItem.id))
-        },
+                                                          },
                                                           onPreviewToggle: self.snipItem.mode == CodeMode.html.mode() || self.snipItem.mode == CodeMode.markdown.mode() ? {
                                                             withAnimation(Animation.easeOut(duration: 0.6)) { () -> () in
                                                               self.shouldShowPreview.toggle()
                                                             }
-          } : nil
+                                                          } : nil
         ))
         
         ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: snipItem.mode,
@@ -57,12 +57,12 @@ struct CodeViewer: View {
                                                             onModeSelection: { mode in
                                                               self.viewModel.onTrigger(.updateMode(id: self.snipItem.id,
                                                                                                    mode: mode))
-        },
+                                                            },
                                                             onTagChange: { tag, job in
                                                               self.viewModel.onTrigger(.updateTags(id: self.snipItem.id,
                                                                                                    job: job,
                                                                                                    tag: tag))
-        }))
+                                                            }))
         
         CodeView(theme: settings.codeViewTheme,
                  code: .constant(self.snipItem.snippet),
@@ -79,10 +79,10 @@ struct CodeViewer: View {
                  maxHeight: .infinity)
           .overlay(
             MarkdownHTMLViewer(code: self.snipItem.snippet, mode: self.snipItem.mode)
-            .frame(minWidth: 100,
-                   maxWidth: .infinity,
-                   minHeight: 100,
-                   maxHeight: .infinity)
+              .frame(minWidth: 100,
+                     maxWidth: .infinity,
+                     minHeight: 100,
+                     maxHeight: .infinity)
               .background(Color.GREY_200)
               .offset(x: self.shouldShowPreview ? 0 : 10000, y: 0)
               .transition(AnyTransition.move(edge: .trailing)), alignment: .topLeading)
@@ -117,15 +117,9 @@ struct CodeViewer: View {
            minHeight: 0,
            maxHeight: .infinity,
            alignment: .topLeading)
-      .background(themePrimaryColor)
-      .listStyle(PlainListStyle())
-    .toolbar {
-        ToolbarItem(placement: .status) {
-            Button("Press Me") {
-                print("Pressed")
-            }
-        }
-    }
+    .background(themePrimaryColor)
+    .listStyle(PlainListStyle())
+    
   }
 }
 
@@ -142,7 +136,6 @@ class CodeViewerViewModel: ObservableObject {
     self.onTrigger = onTrigger
     self.onDimiss = onDimiss
   }
-  
 }
 
 struct CodeViewer_Previews: PreviewProvider {
@@ -150,9 +143,9 @@ struct CodeViewer_Previews: PreviewProvider {
     CodeViewer(viewModel: CodeViewerViewModel(onTrigger: { _ in
       print("action")
     },
-                                              onDimiss:  { print("onDismiss")}
+    onDimiss:  { print("onDismiss")}
     ))
-      .environmentObject(Preview.snipItem)
+    .environmentObject(Preview.snipItem)
   }
 }
 

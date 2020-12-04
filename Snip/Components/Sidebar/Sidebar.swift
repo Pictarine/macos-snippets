@@ -141,12 +141,10 @@ struct Sidebar: View {
               .padding(.top, 16)
     ) {
       
-      OutlineGroup(viewModel.filterSnippets(filter: .favorites), id: \.id, children: \.content) {
-        SnipItemView(viewModel: SnipItemViewModel(snip: $0,
-                                                  activeFilter: .favorites,
-                                                  onTrigger: viewModel.onTrigger,
-                                                  onSnippetSelection: viewModel.onSnippetSelection))
-      }
+      SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
+                                                      applyFilter: .favorites,
+                                                      onTrigger: viewModel.onTrigger,
+                                                      onSnippetSelection: viewModel.onSnippetSelection))
       
     }
   }
@@ -161,12 +159,10 @@ struct Sidebar: View {
               .padding(.top, 16)
     ) {
       
-      OutlineGroup(viewModel.filterSnippets(filter: .all), id: \.id, children: \.content) {
-        SnipItemView(viewModel: SnipItemViewModel(snip: $0,
-                                                  activeFilter: .all,
-                                                  onTrigger: viewModel.onTrigger,
-                                                  onSnippetSelection: viewModel.onSnippetSelection))
-      }
+      SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
+                                                      applyFilter: .all,
+                                                      onTrigger: viewModel.onTrigger,
+                                                      onSnippetSelection: viewModel.onSnippetSelection))
       
     }
     

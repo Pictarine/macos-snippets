@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Combine
 
 
 struct SnipItemsList: View {
@@ -15,26 +14,29 @@ struct SnipItemsList: View {
   @ObservedObject var viewModel: SnipItemsListModel
   
   var body: some View {
-    ForEach(filterSnippets, id: \.id) { snipItem in
+    ForEach(viewModel.filterSnippets, id: \.id) { snipItem in
       
       Group {
-        if self.containsSub(snipItem) {
+        if viewModel.containsSub(snipItem) {
           SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
-                                                    activeFilter: self.viewModel.filter,
-                                                    onTrigger: self.viewModel.onTrigger),
+                                                    activeFilter: viewModel.filter,
+                                                    onTrigger: viewModel.onTrigger,
+                                                    onSnippetSelection: viewModel.onSnippetSelection),
                        content: {
                         SnipItemsList(viewModel: SnipItemsListModel(snips: snipItem.content,
-                                                                    applyFilter: self.viewModel.filter,
-                                                                    onTrigger: self.viewModel.onTrigger))
+                                                                    applyFilter: viewModel.filter,
+                                                                    onTrigger: viewModel.onTrigger,
+                                                                    onSnippetSelection: viewModel.onSnippetSelection))
                           .padding(.leading, 26)
-          }
+                       }
           )
           
         }
         else {
           SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
-                                                    activeFilter: self.viewModel.filter,
-                                                    onTrigger: self.viewModel.onTrigger),
+                                                    activeFilter: viewModel.filter,
+                                                    onTrigger: viewModel.onTrigger,
+                                                    onSnippetSelection: viewModel.onSnippetSelection),
                        content: { EmptyView() })
         }
       }
@@ -42,20 +44,7 @@ struct SnipItemsList: View {
     }
   }
   
-  func containsSub(_ element: SnipItem) -> Bool {
-    element.content.count > 0
-  }
   
-  var filterSnippets : [SnipItem] {
-    switch viewModel.filter {
-    case .all:
-      return viewModel.snipItems
-    case .favorites:
-      return viewModel.snipItems.allFavorites
-    case .tag(let tagTitle):
-      return viewModel.snipItems.perTag(tag: tagTitle)
-    }
-  }
 }
 
 
@@ -66,23 +55,33 @@ final class SnipItemsListModel: ObservableObject {
   var filter : ModelFilter = .all
   
   var onTrigger: (SnipItemsListAction) -> Void
+  var onSnippetSelection: (SnipItem, ModelFilter) -> Void
   
-  init(snips: [SnipItem], applyFilter: ModelFilter, onTrigger: @escaping (SnipItemsListAction) -> Void) {
+  init(snips: [SnipItem],
+       applyFilter: ModelFilter,
+       onTrigger: @escaping (SnipItemsListAction) -> Void,
+       onSnippetSelection: @escaping (SnipItem, ModelFilter) -> Void) {
     self.filter = applyFilter
     self.snipItems = snips
     self.onTrigger = onTrigger
+    self.onSnippetSelection = onSnippetSelection
   }
-}
-
-
-struct SnipItemsList_Previews: PreviewProvider {
   
-  static var previews: some View {
-    return SnipItemsList(viewModel: SnipItemsListModel(snips: Preview.snipItems,
-                                                       applyFilter: .all,
-                                                       onTrigger: { action in
-                                                        print("action : \(action)")
-    }))
+  var filterSnippets: [SnipItem] {
+    switch filter {
+    case .all:
+      return snipItems
+    case .favorites:
+      return snipItems.allFavorites
+    case .tag(let tagTitle):
+      return snipItems.perTag(tag: tagTitle)
+    }
   }
+  
+  func containsSub(_ element: SnipItem) -> Bool {
+    return element.content.count > 0
+  }
+  
 }
+
 

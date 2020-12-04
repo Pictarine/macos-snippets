@@ -31,7 +31,7 @@ extension String {
   func size() -> String {
     let data = self.data(using: .utf8)
     let bcf = ByteCountFormatter()
-    bcf.allowedUnits = [.useKB] 
+    bcf.allowedUnits = [.useAll]
     bcf.countStyle = .file
     let size = bcf.string(fromByteCount: Int64(data!.count))
     return size

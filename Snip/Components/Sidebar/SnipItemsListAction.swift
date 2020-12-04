@@ -30,13 +30,7 @@ struct SnipItemsListAction {
           return snipItem.id == idParentFolder
         }
         
-        if snipItem?.content != nil {
-          snipItem?.content!.append(file)
-        }
-        else {
-          snipItem?.content = [file]
-        }
-        
+        snipItem?.content.append(file)
       }
       else {
         current.append(file)
@@ -59,7 +53,7 @@ struct SnipItemsListAction {
       
       if let snipItem = snipItem {
         
-        snipItem.content?.append(snip)
+        snipItem.content.append(snip)
       }
       else {
         current.append(SnipItem.folder(name: "StackOverflow"))
@@ -68,12 +62,7 @@ struct SnipItemsListAction {
           return snipItem.kind == .folder && snipItem.name == "StackOverflow"
         }
         
-        if snipItem?.content != nil {
-          snipItem?.content!.append(snip)
-        }
-        else {
-          snipItem?.content = [snip]
-        }
+        snipItem?.content.append(snip)
       }
       
     }
@@ -89,12 +78,7 @@ struct SnipItemsListAction {
           return snipItem.id == idParentFolder
         }
         
-        if snipItem?.content != nil {
-          snipItem?.content!.append(folder)
-        }
-        else {
-          snipItem?.content = [folder]
-        }
+        snipItem?.content.append(folder)
       }
       else {
         current.append(folder)
@@ -222,7 +206,7 @@ struct SnipItemsListAction {
         copy.remove(at: i)
       }
       else {
-        obj.content = SnipItemsListAction.removeNestedArray(for: id, current: obj.content ?? [])
+        obj.content = SnipItemsListAction.removeNestedArray(for: id, current: obj.content)
       }
       
     }

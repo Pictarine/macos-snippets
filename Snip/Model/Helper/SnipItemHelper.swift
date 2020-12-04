@@ -25,9 +25,7 @@ extension Array where Element == SnipItem {
     for snip in self {
       allSnippets.append(snip)
       
-      if let _ = snip.content {
-        allSnippets.append(contentsOf: snip.content!.flatternSnippets)
-      }
+      allSnippets.append(contentsOf: snip.content.flatternSnippets)
     }
     
     return allSnippets

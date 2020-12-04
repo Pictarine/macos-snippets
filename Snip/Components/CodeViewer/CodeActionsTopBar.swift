@@ -18,9 +18,7 @@ struct CodeActionsTopBar: View {
   @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: CodeActionsViewModel
   
-  @State private var showSharingActions = false
   @State private var showInfos = false
-  @State private var moveRightLeft = false
   @State private var isPreviewEnabled = false
   
   var body: some View {
@@ -37,93 +35,6 @@ struct CodeActionsTopBar: View {
       .foregroundColor(themeTextColor)
       .frame(maxHeight: .infinity)
       .textFieldStyle(PlainTextFieldStyle())
-      
-      if syncManager.isAuthenticated {
-        ZStack {
-          if viewModel.syncState == .syncing {
-            ZStack {
-              Circle()
-                .trim(from: 1/4, to: 1)
-                .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color.accent)
-                .frame(width: 20, height: 20)
-                .rotationEffect(.degrees(moveRightLeft ? 360 : 0))
-                .animation(Animation.easeOut(duration: 1).repeatForever(autoreverses: false))
-                .onAppear() {
-                  self.moveRightLeft.toggle()
-                }
-            }
-          }
-          else {
-            ImageButton(imageName: viewModel.syncState == .local ? "ic_sync" : "ic_synced",
-                        action: viewModel.onUpload,
-                        content: { EmptyView() })
-              .overlay(
-                Circle()
-                  .fill(viewModel.syncState == .local ? Color.RED_500 : Color.green)
-                  .frame(width: 8, height: 8)
-                  .offset(x: 7, y: 6)
-              )
-              .tooltip("Add to Gist")
-          }
-          
-        }
-      }
-      
-      if viewModel.remoteURL != nil {
-        ImageButton(imageName: "ic_open",
-                    action: viewModel.openRemoteURL,
-                    content: { EmptyView() })
-          .tooltip("Open snippet post")
-      }
-      
-      if viewModel.onPreviewToggle != nil {
-        ImageButton(imageName: isPreviewEnabled ? "ic_preview_hide" : "ic_preview_show",
-                    action: {
-                      self.viewModel.onPreviewToggle?()
-                      
-                      DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        self.isPreviewEnabled.toggle()
-                      }
-                    },
-                    content: { EmptyView() })
-          .tooltip("Show/Hide preview")
-      }
-      
-      ImageButton(imageName: viewModel.isSnipFavorite ? "ic_fav_selected" : "ic_fav",
-                  action: viewModel.onToggleFavorite,
-                  content: { EmptyView() })
-        .tooltip("Add to favorites")
-      ImageButton(imageName: "ic_delete",
-                  action: viewModel.onDelete,
-                  content: { EmptyView() })
-        .tooltip("Delete snippet")
-      ImageButton(imageName: "ic_share",
-                  action: {
-                    self.showSharingActions = true
-                  },
-                  content: {
-                    SharingsPicker(isPresented: self.$showSharingActions, sharingItems: ["\(self.viewModel.snipCode) \n\n - Shared via Snip https://cutt.ly/snip"])
-                  })
-        .tooltip("Share snippet")
-      ImageButton(imageName: "ic_info",
-                  action: { self.showInfos.toggle() },
-                  content: { EmptyView() })
-        .tooltip("Snippet info")
-        .popover(
-          isPresented: self.$showInfos,
-          arrowEdge: .bottom
-        ) {
-          VStack {
-            Text("Snip Infos")
-              .font(.headline)
-            Text("Size of \(self.viewModel.snipCode.size())")
-              .padding(.top, 16)
-            Text("Last updated \(self.viewModel.snipLastUpdate.dateAndTimetoString())")
-              .padding(.top)
-          }.padding(16)
-        }
-      
     }
     .background(themeSecondaryColor.opacity(0.4))
     .frame(height: 40)
@@ -131,6 +42,136 @@ struct CodeActionsTopBar: View {
                         leading: 16,
                         bottom: 0,
                         trailing: 16))
+    .toolbar {
+      ToolbarItem(placement: .navigation) {
+        Button(action: viewModel.toggleSidebar) {
+          Image(systemName: "sidebar.left")
+        }
+        .onHover { inside in
+          if inside {
+            NSCursor.pointingHand.push()
+          } else {
+            NSCursor.pop()
+          }
+        }
+      }
+      
+      ToolbarItem(placement: .status) {
+        if syncManager.isAuthenticated {
+          Button(action: viewModel.onUpload) {
+            
+            if viewModel.syncState == .syncing {
+              ActivityIndicator()
+                .frame(width: 15, height: 15, alignment: .center)
+                .foregroundColor(.accent)
+            }
+            else {
+              Image(systemName: viewModel.syncState == .local ? "icloud" : "bolt.horizontal.icloud.fill")
+            }
+            
+          }
+          .overlay(
+            Circle()
+              .fill(viewModel.syncStateColor)
+              .frame(width: 8, height: 8)
+              .offset(x: 7, y: 6)
+          )
+          .tooltip("Add to Gist")
+        }
+      }
+      
+      ToolbarItem(placement: .status) {
+        if viewModel.remoteURL != nil {
+          Button(action: viewModel.openRemoteURL) {
+            Image(systemName: "square.and.arrow.up")
+          }
+          .tooltip("Open original post")
+          .onHover { inside in
+            if inside {
+              NSCursor.pointingHand.push()
+            } else {
+              NSCursor.pop()
+            }
+          }
+        }
+      }
+      
+      ToolbarItem(placement: .status) {
+        if viewModel.onPreviewToggle != nil {
+          Button(action: {
+            viewModel.onPreviewToggle?()
+            withAnimation(Animation.easeIn(duration: 0.6).delay(0.3)) {
+              isPreviewEnabled.toggle()
+            }
+          }) {
+            Image(systemName: isPreviewEnabled ? "eye.fill" : "eye")
+          }
+          .tooltip("Preview content")
+          .onHover { inside in
+            if inside {
+              NSCursor.pointingHand.push()
+            } else {
+              NSCursor.pop()
+            }
+          }
+        }
+      }
+      
+      ToolbarItem(placement: .status) {
+        Button(action: viewModel.onToggleFavorite) {
+          Image(systemName: viewModel.isSnipFavorite ? "bookmark.fill" : "bookmark")
+        }
+        .tooltip("Add to favorites")
+        .onHover { inside in
+          if inside {
+            NSCursor.pointingHand.push()
+          } else {
+            NSCursor.pop()
+          }
+        }
+      }
+      
+      ToolbarItem(placement: .status) {
+        Button(action: viewModel.onDelete) {
+          Image(systemName: "trash")
+        }
+        .tooltip("Delete snippet")
+        .onHover { inside in
+          if inside {
+            NSCursor.pointingHand.push()
+          } else {
+            NSCursor.pop()
+          }
+        }
+      }
+      
+      ToolbarItem(placement: .status) {
+        Button(action: { showInfos.toggle() }) {
+          Image(systemName: "info.circle")
+        }
+        .onHover { inside in
+          if inside {
+            NSCursor.pointingHand.push()
+          } else {
+            NSCursor.pop()
+          }
+        }
+        .tooltip("Snippet info")
+        .popover(
+          isPresented: $showInfos,
+          arrowEdge: .bottom
+        ) {
+          VStack {
+            Text("Snip Infos")
+              .font(.headline)
+            Text("Size of \(viewModel.snipCode.size())")
+              .padding(.top, 16)
+            Text("Last updated \(viewModel.snipLastUpdate.dateAndTimetoString())")
+              .padding(.top)
+          }.padding(16)
+        }
+      }
+    }
   }
   
 }
@@ -180,6 +221,21 @@ final class CodeActionsViewModel: ObservableObject {
           let url = URL(string: sourceURL) else { return }
     NSWorkspace.shared.open(url)
   }
+  
+  func toggleSidebar() {
+    NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+  }
+  
+  var syncStateColor: Color {
+    switch syncState {
+    case .local:
+      return .RED_500
+    case .synced:
+      return .green
+    case .syncing:
+      return .ORANGE_500
+    }
+  }
 }
 
 struct CodeActionsTopBar_Previews: PreviewProvider {
@@ -196,5 +252,51 @@ struct CodeActionsTopBar_Previews: PreviewProvider {
                                                       onUpload: {},
                                                       onPreviewToggle: {})
     )
+  }
+}
+
+
+
+
+struct ActivityIndicator: View {
+  @State private var currentIndex: Int = 0
+
+  func incrementIndex() {
+    currentIndex += 1
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50), execute: {
+      self.incrementIndex()
+    })
+  }
+
+  var body: some View {
+    GeometryReader { (geometry: GeometryProxy) in
+      ForEach(0..<12) { index in
+        Group {
+          Rectangle()
+            .cornerRadius(geometry.size.width / 5)
+            .frame(width: geometry.size.width / 8, height: geometry.size.height / 3)
+            .offset(y: geometry.size.width / 2.25)
+            .rotationEffect(.degrees(Double(-360 * index / 12)))
+            .opacity(self.setOpacity(for: index))
+        }.frame(width: geometry.size.width, height: geometry.size.height)
+      }
+    }
+    .aspectRatio(1, contentMode: .fit)
+    .onAppear {
+      self.incrementIndex()
+    }
+  }
+
+  func setOpacity(for index: Int) -> Double {
+    let opacityOffset = Double((index + currentIndex - 1) % 11 ) / 12 * 0.9
+    return 0.1 + opacityOffset
+  }
+}
+
+struct ActivityIndicator_Previews: PreviewProvider {
+  static var previews: some View {
+    ActivityIndicator()
+      .frame(width: 50, height: 50)
+      .foregroundColor(.blue)
   }
 }

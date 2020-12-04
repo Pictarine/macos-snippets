@@ -19,42 +19,63 @@ enum ModelFilter {
   
   var `case`: Case {
     switch self {
-      case .all: return .all
-      case .favorites: return .favorites
-      case .tag: return .tag
+    case .all: return .all
+    case .favorites: return .favorites
+    case .tag: return .tag
     }
   }
 }
 
 
 
-struct SnipItemView: View {
+struct SnipItemView<Content: View>: View {
   
   @ObservedObject var viewModel: SnipItemViewModel
   
   @EnvironmentObject var appState: AppState
   @EnvironmentObject var settings: Settings
   
+  @State private var isExpanded: Bool = false
+  
+  let content: () -> Content?
   
   @ViewBuilder
   var body: some View {
     
     if viewModel.snipItem.kind == .folder {
       
-      HStack {
+      Button(action: {
+        self.isExpanded.toggle()
+      }) {
         
-        Image("ic_folder_closed")
-          .resizable()
-          .renderingMode(.original)
-          .colorMultiply(Color.BLUE_200)
-          .scaledToFit()
-          .frame(width: 15, height: 15, alignment: .center)
-          .padding(.leading, 8)
+        HStack {
+          
+          VStack {
+            Spacer()
+            Image( self.isExpanded ? "ic_up" : "ic_down")
+              .resizable()
+              .renderingMode(.original)
+              .colorMultiply(Color.BLUE_200)
+              .scaledToFit()
+              .frame(width: 10, height: 10, alignment: .center)
+            Spacer()
+          }
+          Image("ic_folder_closed")
+            .resizable()
+            .renderingMode(.original)
+            .colorMultiply(Color.BLUE_200)
+            .scaledToFit()
+            .frame(width: 15, height: 15, alignment: .center)
+            .padding(.leading, 8)
+          
+          Text(self.viewModel.snipItem.name)
+            .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.transparent)
+            .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
         
-        Text(self.viewModel.snipItem.name)
-          .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .background(Color.transparent)
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding(0)
@@ -124,6 +145,9 @@ struct SnipItemView: View {
       .cornerRadius(4)
     }
     
+    if isExpanded {
+      content()
+    }
   }
   
 }
