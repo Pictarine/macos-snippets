@@ -28,25 +28,21 @@ struct SnipViewApp: View {
       ZStack {
         NavigationView {
           
-          self.sideBar
+          sideBar
           
           if viewModel.selectionSnipItem == nil {
-            self.openingPanel
+            openingPanel
           }
           else {
-            CodeViewer(viewModel: CodeViewerViewModel(onTrigger: viewModel.trigger(action:),
-                                                      onDimiss: {
-                                                        appState.selectedSnippetId = nil
-                                                      }))
-              .environmentObject(viewModel.selectionSnipItem!)
+            snippetView
           }
           
         }
-        self.welcomePanel
+        welcomePanel
           .frame(width: reader.size.width, height: reader.size.height)
-        self.settingPanel
+        settingPanel
           .frame(width: reader.size.width, height: reader.size.height)
-        self.addExternalSnipPanel
+        addExternalSnipPanel
           .frame(width: reader.size.width, height: reader.size.height)
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -67,6 +63,14 @@ struct SnipViewApp: View {
                                         }))
       //.background(settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme)
       .frame(minWidth: 300)
+  }
+  
+  var snippetView: some View {
+    CodeViewer(viewModel: CodeViewerViewModel(onTrigger: viewModel.trigger(action:),
+                                              onDimiss: {
+                                                appState.selectedSnippetId = nil
+                                              }))
+      .environmentObject(viewModel.selectionSnipItem!)
   }
   
   var openingPanel: some View {

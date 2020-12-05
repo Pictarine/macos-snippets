@@ -24,7 +24,6 @@ struct SnipApp: App {
                    minHeight: 500,
                    idealHeight: 600,
                    maxHeight: .infinity)
-            .background(Color.RED_500)
         }
       
     }
