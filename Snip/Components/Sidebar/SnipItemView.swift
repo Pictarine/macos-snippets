@@ -83,6 +83,7 @@ struct SnipItemView<Content: View>: View {
       .contextMenu {
         Button(action: {
           self.viewModel.onTrigger(.addFolder(id: self.viewModel.snipItem.id))
+          self.isExpanded = true
         }) {
           Text("Add folder")
             .foregroundColor(.text)
@@ -90,6 +91,7 @@ struct SnipItemView<Content: View>: View {
         
         Button(action: {
           self.viewModel.onTrigger(.addSnippet(id: self.viewModel.snipItem.id))
+          self.isExpanded = true
         }) {
           Text("Add snippet")
             .foregroundColor(.text)
