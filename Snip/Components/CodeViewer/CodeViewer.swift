@@ -61,29 +61,31 @@ struct CodeViewer: View {
                                                                                                  tag: tag))
                                                           }))
       
-      CodeView(theme: settings.codeViewTheme,
-               code: .constant(viewModel.snipItem.snippet),
-               mode: .constant(viewModel.snipItem.mode),
-               fontSize: settings.codeViewTextSize,
-               showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
-               lineWrapping: settings.codeViewLineWrapping,
-               onContentChange: { newCode in
-                viewModel.saveNewCodeSnippet(newCode)
-               })
-        .frame(minWidth: 100,
-               maxWidth: .infinity,
-               minHeight: 100,
-               maxHeight: .infinity)
-        .overlay(
-          MarkdownHTMLViewer(code: viewModel.snipItem.snippet, mode: viewModel.snipItem.mode)
-            .frame(minWidth: 100,
-                   maxWidth: .infinity,
-                   minHeight: 100,
-                   maxHeight: .infinity)
-            .background(Color.GREY_200)
-            .offset(x: self.shouldShowPreview ? 0 : 10000, y: 0)
-            .transition(AnyTransition.move(edge: .trailing)), alignment: .topLeading)
       
+      GeometryReader { reader in
+        HStack {
+          CodeView(theme: settings.codeViewTheme,
+                   code: .constant(viewModel.snipItem.snippet),
+                   mode: .constant(viewModel.snipItem.mode),
+                   fontSize: settings.codeViewTextSize,
+                   showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
+                   lineWrapping: settings.codeViewLineWrapping,
+                   onContentChange: { newCode in
+                    viewModel.saveNewCodeSnippet(newCode)
+                   })
+            .frame(width: self.shouldShowPreview ? reader.size.width / 2 : reader.size.width, height: reader.size.height)
+          
+          
+          if self.shouldShowPreview {
+            Divider()
+            
+            MarkdownHTMLViewer(code: viewModel.snipItem.snippet, mode: viewModel.snipItem.mode)
+              .frame(width: reader.size.width / 2, height: reader.size.height)
+              .background(Color.GREY_200)
+              .transition(AnyTransition.move(edge: .trailing))
+          }
+        }
+      }
       
       Divider()
       

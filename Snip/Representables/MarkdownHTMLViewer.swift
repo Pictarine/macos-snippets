@@ -56,7 +56,14 @@ struct MarkdownHTMLViewer: NSViewRepresentable {
     var htmlSource = ""
     
     if mode == CodeMode.html.mode() {
-      htmlSource = code
+      
+      if !code.contains("<head>") {
+        htmlSource = "<head><meta name=\"viewport\" content=\"initial-scale=1.0\" /></head>" + code
+      }
+      else {
+        htmlSource = code
+      }
+      
     }
     else if mode == CodeMode.markdown.mode() {
       

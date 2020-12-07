@@ -54,7 +54,7 @@ struct WelcomeView: View {
           .font(.title)
         Spacer()
       }
-      Text("Changelog Ver. 1.5.0")
+      Text("Changelog Ver. \(Bundle.main.releaseVersionNumber)")
         .font(.subheadline)
         .foregroundColor(themeTextColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
