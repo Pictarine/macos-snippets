@@ -92,6 +92,55 @@ struct SnipItemsListAction {
     }
   }
   
+  static func folderFromSelection(id: String) -> SnipItemsListAction {
+    return .init { current in
+      
+      // Get Item
+      let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+        return snipItem.id == id
+      }
+      
+      guard let snip = snipItem else { return }
+      
+      // Find closest parent
+      let closestParent = current.first { (snipItem) -> Bool in
+        return snipItem.content.first { (subSnipItem) -> Bool in
+          return subSnipItem.id == id
+        } != nil
+      }
+      
+      if let closestParent = closestParent {
+        
+        // Remove item from parent
+        closestParent.content.removeAll { (snipItem) -> Bool in
+          return snipItem.id == id
+        }
+        
+        // Create new folder
+        let folder = SnipItem.folder(name: "New Folder")
+        folder.content.append(snip)
+        
+        // Add new folder
+        closestParent.content.append(folder)
+      }
+      else {
+        // Root folder
+        
+        // Remove item from parent
+        current.removeAll { (snipItem) -> Bool in
+          return snipItem.id == id
+        }
+        
+        // Create new folder
+        let folder = SnipItem.folder(name: "New Folder")
+        folder.content.append(snip)
+        
+        // Add new folder
+        current.append(folder)
+      }
+    }
+  }
+  
   static func createGist(id: String) -> SnipItemsListAction {
     return .init { current in
       let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
@@ -213,4 +262,5 @@ struct SnipItemsListAction {
     return copy
     
   }
+  
 }

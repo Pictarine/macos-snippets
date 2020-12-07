@@ -128,6 +128,13 @@ struct SnipItemView<Content: View>: View {
             .foregroundColor(.text)
         }
         
+        Button(action: {
+          self.viewModel.onTrigger(.folderFromSelection(id: self.viewModel.snipItem.id))
+        }) {
+          Text("Folder from this")
+            .foregroundColor(.text)
+        }
+        
         Button(action: { self.isEditingName.toggle() }) {
           Text("Rename")
             .foregroundColor(.text)
@@ -196,6 +203,13 @@ struct SnipItemView<Content: View>: View {
         .background(Color.transparent)
       }
       .contextMenu {
+        
+        Button(action: {
+          self.viewModel.onTrigger(.folderFromSelection(id: self.viewModel.snipItem.id))
+        }) {
+          Text("Folder from this")
+            .foregroundColor(.text)
+        }
         
         Button(action: {
           self.isEditingName.toggle()

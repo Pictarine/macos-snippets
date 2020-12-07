@@ -302,7 +302,7 @@ public enum CodeMode: String {
     case .perl:
       return Mode(name: "perl", mimeType: "perl")
     case .php:
-      return Mode(name: "php", mimeType: "application/x-httpd-php")
+      return Mode(name: "php", mimeType: "text/x-php")
     case .powershell:
       return Mode(name: "powershell", mimeType: "application/x-powershell")
     case .properties:
