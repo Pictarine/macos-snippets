@@ -86,6 +86,7 @@ struct ExternalSnippet: View {
             Text("Cancel")
               .foregroundColor(themeTextColor)
               .padding(4)
+              .background(Color.transparent)
           }
           .buttonStyle(PlainButtonStyle())
           .background(Color.transparent)
@@ -98,6 +99,7 @@ struct ExternalSnippet: View {
             Text("Add Snippet")
               .foregroundColor(.white)
               .padding(8)
+              .background(Color.transparent)
           }
           .buttonStyle(PlainButtonStyle())
           .background(Color.accent)

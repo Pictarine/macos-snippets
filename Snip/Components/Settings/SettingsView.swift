@@ -146,6 +146,7 @@ struct SettingsView: View {
               .foregroundColor(.white)
               .frame(width: 50)
               .padding(8)
+              .background(Color.transparent)
           }
           .buttonStyle(PlainButtonStyle())
           .background(Color.accent)

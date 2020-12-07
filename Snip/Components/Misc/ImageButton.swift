@@ -24,6 +24,7 @@ struct ImageButton<Content: View>: View {
         .colorMultiply(themeTextColor)
         .scaledToFit()
         .frame(width: 20, height: 20, alignment: .center)
+        .background(Color.transparent)
     }
     .background(content())
     .buttonStyle(PlainButtonStyle())
