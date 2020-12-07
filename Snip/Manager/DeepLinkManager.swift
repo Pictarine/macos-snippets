@@ -14,10 +14,9 @@ struct DeepLinkManager {
   static let callbackURL = "snip://callback"
   static let addURL = "snip://add"
   
-  static func handleDeepLink(urls: [URL]) {
+  static func handleDeepLink(url: URL) {
     
-    guard let url = urls.first,
-      let params = url.queryParameters else { return }
+    guard let params = url.queryParameters else { return }
     
     if url.absoluteString.starts(with: callbackURL),
       let code = params["code"],

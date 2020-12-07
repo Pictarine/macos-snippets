@@ -10,9 +10,8 @@ import SwiftUI
 
 @main
 struct SnipApp: App {
-    
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
+    @SceneBuilder
     var body: some Scene {
         WindowGroup {
           SnipViewApp(viewModel: SnipViewAppViewModel())
@@ -24,6 +23,12 @@ struct SnipApp: App {
                    minHeight: 500,
                    idealHeight: 600,
                    maxHeight: .infinity)
+            .onAppear {
+              SyncManager.shared.initialize()
+            }
+            .onOpenURL { url in
+              DeepLinkManager.handleDeepLink(url: url)
+            }
         }
       
     }
