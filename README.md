@@ -11,7 +11,7 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 10
 
 ## [Download from mac App Store](https://apps.apple.com/us/app/id1527428847)
 
-![black_light_theme](https://user-images.githubusercontent.com/1506323/95220540-dc0b2800-07f6-11eb-89b1-cbfcd652e2ff.png)
+![black_light_theme](https://user-images.githubusercontent.com/1506323/101370529-e48ce700-38a9-11eb-8a53-6cabada85a7e.png)
 
 
 ## Features
