@@ -54,12 +54,12 @@ struct WelcomeView: View {
           .font(.title)
         Spacer()
       }
-      Text("Changelog Ver. 1.4.0")
+      Text("Changelog Ver. 1.5.0")
         .font(.subheadline)
         .foregroundColor(themeTextColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       HStack {
-        Text("- Added support for tutle, sparql and n-triples modes\n- Added hover tooltips")
+        Text("- Update for Big Sur compatibility\n- Fix code editor issue\n- Open folder when we add a new element\n- Add toolbar item\n- Sidebar can be expanded/collapsed\n- Improve UI and clickable areas")
           .font(Font.custom("CourierNewPSMT", size: 12))
           .foregroundColor(themeTextColor)
         Spacer()

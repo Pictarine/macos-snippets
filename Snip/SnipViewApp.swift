@@ -96,9 +96,17 @@ struct SnipViewApp: View {
           .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
         Spacer()
       }
+      HStack() {
+        Spacer()
+        Text("Cmd+F to search words and regex")
+          .font(Font.custom("HelveticaNeue-Light", size: 16))
+          .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
+        Spacer()
+      }
+      .padding(.top, 8)
       HStack {
         Spacer()
-        Text("Tips: Cmd+F to search words and regex")
+        Text("Cmd+Z/Cmd+Y to undo/redo")
           .font(Font.custom("HelveticaNeue-Light", size: 16))
           .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
         Spacer()
