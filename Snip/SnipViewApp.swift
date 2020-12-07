@@ -56,6 +56,21 @@ struct SnipViewApp: View {
       .environment(\.themeSecondaryColor, settings.snipAppTheme == .auto ? .secondary : .secondaryTheme)
       .environment(\.themeTextColor, settings.snipAppTheme == .auto ? .text : .white)
       .environment(\.themeShadowColor, settings.snipAppTheme == .auto ? .shadow : .shadowTheme)
+      .toolbar {
+        ToolbarItem(placement: .primaryAction) {
+          Button(action: viewModel.openExtensionLink) {
+            Image(systemName: "square.3.stack.3d.middle.fill")
+          }
+          .tooltip("Extract snippets from StackOverflow")
+          .onHover { inside in
+            if inside {
+              NSCursor.pointingHand.push()
+            } else {
+              NSCursor.pop()
+            }
+          }
+        }
+      }
     }
   }
   
@@ -149,6 +164,11 @@ final class SnipViewAppViewModel: ObservableObject {
   
   func didSelectSnipItem(_ snip: SnipItem) {
     selectionSnipItem = snip
+  }
+  
+  func openExtensionLink() {
+    guard let url = URL(string: "https://cutt.ly/whQTNO3") else { return }
+    NSWorkspace.shared.open(url)
   }
 }
 
