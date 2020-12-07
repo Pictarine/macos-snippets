@@ -70,7 +70,7 @@ struct MarkdownHTMLViewer: NSViewRepresentable {
       let down = Down(markdownString: code)
 
       if let html = try? down.toHTML() {
-          htmlSource = "<article class=\"markdown-body\">\(html)</article>"
+          htmlSource = "<head><meta name=\"viewport\" content=\"initial-scale=1.0\" /></head>" +  "<article class=\"markdown-body\">\(html)</article>"
       }
     }
     

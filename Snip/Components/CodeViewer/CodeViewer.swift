@@ -18,8 +18,6 @@ struct CodeViewer: View {
   @Environment(\.themeTextColor) var themeTextColor
   @Environment(\.themePrimaryColor) var themePrimaryColor
   
-  @State private var shouldShowPreview = false
-  
   var body: some View {
     
     VStack(alignment: .leading) {
@@ -44,7 +42,7 @@ struct CodeViewer: View {
                                                         },
                                                         onPreviewToggle: viewModel.snipItem.mode == CodeMode.html.mode() || viewModel.snipItem.mode == CodeMode.markdown.mode() ? {
                                                           withAnimation(Animation.easeOut(duration: 0.6)) { () -> () in
-                                                            self.shouldShowPreview.toggle()
+                                                            viewModel.shouldShowPreview.toggle()
                                                           }
                                                         } : nil
       ))
@@ -73,10 +71,10 @@ struct CodeViewer: View {
                    onContentChange: { newCode in
                     viewModel.saveNewCodeSnippet(newCode)
                    })
-            .frame(width: self.shouldShowPreview ? reader.size.width / 2 : reader.size.width, height: reader.size.height)
+            .frame(width: viewModel.shouldShowPreview ? reader.size.width / 2 : reader.size.width, height: reader.size.height)
           
           
-          if self.shouldShowPreview {
+          if viewModel.shouldShowPreview {
             Divider()
             
             MarkdownHTMLViewer(code: viewModel.snipItem.snippet, mode: viewModel.snipItem.mode)
@@ -105,6 +103,7 @@ struct CodeViewer: View {
 final class CodeViewerViewModel: ObservableObject {
   
   @Published var snipItem: SnipItem
+  @Published var shouldShowPreview = false
   var onTrigger: (SnipItemsListAction) -> Void
   var onDimiss: () -> Void
   
