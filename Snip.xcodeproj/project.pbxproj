@@ -50,7 +50,6 @@
 		79956A5424E9EF5900B823E1 /* Gist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79956A5324E9EF5900B823E1 /* Gist.swift */; };
 		79956A5B24F3B45300B823E1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 79956A5A24F3B45300B823E1 /* KeychainAccess */; };
 		79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64724D206EE0037C5FF /* CodeViewConstants.swift */; };
-		79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */; };
 		79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F65024D2B0930037C5FF /* CodeDetailsBottomBar.swift */; };
 		79A6F65324D2B9D40037C5FF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F65224D2B9D40037C5FF /* String.swift */; };
 		79A6F65524D2BE200037C5FF /* StringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F65424D2BE200037C5FF /* StringProtocol.swift */; };
@@ -67,6 +66,7 @@
 		79C612B62506A020008672BA /* ExternalSnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C612B52506A020008672BA /* ExternalSnippet.swift */; };
 		79C612B92506B27F008672BA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C612B82506B27F008672BA /* SettingsView.swift */; };
 		79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBD4C924D1CBE500568364 /* CodeView.swift */; };
+		79E82BA2257E37C0005B2CBD /* CodeMirrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */; };
 		79EC4827252CA90E00E45AC3 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC4826252CA90E00E45AC3 /* EnvironmentValues.swift */; };
 		79F07A2324D2F3DC00469324 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2224D2F3DC00469324 /* ModeSelectionView.swift */; };
 		79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */; };
@@ -577,12 +577,12 @@
 				79C612B92506B27F008672BA /* SettingsView.swift in Sources */,
 				79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */,
 				79956A4B24E58A0900B823E1 /* SyncManager.swift in Sources */,
+				79E82BA2257E37C0005B2CBD /* CodeMirrorViewController.swift in Sources */,
 				794DBE92252B454B000DFCF2 /* Theme.swift in Sources */,
 				79956A4224E5463300B823E1 /* API.swift in Sources */,
 				791AC9C724DB059A00CAB87C /* SnipItemView.swift in Sources */,
 				79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */,
 				79BC1D3324D17124008FD16E /* Sidebar.swift in Sources */,
-				79A6F64C24D20B8C0037C5FF /* CodeMirrorViewController.swift in Sources */,
 				79BC1D2024D16E67008FD16E /* AppDelegate.swift in Sources */,
 				798AA66725500FE300CBDC9C /* Tooltip.swift in Sources */,
 				79A6F64824D206EE0037C5FF /* CodeViewConstants.swift in Sources */,

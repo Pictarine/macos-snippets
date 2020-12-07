@@ -13,9 +13,7 @@ struct CodeViewer: View {
   
   @ObservedObject var viewModel: CodeViewerViewModel
   
-  @EnvironmentObject var appState: AppState
   @EnvironmentObject var settings: Settings
-  @EnvironmentObject var snipItem: SnipItem
   
   @Environment(\.themeTextColor) var themeTextColor
   @Environment(\.themePrimaryColor) var themePrimaryColor
@@ -25,92 +23,71 @@ struct CodeViewer: View {
   var body: some View {
     
     VStack(alignment: .leading) {
-      if appState.selectedSnippetId != nil {
-        CodeActionsTopBar(viewModel: CodeActionsViewModel(name: snipItem.name,
-                                                          code: snipItem.snippet,
-                                                          isFavorite: snipItem.isFavorite,
-                                                          lastUpdate: snipItem.lastUpdateDate,
-                                                          syncState: snipItem.syncState ?? .local,
-                                                          remoteURL: snipItem.remoteURL,
-                                                          onRename: { name in
-                                                            self.viewModel.onTrigger(.rename(id: self.snipItem.id, name: name))
+      CodeActionsTopBar(viewModel: CodeActionsViewModel(name: viewModel.snipItem.name,
+                                                        code: viewModel.snipItem.snippet,
+                                                        isFavorite: viewModel.snipItem.isFavorite,
+                                                        lastUpdate: viewModel.snipItem.lastUpdateDate,
+                                                        syncState: viewModel.snipItem.syncState ?? .local,
+                                                        remoteURL: viewModel.snipItem.remoteURL,
+                                                        onRename: { name in
+                                                          self.viewModel.onTrigger(.rename(id: viewModel.snipItem.id, name: name))
+                                                        },
+                                                        onToggleFavorite: {
+                                                          self.viewModel.onTrigger(.toggleFavorite(id: viewModel.snipItem.id))
+                                                        },
+                                                        onDelete: {
+                                                          self.viewModel.onTrigger(.delete(id: viewModel.snipItem.id))
+                                                          self.viewModel.onDimiss()
+                                                        },
+                                                        onUpload: {
+                                                          self.viewModel.onTrigger(.createGist(id: viewModel.snipItem.id))
+                                                        },
+                                                        onPreviewToggle: viewModel.snipItem.mode == CodeMode.html.mode() || viewModel.snipItem.mode == CodeMode.markdown.mode() ? {
+                                                          withAnimation(Animation.easeOut(duration: 0.6)) { () -> () in
+                                                            self.shouldShowPreview.toggle()
+                                                          }
+                                                        } : nil
+      ))
+      
+      ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: viewModel.snipItem.mode,
+                                                          snippetTags: viewModel.snipItem.tags,
+                                                          onModeSelection: { mode in
+                                                            self.viewModel.onTrigger(.updateMode(id: viewModel.snipItem.id,
+                                                                                                 mode: mode))
                                                           },
-                                                          onToggleFavorite: {
-                                                            self.viewModel.onTrigger(.toggleFavorite(id: self.snipItem.id))
-                                                          },
-                                                          onDelete: {
-                                                            self.viewModel.onTrigger(.delete(id: self.snipItem.id))
-                                                            self.viewModel.onDimiss()
-                                                          },
-                                                          onUpload: {
-                                                            self.viewModel.onTrigger(.createGist(id: self.snipItem.id))
-                                                          },
-                                                          onPreviewToggle: self.snipItem.mode == CodeMode.html.mode() || self.snipItem.mode == CodeMode.markdown.mode() ? {
-                                                            withAnimation(Animation.easeOut(duration: 0.6)) { () -> () in
-                                                              self.shouldShowPreview.toggle()
-                                                            }
-                                                          } : nil
-        ))
-        
-        ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: snipItem.mode,
-                                                            snippetTags: snipItem.tags,
-                                                            onModeSelection: { mode in
-                                                              self.viewModel.onTrigger(.updateMode(id: self.snipItem.id,
-                                                                                                   mode: mode))
-                                                            },
-                                                            onTagChange: { tag, job in
-                                                              self.viewModel.onTrigger(.updateTags(id: self.snipItem.id,
-                                                                                                   job: job,
-                                                                                                   tag: tag))
-                                                            }))
-        
-        CodeView(theme: settings.codeViewTheme,
-                 code: .constant(self.snipItem.snippet),
-                 mode: .constant(self.snipItem.mode),
-                 fontSize: settings.codeViewTextSize,
-                 showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
-                 lineWrapping: settings.codeViewLineWrapping)
-          .onContentChange { newCode in
-            self.viewModel.onTrigger(.updateCode(id: self.snipItem.id, code: newCode))
-          }
-          .frame(minWidth: 100,
-                 maxWidth: .infinity,
-                 minHeight: 100,
-                 maxHeight: .infinity)
-          .overlay(
-            MarkdownHTMLViewer(code: self.snipItem.snippet, mode: self.snipItem.mode)
-              .frame(minWidth: 100,
-                     maxWidth: .infinity,
-                     minHeight: 100,
-                     maxHeight: .infinity)
-              .background(Color.GREY_200)
-              .offset(x: self.shouldShowPreview ? 0 : 10000, y: 0)
-              .transition(AnyTransition.move(edge: .trailing)), alignment: .topLeading)
-        
-        
-        Divider()
-        
-        CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: self.snipItem.snippet))
-      }
-      else {
-        Spacer()
-        HStack {
-          Spacer()
-          Text("Snippet Successfully deleted")
-            .font(Font.custom("HelveticaNeue-Light", size: 20))
-            .foregroundColor(themeTextColor)
-          Spacer()
-        }
-        HStack {
-          Spacer()
-          Text("Tips: Connect Snip to your GitHub account and save your snippet on Gist.")
-            .font(Font.custom("HelveticaNeue-Light", size: 16))
-            .foregroundColor(themeTextColor)
-          Spacer()
-        }
-        .padding(.top, 8)
-        Spacer()
-      }
+                                                          onTagChange: { tag, job in
+                                                            self.viewModel.onTrigger(.updateTags(id: viewModel.snipItem.id,
+                                                                                                 job: job,
+                                                                                                 tag: tag))
+                                                          }))
+      
+      CodeView(theme: settings.codeViewTheme,
+               code: .constant(viewModel.snipItem.snippet),
+               mode: .constant(viewModel.snipItem.mode),
+               fontSize: settings.codeViewTextSize,
+               showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
+               lineWrapping: settings.codeViewLineWrapping,
+               onContentChange: { newCode in
+                viewModel.saveNewCodeSnippet(newCode)
+               })
+        .frame(minWidth: 100,
+               maxWidth: .infinity,
+               minHeight: 100,
+               maxHeight: .infinity)
+        .overlay(
+          MarkdownHTMLViewer(code: viewModel.snipItem.snippet, mode: viewModel.snipItem.mode)
+            .frame(minWidth: 100,
+                   maxWidth: .infinity,
+                   minHeight: 100,
+                   maxHeight: .infinity)
+            .background(Color.GREY_200)
+            .offset(x: self.shouldShowPreview ? 0 : 10000, y: 0)
+            .transition(AnyTransition.move(edge: .trailing)), alignment: .topLeading)
+      
+      
+      Divider()
+      
+      CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: viewModel.snipItem.snippet))
     }
     .frame(minWidth: 0,
            maxWidth: .infinity,
@@ -123,27 +100,33 @@ struct CodeViewer: View {
   }
 }
 
-class CodeViewerViewModel: ObservableObject {
+final class CodeViewerViewModel: ObservableObject {
   
+  @Published var snipItem: SnipItem
   var onTrigger: (SnipItemsListAction) -> Void
   var onDimiss: () -> Void
   
-  init(onTrigger: @escaping (SnipItemsListAction) -> Void,
+  init(snipItem: SnipItem,
+       onTrigger: @escaping (SnipItemsListAction) -> Void,
        onDimiss: @escaping () -> Void) {
     
-    print("Loead code viewer")
-    
+    self.snipItem = snipItem
     self.onTrigger = onTrigger
     self.onDimiss = onDimiss
+  }
+  
+  func saveNewCodeSnippet(_ code: String) {
+    onTrigger(.updateCode(id: snipItem.id, code: code))
   }
 }
 
 struct CodeViewer_Previews: PreviewProvider {
   static var previews: some View {
-    CodeViewer(viewModel: CodeViewerViewModel(onTrigger: { _ in
-      print("action")
-    },
-    onDimiss:  { print("onDismiss")}
+    CodeViewer(viewModel: CodeViewerViewModel(snipItem: Preview.snipItem,
+                                              onTrigger: { _ in
+                                                print("action")
+                                              },
+                                              onDimiss:  { print("onDismiss")}
     ))
     .environmentObject(Preview.snipItem)
   }

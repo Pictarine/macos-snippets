@@ -30,7 +30,7 @@ struct ExternalSnippet: View {
       
       VStack(alignment: .leading) {
         VStack {
-          TextField("Snippet name", text: self.$externalSnipItem.name)
+          TextField("Snippet name", text: $externalSnipItem.name)
             .font(Font.custom("HelveticaNeue", size: 20))
             .foregroundColor(themeTextColor)
             .frame(maxWidth: .infinity)
@@ -44,17 +44,17 @@ struct ExternalSnippet: View {
         
         Picker(selection: Binding<Int>(
                 get: {
-                  let index = self.viewModel.modesList.firstIndex(where: { (mode) -> Bool in
-                    mode == self.externalSnipItem.mode
+                  let index = viewModel.modesList.firstIndex(where: { (mode) -> Bool in
+                    mode == externalSnipItem.mode
                   }) ?? -1
                   return index
                 },
                 set: {
-                  self.externalSnipItem.mode = self.viewModel.modesList[$0]
+                  self.externalSnipItem.mode = viewModel.modesList[$0]
                 }),
                label: EmptyView()) {
           ForEach(0 ..< self.viewModel.modesList.count, id: \.self) {
-            Text(self.viewModel.modesList[$0].name)
+            Text(viewModel.modesList[$0].name)
           }
         }
         .frame(minWidth: 100,
@@ -64,14 +64,14 @@ struct ExternalSnippet: View {
         .pickerStyle(DefaultPickerStyle())
         
         CodeView(theme: settings.codeViewTheme,
-                 code: .constant(self.externalSnipItem.snippet),
-                 mode: .constant(self.externalSnipItem.mode),
+                 code: .constant(externalSnipItem.snippet),
+                 mode: .constant(externalSnipItem.mode),
                  fontSize: settings.codeViewTextSize,
                  showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
-                 lineWrapping: settings.codeViewLineWrapping)
-          .onContentChange { newCode in
-            self.externalSnipItem.snippet = newCode
-          }
+                 lineWrapping: settings.codeViewLineWrapping,
+                 onContentChange: { newCode in
+                  externalSnipItem.snippet = newCode
+                 })
           .frame(maxWidth: .infinity,
                  maxHeight: .infinity)
         
@@ -80,7 +80,7 @@ struct ExternalSnippet: View {
           Button(action: {
             
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-              self.viewModel.onCancel()
+              viewModel.onCancel()
             }
           }) {
             Text("Cancel")
@@ -92,7 +92,7 @@ struct ExternalSnippet: View {
           
           Button(action: {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-              self.viewModel.onTrigger(.addExternalSnippet(externalSnipItem: self.externalSnipItem))
+              viewModel.onTrigger(.addExternalSnippet(externalSnipItem: externalSnipItem))
             }
           }) {
             Text("Add Snippet")
@@ -111,13 +111,13 @@ struct ExternalSnippet: View {
       .background(themePrimaryColor)
       .cornerRadius(4.0)
       .offset(x: 0,
-              y: self.viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
+              y: viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
       .transition(AnyTransition.move(edge: .bottom))
     }
   }
   
   var backgroundView: some View {
-    self.viewModel.isVisible ? themeShadowColor : Color.clear
+    viewModel.isVisible ? themeShadowColor : Color.clear
   }
 }
 

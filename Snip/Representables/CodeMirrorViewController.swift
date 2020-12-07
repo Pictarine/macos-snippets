@@ -179,6 +179,10 @@ extension CodeMirrorViewController {
     self.webView = webView
   }
   
+  public func setParent(_ parent: CodeView) {
+    self.parent = parent
+  }
+  
   public func setup() {
     configCodeMirror()
   }

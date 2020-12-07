@@ -23,9 +23,9 @@ struct CodeView: NSViewRepresentable {
   var lineWrapping: Bool
   var isReadOnly = false
   
-  var onLoadSuccess: (() -> ())? = nil
-  var onLoadFail: ((Error) -> ())? = nil
-  var onContentChange: ((String) -> ())? = nil
+  var onLoadSuccess: (() -> ())?
+  var onLoadFail: ((Error) -> ())?
+  var onContentChange: ((String) -> ())?
   
   public init(theme: CodeViewTheme? = nil,
               code: Binding<String>,
@@ -33,13 +33,19 @@ struct CodeView: NSViewRepresentable {
               fontSize: Int = 12,
               showInvisibleCharacters: Bool = true,
               lineWrapping: Bool = true,
-              isReadOnly: Bool = false) {
+              isReadOnly: Bool = false,
+              onLoadSuccess: (() -> ())? = nil,
+              onLoadFail: ((Error) -> ())? = nil,
+              onContentChange: ((String) -> ())? = nil) {
     self._code = code
     self._mode = mode
     self.fontSize = fontSize
     self.showInvisibleCharacters = showInvisibleCharacters
     self.lineWrapping = lineWrapping
     self.isReadOnly = isReadOnly
+    self.onLoadSuccess = onLoadSuccess
+    self.onLoadFail = onLoadFail
+    self.onContentChange = onContentChange
     
     if let theme = theme {
       self.syntaxTheme = theme
@@ -75,7 +81,7 @@ struct CodeView: NSViewRepresentable {
     let htmlString = String(data: data, encoding: .utf8)!.replacingOccurrences(of: "$theme", with: "\"\(theme)\"")
     webView.load(htmlString.data(using: .utf8)!, mimeType: "text/html", characterEncodingName: "utf-8", baseURL: bundle.resourceURL!)
     
-
+    context.coordinator.setParent(self)
     context.coordinator.setThemeName(theme)
     context.coordinator.setTabInsertsSpaces(true)
     context.coordinator.setWebView(webView)
@@ -99,6 +105,7 @@ struct CodeView: NSViewRepresentable {
     
     updateWhatsNecessary(elementGetter: context.coordinator.getContent(_:), elementSetter: context.coordinator.setContent(_:), currentElementState: self.code)
     
+    context.coordinator.setParent(self)
     context.coordinator.setReadonly(isReadOnly)
     context.coordinator.setThemeName(theme)
     context.coordinator.setFontSize(fontSize)
@@ -107,7 +114,7 @@ struct CodeView: NSViewRepresentable {
   }
   
   func makeCoordinator() -> CodeMirrorViewController {
-    CodeMirrorViewController(self)
+    return CodeMirrorViewController(self)
   }
   
   func updateWhatsNecessary(elementGetter: (JavascriptCallback?) -> Void,
@@ -129,29 +136,5 @@ struct CodeView: NSViewRepresentable {
         return
       }
     })
-  }
-}
-
-
-// MARK: - Public API
-
-extension CodeView {
-  
-  public func onLoadSuccess(_ action: @escaping (() -> ())) -> Self {
-    var copy = self
-    copy.onLoadSuccess = action
-    return copy
-  }
-  
-  public func onLoadFail(_ action: @escaping ((Error) -> ())) -> Self {
-    var copy = self
-    copy.onLoadFail = action
-    return copy
-  }
-  
-  public func onContentChange(_ action: @escaping ((String) -> ())) -> Self {
-    var copy = self
-    copy.onContentChange = action
-    return copy
   }
 }

@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "text.svg",
+      "filename" : "file-alt-solid-1.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "text-1.svg",
+      "filename" : "file-alt-solid.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }
