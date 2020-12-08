@@ -5,7 +5,7 @@ Snip
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Pictarine/macos-snippets)
 ![GitHub Releases](https://img.shields.io/github/downloads/Pictarine/macos-snippets/total)
 
-Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 10.15+.
+Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11+.
 
 🌟 Star us on GitHub — it helps!
 
