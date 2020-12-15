@@ -33,7 +33,7 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11
 
 ## Editor 
 
-Fork from [CodeMirror-Swift](https://github.com/ProxymanApp/CodeMirror-Swift) by [NghiaTranUIT](https://github.com/NghiaTranUIT) 🙏, repackaged for SwiftUI. 
+[CodeMirror-SwiftUI](https://github.com/Pictarine/CodeMirror-SwiftUI) is a fork from [CodeMirror-Swift](https://github.com/ProxymanApp/CodeMirror-Swift) by [NghiaTranUIT](https://github.com/NghiaTranUIT) 🙏, repackaged for SwiftUI. 
 
 * CodeMirror v5.57.0
 * Show/Hide invisible characters
