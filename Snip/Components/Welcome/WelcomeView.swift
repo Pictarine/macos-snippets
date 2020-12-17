@@ -28,15 +28,10 @@ struct WelcomeView: View {
         .frame(width: viewModel.size.width, height: viewModel.size.height)
         .transition(AnyTransition.opacity)
       
-      VStack(alignment: .leading) {
-        PagerView(pageCount: 3, currentIndex: $currentPage) {
-          firstView
-          secondView
-        }
-      }
-      .frame(width: viewModel.size.width / 2.5,
-             height: viewModel.size.height / 1.5,
-             alignment: .center)
+      firstView
+        .frame(width: viewModel.size.width / 2.5,
+               height: viewModel.size.height / 1.5,
+               alignment: .center)
         .background(themeSecondaryColor)
         .cornerRadius(4.0)
         .offset(x: 0,
@@ -67,9 +62,9 @@ struct WelcomeView: View {
       .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
       .background(themePrimaryColor)
       Text("We Need Your Help!")
-      .font(.subheadline)
-      .foregroundColor(themeTextColor)
-      .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
+        .font(.subheadline)
+        .foregroundColor(themeTextColor)
+        .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       CodeView(code: .constant("Snip needs your help to grow!\n\nWant to translate snip into your native language?\nWant to have first-day in our next features?\n\nJOIN US now!"),
                mode: .constant(CodeMode.text.mode()),
                isReadOnly: true)
@@ -93,15 +88,6 @@ struct WelcomeView: View {
         }
         .buttonStyle(PlainButtonStyle())
       }
-    }
-    .padding()
-  }
-  
-  var secondView: some View {
-    VStack {
-      Spacer()
-      Text("Test 2")
-      Spacer()
     }
     .padding()
   }
