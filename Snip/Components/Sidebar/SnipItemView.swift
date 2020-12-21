@@ -48,32 +48,34 @@ struct SnipItemView<Content: View>: View {
     if viewModel.snipItem.kind == .folder {
       
       Button(action: {
-        self.isExpanded.toggle()
+        isExpanded.toggle()
       }) {
         
         HStack {
           
           VStack {
             Spacer()
-            Image( self.isExpanded ? "ic_up" : "ic_down")
+            Image( isExpanded ? "ic_up" : "ic_down")
               .resizable()
               .renderingMode(.original)
-              .colorMultiply(Color.BLUE_200)
+              .colorMultiply(Color.GREY_500)
               .scaledToFit()
               .frame(width: 10, height: 10, alignment: .center)
             Spacer()
           }
-          Image("ic_folder_closed")
+          .padding(.leading, 8)
+          
+          Image( isExpanded ? "ic_folder_opened" : "ic_folder_closed")
             .resizable()
             .renderingMode(.original)
-            .colorMultiply(Color.BLUE_200)
+            .colorMultiply(Color.GREY_500)
             .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 8)
           
           ZStack {
-            Text(self.viewModel.snipItem.name)
-              .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+            Text(viewModel.snipItem.name)
+              .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
               .frame(maxWidth: .infinity, alignment: .leading)
               .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
               .background(Color.transparent)
@@ -81,20 +83,20 @@ struct SnipItemView<Content: View>: View {
             
             TextField("Folder name", text: Binding<String>(
                         get: {
-                          self.viewModel.snipItem.name
+                          viewModel.snipItem.name
                         }, set: {
-                          self.viewModel.snipItem.name = $0
-                          self.viewModel.onTrigger(.rename(id: self.viewModel.snipItem.id, name: $0))
+                          viewModel.snipItem.name = $0
+                          viewModel.onTrigger(.rename(id: viewModel.snipItem.id, name: $0))
                         }),
                       onEditingChanged: { _ in
                         
                       },
                       onCommit: {
-                        self.isEditingName.toggle()
+                        isEditingName.toggle()
                       }
             )
             .disabled(isEditingName == false)
-            .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+            .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
             .background(isEditingName ? themePrimaryColor : Color.transparent)
@@ -113,35 +115,35 @@ struct SnipItemView<Content: View>: View {
       .buttonStyle(PlainButtonStyle())
       .contextMenu {
         Button(action: {
-          self.viewModel.onTrigger(.addFolder(id: self.viewModel.snipItem.id))
-          self.isExpanded = true
+          viewModel.onTrigger(.addFolder(id: viewModel.snipItem.id))
+          isExpanded = true
         }) {
           Text("Add folder")
             .foregroundColor(.text)
         }
         
         Button(action: {
-          self.viewModel.onTrigger(.addSnippet(id: self.viewModel.snipItem.id))
-          self.isExpanded = true
+          viewModel.onTrigger(.addSnippet(id: viewModel.snipItem.id))
+          isExpanded = true
         }) {
           Text("Add snippet")
             .foregroundColor(.text)
         }
         
         Button(action: {
-          self.viewModel.onTrigger(.folderFromSelection(id: self.viewModel.snipItem.id))
+          viewModel.onTrigger(.folderFromSelection(id: viewModel.snipItem.id))
         }) {
           Text("Folder from this")
             .foregroundColor(.text)
         }
         
-        Button(action: { self.isEditingName.toggle() }) {
+        Button(action: { isEditingName.toggle() }) {
           Text("Rename")
             .foregroundColor(.text)
         }
         
         Button(action: {
-          self.viewModel.onTrigger(.delete(id: self.viewModel.snipItem.id))
+          viewModel.onTrigger(.delete(id: viewModel.snipItem.id))
         }) {
           Text("Delete")
             .foregroundColor(.text)
@@ -152,9 +154,9 @@ struct SnipItemView<Content: View>: View {
     else {
       Button(action: viewModel.openSnippet) {
         HStack {
-          Image(self.viewModel.snipItem.mode.imageName)
+          Image(viewModel.snipItem.mode.imageName)
             .resizable()
-            .renderingMode(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .template : .original)
+            .renderingMode(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .template : .original)
             .colorMultiply(.white)
             .scaledToFit()
             .frame(width: 15, height: 15, alignment: .center)
@@ -162,7 +164,7 @@ struct SnipItemView<Content: View>: View {
           
           ZStack {
             Text(self.viewModel.snipItem.name)
-              .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+              .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
               .frame(maxWidth: .infinity, alignment: .leading)
               .padding(.leading, 4)
               .background(Color.transparent)
@@ -170,20 +172,20 @@ struct SnipItemView<Content: View>: View {
             
             TextField("Snip name", text: Binding<String>(
                         get: {
-                          self.viewModel.snipItem.name
+                          viewModel.snipItem.name
                         }, set: {
-                          self.viewModel.snipItem.name = $0
-                          self.viewModel.onTrigger(.rename(id: self.viewModel.snipItem.id, name: $0))
+                          viewModel.snipItem.name = $0
+                          viewModel.onTrigger(.rename(id: viewModel.snipItem.id, name: $0))
                         }),
                       onEditingChanged: { _ in
                         
                       },
                       onCommit: {
-                        self.isEditingName.toggle()
+                        isEditingName.toggle()
                       }
             )
             .disabled(isEditingName == false)
-            .foregroundColor(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .white : .text)
+            .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 4)
             .background(isEditingName ? themePrimaryColor : Color.transparent)
@@ -194,7 +196,7 @@ struct SnipItemView<Content: View>: View {
           
           Spacer()
           Circle()
-            .fill(self.viewModel.snipItem.syncState == .local ? Color.clear : Color.green)
+            .fill(viewModel.snipItem.syncState == .local ? Color.clear : Color.green)
             .frame(width: 8, height: 8)
             .padding(.trailing, 8)
         }
@@ -205,29 +207,29 @@ struct SnipItemView<Content: View>: View {
       .contextMenu {
         
         Button(action: {
-          self.viewModel.onTrigger(.folderFromSelection(id: self.viewModel.snipItem.id))
+          viewModel.onTrigger(.folderFromSelection(id: viewModel.snipItem.id))
         }) {
           Text("Folder from this")
             .foregroundColor(.text)
         }
         
         Button(action: {
-          self.isEditingName.toggle()
+          isEditingName.toggle()
         }) {
           Text("Rename")
             .foregroundColor(.text)
         }
         
         Button(action: {
-          self.viewModel.onTrigger(.delete(id: self.viewModel.snipItem.id))
-          self.appState.selectedSnippetId = nil
+          viewModel.onTrigger(.delete(id: viewModel.snipItem.id))
+          appState.selectedSnippetId = nil
         }) {
           Text("Delete")
             .foregroundColor(.text)
         }
       }
       .buttonStyle(PlainButtonStyle())
-      .background(self.appState.selectedSnippetId == self.viewModel.snipItem.id && self.appState.selectedSnippetFilter.case == self.viewModel.activeFilter.case ? .accentDark : Color.transparent)
+      .background(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .accentDark : Color.transparent)
       .cornerRadius(4)
     }
     
