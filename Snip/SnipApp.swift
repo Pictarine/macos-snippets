@@ -14,8 +14,7 @@ struct SnipApp: App {
     @SceneBuilder
     var body: some Scene {
         WindowGroup {
-          SnipViewApp(appState: AppState())
-            .environmentObject(Settings())
+          SnipViewApp(appState: AppState(), settings: Settings())
             .frame(minWidth: 700,
                    idealWidth: 1000,
                    maxWidth: .infinity,

@@ -13,18 +13,20 @@ struct SnipViewApp: View {
   
   @ObservedObject var snippetManager = SnippetManager.shared
   @ObservedObject var appState: AppState
-  @EnvironmentObject var settings: Settings
+  @ObservedObject var settings: Settings
   
   var viewModel : SnipViewAppViewModel
   
-  init(appState: AppState) {
+  init(appState: AppState, settings: Settings) {
     self.appState = appState
+    self.settings = settings
     self.viewModel = SnipViewAppViewModel(appState: appState)
   }
   
   var body: some View {
     appNavigation
       .environmentObject(appState)
+      .environmentObject(settings)
       .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   
