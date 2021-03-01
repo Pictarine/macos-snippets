@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 
 struct SnipItemsList: View {
@@ -23,7 +24,7 @@ struct SnipItemsList: View {
                                                     onTrigger: viewModel.onTrigger,
                                                     onSnippetSelection: viewModel.onSnippetSelection),
                        content: {
-                        SnipItemsList(viewModel: SnipItemsListModel(snips: snipItem.content,
+                        SnipItemsList(viewModel: SnipItemsListModel(snips: Just(snipItem.content).eraseToAnyPublisher(),
                                                                     applyFilter: viewModel.filter,
                                                                     onTrigger: viewModel.onTrigger,
                                                                     onSnippetSelection: viewModel.onSnippetSelection))
@@ -50,21 +51,32 @@ struct SnipItemsList: View {
 
 final class SnipItemsListModel: ObservableObject {
   
-  @Published var snipItems: [SnipItem]
+  @Published var snipItems: [SnipItem] = []
   
   var filter : ModelFilter = .all
   
   var onTrigger: (SnipItemsListAction) -> Void
   var onSnippetSelection: (SnipItem, ModelFilter) -> Void
   
-  init(snips: [SnipItem],
+  var cancellable: AnyCancellable?
+  
+  init(snips: AnyPublisher<[SnipItem], Never>,
        applyFilter: ModelFilter,
        onTrigger: @escaping (SnipItemsListAction) -> Void,
        onSnippetSelection: @escaping (SnipItem, ModelFilter) -> Void) {
     self.filter = applyFilter
-    self.snipItems = snips
     self.onTrigger = onTrigger
     self.onSnippetSelection = onSnippetSelection
+    
+    cancellable = snips
+      .sink { [weak self] (snippets) in
+        guard let this = self else { return }
+        this.snipItems = snippets
+      }
+  }
+  
+  deinit {
+    cancellable?.cancel()
   }
   
   var filterSnippets: [SnipItem] {

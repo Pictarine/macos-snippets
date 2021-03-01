@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct Sidebar: View {
   
@@ -141,10 +142,9 @@ struct Sidebar: View {
               .padding(.top, 16)
     ) {
       
-      SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
-                                                      applyFilter: .favorites,
-                                                      onTrigger: viewModel.onTrigger,
-                                                      onSnippetSelection: viewModel.onSnippetSelection))
+      if let favoritesSnippetsViewModel = viewModel.favoritesSnippetsViewModel {
+        SnipItemsList(viewModel: favoritesSnippetsViewModel)
+      }
       
     }
   }
@@ -159,10 +159,9 @@ struct Sidebar: View {
               .padding(.top, 16)
     ) {
       
-      SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
-                                                      applyFilter: .all,
-                                                      onTrigger: viewModel.onTrigger,
-                                                      onSnippetSelection: viewModel.onSnippetSelection))
+      if let allSnippetsViewModel = viewModel.allSnippetsViewModel {
+        SnipItemsList(viewModel: allSnippetsViewModel)
+      }
       
     }
     
@@ -187,17 +186,40 @@ struct Sidebar: View {
 
 final class SideBarViewModel: ObservableObject {
   
-  var snippets: [SnipItem]
+  @Published var snippets: [SnipItem] = []
   
   var onTrigger: (SnipItemsListAction) -> Void
-  var onSnippetSelection: (SnipItem, ModelFilter) -> Void
   
-  init(snipppets: [SnipItem],
+  var favoritesSnippetsViewModel: SnipItemsListModel?
+  var allSnippetsViewModel: SnipItemsListModel?
+  
+  var cancellable: AnyCancellable?
+  
+  init(snippets: AnyPublisher<[SnipItem], Never>,
        onTrigger: @escaping (SnipItemsListAction) -> Void,
        onSnippetSelection: @escaping (SnipItem, ModelFilter) -> Void) {
-    self.snippets = snipppets
+    
     self.onTrigger = onTrigger
-    self.onSnippetSelection = onSnippetSelection
+    
+    cancellable = snippets
+      .sink { [weak self] (snippets) in
+        guard let this = self else { return }
+        this.snippets = snippets
+      }
+    
+    favoritesSnippetsViewModel = SnipItemsListModel(snips: $snippets.eraseToAnyPublisher(),
+                                                    applyFilter: .favorites,
+                                                    onTrigger: onTrigger,
+                                                    onSnippetSelection: onSnippetSelection)
+    
+    allSnippetsViewModel = SnipItemsListModel(snips: $snippets.eraseToAnyPublisher(),
+                                                    applyFilter: .all,
+                                                    onTrigger: onTrigger,
+                                                    onSnippetSelection: onSnippetSelection)
+  }
+  
+  deinit {
+    cancellable?.cancel()
   }
   
   func filterSnippets(filter: ModelFilter) -> [SnipItem] {

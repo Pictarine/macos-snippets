@@ -12,13 +12,19 @@ import Combine
 struct SnipViewApp: View {
   
   @ObservedObject var snippetManager = SnippetManager.shared
-  @ObservedObject var viewModel : SnipViewAppViewModel
-  
+  @ObservedObject var appState: AppState
   @EnvironmentObject var settings: Settings
-  @EnvironmentObject var appState: AppState
+  
+  var viewModel : SnipViewAppViewModel
+  
+  init(appState: AppState) {
+    self.appState = appState
+    self.viewModel = SnipViewAppViewModel(appState: appState)
+  }
   
   var body: some View {
     appNavigation
+      .environmentObject(AppState())
       .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   
@@ -28,8 +34,10 @@ struct SnipViewApp: View {
       ZStack {
         NavigationView {
           
-          sideBar
-          
+          if let sidebarViewModel = viewModel.sidebarViewModel {
+            Sidebar(viewModel: sidebarViewModel)
+              .frame(minWidth: 300)
+          }
           
           if let snip = viewModel.selectionSnipItem {
             CodeViewer(viewModel: CodeViewerViewModel(snipItem: snip,
@@ -72,18 +80,6 @@ struct SnipViewApp: View {
         }
       }
     }
-  }
-  
-  var sideBar: some View {
-    Sidebar(viewModel: SideBarViewModel(snipppets: viewModel.snippets,
-                                        onTrigger: viewModel.trigger(action:),
-                                        onSnippetSelection: { snipItem, filter in
-                                          appState.selectedSnippetId = snipItem.id
-                                          appState.selectedSnippetFilter = filter
-                                          viewModel.didSelectSnipItem(snipItem)
-                                        }))
-      //.background(settings.snipAppTheme == .auto ? Color.secondary : Color.secondaryTheme)
-      .frame(minWidth: 300)
   }
   
   var openingPanel: some View {
@@ -150,15 +146,26 @@ final class SnipViewAppViewModel: ObservableObject {
   @Published var snippets: [SnipItem] = []
   @Published var selectionSnipItem: SnipItem?
   
-  var cancellables: Set<AnyCancellable> = []
+  var cancellable: AnyCancellable?
   
+  var sidebarViewModel: SideBarViewModel?
   
-  init() {
-    SnippetManager
+  init(appState: AppState) {
+    cancellable = SnippetManager
       .shared
       .snipets
-      .assign(to: \.snippets, on: self)
-      .store(in: &cancellables)
+      .sink { [weak self] (snippets) in
+        guard let this = self else { return }
+        this.snippets = snippets
+      }
+    
+    sidebarViewModel = SideBarViewModel(snippets: $snippets.eraseToAnyPublisher(),
+                                        onTrigger: trigger(action:),
+                                        onSnippetSelection: { (item, filter) in self.didSelectSnipItem(item, filter: filter, appState: appState) })
+  }
+  
+  deinit {
+    cancellable?.cancel()
   }
   
   func trigger(action: SnipItemsListAction) {
@@ -170,19 +177,14 @@ final class SnipViewAppViewModel: ObservableObject {
     SnippetManager.shared.tempSnipItem = ExternalSnipItem.blank()
   }
   
-  func didSelectSnipItem(_ snip: SnipItem) {
+  func didSelectSnipItem(_ snip: SnipItem, filter: ModelFilter, appState: AppState) {
+    appState.selectedSnippetId = snip.id
+    appState.selectedSnippetFilter = filter
     selectionSnipItem = snip
   }
   
   func openExtensionLink() {
     guard let url = URL(string: "https://cutt.ly/whQTNO3") else { return }
     NSWorkspace.shared.open(url)
-  }
-}
-
-
-struct SnipViewApp_Previews: PreviewProvider {
-  static var previews: some View {
-    SnipViewApp(viewModel: SnipViewAppViewModel())
   }
 }
