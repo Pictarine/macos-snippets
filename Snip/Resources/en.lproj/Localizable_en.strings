@@ -1,0 +1,34 @@
+/* 
+  Localizable_en.strings
+  Snip
+
+  Created by Junior on 01/03/2021.
+  Copyright © 2021 pictarine. All rights reserved.
+*/
+"Extract_Stack" = "Extract snippets from StackOverflow";
+
+"Create_first_snippet" = "Create your first Snipppet";
+"Hint_1" = "Cmd+F to search words and regex";
+"Hint_2" = "Cmd+Z/Cmd+Y to undo/redo";
+
+"Connect_GitHub" = "Connect to Gist from GitHub";
+"Logout_GitHub" = "Logout from Github";
+"Validate_Logout_GitHub" = "Are you sure about that?";
+
+"New_Snippet" = "New snippet";
+"New_Folder" = "New folder";
+"Add_Folder" = "Add folder";
+"Add_Snippet" = "Add snippet";
+"Foler_From" = "Folder from this";
+"Rename" = "Rename";
+"Delete" = "Delete";
+
+"Favorites" = "Favorites";
+"Local" = "Local";
+
+"Placeholder_Folder" = "Folder name";
+"Placeholder_Snip" = "Snip name";
+
+"Yes" = "Yes";
+"No" = "No";
+"Cancel" = "Cancel";

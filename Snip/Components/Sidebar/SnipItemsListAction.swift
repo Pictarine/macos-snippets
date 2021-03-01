@@ -23,7 +23,7 @@ struct SnipItemsListAction {
   static func addSnippet(id: String? = nil) -> SnipItemsListAction {
     return .init { current in
       
-      let file = SnipItem.file(name: "New Snippet")
+      let file = SnipItem.file(name: NSLocalizedString("New_Snippet", comment: "").capitalized)
       
       if let idParentFolder = id {
         let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
@@ -71,7 +71,7 @@ struct SnipItemsListAction {
   static func addFolder(id: String? = nil) -> SnipItemsListAction {
     return .init { current in
       
-      let folder = SnipItem.folder(name: "New Folder")
+      let folder = SnipItem.folder(name: NSLocalizedString("New_Folder", comment: "").capitalized)
       
       if let idParentFolder = id {
         let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
@@ -117,7 +117,7 @@ struct SnipItemsListAction {
         }
         
         // Create new folder
-        let folder = SnipItem.folder(name: "New Folder")
+        let folder = SnipItem.folder(name: NSLocalizedString("New_Folder", comment: "").capitalized)
         folder.content.append(snip)
         
         // Add new folder
@@ -132,7 +132,7 @@ struct SnipItemsListAction {
         }
         
         // Create new folder
-        let folder = SnipItem.folder(name: "New Folder")
+        let folder = SnipItem.folder(name: NSLocalizedString("New_Folder", comment: "").capitalized)
         folder.content.append(snip)
         
         // Add new folder

@@ -81,7 +81,7 @@ struct SnipItemView<Content: View>: View {
               .background(Color.transparent)
               .opacity(isEditingName ? 0 : 1)
             
-            TextField("Folder name", text: Binding<String>(
+            TextField(NSLocalizedString("Placeholder_Folder", comment: ""), text: Binding<String>(
                         get: {
                           viewModel.snipItem.name
                         }, set: {
@@ -118,7 +118,7 @@ struct SnipItemView<Content: View>: View {
           viewModel.onTrigger(.addFolder(id: viewModel.snipItem.id))
           isExpanded = true
         }) {
-          Text("Add folder")
+          Text(NSLocalizedString("Add_Folder", comment: ""))
             .foregroundColor(.text)
         }
         
@@ -126,26 +126,26 @@ struct SnipItemView<Content: View>: View {
           viewModel.onTrigger(.addSnippet(id: viewModel.snipItem.id))
           isExpanded = true
         }) {
-          Text("Add snippet")
+          Text(NSLocalizedString("Add_Snippet", comment: ""))
             .foregroundColor(.text)
         }
         
         Button(action: {
           viewModel.onTrigger(.folderFromSelection(id: viewModel.snipItem.id))
         }) {
-          Text("Folder from this")
+          Text(NSLocalizedString("Folder_From", comment: ""))
             .foregroundColor(.text)
         }
         
         Button(action: { isEditingName.toggle() }) {
-          Text("Rename")
+          Text(NSLocalizedString("Rename", comment: ""))
             .foregroundColor(.text)
         }
         
         Button(action: {
           viewModel.onTrigger(.delete(id: viewModel.snipItem.id))
         }) {
-          Text("Delete")
+          Text(NSLocalizedString("Delete", comment: ""))
             .foregroundColor(.text)
         }
       }
@@ -170,7 +170,7 @@ struct SnipItemView<Content: View>: View {
               .background(Color.transparent)
               .opacity(isEditingName ? 0 : 1)
             
-            TextField("Snip name", text: Binding<String>(
+            TextField(NSLocalizedString("Placeholder_Snip", comment: ""), text: Binding<String>(
                         get: {
                           viewModel.snipItem.name
                         }, set: {
@@ -209,14 +209,14 @@ struct SnipItemView<Content: View>: View {
         Button(action: {
           viewModel.onTrigger(.folderFromSelection(id: viewModel.snipItem.id))
         }) {
-          Text("Folder from this")
+          Text(NSLocalizedString("Folder_From", comment: ""))
             .foregroundColor(.text)
         }
         
         Button(action: {
           isEditingName.toggle()
         }) {
-          Text("Rename")
+          Text(NSLocalizedString("Rename", comment: ""))
             .foregroundColor(.text)
         }
         
@@ -224,7 +224,7 @@ struct SnipItemView<Content: View>: View {
           viewModel.onTrigger(.delete(id: viewModel.snipItem.id))
           appState.selectedSnippetId = nil
         }) {
-          Text("Delete")
+          Text(NSLocalizedString("Delete", comment: ""))
             .foregroundColor(.text)
         }
       }

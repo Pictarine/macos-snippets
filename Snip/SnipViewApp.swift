@@ -69,7 +69,7 @@ struct SnipViewApp: View {
           Button(action: viewModel.openExtensionLink) {
             Image(systemName: "square.3.stack.3d.middle.fill")
           }
-          .tooltip("Extract snippets from StackOverflow")
+          .tooltip(NSLocalizedString("Extract_Stack", comment: ""))
           .onHover { inside in
             if inside {
               NSCursor.pointingHand.push()
@@ -87,14 +87,14 @@ struct SnipViewApp: View {
       Spacer()
       HStack {
         Spacer()
-        Text("Create your first Snipppet")
+        Text(NSLocalizedString("Create_first_snippet", comment: ""))
           .font(Font.custom("HelveticaNeue-Light", size: 20))
           .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
         Spacer()
       }
       HStack() {
         Spacer()
-        Text("Cmd+F to search words and regex")
+        Text(NSLocalizedString("Hint_1", comment: ""))
           .font(Font.custom("HelveticaNeue-Light", size: 16))
           .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
         Spacer()
@@ -102,7 +102,7 @@ struct SnipViewApp: View {
       .padding(.top, 8)
       HStack {
         Spacer()
-        Text("Cmd+Z/Cmd+Y to undo/redo")
+        Text(NSLocalizedString("Hint_2", comment: ""))
           .font(Font.custom("HelveticaNeue-Light", size: 16))
           .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
         Spacer()

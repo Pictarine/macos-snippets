@@ -70,14 +70,14 @@ struct Sidebar: View {
             )
           
         }
-        .tooltip("Connect to Gist from GitHub")
+        .tooltip(NSLocalizedString("Connect_GitHub", comment: ""))
         .alert(isPresented: $showingLogoutAlert) {
-          Alert(title: Text("Logout from Github"),
-                message: Text("Are you sure about that?"),
-                primaryButton: .default(Text("YES"), action: {
+          Alert(title: Text(NSLocalizedString("Connect_GitHub", comment: "")),
+                message: Text(NSLocalizedString("Validate_Logout_GitHub", comment: "")),
+                primaryButton: .default(Text(NSLocalizedString("Yes", comment: "").uppercased()), action: {
                   self.syncManager.logout()
                 }),
-                secondaryButton: .cancel(Text("Cancel"))
+                secondaryButton: .cancel(Text(NSLocalizedString("Cancel", comment: "")))
           )
         }
         .buttonStyle(PlainButtonStyle())
@@ -111,14 +111,14 @@ struct Sidebar: View {
           Button(action: {
             self.viewModel.onTrigger(.addSnippet(id: nil))
           }) {
-            Text("New snippet")
+            Text(NSLocalizedString("New_Snippet", comment: ""))
               .font(.system(size: 14))
               .foregroundColor(Color.text)
           }
           Button(action: {
             self.viewModel.onTrigger(.addFolder())
           }) {
-            Text("New folder")
+            Text(NSLocalizedString("New_Folder", comment: ""))
               .font(.system(size: 14))
               .foregroundColor(Color.text)
           }
@@ -135,7 +135,7 @@ struct Sidebar: View {
   @ViewBuilder
   var favorites: some View {
     Section(header:
-              Text("Favorites")
+              Text(NSLocalizedString("Favorites", comment: ""))
               .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
               .foregroundColor(themeTextColor.opacity(0.6))
               .padding(.bottom, 8)
@@ -152,7 +152,7 @@ struct Sidebar: View {
   @ViewBuilder
   var local: some View {
     Section(header:
-              Text("Local")
+              Text(NSLocalizedString("Local", comment: ""))
               .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
               .foregroundColor(themeTextColor.opacity(0.6))
               .padding(.bottom, 8)
