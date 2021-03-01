@@ -24,7 +24,8 @@ struct CodeActionsTopBar: View {
   var body: some View {
     HStack{
       
-      TextField("Snippet name", text: Binding<String>(get: {
+      TextField(NSLocalizedString("Placeholder_Snip", comment: ""),
+                text: Binding<String>(get: {
         self.viewModel.snipName
       }, set: {
         self.viewModel.snipName = $0
@@ -86,7 +87,7 @@ struct CodeActionsTopBar: View {
           Button(action: viewModel.openRemoteURL) {
             Image(systemName: "square.and.arrow.up")
           }
-          .tooltip("Open original post")
+          .tooltip(NSLocalizedString("Open_Post", comment: ""))
           .onHover { inside in
             if inside {
               NSCursor.pointingHand.push()
@@ -107,7 +108,7 @@ struct CodeActionsTopBar: View {
           }) {
             Image(systemName: isPreviewEnabled ? "eye.fill" : "eye")
           }
-          .tooltip("Preview content")
+          .tooltip(NSLocalizedString("Preview", comment: ""))
           .onHover { inside in
             if inside {
               NSCursor.pointingHand.push()
@@ -122,7 +123,7 @@ struct CodeActionsTopBar: View {
         Button(action: viewModel.onToggleFavorite) {
           Image(systemName: viewModel.isSnipFavorite ? "bookmark.fill" : "bookmark")
         }
-        .tooltip("Add to favorites")
+        .tooltip(NSLocalizedString("Add_Fav", comment: ""))
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
@@ -136,7 +137,7 @@ struct CodeActionsTopBar: View {
         Button(action: viewModel.onDelete) {
           Image(systemName: "trash")
         }
-        .tooltip("Delete snippet")
+        .tooltip(NSLocalizedString("Delete_Snip", comment: ""))
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
@@ -157,17 +158,17 @@ struct CodeActionsTopBar: View {
             NSCursor.pop()
           }
         }
-        .tooltip("Snippet info")
+        .tooltip(NSLocalizedString("Snip_Infos", comment: ""))
         .popover(
           isPresented: $showInfos,
           arrowEdge: .bottom
         ) {
           VStack {
-            Text("Snip Infos")
+            Text(NSLocalizedString("Snip_Infos", comment: ""))
               .font(.headline)
-            Text("Size of \(viewModel.snipCode.size())")
+            Text("\(NSLocalizedString("Size", comment: "")) \(viewModel.snipCode.size())")
               .padding(.top, 16)
-            Text("Last updated \(viewModel.snipLastUpdate.dateAndTimetoString())")
+            Text("\(NSLocalizedString("Last_Update", comment: "")) \(viewModel.snipLastUpdate.dateAndTimetoString())")
               .padding(.top)
           }.padding(16)
         }

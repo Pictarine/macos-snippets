@@ -41,7 +41,6 @@ struct ModeSelectionView: View {
         ForEach(viewModel.tags, id: \.self) { tag in
           TagView(tag: tag, onRemoveTapped: {
             self.viewModel.onTagChange(tag, TagJob.remove)
-            //self.viewModel.tags.remove(at: tagIndex)
           })
         }
       }.padding(.leading, 4)
@@ -50,17 +49,13 @@ struct ModeSelectionView: View {
   }
   
   var addNewTag: some View {
-    CustomTextField(placeholder: Text("New Tag").foregroundColor(themeTextColor.opacity(0.7)),
+    CustomTextField(placeholder: Text(NSLocalizedString("New_Tag", comment: "")).foregroundColor(themeTextColor.opacity(0.7)),
                     text: $newTag,
                     commit: {
-                      print("Commit")
                       guard self.newTag.count > 1 else { return }
                       
-                      //self.viewModel.tags.append(self.newTag)
                       self.viewModel.onTagChange(self.newTag, TagJob.add)
                       self.newTag = ""
-                      
-                      //self.viewModel.objectWillChange.send()
     })
       .frame(width: 60)
       .padding(4)

@@ -5,16 +5,28 @@
   Created by Junior on 01/03/2021.
   Copyright © 2021 pictarine. All rights reserved.
 */
-"Extract_Stack" = "Extract snippets from StackOverflow";
 
+// Tooltips
+"Extract_Stack" = "Extract snippets from StackOverflow";
+"Open_Post" = "Open original post";
+"Preview" = "Preview content";
+"Add_Fav" = "Add to favorites";
+"Delete_Snip" = "Delete snippet";
+"Snip_Infos" = "Snippet info";
+"Size" = "Size of";
+"Last_Update" = "Last update";
+
+// EmptyState
 "Create_first_snippet" = "Create your first Snipppet";
 "Hint_1" = "Cmd+F to search words and regex";
 "Hint_2" = "Cmd+Z/Cmd+Y to undo/redo";
 
+// GitHub
 "Connect_GitHub" = "Connect to Gist from GitHub";
 "Logout_GitHub" = "Logout from Github";
 "Validate_Logout_GitHub" = "Are you sure about that?";
 
+// Actions
 "New_Snippet" = "New snippet";
 "New_Folder" = "New folder";
 "Add_Folder" = "Add folder";
@@ -22,29 +34,43 @@
 "Foler_From" = "Folder from this";
 "Rename" = "Rename";
 "Delete" = "Delete";
+"New_Tag" = "New tag";
+"Copy_Clipboard" = "Copy to clipboard";
 
+// Sections
 "Favorites" = "Favorites";
 "Local" = "Local";
 
+// Placeholders
 "Placeholder_Folder" = "Folder name";
-"Placeholder_Snip" = "Snip name";
+"Placeholder_Snip" = "Snippet name";
 
+// CodeView options
 "CD_Text_size" = "CodeView Text Size";
 "CD_Line_Wrapping" = "CodeView Line Wrapping";
 "CD_Invisible_Char" = "CodeView Show Invisible Characters";
 "CD_Theme" = "CodeView Theme";
 
+// General options
 "App_Theme" = "Application Theme";
 
+// Follower program
 "Need_You" = "We Need Your Help!";
 "Need_You_Desc" = "Snip needs your help to grow!\n\nWant to translate snip into your native language?\nWant to have first-day in our next features?\n\nJOIN US now!";
 
+// Screen names
 "Welcome" = "Welcome!";
 "Settings" = "Settings";
 
 "Join" = "Join us";
 
+// General actions
 "Yes" = "Yes";
 "No" = "No";
 "Cancel" = "Cancel";
 "Close" = "Close";
+
+// Words
+"Char" = "characters";
+"Words" = "words";
+"Lines" = "lines";

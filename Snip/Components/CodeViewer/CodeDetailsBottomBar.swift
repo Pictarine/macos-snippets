@@ -16,15 +16,15 @@ struct CodeDetailsBottomBar: View {
   
   var body: some View {
     HStack {
-      Text("\(viewModel.code.characterCount()) characters")
+      Text("\(viewModel.code.characterCount()) \(NSLocalizedString("Char", comment: ""))")
         .font(Font.custom("CourierNewPSMT", size: 12))
         .foregroundColor(themeTextColor)
       
-      Text("\(viewModel.code.wordCount()) words")
+      Text("\(viewModel.code.wordCount()) \(NSLocalizedString("Words", comment: ""))")
         .font(Font.custom("CourierNewPSMT", size: 12))
         .foregroundColor(themeTextColor)
       
-      Text("\(viewModel.code.lineCount()) lines")
+      Text("\(viewModel.code.lineCount()) \(NSLocalizedString("Lines", comment: ""))")
         .font(Font.custom("CourierNewPSMT", size: 12))
         .foregroundColor(themeTextColor)
       
@@ -39,7 +39,7 @@ struct CodeDetailsBottomBar: View {
                  height: 15,
                  alignment: .center)
           .scaledToFit()
-        Text("Copy to clipboard")
+        Text(NSLocalizedString("Copy_Clipboard", comment: ""))
         .foregroundColor(themeTextColor)
       }
       .buttonStyle(PlainButtonStyle())
