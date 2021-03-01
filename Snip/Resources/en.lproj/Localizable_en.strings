@@ -29,6 +29,22 @@
 "Placeholder_Folder" = "Folder name";
 "Placeholder_Snip" = "Snip name";
 
+"CD_Text_size" = "CodeView Text Size";
+"CD_Line_Wrapping" = "CodeView Line Wrapping";
+"CD_Invisible_Char" = "CodeView Show Invisible Characters";
+"CD_Theme" = "CodeView Theme";
+
+"App_Theme" = "Application Theme";
+
+"Need_You" = "We Need Your Help!";
+"Need_You_Desc" = "Snip needs your help to grow!\n\nWant to translate snip into your native language?\nWant to have first-day in our next features?\n\nJOIN US now!";
+
+"Welcome" = "Welcome!";
+"Settings" = "Settings";
+
+"Join" = "Join us";
+
 "Yes" = "Yes";
 "No" = "No";
 "Cancel" = "Cancel";
+"Close" = "Close";

@@ -33,7 +33,7 @@ struct SettingsView: View {
         
         HStack {
           Spacer()
-          Text("Settings")
+          Text(NSLocalizedString("Settings", comment: ""))
             .font(.largeTitle)
             .foregroundColor(themeTextColor)
           Spacer()
@@ -52,7 +52,7 @@ struct SettingsView: View {
                   selectedAppTheme = $0
                   settings.snipAppTheme = SnipAppTheme.allCases[$0]
                 }), label:
-                  Text("Application Theme")
+                  Text(NSLocalizedString("App_Theme", comment: ""))
                   .foregroundColor(themeTextColor)
         ) {
           ForEach(0 ..< SnipAppTheme.allCases.count) { index in
@@ -76,7 +76,7 @@ struct SettingsView: View {
                     selectedTheme = $0
                     settings.codeViewTheme = CodeViewTheme.list[$0]
                   }), label:
-                    Text("CodeView Theme")
+                    Text(NSLocalizedString("CD_Theme", comment: ""))
                     .foregroundColor(themeTextColor)
           ) {
             ForEach(0 ..< CodeViewTheme.list.count) {
@@ -96,7 +96,7 @@ struct SettingsView: View {
                       set: {
                         settings.codeViewShowInvisibleCharacters = $0
                       }),
-                     optionText: "CodeView Show Invisible Characters")
+                     optionText: NSLocalizedString("CD_Invisible_Char", comment: ""))
           
           ToggleItem(option: Binding<Bool>(
                       get: {
@@ -105,11 +105,11 @@ struct SettingsView: View {
                       set: {
                         settings.codeViewLineWrapping = $0
                       }),
-                     optionText: "CodeView Line Wrapping")
+                     optionText: NSLocalizedString("CD_Line_Wrapping", comment: ""))
         }
         
         HStack {
-          Text("CodeView Text Size")
+          Text(NSLocalizedString("CD_Text_size", comment: ""))
             .foregroundColor(themeTextColor)
           Spacer()
           Slider(value: Binding<Float>(
@@ -142,7 +142,7 @@ struct SettingsView: View {
               viewModel.isVisible = false
             }
           }) {
-            Text("Close")
+            Text(NSLocalizedString("Close", comment: ""))
               .foregroundColor(.white)
               .frame(width: 50)
               .padding(8)

@@ -44,7 +44,7 @@ struct WelcomeView: View {
     VStack {
       HStack {
         Spacer()
-        Text("Welcome!")
+        Text(NSLocalizedString("Welcome", comment: ""))
           .foregroundColor(themeTextColor)
           .font(.title)
         Spacer()
@@ -61,11 +61,11 @@ struct WelcomeView: View {
       }
       .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
       .background(themePrimaryColor)
-      Text("We Need Your Help!")
+      Text(NSLocalizedString("Need_You", comment: ""))
         .font(.subheadline)
         .foregroundColor(themeTextColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
-      CodeView(code: .constant("Snip needs your help to grow!\n\nWant to translate snip into your native language?\nWant to have first-day in our next features?\n\nJOIN US now!"),
+      CodeView(code: .constant(NSLocalizedString("Need_You_Desc", comment: "")),
                mode: .constant(CodeMode.text.mode()),
                isReadOnly: true)
         .frame(maxWidth: .infinity)
@@ -73,14 +73,14 @@ struct WelcomeView: View {
       HStack {
         Spacer()
         Button(action: self.viewModel.close) {
-          Text("Close")
+          Text(NSLocalizedString("Close", comment: ""))
             .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
             .foregroundColor(themeTextColor)
             .background(Color.transparent)
         }
         .buttonStyle(PlainButtonStyle())
         Button(action: self.viewModel.openSnipWebsite) {
-          Text("JOIN US")
+          Text(NSLocalizedString("Join", comment: "").uppercased())
             .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
             .foregroundColor(.white)
             .background(Color.accentDark)

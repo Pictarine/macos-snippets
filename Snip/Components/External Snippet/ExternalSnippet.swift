@@ -30,7 +30,7 @@ struct ExternalSnippet: View {
       
       VStack(alignment: .leading) {
         VStack {
-          TextField("Snippet name", text: $externalSnipItem.name)
+          TextField(NSLocalizedString("Placeholder_Snip", comment: ""), text: $externalSnipItem.name)
             .font(Font.custom("HelveticaNeue", size: 20))
             .foregroundColor(themeTextColor)
             .frame(maxWidth: .infinity)
@@ -83,7 +83,7 @@ struct ExternalSnippet: View {
               viewModel.onCancel()
             }
           }) {
-            Text("Cancel")
+            Text(NSLocalizedString("Cancel", comment: ""))
               .foregroundColor(themeTextColor)
               .padding(4)
               .background(Color.transparent)
@@ -96,7 +96,7 @@ struct ExternalSnippet: View {
               viewModel.onTrigger(.addExternalSnippet(externalSnipItem: externalSnipItem))
             }
           }) {
-            Text("Add Snippet")
+            Text(NSLocalizedString("Add_Snippet", comment: ""))
               .foregroundColor(.white)
               .padding(8)
               .background(Color.transparent)
@@ -140,15 +140,5 @@ final class ExternalSnippetViewModel: ObservableObject {
     self.size = readerSize
     self.onTrigger = onTrigger
     self.onCancel = onCancel
-  }
-}
-
-struct ExternalSnippet_Previews: PreviewProvider {
-  static var previews: some View {
-    ExternalSnippet(viewModel: ExternalSnippetViewModel(isVisible: true,
-                                                        readerSize: CGSize(width: 400, height: 300),
-                                                        onTrigger: {_ in },
-                                                        onCancel: {}),
-                    externalSnipItem: .constant(ExternalSnipItem.blank()))
   }
 }
