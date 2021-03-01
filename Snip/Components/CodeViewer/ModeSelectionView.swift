@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ModeSelectionView: View {
   
@@ -29,7 +30,6 @@ struct ModeSelectionView: View {
       Spacer()
       
       codeModeSelector
-      
     }
     .padding(.horizontal, 16)
     
@@ -91,30 +91,34 @@ struct ModeSelectionView: View {
 
 final class ModeSelectionViewModel: ObservableObject {
   
-  var currentMode: Mode
-  var tags: [String]
+  @Published var currentMode: Mode = CodeMode.text.mode()
+  @Published var tags: [String] = []
   
   var onModeSelection: (Mode) -> ()
   var onTagChange: (String, TagJob) -> ()
   
-  init(snippetMode: Mode,
-       snippetTags: [String],
+  var cancellable: AnyCancellable?
+  
+  init(snipItem: AnyPublisher<SnipItem?, Never>,
        onModeSelection: @escaping (Mode) -> (),
        onTagChange: @escaping (String, TagJob) -> ()) {
-    currentMode = snippetMode
-    tags = snippetTags
     self.onModeSelection = onModeSelection
     self.onTagChange = onTagChange
     
+    cancellable = snipItem
+      .sink { [weak self] (snipItem) in
+        guard let this = self,
+              let snipItem = snipItem
+        else { return }
+        
+        this.currentMode = snipItem.mode
+        this.tags = snipItem.tags
+      }
+    
     print("Refresh mode selection")
   }
-}
-
-struct ModeSelectionView_Previews: PreviewProvider {
-  static var previews: some View {
-    ModeSelectionView(viewModel: ModeSelectionViewModel(snippetMode: CodeMode.text.mode(),
-                                                        snippetTags: ["hellos"],
-                                                        onModeSelection: { mode in print("action")},
-                                                        onTagChange: { _, _ in print("action")}))
+  
+  deinit {
+    cancellable?.cancel()
   }
 }

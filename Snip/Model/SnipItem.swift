@@ -30,12 +30,12 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       case snippet, mode, tags, name, isFavorite, content, id, kind, creationDate, lastUpdateDate, syncState, gistId, gistURL, remoteURL
   }
   
-  enum Kind: Int, Codable {
+  enum Kind: Int, Codable, Equatable {
     case folder
     case file
   }
   
-  enum SyncState: Int, Codable {
+  enum SyncState: Int, Codable, Equatable {
     case local
     case syncing
     case synced
@@ -172,6 +172,17 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   
   static func == (lhs: SnipItem, rhs: SnipItem) -> Bool {
     return lhs.id == rhs.id
+      && lhs.snippet == rhs.snippet
+      && lhs.mode == rhs.mode
+      && lhs.tags == rhs.tags
+      && lhs.name == rhs.name
+      && lhs.isFavorite == rhs.isFavorite
+      && lhs.content == rhs.content
+      && lhs.kind == rhs.kind
+      && lhs.syncState == rhs.syncState
+      && lhs.gistId == rhs.gistId
+      && lhs.gistURL == rhs.gistURL
+      && lhs.remoteURL == rhs.remoteURL
   }
   
   func hash(into hasher: inout Hasher) {

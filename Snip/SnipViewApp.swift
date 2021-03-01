@@ -24,7 +24,7 @@ struct SnipViewApp: View {
   
   var body: some View {
     appNavigation
-      .environmentObject(AppState())
+      .environmentObject(appState)
       .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   
@@ -39,16 +39,8 @@ struct SnipViewApp: View {
               .frame(minWidth: 300)
           }
           
-          if let snip = viewModel.selectionSnipItem {
-            CodeViewer(viewModel: CodeViewerViewModel(snipItem: snip,
-                                                      onTrigger: viewModel.trigger(action:),
-                                                      onDimiss: {
-                                                        appState.selectedSnippetId = nil
-                                                        viewModel.selectionSnipItem = nil
-                                                      }))
-          }
-          else {
-            openingPanel
+          if let codeViewerViewModel = viewModel.codeViewerViewModel {
+            CodeViewer(viewModel: codeViewerViewModel)
           }
           
         }
@@ -80,38 +72,6 @@ struct SnipViewApp: View {
         }
       }
     }
-  }
-  
-  var openingPanel: some View {
-    VStack {
-      Spacer()
-      HStack {
-        Spacer()
-        Text(NSLocalizedString("Create_first_snippet", comment: ""))
-          .font(Font.custom("HelveticaNeue-Light", size: 20))
-          .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
-        Spacer()
-      }
-      HStack() {
-        Spacer()
-        Text(NSLocalizedString("Hint_1", comment: ""))
-          .font(Font.custom("HelveticaNeue-Light", size: 16))
-          .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
-        Spacer()
-      }
-      .padding(.top, 8)
-      HStack {
-        Spacer()
-        Text(NSLocalizedString("Hint_2", comment: ""))
-          .font(Font.custom("HelveticaNeue-Light", size: 16))
-          .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
-        Spacer()
-      }
-      .padding(.top, 8)
-      Spacer()
-    }
-    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-    .background(settings.snipAppTheme == .auto ? Color.primary : Color.primaryTheme)
   }
   
   var settingPanel: some View {
@@ -149,6 +109,7 @@ final class SnipViewAppViewModel: ObservableObject {
   var cancellable: AnyCancellable?
   
   var sidebarViewModel: SideBarViewModel?
+  var codeViewerViewModel: CodeViewerViewModel?
   
   init(appState: AppState) {
     cancellable = SnippetManager
@@ -157,11 +118,16 @@ final class SnipViewAppViewModel: ObservableObject {
       .sink { [weak self] (snippets) in
         guard let this = self else { return }
         this.snippets = snippets
+        this.selectionSnipItem = snippets.flatternSnippets.first(where: { $0.id == appState.selectedSnippetId })
       }
     
     sidebarViewModel = SideBarViewModel(snippets: $snippets.eraseToAnyPublisher(),
                                         onTrigger: trigger(action:),
                                         onSnippetSelection: { (item, filter) in self.didSelectSnipItem(item, filter: filter, appState: appState) })
+    
+    codeViewerViewModel = CodeViewerViewModel(snipItem: $selectionSnipItem.eraseToAnyPublisher(),
+                                              onTrigger: trigger(action:),
+                                              onDimiss: { self.didDeselectSnipItem(appState: appState) })
   }
   
   deinit {
@@ -181,6 +147,11 @@ final class SnipViewAppViewModel: ObservableObject {
     appState.selectedSnippetId = snip.id
     appState.selectedSnippetFilter = filter
     selectionSnipItem = snip
+  }
+  
+  func didDeselectSnipItem(appState: AppState) {
+    appState.selectedSnippetId = nil
+    selectionSnipItem = nil
   }
   
   func openExtensionLink() {

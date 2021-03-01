@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 
-enum ModelFilter {
+enum ModelFilter: Equatable {
   case all
   case favorites
   case tag(tagTitle: String)
@@ -113,6 +113,13 @@ struct SnipItemView<Content: View>: View {
       .padding(0)
       .background(Color.transparent)
       .buttonStyle(PlainButtonStyle())
+      .onHover { inside in
+        if inside {
+          NSCursor.pointingHand.push()
+        } else {
+          NSCursor.pop()
+        }
+      }
       .contextMenu {
         Button(action: {
           viewModel.onTrigger(.addFolder(id: viewModel.snipItem.id))
@@ -203,6 +210,13 @@ struct SnipItemView<Content: View>: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
         .background(Color.transparent)
+      }
+      .onHover { inside in
+        if inside {
+          NSCursor.pointingHand.push()
+        } else {
+          NSCursor.pop()
+        }
       }
       .contextMenu {
         

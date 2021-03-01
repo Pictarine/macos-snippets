@@ -15,43 +15,29 @@ struct SnipItemsList: View {
   @ObservedObject var viewModel: SnipItemsListModel
   
   var body: some View {
-    ForEach(viewModel.filterSnippets, id: \.id) { snipItem in
+    
+    ForEach(viewModel.models, id: \.snipItem.id) { model in
       
-      Group {
-        if viewModel.containsSub(snipItem) {
-          SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
-                                                    activeFilter: viewModel.filter,
-                                                    onTrigger: viewModel.onTrigger,
-                                                    onSnippetSelection: viewModel.onSnippetSelection),
-                       content: {
-                        SnipItemsList(viewModel: SnipItemsListModel(snips: Just(snipItem.content).eraseToAnyPublisher(),
-                                                                    applyFilter: viewModel.filter,
-                                                                    onTrigger: viewModel.onTrigger,
-                                                                    onSnippetSelection: viewModel.onSnippetSelection))
-                          .padding(.leading, 26)
-                       }
-          )
-          
-        }
-        else {
-          SnipItemView(viewModel: SnipItemViewModel(snip: snipItem,
-                                                    activeFilter: viewModel.filter,
-                                                    onTrigger: viewModel.onTrigger,
-                                                    onSnippetSelection: viewModel.onSnippetSelection),
-                       content: { EmptyView() })
-        }
+      if viewModel.containsSub(model.snipItem) {
+        SnipItemView(viewModel: model, content: {
+          SnipItemsList(viewModel: SnipItemsListModel(snips: Just(model.snipItem.content).eraseToAnyPublisher(),
+                                                      applyFilter: viewModel.filter,
+                                                      onTrigger: viewModel.onTrigger,
+                                                      onSnippetSelection: viewModel.onSnippetSelection))
+        })
       }
-      
+      else {
+        SnipItemView(viewModel: model, content: { EmptyView() })
+      }
     }
+    
   }
-  
-  
 }
 
 
 final class SnipItemsListModel: ObservableObject {
   
-  @Published var snipItems: [SnipItem] = []
+  @Published var models: [SnipItemViewModel] = []
   
   var filter : ModelFilter = .all
   
@@ -64,6 +50,7 @@ final class SnipItemsListModel: ObservableObject {
        applyFilter: ModelFilter,
        onTrigger: @escaping (SnipItemsListAction) -> Void,
        onSnippetSelection: @escaping (SnipItem, ModelFilter) -> Void) {
+    
     self.filter = applyFilter
     self.onTrigger = onTrigger
     self.onSnippetSelection = onSnippetSelection
@@ -71,7 +58,17 @@ final class SnipItemsListModel: ObservableObject {
     cancellable = snips
       .sink { [weak self] (snippets) in
         guard let this = self else { return }
-        this.snipItems = snippets
+        
+        this.models.removeAll()
+        this.filterSnippets(snipItems: snippets, filter: applyFilter).forEach { (item) in
+          let model = SnipItemViewModel(snip: item,
+                                        activeFilter: applyFilter,
+                                        onTrigger: onTrigger,
+                                        onSnippetSelection: onSnippetSelection)
+          
+          this.models.append(model)
+        }
+        
       }
   }
   
@@ -79,14 +76,14 @@ final class SnipItemsListModel: ObservableObject {
     cancellable?.cancel()
   }
   
-  var filterSnippets: [SnipItem] {
+  func filterSnippets(snipItems: [SnipItem], filter: ModelFilter) -> [SnipItem] {
     switch filter {
-    case .all:
-      return snipItems
-    case .favorites:
-      return snipItems.allFavorites
-    case .tag(let tagTitle):
-      return snipItems.perTag(tag: tagTitle)
+      case .all:
+        return snipItems
+      case .favorites:
+        return snipItems.allFavorites
+      case .tag(let tagTitle):
+        return snipItems.perTag(tag: tagTitle)
     }
   }
   

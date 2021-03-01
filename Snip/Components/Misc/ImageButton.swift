@@ -28,5 +28,12 @@ struct ImageButton<Content: View>: View {
     }
     .background(content())
     .buttonStyle(PlainButtonStyle())
+    .onHover { inside in
+      if inside {
+        NSCursor.pointingHand.push()
+      } else {
+        NSCursor.pop()
+      }
+    }
   }
 }
