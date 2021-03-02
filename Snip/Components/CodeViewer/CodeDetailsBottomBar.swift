@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CodeDetailsBottomBar: View {
   
@@ -54,10 +55,18 @@ struct CodeDetailsBottomBar: View {
 
 final class CodeDetailsViewModel: ObservableObject {
   
-  @Published var code: String
+  @Published var code: String = ""
   
-  init(snippetCode: String) {
-    code = snippetCode
+  var cancellable: AnyCancellable?
+  
+  init(snipItem: AnyPublisher<SnipItem?, Never>) {
+    cancellable = snipItem
+      .sink { [weak self] (snipItem) in
+        guard let this = self,
+              let snipItem = snipItem
+        else { return }
+        this.code = snipItem.snippet
+      }
   }
   
   func copyToClipboard() {
@@ -66,10 +75,7 @@ final class CodeDetailsViewModel: ObservableObject {
     pasteboard.setString(code, forType: NSPasteboard.PasteboardType.string)
   }
   
-}
-
-struct CodeDetailsBottomBar_Previews: PreviewProvider {
-  static var previews: some View {
-    CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: ""))
+  deinit {
+    cancellable?.cancel()
   }
 }

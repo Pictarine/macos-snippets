@@ -80,7 +80,9 @@ struct CodeViewer: View {
           
           Divider()
           
-          CodeDetailsBottomBar(viewModel: CodeDetailsViewModel(snippetCode: snipItem.snippet))
+          if let codeDetailsViewModel = viewModel.codeDetailsViewModel {
+            CodeDetailsBottomBar(viewModel: codeDetailsViewModel)
+          }
         }
       }
       else {
@@ -139,6 +141,7 @@ final class CodeViewerViewModel: ObservableObject {
   var onDimiss: () -> Void
   
   var modeSelectionViewModel: ModeSelectionViewModel?
+  var codeDetailsViewModel: CodeDetailsViewModel?
   
   var cancellable: AnyCancellable?
   
@@ -167,6 +170,8 @@ final class CodeViewerViewModel: ObservableObject {
                                                                                  job: job,
                                                                                  tag: tag))
                                                     })
+    
+    codeDetailsViewModel = CodeDetailsViewModel(snipItem: snipItem)
   }
   
   deinit {
