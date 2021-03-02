@@ -40,6 +40,7 @@
 // Sections
 "Favorites" = "Favorites";
 "Local" = "Local";
+"External" = "External";
 
 // Placeholders
 "Placeholder_Folder" = "Folder name";

@@ -175,7 +175,6 @@ struct Sidebar: View {
       }
       
     }
-    
   }
   
   /*@ViewBuilder
@@ -224,23 +223,12 @@ final class SideBarViewModel: ObservableObject {
                                                     onSnippetSelection: onSnippetSelection)
     
     allSnippetsViewModel = SnipItemsListModel(snips: $snippets.eraseToAnyPublisher(),
-                                                    applyFilter: .all,
-                                                    onTrigger: onTrigger,
-                                                    onSnippetSelection: onSnippetSelection)
+                                              applyFilter: .all,
+                                              onTrigger: onTrigger,
+                                              onSnippetSelection: onSnippetSelection)
   }
   
   deinit {
     cancellable?.cancel()
-  }
-  
-  func filterSnippets(filter: ModelFilter) -> [SnipItem] {
-    switch filter {
-      case .all:
-        return snippets
-      case .favorites:
-        return snippets.allFavorites
-      case .tag(let tagTitle):
-        return snippets.perTag(tag: tagTitle)
-    }
   }
 }

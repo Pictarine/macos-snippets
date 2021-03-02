@@ -11,6 +11,10 @@ import Foundation
 
 extension Array where Element == SnipItem {
   
+  var allExternal: [Element] {
+    return self.flatternSnippets.filter( { $0.remoteURL != nil })
+  }
+  
   var allFavorites: [Element] {
     return self.flatternSnippets.filter( { $0.isFavorite })
   }

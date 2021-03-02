@@ -78,12 +78,12 @@ final class SnipItemsListModel: ObservableObject {
   
   func filterSnippets(snipItems: [SnipItem], filter: ModelFilter) -> [SnipItem] {
     switch filter {
-      case .all:
-        return snipItems
-      case .favorites:
-        return snipItems.allFavorites
-      case .tag(let tagTitle):
-        return snipItems.perTag(tag: tagTitle)
+    case .all:
+      return snipItems
+    case .favorites:
+      return snipItems.allFavorites
+    case .tag(let tagTitle):
+      return snipItems.perTag(tag: tagTitle)
     }
   }
   
