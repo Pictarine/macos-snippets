@@ -48,7 +48,10 @@ struct SnipItemView<Content: View>: View {
     if viewModel.snipItem.kind == .folder {
       
       Button(action: {
-        isExpanded.toggle()
+        
+        if !isEditingName {
+          isExpanded.toggle()
+        }
       }) {
         
         HStack {
@@ -73,36 +76,36 @@ struct SnipItemView<Content: View>: View {
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 8)
           
-          ZStack {
-            Text(viewModel.snipItem.name)
+          Group {
+            if isEditingName {
+              TextField(NSLocalizedString("Placeholder_Folder", comment: ""),
+                        text: $viewModel.snipItem.name,
+                        onEditingChanged: { _ in},
+                        onCommit: {
+                          isEditingName.toggle()
+                          viewModel.onTrigger(.rename(id: viewModel.snipItem.id, name: viewModel.snipItem.name))
+                        }
+              )
               .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
               .frame(maxWidth: .infinity, alignment: .leading)
               .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-              .background(Color.transparent)
-              .opacity(isEditingName ? 0 : 1)
-            
-            TextField(NSLocalizedString("Placeholder_Folder", comment: ""), text: Binding<String>(
-                        get: {
-                          viewModel.snipItem.name
-                        }, set: {
-                          viewModel.snipItem.name = $0
-                          viewModel.onTrigger(.rename(id: viewModel.snipItem.id, name: $0))
-                        }),
-                      onEditingChanged: { _ in
-                        
-                      },
-                      onCommit: {
-                        isEditingName.toggle()
-                      }
-            )
-            .disabled(isEditingName == false)
-            .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-            .background(isEditingName ? themePrimaryColor : Color.transparent)
-            .opacity(isEditingName ? 1 : 0)
+              .background(themePrimaryColor)
+              .onHover { inside in
+                if inside {
+                  NSCursor.iBeam.push()
+                } else {
+                  NSCursor.pop()
+                }
+              }
+            }
+            else {
+              Text(viewModel.snipItem.name)
+                .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                .background(Color.transparent)
+            }
           }
-          
           .background(Color.transparent)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -139,12 +142,16 @@ struct SnipItemView<Content: View>: View {
         
         Button(action: {
           viewModel.onTrigger(.folderFromSelection(id: viewModel.snipItem.id))
+          isExpanded = false
         }) {
           Text(NSLocalizedString("Folder_From", comment: ""))
             .foregroundColor(.text)
         }
         
-        Button(action: { isEditingName.toggle() }) {
+        Button(action: {
+          isEditingName.toggle()
+          isExpanded = false
+        }) {
           Text(NSLocalizedString("Rename", comment: ""))
             .foregroundColor(.text)
         }
@@ -169,36 +176,30 @@ struct SnipItemView<Content: View>: View {
             .frame(width: 15, height: 15, alignment: .center)
             .padding(.leading, 8)
           
-          ZStack {
-            Text(self.viewModel.snipItem.name)
+          Group {
+            if isEditingName {
+              TextField(NSLocalizedString("Placeholder_Snip", comment: ""),
+                        text: $viewModel.snipItem.name,
+                        onEditingChanged: { _ in },
+                        onCommit: {
+                          isEditingName.toggle()
+                          viewModel.onTrigger(.rename(id: viewModel.snipItem.id, name: viewModel.snipItem.name))
+                        }
+              )
+              .disabled(isEditingName == false)
               .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
               .frame(maxWidth: .infinity, alignment: .leading)
               .padding(.leading, 4)
-              .background(Color.transparent)
-              .opacity(isEditingName ? 0 : 1)
-            
-            TextField(NSLocalizedString("Placeholder_Snip", comment: ""), text: Binding<String>(
-                        get: {
-                          viewModel.snipItem.name
-                        }, set: {
-                          viewModel.snipItem.name = $0
-                          viewModel.onTrigger(.rename(id: viewModel.snipItem.id, name: $0))
-                        }),
-                      onEditingChanged: { _ in
-                        
-                      },
-                      onCommit: {
-                        isEditingName.toggle()
-                      }
-            )
-            .disabled(isEditingName == false)
-            .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, 4)
-            .background(isEditingName ? themePrimaryColor : Color.transparent)
-            .opacity(isEditingName ? 1 : 0)
+              .background(themePrimaryColor)
+            }
+            else {
+              Text(self.viewModel.snipItem.name)
+                .foregroundColor(appState.selectedSnippetId == viewModel.snipItem.id && appState.selectedSnippetFilter.case == viewModel.activeFilter.case ? .white : .text)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 4)
+                .background(Color.transparent)
+            }
           }
-          
           .background(Color.transparent)
           
           Spacer()

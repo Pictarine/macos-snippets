@@ -37,7 +37,7 @@ class SyncManager: ObservableObject {
       oauth = Oauth(access_token: token)
       isAuthenticated = true
       
-      DispatchQueue.global(qos: .utility).async { [weak self] in
+      DispatchQueue.global().async { [weak self] in
         self?.requestUser()
       }
     }
@@ -57,26 +57,29 @@ class SyncManager: ObservableObject {
   }
   
   func requestAccessToken(code: String, state: String) {
-    requestToken(code: code, state: state)
-      .receive(on: DispatchQueue.main)
-      .sink(receiveCompletion: { (completion) in
-        if case let .failure(error) = completion {
-          print(error)
-        }
-      }, receiveValue: { [weak self] (oauth) in
-        
-        guard let this = self else { return }
-        
-        print(oauth.access_token)
-        this.oauth = oauth
-        this.isAuthenticated = true
-        this.requestUser()
-        
-        let keychain = Keychain(service: this.keychainService)
-        keychain[this.keychainAuthTokenKey] = oauth.access_token
-        
-      })
-      .store(in: &stores)
+    DispatchQueue.global().async { [weak self] in
+      
+      guard let this = self else { return }
+      
+      this.requestToken(code: code, state: state)
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { (completion) in
+          if case let .failure(error) = completion {
+            print(error)
+          }
+        }, receiveValue: { (oauth) in
+          
+          print(oauth.access_token)
+          this.oauth = oauth
+          this.isAuthenticated = true
+          this.requestUser()
+          
+          let keychain = Keychain(service: this.keychainService)
+          keychain[this.keychainAuthTokenKey] = oauth.access_token
+          
+        })
+        .store(in: &this.stores)
+    }
   }
   
   func requestUser() {

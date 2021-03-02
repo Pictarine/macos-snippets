@@ -10,51 +10,29 @@ import Foundation
 import SwiftUI
 
 
-extension View {
-  func tooltip(_ tip: String) -> some View {
-    background(GeometryReader { childGeometry in
-      TooltipView(tip, geometry: childGeometry) {
-        self
-      }
-    })
+/**
+ FROM: https://developer.apple.com/forums/thread/123243
+ */
+public extension View {
+  /// Overlays this view with a view that provides a toolTip with the given string.
+  func tooltip(_ toolTip: String?) -> some View {
+    self.overlay(TooltipView(toolTip))
   }
 }
 
-private struct TooltipView<Content>: View where Content: View {
-  let content: () -> Content
-  let tip: String
-  let geometry: GeometryProxy
+private struct TooltipView: NSViewRepresentable {
+  let toolTip: String?
   
-  init(_ tip: String, geometry: GeometryProxy, @ViewBuilder content: @escaping () -> Content) {
-    self.content = content
-    self.tip = tip
-    self.geometry = geometry
+  init(_ toolTip: String?) {
+    self.toolTip = toolTip
   }
   
-  var body: some View {
-    Tooltip(tip, content: content)
-      .frame(width: geometry.size.width, height: geometry.size.height)
-  }
-}
-
-private struct Tooltip<Content: View>: NSViewRepresentable {
-  typealias NSViewType = NSHostingView<Content>
-  
-  init(_ text: String?, @ViewBuilder content: () -> Content) {
-    self.text = text
-    self.content = content()
+  func makeNSView(context: NSViewRepresentableContext<TooltipView>) -> NSView {
+    let view = NSView()
+    view.toolTip = self.toolTip
+    return view
   }
   
-  let text: String?
-  let content: Content
-  
-  func makeNSView(context _: Context) -> NSHostingView<Content> {
-    NSViewType(rootView: content)
-  }
-  
-  func updateNSView(_ nsView: NSHostingView<Content>, context _: Context) {
-    nsView.rootView = content
-    nsView.toolTip = text
+  func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<TooltipView>) {
   }
 }
-

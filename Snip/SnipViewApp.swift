@@ -32,44 +32,43 @@ struct SnipViewApp: View {
   
   @ViewBuilder
   var appNavigation: some View {
-    GeometryReader { reader in
-      ZStack {
-        NavigationView {
-          
-          if let sidebarViewModel = viewModel.sidebarViewModel {
-            Sidebar(viewModel: sidebarViewModel)
-              .frame(minWidth: 300)
-          }
-          
-          if let codeViewerViewModel = viewModel.codeViewerViewModel {
-            CodeViewer(viewModel: codeViewerViewModel)
-          }
-          
+    ZStack {
+      NavigationView {
+        
+        if let sidebarViewModel = viewModel.sidebarViewModel {
+          Sidebar(viewModel: sidebarViewModel)
+            .frame(minWidth: 300)
         }
-        welcomePanel
-          .frame(width: reader.size.width, height: reader.size.height)
-        settingPanel
-          .frame(width: reader.size.width, height: reader.size.height)
-        addExternalSnipPanel
-          .frame(width: reader.size.width, height: reader.size.height)
+        
+        if let codeViewerViewModel = viewModel.codeViewerViewModel {
+          CodeViewer(viewModel: codeViewerViewModel)
+        }
+        
       }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .environment(\.themePrimaryColor, settings.snipAppTheme == .auto ? .primary : .primaryTheme)
-      .environment(\.themeSecondaryColor, settings.snipAppTheme == .auto ? .secondary : .secondaryTheme)
-      .environment(\.themeTextColor, settings.snipAppTheme == .auto ? .text : .white)
-      .environment(\.themeShadowColor, settings.snipAppTheme == .auto ? .shadow : .shadowTheme)
-      .toolbar {
-        ToolbarItem(placement: .primaryAction) {
-          Button(action: viewModel.openExtensionLink) {
-            Image(systemName: "square.3.stack.3d.middle.fill")
-          }
-          .tooltip(NSLocalizedString("Extract_Stack", comment: ""))
-          .onHover { inside in
-            if inside {
-              NSCursor.pointingHand.push()
-            } else {
-              NSCursor.pop()
-            }
+      /*
+      welcomePanel
+        .frame(width: reader.size.width, height: reader.size.height)
+      settingPanel
+        .frame(width: reader.size.width, height: reader.size.height)
+      addExternalSnipPanel
+        .frame(width: reader.size.width, height: reader.size.height)*/
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .environment(\.themePrimaryColor, settings.snipAppTheme == .auto ? .primary : .primaryTheme)
+    .environment(\.themeSecondaryColor, settings.snipAppTheme == .auto ? .secondary : .secondaryTheme)
+    .environment(\.themeTextColor, settings.snipAppTheme == .auto ? .text : .white)
+    .environment(\.themeShadowColor, settings.snipAppTheme == .auto ? .shadow : .shadowTheme)
+    .toolbar {
+      ToolbarItem(placement: .primaryAction) {
+        Button(action: viewModel.openExtensionLink) {
+          Image(systemName: "square.3.stack.3d.middle.fill")
+        }
+        .tooltip(NSLocalizedString("Extract_Stack", comment: ""))
+        .onHover { inside in
+          if inside {
+            NSCursor.pointingHand.push()
+          } else {
+            NSCursor.pop()
           }
         }
       }

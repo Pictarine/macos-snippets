@@ -151,18 +151,20 @@ struct SnipItemsListAction {
       
       snip.syncState = .syncing
       
-      SyncManager.shared.createGist(title: snip.name, code: snip.snippet)
-        .receive(on: DispatchQueue.main)
-        .sink(receiveCompletion: { (completion) in
-          if case let .failure(error) = completion {
-            print(error)
-          }
-        }, receiveValue: { (gist) in
-          snip.gistId = gist.id
-          snip.gistURL = gist.url
-          snip.syncState = .synced
-        })
-        .store(in: &stores)
+      DispatchQueue.global().async {
+        SyncManager.shared.createGist(title: snip.name, code: snip.snippet)
+          .receive(on: DispatchQueue.main)
+          .sink(receiveCompletion: { (completion) in
+            if case let .failure(error) = completion {
+              print(error)
+            }
+          }, receiveValue: { (gist) in
+            snip.gistId = gist.id
+            snip.gistURL = gist.url
+            snip.syncState = .synced
+          })
+          .store(in: &stores)
+      }
     }
   }
   
@@ -213,18 +215,20 @@ struct SnipItemsListAction {
             
           snip.syncState = .syncing
           
-          SyncManager.shared.updateGist(id: gistId, title: snip.name, code: snip.snippet)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { (completion) in
-              if case let .failure(error) = completion {
-                print(error)
-              }
-            }, receiveValue: { (gist) in
-              snip.gistId = gist.id
-              snip.gistURL = gist.url
-              snip.syncState = .synced
-            })
-            .store(in: &stores)
+          DispatchQueue.global().async {
+            SyncManager.shared.updateGist(id: gistId, title: snip.name, code: snip.snippet)
+              .receive(on: DispatchQueue.main)
+              .sink(receiveCompletion: { (completion) in
+                if case let .failure(error) = completion {
+                  print(error)
+                }
+              }, receiveValue: { (gist) in
+                snip.gistId = gist.id
+                snip.gistURL = gist.url
+                snip.syncState = .synced
+              })
+              .store(in: &stores)
+          }
         }
       }
       
