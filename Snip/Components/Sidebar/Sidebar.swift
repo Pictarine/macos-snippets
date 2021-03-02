@@ -39,10 +39,10 @@ struct Sidebar: View {
       HStack {
         ImageButton(imageName: "ic_settings", action: {
           withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-            settings.isSettingsOpened.toggle()
+            settings.shouldOpenSettings.toggle()
           }
         }, content: { EmptyView() })
-        .tooltip("Settings")
+        .help("Settings")
         Spacer()
         
         Text(syncManager.connectedUser?.login ?? "")
@@ -70,7 +70,7 @@ struct Sidebar: View {
             )
           
         }
-        .tooltip(NSLocalizedString("Connect_GitHub", comment: ""))
+        .help(NSLocalizedString("Connect_GitHub", comment: ""))
         .alert(isPresented: $showingLogoutAlert) {
           Alert(title: Text(NSLocalizedString("Connect_GitHub", comment: "")),
                 message: Text(NSLocalizedString("Validate_Logout_GitHub", comment: "")),

@@ -10,24 +10,33 @@ import SwiftUI
 
 @main
 struct SnipApp: App {
-
-    @SceneBuilder
-    var body: some Scene {
-        WindowGroup {
-          SnipViewApp(appState: AppState(), settings: Settings())
-            .frame(minWidth: 700,
-                   idealWidth: 1000,
-                   maxWidth: .infinity,
-                   minHeight: 500,
-                   idealHeight: 600,
-                   maxHeight: .infinity)
-            .onAppear {
-              SyncManager.shared.initialize()
-            }
-            .onOpenURL { url in
-              DeepLinkManager.handleDeepLink(url: url)
-            }
+  
+  var viewModel: SnipViewAppViewModel
+  
+  init() {
+    viewModel = SnipViewAppViewModel(appState: AppState(),
+                                     settings: Settings())
+  }
+  
+  @SceneBuilder
+  var body: some Scene {
+    WindowGroup {
+      SnipViewApp(viewModel: viewModel)
+        .environmentObject(viewModel.appState)
+        .environmentObject(viewModel.settings)
+        .frame(minWidth: 700,
+               idealWidth: 1000,
+               maxWidth: .infinity,
+               minHeight: 500,
+               idealHeight: 600,
+               maxHeight: .infinity)
+        .onAppear {
+          SyncManager.shared.initialize()
         }
-      
+        .onOpenURL { url in
+          DeepLinkManager.handleDeepLink(url: url)
+        }
     }
+    
+  }
 }

@@ -19,25 +19,10 @@ struct WelcomeView: View {
   
   @ObservedObject var viewModel: WelcomeViewModel
   
-  @State var currentPage = 0
-  
   var body: some View {
-    ZStack {
-      
-      backgroundView
-        .frame(width: viewModel.size.width, height: viewModel.size.height)
-        .transition(AnyTransition.opacity)
-      
-      firstView
-        .frame(width: viewModel.size.width / 2.5,
-               height: viewModel.size.height / 1.5,
-               alignment: .center)
-        .background(themeSecondaryColor)
-        .cornerRadius(4.0)
-        .offset(x: 0,
-                y: viewModel.isVisible ? ((viewModel.size.height / 2) - ((viewModel.size.height / 1.5) / 1.5)) : 10000)
-        .transition(AnyTransition.move(edge: .bottom))
-    }
+    firstView
+      .background(themeSecondaryColor)
+      .cornerRadius(4.0)
   }
   
   var firstView: some View {
@@ -79,6 +64,13 @@ struct WelcomeView: View {
             .background(Color.transparent)
         }
         .buttonStyle(PlainButtonStyle())
+        .onHover { inside in
+          if inside {
+            NSCursor.pointingHand.push()
+          } else {
+            NSCursor.pop()
+          }
+        }
         Button(action: self.viewModel.openSnipWebsite) {
           Text(NSLocalizedString("Join", comment: "").uppercased())
             .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
@@ -87,31 +79,30 @@ struct WelcomeView: View {
             .cornerRadius(4)
         }
         .buttonStyle(PlainButtonStyle())
+        .onHover { inside in
+          if inside {
+            NSCursor.pointingHand.push()
+          } else {
+            NSCursor.pop()
+          }
+        }
       }
     }
     .padding()
   }
   
-  var backgroundView: some View {
-    viewModel.isVisible ? themeShadowColor : Color.clear
-  }
 }
 
 final class WelcomeViewModel: ObservableObject {
   
   @Binding var isVisible: Bool
-  var size: CGSize
   
-  init(isVisible: Binding<Bool>, readerSize: CGSize) {
+  init(isVisible: Binding<Bool>) {
     self._isVisible = isVisible
-    self.size = readerSize
   }
   
   func close() {
-    
-    withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-      self.isVisible = false
-    }
+    self.isVisible = false
   }
   
   func openSnipWebsite() {
@@ -124,7 +115,6 @@ final class WelcomeViewModel: ObservableObject {
 
 struct WelcomeView_Previews: PreviewProvider {
   static var previews: some View {
-    WelcomeView(viewModel: WelcomeViewModel(isVisible: .constant(true),
-                                            readerSize: CGSize(width: 300, height: 400)))
+    WelcomeView(viewModel: WelcomeViewModel(isVisible: .constant(true)))
   }
 }

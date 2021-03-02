@@ -78,7 +78,7 @@ struct CodeActionsTopBar: View {
               .frame(width: 8, height: 8)
               .offset(x: 7, y: 6)
           )
-          .tooltip("Add to Gist")
+          .help("Add to Gist")
         }
       }
       
@@ -87,7 +87,7 @@ struct CodeActionsTopBar: View {
           Button(action: viewModel.openRemoteURL) {
             Image(systemName: "square.and.arrow.up")
           }
-          .tooltip(NSLocalizedString("Open_Post", comment: ""))
+          .help(NSLocalizedString("Open_Post", comment: ""))
           .onHover { inside in
             if inside {
               NSCursor.pointingHand.push()
@@ -108,7 +108,7 @@ struct CodeActionsTopBar: View {
           }) {
             Image(systemName: isPreviewEnabled ? "eye.fill" : "eye")
           }
-          .tooltip(NSLocalizedString("Preview", comment: ""))
+          .help(NSLocalizedString("Preview", comment: ""))
           .onHover { inside in
             if inside {
               NSCursor.pointingHand.push()
@@ -123,7 +123,7 @@ struct CodeActionsTopBar: View {
         Button(action: viewModel.onToggleFavorite) {
           Image(systemName: viewModel.isSnipFavorite ? "bookmark.fill" : "bookmark")
         }
-        .tooltip(NSLocalizedString("Add_Fav", comment: ""))
+        .help(NSLocalizedString("Add_Fav", comment: ""))
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
@@ -137,7 +137,7 @@ struct CodeActionsTopBar: View {
         Button(action: viewModel.onDelete) {
           Image(systemName: "trash")
         }
-        .tooltip(NSLocalizedString("Delete_Snip", comment: ""))
+        .help(NSLocalizedString("Delete_Snip", comment: ""))
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
@@ -158,7 +158,7 @@ struct CodeActionsTopBar: View {
             NSCursor.pop()
           }
         }
-        .tooltip(NSLocalizedString("Snip_Infos", comment: ""))
+        .help(NSLocalizedString("Snip_Infos", comment: ""))
         .popover(
           isPresented: $showInfos,
           arrowEdge: .bottom

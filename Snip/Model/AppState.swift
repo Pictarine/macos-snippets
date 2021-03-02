@@ -16,13 +16,13 @@ class AppState: ObservableObject {
   @Published var selectedSnippetId: String? = ""
   @Published var selectedSnippetFilter: ModelFilter = .all
   
-  @Published var shouldShowChangelogModel: Bool {
+  @Published var shouldOpenWelcome: Bool {
     didSet {
       UserDefaults.standard.set(Bundle.main.buildVersionNumber, forKey: KEY_PREVIOUS_VERSION)
     }
   }
   
   init() {
-    self.shouldShowChangelogModel = (UserDefaults.standard.object(forKey: KEY_PREVIOUS_VERSION) as? String ?? "") != Bundle.main.buildVersionNumber
+    self.shouldOpenWelcome = (UserDefaults.standard.object(forKey: KEY_PREVIOUS_VERSION) as? String ?? "") != Bundle.main.buildVersionNumber
   }
 }

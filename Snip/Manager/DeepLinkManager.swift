@@ -8,7 +8,9 @@
 
 import Foundation
 
-
+/**
+ TEST deeplink : snip://add?code=YWFhYWE=&title=emRqemRpanpkag==&tags=YmdyO2VvZms=&source=c3RhY2tvdmVyZmxvdw==
+ */
 struct DeepLinkManager {
   
   static let callbackURL = "snip://callback"

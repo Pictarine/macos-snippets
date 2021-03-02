@@ -15,7 +15,13 @@ class SnippetManager: ObservableObject {
   
   static let shared = SnippetManager()
   
-  @Published var hasExternalSnippetQueued = false
+  @Published var hasExternalSnippetQueued = false {
+    didSet {
+      if !hasExternalSnippetQueued {
+        tempSnipItem = ExternalSnipItem.blank()
+      }
+    }
+  }
   @Published var tempSnipItem = ExternalSnipItem.blank()
   
   public var snipets: AnyPublisher<[SnipItem], Never>

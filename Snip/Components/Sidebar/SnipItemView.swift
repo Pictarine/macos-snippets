@@ -33,7 +33,6 @@ struct SnipItemView<Content: View>: View {
   @ObservedObject var viewModel: SnipItemViewModel
   
   @EnvironmentObject var appState: AppState
-  @EnvironmentObject var settings: Settings
   
   @Environment(\.themePrimaryColor) var themePrimaryColor
   

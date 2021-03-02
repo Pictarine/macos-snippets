@@ -9,24 +9,26 @@
 import SwiftUI
 import Combine
 
+enum ModalView: Identifiable {
+  case settings
+  case welcome
+  case external
+  
+  var id: Int {
+    hashValue
+  }
+}
+
 struct SnipViewApp: View {
   
-  @ObservedObject var snippetManager = SnippetManager.shared
-  @ObservedObject var appState: AppState
-  @ObservedObject var settings: Settings
+  @ObservedObject var viewModel: SnipViewAppViewModel
   
-  var viewModel : SnipViewAppViewModel
+  @EnvironmentObject var appState: AppState
+  @EnvironmentObject var settings: Settings
   
-  init(appState: AppState, settings: Settings) {
-    self.appState = appState
-    self.settings = settings
-    self.viewModel = SnipViewAppViewModel(appState: appState)
-  }
   
   var body: some View {
     appNavigation
-      .environmentObject(appState)
-      .environmentObject(settings)
       .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   
@@ -45,25 +47,34 @@ struct SnipViewApp: View {
         }
         
       }
-      /*
-      welcomePanel
-        .frame(width: reader.size.width, height: reader.size.height)
-      settingPanel
-        .frame(width: reader.size.width, height: reader.size.height)
-      addExternalSnipPanel
-        .frame(width: reader.size.width, height: reader.size.height)*/
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .environment(\.themePrimaryColor, settings.snipAppTheme == .auto ? .primary : .primaryTheme)
     .environment(\.themeSecondaryColor, settings.snipAppTheme == .auto ? .secondary : .secondaryTheme)
     .environment(\.themeTextColor, settings.snipAppTheme == .auto ? .text : .white)
     .environment(\.themeShadowColor, settings.snipAppTheme == .auto ? .shadow : .shadowTheme)
+    .sheet(item: $viewModel.modalView) { content in
+      
+      switch content {
+      case .welcome:
+        WelcomeView(viewModel: WelcomeViewModel(isVisible: $appState.shouldOpenWelcome))
+          .frame(width: 800, height: 600)
+      case .settings:
+        SettingsView(viewModel: SettingsViewModel(isVisible: $settings.shouldOpenSettings))
+          .frame(width: 800, height: 600)
+      case .external:
+        ExternalSnippet(viewModel: ExternalSnippetViewModel(isVisible: $viewModel.snippetManager.hasExternalSnippetQueued,
+                                                            onTrigger: viewModel.trigger(action:)),
+                        externalSnipItem: $viewModel.snippetManager.tempSnipItem)
+          .frame(width: 800, height: 600)
+      }
+    }
     .toolbar {
       ToolbarItem(placement: .primaryAction) {
         Button(action: viewModel.openExtensionLink) {
           Image(systemName: "square.3.stack.3d.middle.fill")
         }
-        .tooltip(NSLocalizedString("Extract_Stack", comment: ""))
+        .help(NSLocalizedString("Extract_Stack", comment: ""))
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
@@ -74,31 +85,6 @@ struct SnipViewApp: View {
       }
     }
   }
-  
-  var settingPanel: some View {
-    GeometryReader { reader in
-      SettingsView(viewModel: SettingsViewModel(isVisible: self.$settings.isSettingsOpened, readerSize: reader.size))
-    }
-  }
-  
-  var welcomePanel: some View {
-    GeometryReader { reader in
-      WelcomeView(viewModel: WelcomeViewModel(isVisible: self.$appState.shouldShowChangelogModel, readerSize: reader.size))
-    }
-  }
-  
-  var addExternalSnipPanel: some View {
-    GeometryReader { reader in
-      ExternalSnippet(viewModel: ExternalSnippetViewModel(isVisible: self.snippetManager.hasExternalSnippetQueued,
-                                                          readerSize: reader.size,
-                                                          onTrigger: { action in
-                                                            self.viewModel.trigger(action:action)
-                                                            self.viewModel.resetExternalSnippetAdding()
-                                                          },
-                                                          onCancel: self.viewModel.resetExternalSnippetAdding),
-                      externalSnipItem: self.$snippetManager.tempSnipItem)
-    }
-  }
 }
 
 
@@ -106,14 +92,24 @@ final class SnipViewAppViewModel: ObservableObject {
   
   @Published var snippets: [SnipItem] = []
   @Published var selectionSnipItem: SnipItem?
+  @Published var snippetManager = SnippetManager.shared
+  @Published var modalView: ModalView?
   
-  var cancellable: AnyCancellable?
+  var appState: AppState
+  var settings: Settings
+  
+  var cancellables: Set<AnyCancellable> = []
   
   var sidebarViewModel: SideBarViewModel?
   var codeViewerViewModel: CodeViewerViewModel?
   
-  init(appState: AppState) {
-    cancellable = SnippetManager
+  init(appState: AppState,
+       settings: Settings) {
+    
+    self.appState = appState
+    self.settings = settings
+    
+    SnippetManager
       .shared
       .snipets
       .sink { [weak self] (snippets) in
@@ -121,36 +117,51 @@ final class SnipViewAppViewModel: ObservableObject {
         this.snippets = snippets
         this.selectionSnipItem = snippets.flatternSnippets.first(where: { $0.id == appState.selectedSnippetId })
       }
+      .store(in: &stores)
+    
+    Publishers.CombineLatest3(settings.$shouldOpenSettings, appState.$shouldOpenWelcome, snippetManager.$hasExternalSnippetQueued)
+      .map(triggerModalOpening(openSettings:openWelcome:openExternalSnippet:))
+      .sink { [weak self] (modalView) in
+        guard let this = self else { return }
+        this.modalView = modalView
+      }
+      .store(in: &stores)
     
     sidebarViewModel = SideBarViewModel(snippets: $snippets.eraseToAnyPublisher(),
                                         onTrigger: trigger(action:),
-                                        onSnippetSelection: { (item, filter) in self.didSelectSnipItem(item, filter: filter, appState: appState) })
+                                        onSnippetSelection: didSelectSnipItem(_:filter:))
     
     codeViewerViewModel = CodeViewerViewModel(snipItem: $selectionSnipItem.eraseToAnyPublisher(),
                                               onTrigger: trigger(action:),
-                                              onDimiss: { self.didDeselectSnipItem(appState: appState) })
-  }
-  
-  deinit {
-    cancellable?.cancel()
+                                              onDimiss: didDeselectSnipItem)
   }
   
   func trigger(action: SnipItemsListAction) {
     SnippetManager.shared.trigger(action: action)
   }
   
-  func resetExternalSnippetAdding() {
-    SnippetManager.shared.hasExternalSnippetQueued = false
-    SnippetManager.shared.tempSnipItem = ExternalSnipItem.blank()
+  func triggerModalOpening(openSettings: Bool, openWelcome: Bool, openExternalSnippet: Bool) -> ModalView? {
+    if openWelcome {
+      return .welcome
+    }
+    else if openSettings {
+      return .settings
+    }
+    else if openExternalSnippet {
+      return .external
+    }
+    else {
+      return nil
+    }
   }
   
-  func didSelectSnipItem(_ snip: SnipItem, filter: ModelFilter, appState: AppState) {
+  func didSelectSnipItem(_ snip: SnipItem, filter: ModelFilter) {
     appState.selectedSnippetId = snip.id
     appState.selectedSnippetFilter = filter
     selectionSnipItem = snip
   }
   
-  func didDeselectSnipItem(appState: AppState) {
+  func didDeselectSnipItem() {
     appState.selectedSnippetId = nil
     selectionSnipItem = nil
   }

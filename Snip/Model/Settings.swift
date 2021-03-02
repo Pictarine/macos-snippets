@@ -19,7 +19,7 @@ class Settings: ObservableObject {
     case appTheme = "snip_app_theme"
   }
   
-  @Published var isSettingsOpened : Bool = false
+  @Published var shouldOpenSettings : Bool = false
   
   @Published var snipAppTheme : SnipAppTheme = .auto {
     didSet {
