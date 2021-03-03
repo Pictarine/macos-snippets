@@ -50,6 +50,8 @@ extension Mode {
       return "code_c"
     case "dart":
       return "code_dart"
+    case "protobuf":
+      return "code_protobuf"
     case "c++":
       return "code_cpp"
     case "typescript":
