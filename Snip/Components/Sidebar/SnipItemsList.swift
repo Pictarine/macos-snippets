@@ -24,6 +24,7 @@ struct SnipItemsList: View {
                                                       applyFilter: viewModel.filter,
                                                       onTrigger: viewModel.onTrigger,
                                                       onSnippetSelection: viewModel.onSnippetSelection))
+            .padding(.leading, 24)
         })
       }
       else {
