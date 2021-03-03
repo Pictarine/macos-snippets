@@ -45,10 +45,11 @@ struct CodeViewer: View {
                 .frame(width: viewModel.shouldShowPreview ? reader.size.width / 2 : reader.size.width, height: reader.size.height)
               
               
-              if viewModel.shouldShowPreview {
+              if viewModel.shouldShowPreview,
+                 let markdownHTMLViewerModel = viewModel.markdownHTMLViewerModel {
                 Divider()
                 
-                MarkdownHTMLViewer(code: snipItem.snippet, mode: snipItem.mode)
+                MarkdownHTMLViewer(viewModel: markdownHTMLViewerModel)
                   .frame(width: reader.size.width / 2, height: reader.size.height)
                   .background(Color.GREY_200)
                   .transition(AnyTransition.move(edge: .trailing))
@@ -121,6 +122,7 @@ final class CodeViewerViewModel: ObservableObject {
   var modeSelectionViewModel: ModeSelectionViewModel?
   var codeDetailsViewModel: CodeDetailsViewModel?
   var codeActionsViewModel: CodeActionsViewModel?
+  var markdownHTMLViewerModel: MarkdownHTMLViewerModel?
   
   var cancellable: AnyCancellable?
   
@@ -150,8 +152,6 @@ final class CodeViewerViewModel: ObservableObject {
                                                                                  tag: tag))
                                                     })
     
-    codeDetailsViewModel = CodeDetailsViewModel(snipItem: snipItem)
-    
     codeActionsViewModel = CodeActionsViewModel(snipItem: snipItem,
                                                 onRename: { name in
                                                   guard let snipItem = self.snipItem else { return }
@@ -172,6 +172,9 @@ final class CodeViewerViewModel: ObservableObject {
                                                   self.onTrigger(.createGist(id: snipItem.id))
                                                 },
                                                 onPreviewToggle: self.togglePreview)
+    
+    codeDetailsViewModel = CodeDetailsViewModel(snipItem: snipItem)
+    markdownHTMLViewerModel = MarkdownHTMLViewerModel(snipItem: snipItem)
   }
   
   deinit {
