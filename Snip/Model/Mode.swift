@@ -48,6 +48,8 @@ extension Mode {
       return "code_java"
     case "c":
       return "code_c"
+    case "dart":
+      return "code_dart"
     case "c++":
       return "code_cpp"
     case "typescript":
@@ -117,6 +119,7 @@ public enum CodeMode: String {
   case lisp
   case css
   case django
+  case dart
   case dockerfile
   case erlang
   case fortran
@@ -172,6 +175,7 @@ public enum CodeMode: String {
       CodeMode.kotlin.mode(),
       CodeMode.scala.mode(),
       CodeMode.csharp.mode(),
+      CodeMode.dart.mode(),
       CodeMode.java.mode(),
       CodeMode.cobol.mode(),
       CodeMode.coffeescript.mode(),
@@ -263,6 +267,8 @@ public enum CodeMode: String {
       return Mode(name: "css/scss", mimeType: "text/x-scss")
     case .django:
       return Mode(name: "django", mimeType: "text/x-django")
+    case .dart:
+      return Mode(name: "dart", mimeType: "application/dart")
     case .dockerfile:
       return Mode(name: "dockerfile", mimeType: "text/x-dockerfile")
     case .erlang:
