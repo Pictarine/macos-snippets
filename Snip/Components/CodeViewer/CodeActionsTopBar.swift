@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CodeActionsTopBar: View {
   
@@ -99,9 +100,9 @@ struct CodeActionsTopBar: View {
       }
       
       ToolbarItem(placement: .status) {
-        if viewModel.onPreviewToggle != nil {
+        if viewModel.isPreviewAvailable {
           Button(action: {
-            viewModel.onPreviewToggle?()
+            viewModel.onPreviewToggle()
             withAnimation(Animation.easeIn(duration: 0.6).delay(0.3)) {
               isPreviewEnabled.toggle()
             }
@@ -180,42 +181,53 @@ struct CodeActionsTopBar: View {
 
 final class CodeActionsViewModel: ObservableObject {
   
-  var snipName: String
-  var isSnipFavorite: Bool
-  var snipCode: String
-  var snipLastUpdate: Date
-  var syncState: SnipItem.SyncState
-  var remoteURL: String?
+  @Published var snipName: String = ""
+  @Published var isSnipFavorite: Bool = false
+  @Published var snipCode: String = ""
+  @Published var snipLastUpdate: Date = Date()
+  @Published var syncState: SnipItem.SyncState = .local
+  @Published var remoteURL: String?
+  @Published var isPreviewAvailable: Bool = false
   
   var onRename: (String) -> Void
   var onToggleFavorite: () -> Void
   var onDelete: () -> Void
   var onUpload: () -> Void
-  var onPreviewToggle: (() -> Void)?
+  var onPreviewToggle: () -> Void
   
-  init(name: String,
-       code: String,
-       isFavorite: Bool,
-       lastUpdate: Date,
-       syncState: SnipItem.SyncState,
-       remoteURL: String?,
+  var cancellable: AnyCancellable?
+  
+  init(snipItem: AnyPublisher<SnipItem?, Never>,
        onRename: @escaping (String) -> Void,
        onToggleFavorite: @escaping () -> Void,
        onDelete: @escaping () -> Void,
        onUpload: @escaping () -> Void,
-       onPreviewToggle: (() -> Void)?) {
+       onPreviewToggle: @escaping () -> Void) {
     
-    self.snipName = name
-    self.snipCode = code
-    self.isSnipFavorite = isFavorite
-    self.snipLastUpdate = lastUpdate
-    self.syncState = syncState
-    self.remoteURL = remoteURL
     self.onRename = onRename
     self.onToggleFavorite = onToggleFavorite
     self.onDelete = onDelete
     self.onUpload = onUpload
     self.onPreviewToggle = onPreviewToggle
+    
+    cancellable = snipItem
+      .sink { [weak self] (snipItem) in
+        guard let this = self,
+              let snipItem = snipItem
+        else { return }
+        
+        this.snipName = snipItem.name
+        this.snipCode = snipItem.snippet
+        this.isSnipFavorite = snipItem.isFavorite
+        this.snipLastUpdate = snipItem.lastUpdateDate
+        this.syncState = snipItem.syncState ?? .local
+        this.remoteURL = snipItem.remoteURL
+        this.isPreviewAvailable = snipItem.mode == CodeMode.html.mode() || snipItem.mode == CodeMode.markdown.mode()
+      }
+  }
+  
+  deinit {
+    cancellable?.cancel()
   }
   
   func openRemoteURL() {
@@ -240,19 +252,3 @@ final class CodeActionsViewModel: ObservableObject {
   }
 }
 
-struct CodeActionsTopBar_Previews: PreviewProvider {
-  static var previews: some View {
-    CodeActionsTopBar(viewModel: CodeActionsViewModel(name: "Curry func",
-                                                      code: "Hello",
-                                                      isFavorite: true,
-                                                      lastUpdate: Date(),
-                                                      syncState: .syncing,
-                                                      remoteURL: nil,
-                                                      onRename: { _ in print("action")},
-                                                      onToggleFavorite: {},
-                                                      onDelete: {},
-                                                      onUpload: {},
-                                                      onPreviewToggle: {})
-    )
-  }
-}

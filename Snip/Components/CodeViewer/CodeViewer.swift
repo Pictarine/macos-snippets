@@ -22,32 +22,10 @@ struct CodeViewer: View {
     Group {
       if let snipItem = viewModel.snipItem {
         VStack(alignment: .leading) {
-          CodeActionsTopBar(viewModel: CodeActionsViewModel(name: snipItem.name,
-                                                            code: snipItem.snippet,
-                                                            isFavorite: snipItem.isFavorite,
-                                                            lastUpdate: snipItem.lastUpdateDate,
-                                                            syncState: snipItem.syncState ?? .local,
-                                                            remoteURL: snipItem.remoteURL,
-                                                            onRename: { name in
-                                                              self.viewModel.onTrigger(.rename(id: snipItem.id, name: name))
-                                                            },
-                                                            onToggleFavorite: {
-                                                              self.viewModel.onTrigger(.toggleFavorite(id: snipItem.id))
-                                                            },
-                                                            onDelete: {
-                                                              self.viewModel.onTrigger(.delete(id: snipItem.id))
-                                                              self.viewModel.onDimiss()
-                                                            },
-                                                            onUpload: {
-                                                              self.viewModel.onTrigger(.createGist(id: snipItem.id))
-                                                            },
-                                                            onPreviewToggle: snipItem.mode == CodeMode.html.mode() || snipItem.mode == CodeMode.markdown.mode() ? {
-                                                              withAnimation(Animation.easeOut(duration: 0.6)) { () -> () in
-                                                                viewModel.shouldShowPreview.toggle()
-                                                              }
-                                                            } : nil
-          ))
           
+          if let codeActionsViewModel = viewModel.codeActionsViewModel {
+            CodeActionsTopBar(viewModel: codeActionsViewModel)
+          }
           
           if let modeSelectionViewModel = viewModel.modeSelectionViewModel {
             ModeSelectionView(viewModel: modeSelectionViewModel)
@@ -142,6 +120,7 @@ final class CodeViewerViewModel: ObservableObject {
   
   var modeSelectionViewModel: ModeSelectionViewModel?
   var codeDetailsViewModel: CodeDetailsViewModel?
+  var codeActionsViewModel: CodeActionsViewModel?
   
   var cancellable: AnyCancellable?
   
@@ -172,6 +151,27 @@ final class CodeViewerViewModel: ObservableObject {
                                                     })
     
     codeDetailsViewModel = CodeDetailsViewModel(snipItem: snipItem)
+    
+    codeActionsViewModel = CodeActionsViewModel(snipItem: snipItem,
+                                                onRename: { name in
+                                                  guard let snipItem = self.snipItem else { return }
+                                                  self.onTrigger(.rename(id: snipItem.id,
+                                                                         name: name))
+                                                },
+                                                onToggleFavorite: {
+                                                  guard let snipItem = self.snipItem else { return }
+                                                  self.onTrigger(.toggleFavorite(id: snipItem.id))
+                                                },
+                                                onDelete: {
+                                                  guard let snipItem = self.snipItem else { return }
+                                                  self.onTrigger(.delete(id: snipItem.id))
+                                                  self.onDimiss()
+                                                },
+                                                onUpload: {
+                                                  guard let snipItem = self.snipItem else { return }
+                                                  self.onTrigger(.createGist(id: snipItem.id))
+                                                },
+                                                onPreviewToggle: self.togglePreview)
   }
   
   deinit {
@@ -181,5 +181,11 @@ final class CodeViewerViewModel: ObservableObject {
   func saveNewCodeSnippet(_ code: String) {
     guard let item = snipItem else { return }
     onTrigger(.updateCode(id: item.id, code: code))
+  }
+  
+  func togglePreview() {
+    withAnimation(Animation.easeOut(duration: 0.6)) { () -> () in
+      shouldShowPreview.toggle()
+    }
   }
 }

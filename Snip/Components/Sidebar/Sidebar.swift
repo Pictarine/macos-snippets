@@ -111,9 +111,6 @@ struct Sidebar: View {
       HStack {
         Spacer()
         
-        
-        
-        
         MenuButton(label:
                     Text("+")
                     .foregroundColor(.text)
