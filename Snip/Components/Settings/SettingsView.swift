@@ -26,58 +26,66 @@ struct SettingsView: View {
     VStack(alignment: .leading) {
       
       HStack {
-        Spacer()
         Text(NSLocalizedString("Settings", comment: ""))
           .font(.largeTitle)
           .foregroundColor(themeTextColor)
         Spacer()
       }
-      .padding(.top, 16)
+      .padding(16)
       
-      Picker(selection: Binding<Int>(
-              get: {
-                let index = SnipAppTheme.allCases.firstIndex(where: { (theme) -> Bool in
-                  theme == settings.snipAppTheme
-                }) ?? 0
-                return index
-              },
-              set: {
-                selectedAppTheme = $0
-                settings.snipAppTheme = SnipAppTheme.allCases[$0]
-              }), label:
-                Text(NSLocalizedString("App_Theme", comment: ""))
-                .foregroundColor(themeTextColor)
-      ) {
-        ForEach(0 ..< SnipAppTheme.allCases.count) { index in
-          Text(SnipAppTheme.allCases[index].rawValue).tag(index)
+      HStack {
+        Text(NSLocalizedString("App_Theme", comment: ""))
+        .foregroundColor(themeTextColor)
+        Spacer()
+        Picker(selection: Binding<Int>(
+                get: {
+                  let index = SnipAppTheme.allCases.firstIndex(where: { (theme) -> Bool in
+                    theme == settings.snipAppTheme
+                  }) ?? 0
+                  return index
+                },
+                set: {
+                  selectedAppTheme = $0
+                  settings.snipAppTheme = SnipAppTheme.allCases[$0]
+                }), label:
+                  EmptyView()
+        ) {
+          ForEach(0 ..< SnipAppTheme.allCases.count) { index in
+            Text(SnipAppTheme.allCases[index].rawValue).tag(index)
+          }
         }
+        .pickerStyle(SegmentedPickerStyle())
+        .frame(width: 200)
       }
-      .pickerStyle(SegmentedPickerStyle())
       .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
       Divider()
         .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
       
       Group {
-        Picker(selection: Binding<Int>(
-                get: {
-                  let index = CodeViewTheme.list.firstIndex(where: { (theme) -> Bool in
-                    theme == settings.codeViewTheme
-                  }) ?? 0
-                  return index
-                },
-                set: {
-                  selectedTheme = $0
-                  settings.codeViewTheme = CodeViewTheme.list[$0]
-                }), label:
-                  Text(NSLocalizedString("CD_Theme", comment: ""))
-                  .foregroundColor(themeTextColor)
-        ) {
-          ForEach(0 ..< CodeViewTheme.list.count) {
-            Text(CodeViewTheme.list[$0].rawValue)
+        HStack {
+          Text(NSLocalizedString("CD_Theme", comment: ""))
+          .foregroundColor(themeTextColor)
+          Spacer()
+          Picker(selection: Binding<Int>(
+                  get: {
+                    let index = CodeViewTheme.list.firstIndex(where: { (theme) -> Bool in
+                      theme == settings.codeViewTheme
+                    }) ?? 0
+                    return index
+                  },
+                  set: {
+                    selectedTheme = $0
+                    settings.codeViewTheme = CodeViewTheme.list[$0]
+                  }), label:
+                    EmptyView()
+          ) {
+            ForEach(0 ..< CodeViewTheme.list.count) {
+              Text(CodeViewTheme.list[$0].rawValue)
+            }
           }
+          .pickerStyle(DefaultPickerStyle())
+          .frame(width: 200)
         }
-        .pickerStyle(DefaultPickerStyle())
-        .frame(maxWidth: .infinity)
         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
         Divider()
           .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
@@ -112,18 +120,23 @@ struct SettingsView: View {
                 set: {
                   settings.codeViewTextSize = Int($0)
                 }), in: 6...30, step: 1)
+          .frame(width: 400)
       }
       .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
       Divider()
         .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
       
-      CodeView(theme: settings.codeViewTheme,
-               code: $codeBlock,
-               mode: .constant(CodeMode.swift.mode()),
-               fontSize: settings.codeViewTextSize,
-               showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
-               isReadOnly: true)
-        .frame(maxWidth: .infinity, maxHeight: 150)
+      HStack {
+        Spacer()
+        CodeView(theme: settings.codeViewTheme,
+                 code: $codeBlock,
+                 mode: .constant(CodeMode.swift.mode()),
+                 fontSize: settings.codeViewTextSize,
+                 showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
+                 isReadOnly: true)
+          .frame(maxWidth: 500, maxHeight: 150)
+        Spacer()
+      }
         .padding(EdgeInsets(top: 16, leading: 32, bottom: 0, trailing: 32))
       
       Spacer()
