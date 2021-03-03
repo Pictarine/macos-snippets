@@ -33,9 +33,7 @@ struct SnipApp: App {
         .onAppear {
           SyncManager.shared.initialize()
         }
-        .onOpenURL { url in
-          DeepLinkManager.handleDeepLink(url: url)
-        }
+        .handlesExternalEvents(preferring: ["snip"], allowing: ["snip"])
     }
     
   }

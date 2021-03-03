@@ -7,10 +7,9 @@
 //
 
 import SwiftUI
+import Combine
 
 struct WelcomeView: View {
-  
-  @EnvironmentObject var settings: Settings
   
   @Environment(\.themeSecondaryColor) var themeSecondaryColor
   @Environment(\.themePrimaryColor) var themePrimaryColor
@@ -50,10 +49,12 @@ struct WelcomeView: View {
         .font(.subheadline)
         .foregroundColor(themeTextColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
-      CodeView(code: .constant(NSLocalizedString("Need_You_Desc", comment: "")),
-               mode: .constant(CodeMode.text.mode()),
-               isReadOnly: true)
-        .frame(maxWidth: .infinity)
+      
+      if let codeViewerModel = viewModel.codeViewerModel {
+        CodeView(viewModel: codeViewerModel)
+          .frame(maxWidth: .infinity)
+      }
+      
       Spacer()
       HStack {
         Spacer()
@@ -97,8 +98,17 @@ final class WelcomeViewModel: ObservableObject {
   
   @Binding var isVisible: Bool
   
+  var codeViewerModel: CodeViewerModel?
+  
   init(isVisible: Binding<Bool>) {
     self._isVisible = isVisible
+    
+    let snipItem = SnipItem.file(name: "Welcome")
+    snipItem.snippet = NSLocalizedString("Need_You_Desc", comment: "")
+    snipItem.mode = CodeMode.text.mode()
+
+    codeViewerModel = CodeViewerModel(snipItem: Just(snipItem).eraseToAnyPublisher(),
+                                      isReadOnly: true)
   }
   
   func close() {

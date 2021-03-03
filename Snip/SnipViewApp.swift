@@ -64,8 +64,8 @@ struct SnipViewApp: View {
           .frame(width: 800, height: 600)
       case .external:
         ExternalSnippet(viewModel: ExternalSnippetViewModel(isVisible: $viewModel.snippetManager.hasExternalSnippetQueued,
-                                                            onTrigger: viewModel.trigger(action:)),
-                        externalSnipItem: $viewModel.snippetManager.tempSnipItem)
+                                                            snipItem: $viewModel.snippetManager.tempSnipItem,
+                                                            onTrigger: viewModel.trigger(action:)))
           .frame(width: 800, height: 600)
       }
     }
@@ -83,6 +83,9 @@ struct SnipViewApp: View {
           }
         }
       }
+    }
+    .onOpenURL { url in
+      DeepLinkManager.handleDeepLink(url: url)
     }
   }
 }

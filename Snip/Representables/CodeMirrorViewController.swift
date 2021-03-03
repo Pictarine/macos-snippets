@@ -132,17 +132,17 @@ extension CodeMirrorViewController: WKScriptMessageHandler {
   
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     print("didFinish")
-    parent.onLoadSuccess?()
+    parent.viewModel.onLoadSuccess?()
   }
   
   func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
     print("didFail \(error.localizedDescription)")
-    parent.onLoadFail?(error)
+    parent.viewModel.onLoadFail?(error)
   }
   
   func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
     print("didFailProvisionalNavigation")
-    parent.onLoadFail?(error)
+    parent.viewModel.onLoadFail?(error)
   }
 }
 
@@ -161,11 +161,9 @@ extension CodeMirrorViewController: WKNavigationDelegate {
     if message.name == CodeMirrorViewConstants.codeMirrorTextContentDidChange {
       let content = (message.body as? String) ?? ""
       
-      if content != parent.code {
-        
-        print("Code changes ! \(content)")
-        parent.onContentChange?(content)
-        parent.code = content
+      if content != parent.viewModel.code {
+        print("Code changes !")
+        parent.viewModel.onContentChange?(content)
       }
       return
     }

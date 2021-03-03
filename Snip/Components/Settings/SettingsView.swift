@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SettingsView: View {
   
@@ -20,7 +21,6 @@ struct SettingsView: View {
   
   @State private var selectedTheme = 0
   @State private var selectedAppTheme = 0
-  @State private var codeBlock = try! String(contentsOf: Bundle.main.url(forResource: "Demo", withExtension: "txt")!)
   
   var body: some View {
     VStack(alignment: .leading) {
@@ -128,13 +128,12 @@ struct SettingsView: View {
       
       HStack {
         Spacer()
-        CodeView(theme: settings.codeViewTheme,
-                 code: $codeBlock,
-                 mode: .constant(CodeMode.swift.mode()),
-                 fontSize: settings.codeViewTextSize,
-                 showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
-                 isReadOnly: true)
-          .frame(maxWidth: 500, maxHeight: 150)
+        
+        if let codeViewerModel = viewModel.codeViewerModel {
+          CodeView(viewModel: codeViewerModel)
+            .frame(maxWidth: 500, maxHeight: 150)
+        }
+        
         Spacer()
       }
         .padding(EdgeInsets(top: 16, leading: 32, bottom: 0, trailing: 32))
@@ -178,8 +177,17 @@ final class SettingsViewModel: ObservableObject {
   
   @Binding var isVisible: Bool
   
+  var codeViewerModel: CodeViewerModel?
+  
   init(isVisible: Binding<Bool>) {
     self._isVisible = isVisible
+    
+    let snipItem = SnipItem.file(name: "Test")
+    snipItem.snippet = try! String(contentsOf: Bundle.main.url(forResource: "Demo", withExtension: "txt")!)
+    snipItem.mode = CodeMode.swift.mode()
+
+    codeViewerModel = CodeViewerModel(snipItem: Just(snipItem).eraseToAnyPublisher(),
+                                      isReadOnly: true)
   }
   
 }

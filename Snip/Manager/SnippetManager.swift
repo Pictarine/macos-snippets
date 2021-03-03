@@ -18,11 +18,11 @@ class SnippetManager: ObservableObject {
   @Published var hasExternalSnippetQueued = false {
     didSet {
       if !hasExternalSnippetQueued {
-        tempSnipItem = ExternalSnipItem.blank()
+        tempSnipItem = SnipItem.file(name: "")
       }
     }
   }
-  @Published var tempSnipItem = ExternalSnipItem.blank()
+  @Published var tempSnipItem: SnipItem = SnipItem.file(name: "")
   
   public var snipets: AnyPublisher<[SnipItem], Never>
   fileprivate let snippetActionSubject: PassthroughSubject<SnipItemsListAction, Never> = .init()
@@ -53,12 +53,13 @@ extension SnippetManager {
   }
   
   public func addSnippet(code: String, title: String, tags: [String], source: String) {
+    tempSnipItem = SnipItem.file(name: title)
+    tempSnipItem.snippet = code
+    tempSnipItem.tags = tags
+    tempSnipItem.mode = CodeMode.text.mode()
+    tempSnipItem.remoteURL = source
     
-    tempSnipItem = ExternalSnipItem(name: title, snippet: code, tags: tags, mode: CodeMode.text.mode(), source: source)
-    
-    withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-      hasExternalSnippetQueued = true
-    }
+    hasExternalSnippetQueued = true
   }
 }
 

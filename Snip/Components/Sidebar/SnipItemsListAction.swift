@@ -38,22 +38,16 @@ struct SnipItemsListAction {
     }
   }
   
-  static func addExternalSnippet(externalSnipItem: ExternalSnipItem) -> SnipItemsListAction {
+  static func addExternalSnippet(externalSnipItem: SnipItem) -> SnipItemsListAction {
 
     return .init { current in
       let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
         return snipItem.kind == .folder && snipItem.name == "StackOverflow"
       }
       
-      let snip = SnipItem.file(name: externalSnipItem.name)
-      snip.snippet = externalSnipItem.snippet
-      snip.tags = externalSnipItem.tags
-      snip.remoteURL = externalSnipItem.source
-      snip.mode = externalSnipItem.mode
-      
       if let snipItem = snipItem {
         
-        snipItem.content.append(snip)
+        snipItem.content.append(externalSnipItem)
       }
       else {
         current.append(SnipItem.folder(name: "StackOverflow"))
@@ -62,7 +56,7 @@ struct SnipItemsListAction {
           return snipItem.kind == .folder && snipItem.name == "StackOverflow"
         }
         
-        snipItem?.content.append(snip)
+        snipItem?.content.append(externalSnipItem)
       }
       
     }

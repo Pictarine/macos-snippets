@@ -7,10 +7,9 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ExternalSnippet: View {
-  
-  @EnvironmentObject var settings: Settings
   
   @Environment(\.themePrimaryColor) var themePrimaryColor
   @Environment(\.themeSecondaryColor) var themeSecondaryColor
@@ -19,12 +18,10 @@ struct ExternalSnippet: View {
   
   @ObservedObject var viewModel: ExternalSnippetViewModel
   
-  @Binding var externalSnipItem: ExternalSnipItem
-  
   var body: some View {
     VStack(alignment: .leading) {
       VStack {
-        TextField(NSLocalizedString("Placeholder_Snip", comment: ""), text: $externalSnipItem.name)
+        TextField(NSLocalizedString("Placeholder_Snip", comment: ""), text: $viewModel.externalSnipItem.name)
           .font(Font.custom("HelveticaNeue", size: 20))
           .foregroundColor(themeTextColor)
           .frame(maxWidth: .infinity)
@@ -39,12 +36,12 @@ struct ExternalSnippet: View {
       Picker(selection: Binding<Int>(
               get: {
                 let index = viewModel.modesList.firstIndex(where: { (mode) -> Bool in
-                  mode == externalSnipItem.mode
+                  mode == viewModel.externalSnipItem.mode
                 }) ?? -1
                 return index
               },
               set: {
-                self.externalSnipItem.mode = viewModel.modesList[$0]
+                self.viewModel.externalSnipItem.mode = viewModel.modesList[$0]
               }),
              label: EmptyView()) {
         ForEach(0 ..< self.viewModel.modesList.count, id: \.self) {
@@ -57,18 +54,11 @@ struct ExternalSnippet: View {
              alignment: .leading)
       .pickerStyle(DefaultPickerStyle())
       
-      CodeView(theme: settings.codeViewTheme,
-               code: .constant(externalSnipItem.snippet),
-               mode: .constant(externalSnipItem.mode),
-               fontSize: settings.codeViewTextSize,
-               showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
-               lineWrapping: settings.codeViewLineWrapping,
-               onContentChange: { newCode in
-                externalSnipItem.snippet = newCode
-               })
-        .frame(maxWidth: .infinity,
-               maxHeight: .infinity)
-      
+      if let codeViewerModel = viewModel.codeViewerModel {
+        CodeView(viewModel: codeViewerModel)
+          .frame(maxWidth: .infinity,
+                 maxHeight: .infinity)
+      }
       HStack {
         Spacer()
         Button(action: {
@@ -94,7 +84,7 @@ struct ExternalSnippet: View {
         
         Button(action: {
           withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-            viewModel.onTrigger(.addExternalSnippet(externalSnipItem: externalSnipItem))
+            viewModel.onTrigger(.addExternalSnippet(externalSnipItem: viewModel.externalSnipItem))
             viewModel.close()
           }
         }) {
@@ -124,15 +114,29 @@ struct ExternalSnippet: View {
 final class ExternalSnippetViewModel: ObservableObject {
   
   @Binding var isVisible: Bool
+  @Binding var externalSnipItem: SnipItem
   
   var onTrigger: (SnipItemsListAction) -> Void
+  
+  var codeViewerModel: CodeViewerModel?
   
   let modesList = CodeMode.list()
   
   init(isVisible: Binding<Bool>,
+       snipItem: Binding<SnipItem>,
        onTrigger: @escaping (SnipItemsListAction) -> Void) {
     self._isVisible = isVisible
+    self._externalSnipItem = snipItem
     self.onTrigger = onTrigger
+    
+    let snipItem = SnipItem.file(name: "Welcome")
+    snipItem.snippet = NSLocalizedString("Need_You_Desc", comment: "")
+    snipItem.mode = CodeMode.text.mode()
+
+    codeViewerModel = CodeViewerModel(snipItem: Just(externalSnipItem).eraseToAnyPublisher(),
+                                      onContentChange: { newCode in
+                                        self.externalSnipItem.snippet = newCode
+                                      })
   }
   
   func close() {

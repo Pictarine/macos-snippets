@@ -10,20 +10,6 @@ import Foundation
 import Combine
 
 
-struct ExternalSnipItem {
-  
-  var name: String
-  var snippet: String
-  var tags: [String]
-  var mode: Mode
-  var source: String
-  
-  static func blank() -> ExternalSnipItem {
-    .init(name: "", snippet: "", tags: [], mode: CodeMode.text.mode(), source: "")
-  }
-}
-
-
 class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   
   enum CodingKeys: CodingKey {

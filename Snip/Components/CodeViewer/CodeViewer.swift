@@ -20,7 +20,7 @@ struct CodeViewer: View {
   
   var body: some View {
     Group {
-      if let snipItem = viewModel.snipItem {
+      if let _ = viewModel.snipItem {
         VStack(alignment: .leading) {
           
           if let codeActionsViewModel = viewModel.codeActionsViewModel {
@@ -33,17 +33,11 @@ struct CodeViewer: View {
           
           GeometryReader { reader in
             HStack {
-              CodeView(theme: settings.codeViewTheme,
-                       code: .constant(snipItem.snippet),
-                       mode: .constant(snipItem.mode),
-                       fontSize: settings.codeViewTextSize,
-                       showInvisibleCharacters: settings.codeViewShowInvisibleCharacters,
-                       lineWrapping: settings.codeViewLineWrapping,
-                       onContentChange: { newCode in
-                        viewModel.saveNewCodeSnippet(newCode)
-                       })
-                .frame(width: viewModel.shouldShowPreview ? reader.size.width / 2 : reader.size.width, height: reader.size.height)
               
+              if let codeViewerModel = viewModel.codeViewerModel {
+                CodeView(viewModel: codeViewerModel)
+                  .frame(width: viewModel.shouldShowPreview ? reader.size.width / 2 : reader.size.width, height: reader.size.height)
+              }
               
               if viewModel.shouldShowPreview,
                  let markdownHTMLViewerModel = viewModel.markdownHTMLViewerModel {
@@ -123,6 +117,7 @@ final class CodeViewerViewModel: ObservableObject {
   var codeDetailsViewModel: CodeDetailsViewModel?
   var codeActionsViewModel: CodeActionsViewModel?
   var markdownHTMLViewerModel: MarkdownHTMLViewerModel?
+  var codeViewerModel: CodeViewerModel?
   
   var cancellable: AnyCancellable?
   
@@ -172,6 +167,11 @@ final class CodeViewerViewModel: ObservableObject {
                                                   self.onTrigger(.createGist(id: snipItem.id))
                                                 },
                                                 onPreviewToggle: self.togglePreview)
+    
+    codeViewerModel = CodeViewerModel(snipItem: snipItem,
+                                      onContentChange: { newCode in
+                                        self.saveNewCodeSnippet(newCode)
+                                      })
     
     codeDetailsViewModel = CodeDetailsViewModel(snipItem: snipItem)
     markdownHTMLViewerModel = MarkdownHTMLViewerModel(snipItem: snipItem)
