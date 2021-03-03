@@ -17,7 +17,7 @@
 "Last_Update" = "Last update";
 
 // EmptyState
-"Create_first_snippet" = "Create your first Snipppet";
+"Create_first_snippet" = "Hints";
 "Hint_1" = "Cmd+F to search words and regex";
 "Hint_2" = "Cmd+Z/Cmd+Y to undo/redo";
 
@@ -41,6 +41,7 @@
 "Favorites" = "Favorites";
 "Local" = "Local";
 "External" = "External";
+"Tags" = "Tags";
 
 // Placeholders
 "Placeholder_Folder" = "Folder name";

@@ -19,22 +19,75 @@ struct Sidebar: View {
   @ObservedObject var viewModel: SideBarViewModel
   
   @State private var showingLogoutAlert = false
+  @State var expand = false
   
   var body: some View {
     VStack(alignment: .leading) {
       
-      addElementView
-      
-      List() {
+      ZStack {
+        VStack(alignment: .leading) {
+          
+          logo
+          
+          List() {
+            
+            tags
+            
+            favorites
+            
+            local
+            
+            //tags
+          }
+          .listStyle(SidebarListStyle())
+          .padding(.top, 16)
+        }
         
-        favorites
-        
-        local
-        
-        //tags
+        VStack {
+          HStack {
+            Spacer()
+            
+            VStack(alignment: .trailing) {
+              Button(action: { self.expand.toggle() }) {
+                Text("+")
+                  .foregroundColor(.text)
+                  .font(.system(size: 22))
+              }
+              .buttonStyle(PlainButtonStyle())
+              .padding(.horizontal, 16)
+              .frame(maxWidth: 50, alignment: .center)
+              .background(Color.transparent)
+              if expand {
+                VStack() {
+                  Button(action: {
+                    self.viewModel.onTrigger(.addSnippet(id: nil))
+                  }) {
+                    Text(NSLocalizedString("New_Snippet", comment: ""))
+                      .font(.system(size: 14))
+                      .foregroundColor(Color.text)
+                  }
+                  .buttonStyle(PlainButtonStyle())
+                  .padding(.top, 8)
+                  Divider()
+                  Button(action: {
+                    self.viewModel.onTrigger(.addFolder())
+                  }) {
+                    Text(NSLocalizedString("New_Folder", comment: ""))
+                      .font(.system(size: 14))
+                      .foregroundColor(Color.text)
+                  }
+                  .buttonStyle(PlainButtonStyle())
+                  .padding(.bottom, 8)
+                }
+                .background(Color.BLACK_500.opacity(0.8))
+                .frame(width: 100)
+                .cornerRadius(6)
+              }
+            }
+          }
+          Spacer()
+        }
       }
-      .listStyle(SidebarListStyle())
-      .padding(.top, 16)
       
       HStack {
         ImageButton(imageName: "ic_settings", action: {
@@ -95,48 +148,13 @@ struct Sidebar: View {
     .environment(\.defaultMinListRowHeight, 36)
   }
   
-  var addElementView: some View {
-    ZStack {
-      
-      // Logo
-      HStack{
-        Spacer()
-        Image("snip")
-          .resizable()
-          .frame(width: 16, height: 16, alignment: .center)
-        Spacer()
-      }
-      
-      // Action
-      HStack {
-        Spacer()
-        
-        MenuButton(label:
-                    Text("+")
-                    .foregroundColor(.text)
-                    .font(.system(size: 22))
-        ) {
-          Button(action: {
-            self.viewModel.onTrigger(.addSnippet(id: nil))
-          }) {
-            Text(NSLocalizedString("New_Snippet", comment: ""))
-              .font(.system(size: 14))
-              .foregroundColor(Color.text)
-          }
-          Button(action: {
-            self.viewModel.onTrigger(.addFolder())
-          }) {
-            Text(NSLocalizedString("New_Folder", comment: ""))
-              .font(.system(size: 14))
-              .foregroundColor(Color.text)
-          }
-        }
-        .menuButtonStyle(BorderlessButtonMenuButtonStyle())
-        .foregroundColor(.text)
-        .padding(.horizontal, 16)
-        .frame(maxWidth: 50, alignment: .center)
-        .background(Color.transparent)
-      }
+  var logo: some View {
+    HStack{
+      Spacer()
+      Image("snip")
+        .resizable()
+        .frame(width: 16, height: 16, alignment: .center)
+      Spacer()
     }
   }
   
@@ -174,19 +192,22 @@ struct Sidebar: View {
     }
   }
   
-  /*@ViewBuilder
-   var tags: some View {
-   Text("Tags")
-   .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-   .foregroundColor(Color.white.opacity(0.6))
-   .padding(.bottom, 3)
-   .padding(.top, 16)
-   
-   
-   SnipItemsList(viewModel: SnipItemsListModel(snips: viewModel.snippets,
-   applyFilter: .tag(tagTitle: "modal"),
-   onTrigger: viewModel.trigger(action:)))
-   }*/
+  @ViewBuilder
+  var tags: some View {
+    Section(header:
+              Text(NSLocalizedString("Tags", comment: ""))
+              .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+              .foregroundColor(themeTextColor.opacity(0.6))
+              .padding(.bottom, 8)
+              .padding(.top, 16)
+    ) {
+      
+      ForEach(viewModel.snippetsPerTag.keys.sorted(), id: \.self) { key in
+        SidebarTagView(viewModel: SidebarTagViewModel(tag: key))
+      }
+      
+    }
+  }
   
 }
 
@@ -194,6 +215,7 @@ struct Sidebar: View {
 final class SideBarViewModel: ObservableObject {
   
   @Published var snippets: [SnipItem] = []
+  @Published var snippetsPerTag: [String: [SnipItem]] = [:]
   
   var onTrigger: (SnipItemsListAction) -> Void
   
@@ -212,6 +234,10 @@ final class SideBarViewModel: ObservableObject {
       .sink { [weak self] (snippets) in
         guard let this = self else { return }
         this.snippets = snippets
+        this.snippetsPerTag = [:]
+        snippets.flatternSnippets.flatMap{ $0.tags }.forEach { (tag) in
+          this.snippetsPerTag[tag] = []
+        }
       }
     
     favoritesSnippetsViewModel = SnipItemsListModel(snips: $snippets.eraseToAnyPublisher(),

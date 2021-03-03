@@ -69,6 +69,7 @@ final class SnipItemsListModel: ObservableObject {
           
           this.models.append(model)
         }
+        this.models = this.models.sorted(by: { $0.snipItem.kind.rawValue < $1.snipItem.kind.rawValue })
         
       }
   }
