@@ -42,6 +42,7 @@
 "Local" = "Local";
 "External" = "External";
 "Tags" = "Tags";
+"Gist" = "Synced from Gist";
 
 // Placeholders
 "Placeholder_Folder" = "Folder name";

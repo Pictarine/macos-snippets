@@ -33,11 +33,17 @@ struct Sidebar: View {
             
             tags
             
+            Divider()
+            
             favorites
+            
+            Divider()
             
             local
             
-            //tags
+            Divider()
+            
+            gists
           }
           .listStyle(SidebarListStyle())
           .padding(.top, 16)
@@ -173,9 +179,19 @@ struct Sidebar: View {
   
   var favorites: some View {
     Section(header:
-              Text(NSLocalizedString("Favorites", comment: ""))
-              .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-              .foregroundColor(themeTextColor.opacity(0.6))
+              HStack {
+                Image(systemName: "star.fill")
+                  .resizable()
+                  .scaledToFit()
+                  .frame(width: 15, height: 15, alignment: .center)
+                VStack {
+                  Spacer()
+                  Text(NSLocalizedString("Favorites", comment: ""))
+                    .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+                    .foregroundColor(themeTextColor.opacity(0.6))
+                  Spacer()
+                }
+              }
               .padding(.bottom, 8)
               .padding(.top, 16)
     ) {
@@ -189,9 +205,19 @@ struct Sidebar: View {
   
   var local: some View {
     Section(header:
-              Text(NSLocalizedString("Local", comment: ""))
-              .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-              .foregroundColor(themeTextColor.opacity(0.6))
+              HStack {
+                Image(systemName: "macmini.fill")
+                  .resizable()
+                  .scaledToFit()
+                  .frame(width: 15, height: 15, alignment: .center)
+                VStack {
+                  Spacer()
+                  Text(NSLocalizedString("Local", comment: ""))
+                    .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+                    .foregroundColor(themeTextColor.opacity(0.6))
+                  Spacer()
+                }
+              }
               .padding(.bottom, 8)
               .padding(.top, 16)
     ) {
@@ -203,11 +229,47 @@ struct Sidebar: View {
     }
   }
   
+  var gists: some View {
+    Section(header:
+              HStack {
+                Image("ic_github")
+                  .resizable()
+                  .scaledToFit()
+                  .frame(width: 15, height: 15, alignment: .center)
+                VStack {
+                  Spacer()
+                  Text(NSLocalizedString("Gist", comment: ""))
+                    .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+                    .foregroundColor(themeTextColor.opacity(0.6))
+                  Spacer()
+                }
+              }
+              .padding(.bottom, 8)
+              .padding(.top, 16)
+    ) {
+      
+      if let gistSnippetsViewModel = viewModel.gistSnippetsViewModel {
+        SnipItemsList(viewModel: gistSnippetsViewModel)
+      }
+      
+    }
+  }
+  
   var tags: some View {
     Section(header:
-              Text(NSLocalizedString("Tags", comment: ""))
-              .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
-              .foregroundColor(themeTextColor.opacity(0.6))
+              HStack {
+                Image(systemName: "tag.fill")
+                  .resizable()
+                  .scaledToFit()
+                  .frame(width: 15, height: 15, alignment: .center)
+                VStack {
+                  Spacer()
+                  Text(NSLocalizedString("Tags", comment: ""))
+                    .font(Font.custom("AppleSDGothicNeo-SemiBold", size: 13.0))
+                    .foregroundColor(themeTextColor.opacity(0.6))
+                  Spacer()
+                }
+              }
               .padding(.bottom, 8)
               .padding(.top, 16)
     ) {
@@ -240,6 +302,7 @@ final class SideBarViewModel: ObservableObject {
   var onTrigger: (SnipItemsListAction) -> Void
   
   var favoritesSnippetsViewModel: SnipItemsListModel?
+  var gistSnippetsViewModel: SnipItemsListModel?
   var allSnippetsViewModel: SnipItemsListModel?
   
   var cancellable: AnyCancellable?
@@ -272,6 +335,11 @@ final class SideBarViewModel: ObservableObject {
                                               applyFilter: .all,
                                               onTrigger: onTrigger,
                                               onSnippetSelection: onSnippetSelection)
+    
+    gistSnippetsViewModel = SnipItemsListModel(snips: $snippets.eraseToAnyPublisher(),
+                                               applyFilter: .gist,
+                                               onTrigger: onTrigger,
+                                               onSnippetSelection: onSnippetSelection)
   }
   
   deinit {

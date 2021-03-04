@@ -151,6 +151,7 @@ struct SnipItemsListAction {
           .sink(receiveCompletion: { (completion) in
             if case let .failure(error) = completion {
               print(error)
+              snip.syncState = .local
             }
           }, receiveValue: { (gist) in
             snip.gistId = gist.id
@@ -215,6 +216,7 @@ struct SnipItemsListAction {
               .sink(receiveCompletion: { (completion) in
                 if case let .failure(error) = completion {
                   print(error)
+                  snip.syncState = .local
                 }
               }, receiveValue: { (gist) in
                 snip.gistId = gist.id

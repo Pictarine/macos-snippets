@@ -39,6 +39,7 @@ class SyncManager: ObservableObject {
       
       DispatchQueue.global().async { [weak self] in
         self?.requestUser()
+        self?.getAllGists()
       }
     }
   }
@@ -95,6 +96,19 @@ class SyncManager: ObservableObject {
       .store(in: &stores)
   }
   
+  func getAllGists() {
+    pullGists()
+      .receive(on: DispatchQueue.main)
+      .sink(receiveCompletion: { (completion) in
+        if case let .failure(error) = completion {
+          print(error)
+        }
+      }, receiveValue: { [weak self] (gists) in
+        print(gists)
+      })
+      .store(in: &stores)
+  }
+  
   func requestToken(code: String, state: String) -> AnyPublisher<Oauth, Error> {
     print(code)
     let bodyParams = [
@@ -129,7 +143,16 @@ class SyncManager: ObservableObject {
       "public": "\(false)"
       ] as [String : Any]
     
-    return API.run(Endpoint.createGist, HttpMethod.post, [:], bodyParams, headerParams, oauth)
+    return API.run(Endpoint.gists, HttpMethod.post, [:], bodyParams, headerParams, oauth)
+  }
+  
+  func pullGists() -> AnyPublisher<[Gist], Error> {
+    
+    let headerParams = [
+      "Accept": "application/vnd.github.v3+json"
+    ]
+    
+    return API.run(Endpoint.gists, HttpMethod.get, [:], [:], headerParams, oauth)
   }
   
   func updateGist(id: String, title: String, code: String) -> AnyPublisher<Gist, Error> {

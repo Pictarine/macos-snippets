@@ -84,6 +84,8 @@ final class SnipItemsListModel: ObservableObject {
       return snipItems
     case .favorites:
       return snipItems.allFavorites
+    case .gist:
+      return snipItems.allGist
     case .tag(let tagTitle):
       return snipItems.perTag(tag: tagTitle)
     }

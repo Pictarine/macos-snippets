@@ -20,15 +20,21 @@ class API {
   
   let session = URLSession.shared
   
-  static func run<T: Decodable>(_ endpoint: Endpoint, _ httpMethod: HttpMethod, _ params: [String: Any], _ jsonBody: [String: Any], _ headeraParam: [String: String], _ oauth: Oauth?, _ decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<T, Error> {
+  static func run<T: Decodable>(_ endpoint: Endpoint,
+                                _ httpMethod: HttpMethod,
+                                _ params: [String: Any],
+                                _ jsonBody: [String: Any],
+                                _ headerParam: [String: String],
+                                _ oauth: Oauth?,
+                                _ decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<T, Error> {
     
     var request = URLRequest(url: URL(string: "\(endpoint.path())?\(String(data: params.percentEncoded()!, encoding: .utf8) ?? "")")!)
     request.httpMethod = httpMethod.rawValue
     request.setValue("application/json", forHTTPHeaderField:"Accept")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     
-    if headeraParam.count > 0 {
-      for (key, value) in headeraParam {
+    if headerParam.count > 0 {
+      for (key, value) in headerParam {
         request.setValue(value, forHTTPHeaderField: key)
       }
     }

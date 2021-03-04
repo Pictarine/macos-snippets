@@ -13,7 +13,7 @@ public enum Endpoint {
   
   case token
   case user
-  case createGist
+  case gists
   case getGist(id: String)
   case updateGist(id: String)
   
@@ -23,7 +23,7 @@ public enum Endpoint {
       return "https://snip.picta-hub.io/github-token"
     case .user:
       return "https://api.github.com/user"
-    case .createGist:
+    case .gists:
       return "https://api.github.com/gists"
     case .getGist(let id), .updateGist(let id):
       return "https://api.github.com/gists/\(id)"

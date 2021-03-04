@@ -11,8 +11,8 @@ import Foundation
 
 extension Array where Element == SnipItem {
   
-  var allExternal: [Element] {
-    return self.flatternSnippets.filter( { $0.remoteURL != nil })
+  var allGist: [Element] {
+    return self.flatternSnippets.filter( { $0.gistId != nil })
   }
   
   var allFavorites: [Element] {

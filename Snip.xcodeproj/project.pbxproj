@@ -64,6 +64,7 @@
 		79C612B12506278D008672BA /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C612B02506278D008672BA /* DeepLinkManager.swift */; };
 		79C612B62506A020008672BA /* ExternalSnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C612B52506A020008672BA /* ExternalSnippet.swift */; };
 		79C612B92506B27F008672BA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C612B82506B27F008672BA /* SettingsView.swift */; };
+		79CC92A025F116DE005FBFF6 /* SnipListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CC929F25F116DE005FBFF6 /* SnipListFilter.swift */; };
 		79DBD4CA24D1CBE500568364 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBD4C924D1CBE500568364 /* CodeView.swift */; };
 		79E82BA2257E37C0005B2CBD /* CodeMirrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6F64B24D20B8C0037C5FF /* CodeMirrorViewController.swift */; };
 		79E82BA6257E63BE005B2CBD /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E82BA5257E63BE005B2CBD /* ActivityIndicator.swift */; };
@@ -145,6 +146,7 @@
 		79C612B02506278D008672BA /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		79C612B52506A020008672BA /* ExternalSnippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSnippet.swift; sourceTree = "<group>"; };
 		79C612B82506B27F008672BA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		79CC929F25F116DE005FBFF6 /* SnipListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipListFilter.swift; sourceTree = "<group>"; };
 		79DBD4C924D1CBE500568364 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		79E82BA5257E63BE005B2CBD /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		79EC4826252CA90E00E45AC3 /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				796B092824D1B563006904C4 /* Settings.swift */,
 				791AC9CA24DC450D00CAB87C /* Preview.swift */,
 				791B8D7524E28EF800851E2A /* AppState.swift */,
+				79CC929F25F116DE005FBFF6 /* SnipListFilter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 				794D27DB24F6A19C006E3B3D /* Data.swift in Sources */,
 				795D51F5252C51D600613D0F /* ToggleItem.swift in Sources */,
 				79956A5024E5BC2300B823E1 /* URL.swift in Sources */,
+				79CC92A025F116DE005FBFF6 /* SnipListFilter.swift in Sources */,
 				79284D6B2507CCDC00210E61 /* WelcomeView.swift in Sources */,
 				791AC9C124DAB60900CAB87C /* SnippetManager.swift in Sources */,
 				79A6F65124D2B0930037C5FF /* CodeDetailsBottomBar.swift in Sources */,
