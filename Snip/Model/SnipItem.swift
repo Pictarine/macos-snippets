@@ -13,7 +13,7 @@ import Combine
 class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   
   enum CodingKeys: CodingKey {
-      case snippet, mode, tags, name, isFavorite, content, id, kind, creationDate, lastUpdateDate, syncState, gistId, gistURL, remoteURL
+      case snippet, mode, tags, name, isFavorite, content, id, kind, creationDate, lastUpdateDate, syncState, gistId, gistURL, remoteURL, gistNodeId
   }
   
   enum Kind: Int, Codable, Equatable {
@@ -36,6 +36,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
   @Published var syncState: SyncState?
   @Published var gistId: String?
   @Published var gistURL: String?
+  @Published var gistNodeId: String?
   
   var id: String
   var kind: Kind
@@ -57,7 +58,8 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     syncState: SyncState?,
     gistId: String?,
     gistURL: String?,
-    remoteURL: String?
+    remoteURL: String?,
+    gistNodeId: String?
   ) {
     self.id = id.uuidString
     self.name = name
@@ -73,6 +75,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     self.gistId = gistId
     self.gistURL = gistURL
     self.remoteURL = remoteURL
+    self.gistNodeId = gistNodeId
   }
   
   static func folder(name: String) -> SnipItem {
@@ -90,7 +93,8 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       syncState: .local,
       gistId: nil,
       gistURL: nil,
-      remoteURL: nil
+      remoteURL: nil,
+      gistNodeId: nil
     )
   }
   
@@ -109,7 +113,8 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       syncState: .local,
       gistId: nil,
       gistURL: nil,
-      remoteURL: nil
+      remoteURL: nil,
+      gistNodeId: nil
     )
   }
 
@@ -133,6 +138,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     }
     
     gistId = try? container.decode(String.self, forKey: .gistId)
+    gistNodeId = try? container.decode(String.self, forKey: .gistNodeId)
     gistURL = try? container.decode(String.self, forKey: .gistURL)
     remoteURL = try? container.decode(String.self, forKey: .remoteURL)
   }
@@ -154,6 +160,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     try container.encode(gistId, forKey: .gistId)
     try container.encode(gistURL, forKey: .gistURL)
     try container.encode(remoteURL, forKey: .remoteURL)
+    try container.encode(gistNodeId, forKey: .gistNodeId)
   }
   
   static func == (lhs: SnipItem, rhs: SnipItem) -> Bool {
@@ -169,6 +176,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
       && lhs.gistId == rhs.gistId
       && lhs.gistURL == rhs.gistURL
       && lhs.remoteURL == rhs.remoteURL
+      && lhs.gistNodeId == rhs.gistNodeId
   }
   
   func hash(into hasher: inout Hasher) {

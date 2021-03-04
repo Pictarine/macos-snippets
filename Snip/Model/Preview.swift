@@ -23,7 +23,8 @@ struct Preview {
                                         syncState: .local,
                                         gistId: nil,
                                         gistURL: nil,
-                                        remoteURL: nil)
+                                        remoteURL: nil,
+                                        gistNodeId: nil)
   
   static let snipItems = [
       SnipItem(id: UUID(),
@@ -39,7 +40,8 @@ struct Preview {
                syncState: .local,
                gistId: nil,
                gistURL: nil,
-               remoteURL: nil),
+               remoteURL: nil,
+               gistNodeId: nil),
       SnipItem(id: UUID(),
                name: "IM",
                kind: .folder,
@@ -61,7 +63,8 @@ struct Preview {
                                    syncState: .local,
                                    gistId: nil,
                                    gistURL: nil,
-                                   remoteURL: nil),
+                                   remoteURL: nil,
+                                   gistNodeId: nil),
                           SnipItem(id: UUID(),
                                    name: "File #1",
                                    kind: .file,
@@ -75,7 +78,8 @@ struct Preview {
                                    syncState: .local,
                                    gistId: nil,
                                    gistURL: nil,
-                                   remoteURL: nil)
+                                   remoteURL: nil,
+                                   gistNodeId: nil)
                   ],
                          snippet: "",
                          mode: CodeMode.text.mode(),
@@ -86,7 +90,8 @@ struct Preview {
                          syncState: .local,
                          gistId: nil,
                          gistURL: nil,
-                         remoteURL: nil)
+                         remoteURL: nil,
+                         gistNodeId: nil)
         ],
                snippet: "",
                mode: CodeMode.text.mode(),
@@ -97,7 +102,8 @@ struct Preview {
                syncState: .local,
                gistId: nil,
                gistURL: nil,
-               remoteURL: nil),
+               remoteURL: nil,
+               gistNodeId: nil),
       SnipItem(id: UUID(),
                name: "BATMAN",
                kind: .file,
@@ -111,7 +117,8 @@ struct Preview {
                syncState: .local,
                gistId: nil,
                gistURL: nil,
-               remoteURL: nil)
+               remoteURL: nil,
+               gistNodeId: nil)
     ]
   
 }

@@ -115,7 +115,9 @@ class SyncManager: ObservableObject {
             
             var snips: [SnipItem] = []
             syncedGist.files.forEach { (_, file) in
-              snips.append(file.toSnipItem())
+              let snipItem = file.toSnipItem()
+              snipItem.gistNodeId = syncedGist.nodeId
+              snips.append(snipItem)
             }
           })
           .store(in: &this.stores)
