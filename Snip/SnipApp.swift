@@ -30,9 +30,6 @@ struct SnipApp: App {
                minHeight: 500,
                idealHeight: 600,
                maxHeight: .infinity)
-        .onAppear {
-          SyncManager.shared.initialize()
-        }
         .handlesExternalEvents(preferring: ["snip"], allowing: ["snip"])
     }
     

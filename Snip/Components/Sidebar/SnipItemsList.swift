@@ -81,7 +81,7 @@ final class SnipItemsListModel: ObservableObject {
   func filterSnippets(snipItems: [SnipItem], filter: ModelFilter) -> [SnipItem] {
     switch filter {
     case .all:
-      return snipItems
+      return snipItems.onlyLocal
     case .favorites:
       return snipItems.allFavorites
     case .gist:

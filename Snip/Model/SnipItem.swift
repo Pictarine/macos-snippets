@@ -129,7 +129,7 @@ class SnipItem: Identifiable, Equatable, Codable, ObservableObject, Hashable {
     syncState = try? container.decode(SyncState.self, forKey: .syncState)
     
     if syncState == .syncing {
-      syncState = .synced
+      syncState = .local
     }
     
     gistId = try? container.decode(String.self, forKey: .gistId)

@@ -182,12 +182,6 @@ struct SnipItemView<Content: View>: View {
             }
           }
           .background(Color.transparent)
-          
-          Spacer()
-          Circle()
-            .fill(viewModel.snipItem.syncState == .local ? Color.clear : Color.green)
-            .frame(width: 8, height: 8)
-            .padding(.trailing, 8)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))

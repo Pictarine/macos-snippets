@@ -34,5 +34,18 @@ extension Array where Element == SnipItem {
     
     return allSnippets
   }
+  
+  var onlyLocal: [Element] {
+    var allSnippets : [Element] = []
+    
+    for snip in self {
+      if snip.syncState != .synced {
+        snip.content = snip.content.onlyLocal
+        allSnippets.append(snip)
+      }
+    }
+    
+    return allSnippets
+  }
 }
 

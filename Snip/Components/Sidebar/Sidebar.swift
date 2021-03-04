@@ -66,6 +66,7 @@ struct Sidebar: View {
               if expand {
                 VStack() {
                   Button(action: {
+                    self.expand.toggle()
                     self.viewModel.onTrigger(.addSnippet(id: nil))
                   }) {
                     Text(NSLocalizedString("New_Snippet", comment: ""))
@@ -83,6 +84,7 @@ struct Sidebar: View {
                   .padding(.top, 8)
                   Divider()
                   Button(action: {
+                    self.expand.toggle()
                     self.viewModel.onTrigger(.addFolder())
                   }) {
                     Text(NSLocalizedString("New_Folder", comment: ""))
@@ -108,6 +110,7 @@ struct Sidebar: View {
           }
           Spacer()
         }
+        .offset(x: 0, y: -8)
       }
       
       HStack {

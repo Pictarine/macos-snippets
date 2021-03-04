@@ -53,6 +53,9 @@ struct SnipViewApp: View {
     .environment(\.themeSecondaryColor, settings.snipAppTheme == .auto ? .secondary : .secondaryTheme)
     .environment(\.themeTextColor, settings.snipAppTheme == .auto ? .text : .white)
     .environment(\.themeShadowColor, settings.snipAppTheme == .auto ? .shadow : .shadowTheme)
+    .onAppear {
+      SyncManager.shared.initialize()
+    }
     .sheet(item: $viewModel.modalView) { content in
       
       switch content {

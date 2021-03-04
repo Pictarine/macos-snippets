@@ -15,6 +15,12 @@ public enum HttpMethod: String {
   case patch = "PATCH"
 }
 
+enum FailureReason : Error {
+  case httpCallFailed(error: URLError)
+  case decodingFailed
+  case other(Error)
+}
+
 
 class API {
   
@@ -26,7 +32,7 @@ class API {
                                 _ jsonBody: [String: Any],
                                 _ headerParam: [String: String],
                                 _ oauth: Oauth?,
-                                _ decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<T, Error> {
+                                _ decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<T, FailureReason> {
     
     var request = URLRequest(url: URL(string: "\(endpoint.path())?\(String(data: params.percentEncoded()!, encoding: .utf8) ?? "")")!)
     request.httpMethod = httpMethod.rawValue
@@ -54,9 +60,15 @@ class API {
         print(String(data: data, encoding: .utf8)!)
       })
       .decode(type: T.self, decoder: decoder)
-      .mapError({ (error) -> Error in
-          print(error)
-          return error
+      .mapError({ error in
+        switch error {
+        case is Swift.DecodingError:
+          return .decodingFailed
+        case let urlError as URLError:
+          return .httpCallFailed(error: urlError)
+        default:
+          return .other(error)
+        }
       })
       .eraseToAnyPublisher()
   }

@@ -19,7 +19,6 @@ enum TagJob {
 struct SnipItemsListAction {
   let handleModification: (inout [SnipItem]) -> Void
   
-  
   static func addSnippet(id: String? = nil) -> SnipItemsListAction {
     return .init { current in
       
@@ -149,17 +148,33 @@ struct SnipItemsListAction {
         SyncManager.shared.createGist(title: snip.name, code: snip.snippet)
           .receive(on: DispatchQueue.main)
           .sink(receiveCompletion: { (completion) in
-            if case let .failure(error) = completion {
-              print(error)
-              snip.syncState = .local
-            }
+            snip.syncState = .local
+            
+            SnippetManager.shared.trigger(action: updateExistingItem(newestItem: snip))
           }, receiveValue: { (gist) in
             snip.gistId = gist.id
             snip.gistURL = gist.url
             snip.syncState = .synced
+            
+            SnippetManager.shared.trigger(action: updateExistingItem(newestItem: snip))
           })
           .store(in: &stores)
       }
+    }
+  }
+  
+  static func updateExistingItem(newestItem: SnipItem) -> SnipItemsListAction {
+    return .init { current in
+      let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
+        return snipItem.id == newestItem.id
+      }
+      snipItem?.isFavorite = newestItem.isFavorite
+      snipItem?.content = newestItem.content
+      snipItem?.snippet = newestItem.snippet
+      snipItem?.gistId = newestItem.gistId
+      snipItem?.gistURL = newestItem.gistURL
+      snipItem?.remoteURL = newestItem.remoteURL
+      snipItem?.syncState = newestItem.syncState
     }
   }
   
@@ -214,14 +229,15 @@ struct SnipItemsListAction {
             SyncManager.shared.updateGist(id: gistId, title: snip.name, code: snip.snippet)
               .receive(on: DispatchQueue.main)
               .sink(receiveCompletion: { (completion) in
-                if case let .failure(error) = completion {
-                  print(error)
-                  snip.syncState = .local
-                }
+                snip.syncState = .local
+                
+                SnippetManager.shared.trigger(action: updateExistingItem(newestItem: snip))
               }, receiveValue: { (gist) in
                 snip.gistId = gist.id
                 snip.gistURL = gist.url
                 snip.syncState = .synced
+                
+                SnippetManager.shared.trigger(action: updateExistingItem(newestItem: snip))
               })
               .store(in: &stores)
           }

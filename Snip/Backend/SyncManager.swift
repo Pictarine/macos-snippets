@@ -98,18 +98,33 @@ class SyncManager: ObservableObject {
   
   func getAllGists() {
     pullGists()
-      .receive(on: DispatchQueue.main)
+      .receive(on: DispatchQueue.global())
       .sink(receiveCompletion: { (completion) in
         if case let .failure(error) = completion {
           print(error)
         }
       }, receiveValue: { [weak self] (gists) in
-        print(gists)
+        guard let this = self else { return }
+        
+        Publishers.MergeMany(gists.map( { this.pullGist(id: $0.id) }))
+          .sink(receiveCompletion: { (completion) in
+            if case let .failure(error) = completion {
+              print(error)
+            }
+          }, receiveValue: { (syncedGist) in
+            
+            var snips: [SnipItem] = []
+            syncedGist.files.forEach { (_, file) in
+              snips.append(file.toSnipItem())
+            }
+          })
+          .store(in: &this.stores)
+
       })
       .store(in: &stores)
   }
   
-  func requestToken(code: String, state: String) -> AnyPublisher<Oauth, Error> {
+  func requestToken(code: String, state: String) -> AnyPublisher<Oauth, FailureReason> {
     print(code)
     let bodyParams = [
       "redirect_uri": callbackURL,
@@ -120,7 +135,7 @@ class SyncManager: ObservableObject {
     return API.run(Endpoint.token, HttpMethod.post, [:], bodyParams, [:], oauth)
   }
   
-  func getUser() ->  AnyPublisher<User, Error> {
+  func getUser() ->  AnyPublisher<User, FailureReason> {
     
     let headerParams = [
       "Accept": "application/vnd.github.v3+json"
@@ -129,7 +144,7 @@ class SyncManager: ObservableObject {
     return API.run(Endpoint.user, HttpMethod.get, [:], [:], headerParams, oauth)
   }
   
-  func createGist(title: String, code: String) -> AnyPublisher<Gist, Error> {
+  func createGist(title: String, code: String) -> AnyPublisher<Gist, FailureReason> {
     
     let headerParams = [
       "Accept": "application/vnd.github.v3+json"
@@ -146,7 +161,7 @@ class SyncManager: ObservableObject {
     return API.run(Endpoint.gists, HttpMethod.post, [:], bodyParams, headerParams, oauth)
   }
   
-  func pullGists() -> AnyPublisher<[Gist], Error> {
+  func pullGists() -> AnyPublisher<[Gist], FailureReason> {
     
     let headerParams = [
       "Accept": "application/vnd.github.v3+json"
@@ -155,7 +170,16 @@ class SyncManager: ObservableObject {
     return API.run(Endpoint.gists, HttpMethod.get, [:], [:], headerParams, oauth)
   }
   
-  func updateGist(id: String, title: String, code: String) -> AnyPublisher<Gist, Error> {
+  func pullGist(id: String) -> AnyPublisher<Gist, FailureReason> {
+    
+    let headerParams = [
+      "Accept": "application/vnd.github.v3+json"
+    ]
+    
+    return API.run(Endpoint.getGist(id: id), HttpMethod.get, [:], [:], headerParams, oauth)
+  }
+  
+  func updateGist(id: String, title: String, code: String) -> AnyPublisher<Gist, FailureReason> {
      
      let headerParams = [
        "Accept": "application/vnd.github.v3+json"
