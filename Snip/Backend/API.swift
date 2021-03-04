@@ -56,9 +56,9 @@ class API {
     return URLSession.shared
       .dataTaskPublisher(for: request)
       .map(\.data)
-      .handleEvents(receiveOutput: { (data) in
+      /*.handleEvents(receiveOutput: { (data) in
         print(String(data: data, encoding: .utf8)!)
-      })
+      })*/
       .decode(type: T.self, decoder: decoder)
       .mapError({ error in
         switch error {

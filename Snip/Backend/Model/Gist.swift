@@ -58,6 +58,6 @@ struct Gist: Codable {
     try container.encode(id, forKey: .id)
     try container.encode(files, forKey: .files)
     try container.encode(isPublic, forKey: .isPublic)
-    try? container.encode(nodeId, forKey: .nodeId)
+    try container.encode(nodeId, forKey: .nodeId)
   }
 }
