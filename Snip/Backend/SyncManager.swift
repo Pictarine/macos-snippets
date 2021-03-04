@@ -39,7 +39,6 @@ class SyncManager: ObservableObject {
       
       DispatchQueue.global().async { [weak self] in
         self?.requestUser()
-        self?.getAllGists()
       }
     }
   }
@@ -92,36 +91,6 @@ class SyncManager: ObservableObject {
         }
       }, receiveValue: { [weak self] (user) in
         self?.connectedUser = user
-      })
-      .store(in: &stores)
-  }
-  
-  func getAllGists() {
-    pullGists()
-      .receive(on: DispatchQueue.global())
-      .sink(receiveCompletion: { (completion) in
-        if case let .failure(error) = completion {
-          print(error)
-        }
-      }, receiveValue: { [weak self] (gists) in
-        guard let this = self else { return }
-        
-        Publishers.MergeMany(gists.map( { this.pullGist(id: $0.id) }))
-          .sink(receiveCompletion: { (completion) in
-            if case let .failure(error) = completion {
-              print(error)
-            }
-          }, receiveValue: { (syncedGist) in
-            
-            var snips: [SnipItem] = []
-            syncedGist.files.forEach { (_, file) in
-              let snipItem = file.toSnipItem()
-              snipItem.gistNodeId = syncedGist.nodeId
-              snips.append(snipItem)
-            }
-          })
-          .store(in: &this.stores)
-
       })
       .store(in: &stores)
   }

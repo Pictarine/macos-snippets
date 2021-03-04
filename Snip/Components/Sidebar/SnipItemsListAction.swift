@@ -38,7 +38,7 @@ struct SnipItemsListAction {
   }
   
   static func addExternalSnippet(externalSnipItem: SnipItem) -> SnipItemsListAction {
-
+    
     return .init { current in
       let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
         return snipItem.kind == .folder && snipItem.name == "StackOverflow"
@@ -134,6 +134,39 @@ struct SnipItemsListAction {
     }
   }
   
+  static func syncGists() -> SnipItemsListAction {
+    return .init { current in
+      
+      DispatchQueue.global().async {
+        SyncManager.shared.pullGists()
+          .receive(on: DispatchQueue.global())
+          .sink(receiveCompletion: { (completion) in
+            if case let .failure(error) = completion {
+              print(error)
+            }
+          }, receiveValue: { (gists) in
+            Publishers.MergeMany(gists.map( { SyncManager.shared.pullGist(id: $0.id) }))
+              .sink(receiveCompletion: { (completion) in
+                if case let .failure(error) = completion {
+                  print(error)
+                }
+              }, receiveValue: { (syncedGist) in
+                
+                var snips: [SnipItem] = []
+                syncedGist.files.forEach { (_, file) in
+                  let snipItem = file.toSnipItem()
+                  snipItem.gistNodeId = syncedGist.nodeId
+                  snips.append(snipItem)
+                }
+              })
+              .store(in: &stores)
+            
+          })
+          .store(in: &stores)
+      }
+    }
+  }
+  
   static func createGist(id: String) -> SnipItemsListAction {
     return .init { current in
       let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in
@@ -224,8 +257,8 @@ struct SnipItemsListAction {
         snip.lastUpdateDate = Date()
         
         if let gistId = snip.gistId,
-        gistId.count > 0 {
-            
+           gistId.count > 0 {
+          
           snip.syncState = .syncing
           
           DispatchQueue.global().async {
