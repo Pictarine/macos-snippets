@@ -148,9 +148,10 @@ struct SnipItemsListAction {
         SyncManager.shared.createGist(title: snip.name, code: snip.snippet)
           .receive(on: DispatchQueue.main)
           .sink(receiveCompletion: { (completion) in
-            snip.syncState = .local
-            
-            SnippetManager.shared.trigger(action: updateExistingItem(newestItem: snip))
+            if case .failure(_) = completion {
+              snip.syncState = .local
+              SnippetManager.shared.trigger(action: updateExistingItem(newestItem: snip))
+            }
           }, receiveValue: { (gist) in
             snip.gistId = gist.id
             snip.gistURL = gist.url
@@ -173,8 +174,10 @@ struct SnipItemsListAction {
       snipItem?.snippet = newestItem.snippet
       snipItem?.gistId = newestItem.gistId
       snipItem?.gistURL = newestItem.gistURL
+      snipItem?.gistNodeId = newestItem.gistNodeId
       snipItem?.remoteURL = newestItem.remoteURL
       snipItem?.syncState = newestItem.syncState
+      snipItem?.mode = newestItem.mode
     }
   }
   
@@ -229,9 +232,10 @@ struct SnipItemsListAction {
             SyncManager.shared.updateGist(id: gistId, title: snip.name, code: snip.snippet)
               .receive(on: DispatchQueue.main)
               .sink(receiveCompletion: { (completion) in
-                snip.syncState = .local
-                
-                SnippetManager.shared.trigger(action: updateExistingItem(newestItem: snip))
+                if case .failure(_) = completion {
+                  snip.syncState = .local
+                  SnippetManager.shared.trigger(action: updateExistingItem(newestItem: snip))
+                }
               }, receiveValue: { (gist) in
                 snip.gistId = gist.id
                 snip.gistURL = gist.url
