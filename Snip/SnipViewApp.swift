@@ -55,6 +55,7 @@ struct SnipViewApp: View {
     .environment(\.themeShadowColor, settings.snipAppTheme == .auto ? .shadow : .shadowTheme)
     .onAppear {
       SyncManager.shared.initialize()
+      viewModel.trigger(action: .syncGists())
     }
     .sheet(item: $viewModel.modalView) { content in
       
