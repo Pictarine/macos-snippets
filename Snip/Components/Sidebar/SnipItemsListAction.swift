@@ -306,7 +306,8 @@ struct SnipItemsListAction {
           snip.syncState = .syncing
           
           DispatchQueue.global().async {
-            SyncManager.shared.updateGist(id: gistId, title: snip.name, code: snip.snippet)
+            let gistFile = GistFile(filename: snip.name, language: nil, size: 0, content: snip.snippet)
+            SyncManager.shared.updateGist(id: gistId, files: [gistFile])
               .receive(on: DispatchQueue.main)
               .sink(receiveCompletion: { (completion) in
                 if case .failure(_) = completion {

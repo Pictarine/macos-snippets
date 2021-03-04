@@ -49,10 +49,10 @@ class SyncManager: ObservableObject {
     connectedUser = nil
     
     do {
-        let keychain = Keychain(service: keychainService)
-        try keychain.remove(keychainAuthTokenKey)
+      let keychain = Keychain(service: keychainService)
+      try keychain.remove(keychainAuthTokenKey)
     } catch let error {
-        print("error: \(error)")
+      print("error: \(error)")
     }
   }
   
@@ -127,7 +127,7 @@ class SyncManager: ObservableObject {
       ],
       "description": title,
       "public": "\(false)"
-      ] as [String : Any]
+    ] as [String : Any]
     
     return API.run(Endpoint.gists, HttpMethod.post, [:], bodyParams, headerParams, oauth)
   }
@@ -150,20 +150,22 @@ class SyncManager: ObservableObject {
     return API.run(Endpoint.getGist(id: id), HttpMethod.get, [:], [:], headerParams, oauth)
   }
   
-  func updateGist(id: String, title: String, code: String) -> AnyPublisher<Gist, FailureReason> {
-     
-     let headerParams = [
-       "Accept": "application/vnd.github.v3+json"
-     ]
-     
-     let bodyParams = [
-       "files": [
-         title: [ "content": code ]
-       ],
-       "description": title,
-       "public": "\(false)"
-       ] as [String : Any]
-     
-     return API.run(Endpoint.updateGist(id: id), HttpMethod.patch, [:], bodyParams, headerParams, oauth)
-   }
+  func updateGist(id: String, files: [GistFile]) -> AnyPublisher<Gist, FailureReason> {
+    
+    let headerParams = [
+      "Accept": "application/vnd.github.v3+json"
+    ]
+    
+    let files: [[String: [String: String]]] = files.map({ file in
+      return [file.filename: [ "content": file.content ?? ""]]
+    })
+    
+    let bodyParams = [
+      "files": files,
+      "description": "Synced via Snip",
+      "public": "\(false)"
+    ] as [String : Any]
+    
+    return API.run(Endpoint.updateGist(id: id), HttpMethod.patch, [:], bodyParams, headerParams, oauth)
+  }
 }
