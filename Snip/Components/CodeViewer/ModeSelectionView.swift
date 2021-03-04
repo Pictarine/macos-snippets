@@ -25,8 +25,6 @@ struct ModeSelectionView: View {
       
       tags
       
-      addNewTag
-      
       Spacer()
       
       codeModeSelector
@@ -43,6 +41,8 @@ struct ModeSelectionView: View {
             self.viewModel.onTagChange(tag, TagJob.remove)
           })
         }
+        
+        addNewTag
       }.padding(.leading, 4)
     }
     .frame(height: 55)

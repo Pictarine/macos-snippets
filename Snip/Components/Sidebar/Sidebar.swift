@@ -171,7 +171,6 @@ struct Sidebar: View {
     }
   }
   
-  @ViewBuilder
   var favorites: some View {
     Section(header:
               Text(NSLocalizedString("Favorites", comment: ""))
@@ -188,7 +187,6 @@ struct Sidebar: View {
     }
   }
   
-  @ViewBuilder
   var local: some View {
     Section(header:
               Text(NSLocalizedString("Local", comment: ""))
@@ -205,7 +203,6 @@ struct Sidebar: View {
     }
   }
   
-  @ViewBuilder
   var tags: some View {
     Section(header:
               Text(NSLocalizedString("Tags", comment: ""))
@@ -232,7 +229,6 @@ struct Sidebar: View {
       
     }
   }
-  
 }
 
 
