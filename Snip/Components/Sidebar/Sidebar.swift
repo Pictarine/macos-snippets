@@ -67,6 +67,13 @@ struct Sidebar: View {
                       .foregroundColor(Color.text)
                   }
                   .buttonStyle(PlainButtonStyle())
+                  .onHover { inside in
+                    if inside {
+                      NSCursor.pointingHand.push()
+                    } else {
+                      NSCursor.pop()
+                    }
+                  }
                   .padding(.top, 8)
                   Divider()
                   Button(action: {
@@ -77,11 +84,19 @@ struct Sidebar: View {
                       .foregroundColor(Color.text)
                   }
                   .buttonStyle(PlainButtonStyle())
+                  .onHover { inside in
+                    if inside {
+                      NSCursor.pointingHand.push()
+                    } else {
+                      NSCursor.pop()
+                    }
+                  }
                   .padding(.bottom, 8)
                 }
                 .background(Color.BLACK_500.opacity(0.8))
                 .frame(width: 100)
                 .cornerRadius(6)
+                .offset(x: 0, y: -8)
               }
             }
           }
@@ -91,9 +106,7 @@ struct Sidebar: View {
       
       HStack {
         ImageButton(imageName: "ic_settings", action: {
-          withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.3)) { () -> () in
-            settings.shouldOpenSettings.toggle()
-          }
+          settings.shouldOpenSettings.toggle()
         }, content: { EmptyView() })
         .help("Settings")
         Spacer()
@@ -203,7 +216,18 @@ struct Sidebar: View {
     ) {
       
       ForEach(viewModel.snippetsPerTag.keys.sorted(), id: \.self) { key in
-        SidebarTagView(viewModel: SidebarTagViewModel(tag: key))
+        SidebarTagView(viewModel: SidebarTagViewModel(tag: key),
+                       content: {
+                        Group {
+                          if let listPerTagViewModel = viewModel.snippetsPerTag[key] {
+                            SnipItemsList(viewModel: listPerTagViewModel)
+                              .padding(.leading, 16)
+                          }
+                          else {
+                            EmptyView()
+                          }
+                        }
+                       })
       }
       
     }
@@ -215,7 +239,7 @@ struct Sidebar: View {
 final class SideBarViewModel: ObservableObject {
   
   @Published var snippets: [SnipItem] = []
-  @Published var snippetsPerTag: [String: [SnipItem]] = [:]
+  @Published var snippetsPerTag: [String: SnipItemsListModel] = [:]
   
   var onTrigger: (SnipItemsListAction) -> Void
   
@@ -236,7 +260,10 @@ final class SideBarViewModel: ObservableObject {
         this.snippets = snippets
         this.snippetsPerTag = [:]
         snippets.flatternSnippets.flatMap{ $0.tags }.forEach { (tag) in
-          this.snippetsPerTag[tag] = []
+          this.snippetsPerTag[tag] = SnipItemsListModel(snips: this.$snippets.eraseToAnyPublisher(),
+                                                        applyFilter: .tag(tagTitle: tag),
+                                                        onTrigger: onTrigger,
+                                                        onSnippetSelection: onSnippetSelection)
         }
       }
     

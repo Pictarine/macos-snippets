@@ -270,8 +270,8 @@
 				79BC1D3224D17124008FD16E /* Sidebar.swift */,
 				7936F88E24D450B900F09AE7 /* SnipItemsList.swift */,
 				791AC9C624DB059A00CAB87C /* SnipItemView.swift */,
-				7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */,
 				79AC7AE525F03B3F006431C8 /* SidebarTagView.swift */,
+				7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
