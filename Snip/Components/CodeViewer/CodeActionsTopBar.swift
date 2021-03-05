@@ -20,6 +20,7 @@ struct CodeActionsTopBar: View {
   @ObservedObject var viewModel: CodeActionsViewModel
   
   @State private var showInfos = false
+  @State private var showDeleteWarning = false
   @State private var isPreviewEnabled = false
   
   var body: some View {
@@ -50,6 +51,7 @@ struct CodeActionsTopBar: View {
         Button(action: viewModel.toggleSidebar) {
           Image(systemName: "sidebar.left")
         }
+        .keyboardShortcut(KeyEquivalent.leftArrow, modifiers: [.command])
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
@@ -109,7 +111,8 @@ struct CodeActionsTopBar: View {
           }) {
             Image(systemName: isPreviewEnabled ? "eye.fill" : "eye")
           }
-          .help(NSLocalizedString("Preview", comment: ""))
+          .keyboardShortcut("p", modifiers: [.command])
+          .help("\(NSLocalizedString("Preview", comment: "")), Cmd+P")
           .onHover { inside in
             if inside {
               NSCursor.pointingHand.push()
@@ -124,7 +127,8 @@ struct CodeActionsTopBar: View {
         Button(action: viewModel.onToggleFavorite) {
           Image(systemName: viewModel.isSnipFavorite ? "bookmark.fill" : "bookmark")
         }
-        .help(NSLocalizedString("Add_Fav", comment: ""))
+        .keyboardShortcut("f", modifiers: [.command, .shift])
+        .help("\(NSLocalizedString("Add_Fav", comment: "")), Cmd+Shift+F")
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
@@ -135,16 +139,24 @@ struct CodeActionsTopBar: View {
       }
       
       ToolbarItem(placement: .status) {
-        Button(action: viewModel.onDelete) {
+        Button(action: { showDeleteWarning.toggle() }) {
           Image(systemName: "trash")
         }
-        .help(NSLocalizedString("Delete_Snip", comment: ""))
+        .keyboardShortcut("r", modifiers: [.command, .shift])
+        .help("\(NSLocalizedString("Delete_Snip", comment: "")), Cmd+Shift+R")
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
           } else {
             NSCursor.pop()
           }
+        }
+        .alert(isPresented: $showDeleteWarning) {
+          Alert(title: Text(NSLocalizedString("Psst", comment: "")),
+                message: Text(NSLocalizedString("Delete_Desc", comment: "")),
+                primaryButton: .default(Text(NSLocalizedString("Yes", comment: "").uppercased()), action: viewModel.onDelete),
+                secondaryButton: .cancel(Text(NSLocalizedString("Cancel", comment: "")))
+          )
         }
       }
       
@@ -152,6 +164,7 @@ struct CodeActionsTopBar: View {
         Button(action: { showInfos.toggle() }) {
           Image(systemName: "info.circle")
         }
+        .keyboardShortcut("i", modifiers: [.command])
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
@@ -159,7 +172,7 @@ struct CodeActionsTopBar: View {
             NSCursor.pop()
           }
         }
-        .help(NSLocalizedString("Snip_Infos", comment: ""))
+        .help("\(NSLocalizedString("Snip_Infos", comment: "")), Cmd+I")
         .popover(
           isPresented: $showInfos,
           arrowEdge: .bottom

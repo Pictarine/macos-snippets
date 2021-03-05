@@ -29,6 +29,10 @@
 "Logout_GitHub" = "Logout from Github";
 "Validate_Logout_GitHub" = "Are you sure about that?";
 
+// Deletion
+"Psst" = "Psst";
+"Delete_Desc" = "You are about to delete a snippet";
+
 // Actions
 "New_Snippet" = "New snippet";
 "New_Folder" = "New folder";
