@@ -82,19 +82,29 @@ struct CodeViewer: View {
           .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
         Spacer()
       }
-      HStack() {
-        Spacer()
+      VStack(alignment: .leading) {
         Text(NSLocalizedString("Hint_1", comment: ""))
           .font(Font.custom("HelveticaNeue-Light", size: 16))
           .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
-        Spacer()
-      }
-      .padding(.top, 8)
-      HStack {
-        Spacer()
+          .padding(.top, 8)
         Text(NSLocalizedString("Hint_2", comment: ""))
           .font(Font.custom("HelveticaNeue-Light", size: 16))
           .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
+          .padding(.top, 8)
+        Text(NSLocalizedString("Hint_4", comment: ""))
+          .font(Font.custom("HelveticaNeue-Light", size: 16))
+          .foregroundColor(settings.snipAppTheme == .auto ? .text : .white)
+          .padding(.top, 8)
+      }
+      HStack() {
+        Spacer()
+        
+        Spacer()
+      }
+      
+      HStack {
+        Spacer()
+        
         Spacer()
       }
       .padding(.top, 8)

@@ -158,7 +158,7 @@ class SyncManager: ObservableObject {
     
     let files = files.reduce([String: [String: String]]()) { (dict, file) -> [String: [String: String]] in
       var dict = dict
-      dict[file.filename] = [ "content": file.content ?? ""]
+      dict[file.filename] = ["content": file.content ?? ""]
       return dict
     }
     
