@@ -12,4 +12,5 @@ import Foundation
 public struct CodeMirrorViewConstants {
   static let codeMirrorDidReady = "codeMirrorDidReady"
   static let codeMirrorTextContentDidChange = "codeMirrorTextContentDidChange"
+  static let codeMirrorLog = "codeMirrorLog"
 }

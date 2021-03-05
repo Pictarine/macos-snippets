@@ -1,3 +1,78 @@
-'use strict';(function(d){"object"==typeof exports&&"object"==typeof module?d(require("../../lib/codemirror")):"function"==typeof define&&define.amd?define(["../../lib/codemirror"],d):d(CodeMirror)})(function(d){function f(a){a.state.placeholder&&(a.state.placeholder.parentNode.removeChild(a.state.placeholder),a.state.placeholder=null)}function h(a){f(a);var c=a.state.placeholder=document.createElement("pre");c.style.cssText="height: 0; overflow: visible";c.style.direction=a.getOption("direction");
-c.className="CodeMirror-placeholder CodeMirror-line-like";var b=a.getOption("placeholder");"string"==typeof b&&(b=document.createTextNode(b));c.appendChild(b);a.display.lineSpace.insertBefore(c,a.display.lineSpace.firstChild)}function g(a){k(a)&&h(a)}function e(a){var c=a.getWrapperElement(),b=k(a);c.className=c.className.replace(" CodeMirror-empty","")+(b?" CodeMirror-empty":"");b?h(a):f(a)}function k(a){return 1===a.lineCount()&&""===a.getLine(0)}d.defineOption("placeholder","",function(a,c,b){b=
-b&&b!=d.Init;c&&!b?(a.on("blur",g),a.on("change",e),a.on("swapDoc",e),e(a)):!c&&b&&(a.off("blur",g),a.off("change",e),a.off("swapDoc",e),f(a),b=a.getWrapperElement(),b.className=b.className.replace(" CodeMirror-empty",""));c&&!a.hasFocus()&&g(a)})});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  CodeMirror.defineOption("placeholder", "", function(cm, val, old) {
+    var prev = old && old != CodeMirror.Init;
+    if (val && !prev) {
+      cm.on("blur", onBlur);
+      cm.on("change", onChange);
+      cm.on("swapDoc", onChange);
+      CodeMirror.on(cm.getInputField(), "compositionupdate", cm.state.placeholderCompose = function() { onComposition(cm) })
+      onChange(cm);
+    } else if (!val && prev) {
+      cm.off("blur", onBlur);
+      cm.off("change", onChange);
+      cm.off("swapDoc", onChange);
+      CodeMirror.off(cm.getInputField(), "compositionupdate", cm.state.placeholderCompose)
+      clearPlaceholder(cm);
+      var wrapper = cm.getWrapperElement();
+      wrapper.className = wrapper.className.replace(" CodeMirror-empty", "");
+    }
+
+    if (val && !cm.hasFocus()) onBlur(cm);
+  });
+
+  function clearPlaceholder(cm) {
+    if (cm.state.placeholder) {
+      cm.state.placeholder.parentNode.removeChild(cm.state.placeholder);
+      cm.state.placeholder = null;
+    }
+  }
+  function setPlaceholder(cm) {
+    clearPlaceholder(cm);
+    var elt = cm.state.placeholder = document.createElement("pre");
+    elt.style.cssText = "height: 0; overflow: visible";
+    elt.style.direction = cm.getOption("direction");
+    elt.className = "CodeMirror-placeholder CodeMirror-line-like";
+    var placeHolder = cm.getOption("placeholder")
+    if (typeof placeHolder == "string") placeHolder = document.createTextNode(placeHolder)
+    elt.appendChild(placeHolder)
+    cm.display.lineSpace.insertBefore(elt, cm.display.lineSpace.firstChild);
+  }
+
+  function onComposition(cm) {
+    setTimeout(function() {
+      var empty = false
+      if (cm.lineCount() == 1) {
+        var input = cm.getInputField()
+        empty = input.nodeName == "TEXTAREA" ? !cm.getLine(0).length
+          : !/[^\u200b]/.test(input.querySelector(".CodeMirror-line").textContent)
+      }
+      if (empty) setPlaceholder(cm)
+      else clearPlaceholder(cm)
+    }, 20)
+  }
+
+  function onBlur(cm) {
+    if (isEmpty(cm)) setPlaceholder(cm);
+  }
+  function onChange(cm) {
+    var wrapper = cm.getWrapperElement(), empty = isEmpty(cm);
+    wrapper.className = wrapper.className.replace(" CodeMirror-empty", "") + (empty ? " CodeMirror-empty" : "");
+
+    if (empty) setPlaceholder(cm);
+    else clearPlaceholder(cm);
+  }
+
+  function isEmpty(cm) {
+    return (cm.lineCount() === 1) && (cm.getLine(0) === "");
+  }
+});

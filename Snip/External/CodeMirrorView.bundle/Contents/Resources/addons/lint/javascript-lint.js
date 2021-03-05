@@ -1,6 +1,65 @@
-'use strict';var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.checkStringArgs=function(a,c,b){if(null==a)throw new TypeError("The 'this' value for String.prototype."+b+" must not be null or undefined");if(c instanceof RegExp)throw new TypeError("First argument to String.prototype."+b+" must not be a regular expression");return a+""};$jscomp.ASSUME_ES5=!1;$jscomp.ASSUME_NO_NATIVE_MAP=!1;$jscomp.ASSUME_NO_NATIVE_SET=!1;$jscomp.SIMPLE_FROUND_POLYFILL=!1;
-$jscomp.defineProperty=$jscomp.ASSUME_ES5||"function"==typeof Object.defineProperties?Object.defineProperty:function(a,c,b){a!=Array.prototype&&a!=Object.prototype&&(a[c]=b.value)};$jscomp.getGlobal=function(a){a=["object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global,a];for(var c=0;c<a.length;++c){var b=a[c];if(b&&b.Math==Math)return b}throw Error("Cannot find global object");};$jscomp.global=$jscomp.getGlobal(this);
-$jscomp.polyfill=function(a,c,b,e){if(c){b=$jscomp.global;a=a.split(".");for(e=0;e<a.length-1;e++){var d=a[e];d in b||(b[d]={});b=b[d]}a=a[a.length-1];e=b[a];c=c(e);c!=e&&null!=c&&$jscomp.defineProperty(b,a,{configurable:!0,writable:!0,value:c})}};
-$jscomp.polyfill("String.prototype.startsWith",function(a){return a?a:function(a,b){var c=$jscomp.checkStringArgs(this,a,"startsWith");a+="";var d=c.length,f=a.length;b=Math.max(0,Math.min(b|0,c.length));for(var g=0;g<f&&b<d;)if(c[b++]!=a[g++])return!1;return g>=f}},"es6","es3");
-(function(a){"object"==typeof exports&&"object"==typeof module?a(require("../../lib/codemirror")):"function"==typeof define&&define.amd?define(["../../lib/codemirror"],a):a(CodeMirror)})(function(a){a.registerHelper("lint","javascript",function(c,b){if(!window.JSHINT)return window.console&&window.console.error("Error: window.JSHINT not defined, CodeMirror JavaScript linting cannot run."),[];b.indent||(b.indent=1);JSHINT(c,b,b.globals);c=JSHINT.data().errors;b=[];if(c)for(var e=0;e<c.length;e++){var d=
-c[e];if(d)if(0>=d.line)window.console&&window.console.warn("Cannot display JSHint error (invalid line "+d.line+")",d);else{var f=d.character-1,g=f+1;if(d.evidence){var h=d.evidence.substring(f).search(/.\b/);-1<h&&(g+=h)}d={message:d.reason,severity:d.code?d.code.startsWith("W")?"warning":"error":"error",from:a.Pos(d.line-1,f),to:a.Pos(d.line-1,g)};b.push(d)}}return b})});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+// Depends on jshint.js from https://github.com/jshint/jshint
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+  // declare global: JSHINT
+
+  function validator(text, options) {
+    if (!window.JSHINT) {
+      if (window.console) {
+        window.console.error("Error: window.JSHINT not defined, CodeMirror JavaScript linting cannot run.");
+      }
+      return [];
+    }
+    if (!options.indent) // JSHint error.character actually is a column index, this fixes underlining on lines using tabs for indentation
+      options.indent = 1; // JSHint default value is 4
+    JSHINT(text, options, options.globals);
+    var errors = JSHINT.data().errors, result = [];
+    if (errors) parseErrors(errors, result);
+    return result;
+  }
+
+  CodeMirror.registerHelper("lint", "javascript", validator);
+
+  function parseErrors(errors, output) {
+    for ( var i = 0; i < errors.length; i++) {
+      var error = errors[i];
+      if (error) {
+        if (error.line <= 0) {
+          if (window.console) {
+            window.console.warn("Cannot display JSHint error (invalid line " + error.line + ")", error);
+          }
+          continue;
+        }
+
+        var start = error.character - 1, end = start + 1;
+        if (error.evidence) {
+          var index = error.evidence.substring(start).search(/.\b/);
+          if (index > -1) {
+            end += index;
+          }
+        }
+
+        // Convert to format expected by validation service
+        var hint = {
+          message: error.reason,
+          severity: error.code ? (error.code.startsWith('W') ? "warning" : "error") : "error",
+          from: CodeMirror.Pos(error.line - 1, start),
+          to: CodeMirror.Pos(error.line - 1, end)
+        };
+
+        output.push(hint);
+      }
+    }
+  }
+});

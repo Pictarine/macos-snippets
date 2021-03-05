@@ -167,6 +167,11 @@ extension CodeMirrorViewController: WKNavigationDelegate {
       }
       return
     }
+    
+    if message.name == CodeMirrorViewConstants.codeMirrorLog {
+      let content = (message.body as? String) ?? ""
+      print("CodeMirrorLog", content)
+    }
   }
   
 }

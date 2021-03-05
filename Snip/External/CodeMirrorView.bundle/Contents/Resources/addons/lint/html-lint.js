@@ -1,2 +1,59 @@
-'use strict';(function(b){"object"==typeof exports&&"object"==typeof module?b(require("../../lib/codemirror"),require("htmlhint")):"function"==typeof define&&define.amd?define(["../../lib/codemirror","htmlhint"],b):b(CodeMirror,window.HTMLHint)})(function(b,a){var g={"tagname-lowercase":!0,"attr-lowercase":!0,"attr-value-double-quotes":!0,"doctype-first":!1,"tag-pair":!0,"spec-char-escape":!0,"id-unique":!0,"src-not-empty":!0,"attr-no-duplication":!0};b.registerHelper("lint","html",function(e,c){var f=
-[];a&&!a.verify&&(a="undefined"!==typeof a.default?a.default:a.HTMLHint);a||(a=window.HTMLHint);if(!a)return window.console&&window.console.error("Error: HTMLHint not found, not defined on window, or not available through define/require, CodeMirror HTML linting cannot run."),f;e=a.verify(e,c&&c.rules||g);for(c=0;c<e.length;c++){var d=e[c],h=d.line-1,k=d.col;f.push({from:b.Pos(d.line-1,d.col-1),to:b.Pos(h,k),message:d.message,severity:d.type})}return f})});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+// Depends on htmlhint.js from http://htmlhint.com/js/htmlhint.js
+
+// declare global: HTMLHint
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("htmlhint"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "htmlhint"], mod);
+  else // Plain browser env
+    mod(CodeMirror, window.HTMLHint);
+})(function(CodeMirror, HTMLHint) {
+  "use strict";
+
+  var defaultRules = {
+    "tagname-lowercase": true,
+    "attr-lowercase": true,
+    "attr-value-double-quotes": true,
+    "doctype-first": false,
+    "tag-pair": true,
+    "spec-char-escape": true,
+    "id-unique": true,
+    "src-not-empty": true,
+    "attr-no-duplication": true
+  };
+
+  CodeMirror.registerHelper("lint", "html", function(text, options) {
+    var found = [];
+    if (HTMLHint && !HTMLHint.verify) {
+      if(typeof HTMLHint.default !== 'undefined') {
+        HTMLHint = HTMLHint.default;
+      } else {
+        HTMLHint = HTMLHint.HTMLHint;
+      }
+    }
+    if (!HTMLHint) HTMLHint = window.HTMLHint;
+    if (!HTMLHint) {
+      if (window.console) {
+          window.console.error("Error: HTMLHint not found, not defined on window, or not available through define/require, CodeMirror HTML linting cannot run.");
+      }
+      return found;
+    }
+    var messages = HTMLHint.verify(text, options && options.rules || defaultRules);
+    for (var i = 0; i < messages.length; i++) {
+      var message = messages[i];
+      var startLine = message.line - 1, endLine = message.line - 1, startCol = message.col - 1, endCol = message.col;
+      found.push({
+        from: CodeMirror.Pos(startLine, startCol),
+        to: CodeMirror.Pos(endLine, endCol),
+        message: message.message,
+        severity : message.type
+      });
+    }
+    return found;
+  });
+});

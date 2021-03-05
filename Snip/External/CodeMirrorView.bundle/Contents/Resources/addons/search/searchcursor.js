@@ -1,14 +1,296 @@
-'use strict';var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.findInternal=function(c,g,h){c instanceof String&&(c=String(c));for(var l=c.length,p=0;p<l;p++){var t=c[p];if(g.call(h,t,p,c))return{i:p,v:t}}return{i:-1,v:void 0}};$jscomp.ASSUME_ES5=!1;$jscomp.ASSUME_NO_NATIVE_MAP=!1;$jscomp.ASSUME_NO_NATIVE_SET=!1;$jscomp.SIMPLE_FROUND_POLYFILL=!1;
-$jscomp.defineProperty=$jscomp.ASSUME_ES5||"function"==typeof Object.defineProperties?Object.defineProperty:function(c,g,h){c!=Array.prototype&&c!=Object.prototype&&(c[g]=h.value)};$jscomp.getGlobal=function(c){c=["object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global,c];for(var g=0;g<c.length;++g){var h=c[g];if(h&&h.Math==Math)return h}throw Error("Cannot find global object");};$jscomp.global=$jscomp.getGlobal(this);
-$jscomp.polyfill=function(c,g,h,l){if(g){h=$jscomp.global;c=c.split(".");for(l=0;l<c.length-1;l++){var p=c[l];p in h||(h[p]={});h=h[p]}c=c[c.length-1];l=h[c];g=g(l);g!=l&&null!=g&&$jscomp.defineProperty(h,c,{configurable:!0,writable:!0,value:g})}};$jscomp.polyfill("Array.prototype.find",function(c){return c?c:function(c,h){return $jscomp.findInternal(this,c,h).v}},"es6","es3");
-(function(c){"object"==typeof exports&&"object"==typeof module?c(require("../../lib/codemirror")):"function"==typeof define&&define.amd?define(["../../lib/codemirror"],c):c(CodeMirror)})(function(c){function g(b,a){var d=b.flags;for(var f=d=null!=d?d:(b.ignoreCase?"i":"")+(b.global?"g":"")+(b.multiline?"m":""),e=0;e<a.length;e++)-1==f.indexOf(a.charAt(e))&&(f+=a.charAt(e));return d==f?b:new RegExp(b.source,f)}function h(b,a,d){a=g(a,"g");var f=d.line,e=d.ch;for(d=b.lastLine();f<=d;f++,e=0)if(a.lastIndex=
-e,e=b.getLine(f),e=a.exec(e))return{from:k(f,e.index),to:k(f,e.index+e[0].length),match:e}}function l(b,a,d){if(!/\\s|\\n|\n|\\W|\\D|\[\^/.test(a.source))return h(b,a,d);a=g(a,"gm");for(var f,e=1,c=d.line,m=b.lastLine();c<=m;){for(var q=0;q<e&&!(c>m);q++){var x=b.getLine(c++);f=null==f?x:f+"\n"+x}e*=2;a.lastIndex=d.ch;if(q=a.exec(f))return a=f.slice(0,q.index).split("\n"),b=q[0].split("\n"),d=d.line+a.length-1,a=a[a.length-1].length,{from:k(d,a),to:k(d+b.length-1,1==b.length?a+b[0].length:b[b.length-
-1].length),match:q}}}function p(b,a,d){for(var f,e=0;e<=b.length;){a.lastIndex=e;e=a.exec(b);if(!e)break;var c=e.index+e[0].length;if(c>b.length-d)break;if(!f||c>f.index+f[0].length)f=e;e=e.index+1}return f}function t(b,a,d){a=g(a,"g");var f=d.line,e=d.ch;for(d=b.firstLine();f>=d;f--,e=-1){var c=b.getLine(f);if(e=p(c,a,0>e?0:c.length-e))return{from:k(f,e.index),to:k(f,e.index+e[0].length),match:e}}}function y(b,a,d){if(!/\\s|\\n|\n|\\W|\\D|\[\^/.test(a.source))return t(b,a,d);a=g(a,"gm");var f=1,
-e=b.getLine(d.line).length-d.ch;d=d.line;for(var c=b.firstLine();d>=c;){for(var m=0;m<f&&d>=c;m++){var q=b.getLine(d--);var h=null==h?q:q+"\n"+h}f*=2;if(m=p(h,a,e))return a=h.slice(0,m.index).split("\n"),b=m[0].split("\n"),d+=a.length,a=a[a.length-1].length,{from:k(d,a),to:k(d+b.length-1,1==b.length?a+b[0].length:b[b.length-1].length),match:m}}}function r(b,a,d,f){if(b.length==a.length)return d;var e=0;for(a=d+Math.max(0,b.length-a.length);;){if(e==a)return e;var c=e+a>>1,m=f(b.slice(0,c)).length;
-if(m==d)return c;m>d?a=c:e=c+1}}function z(b,a,d,f){if(!a.length)return null;f=f?u:v;a=f(a).split(/\r|\n\r?/);var e=d.line;d=d.ch;var c=b.lastLine()+1-a.length;a:for(;e<=c;e++,d=0){var m=b.getLine(e).slice(d),h=f(m);if(1==a.length){var g=h.indexOf(a[0]);if(-1==g)continue a;r(m,h,g,f);return{from:k(e,r(m,h,g,f)+d),to:k(e,r(m,h,g+a[0].length,f)+d)}}g=h.length-a[0].length;if(h.slice(g)!=a[0])continue a;for(var n=1;n<a.length-1;n++)if(f(b.getLine(e+n))!=a[n])continue a;n=b.getLine(e+a.length-1);var p=
-f(n),l=a[a.length-1];if(p.slice(0,l.length)!=l)continue a;return{from:k(e,r(m,h,g,f)+d),to:k(e+a.length-1,r(n,p,l.length,f))}}}function A(b,a,d,f){if(!a.length)return null;f=f?u:v;a=f(a).split(/\r|\n\r?/);var e=d.line,c=d.ch,h=b.firstLine()-1+a.length;a:for(;e>=h;e--,c=-1){var g=b.getLine(e);-1<c&&(g=g.slice(0,c));c=f(g);if(1==a.length){d=c.lastIndexOf(a[0]);if(-1==d)continue a;return{from:k(e,r(g,c,d,f)),to:k(e,r(g,c,d+a[0].length,f))}}var l=a[a.length-1];if(c.slice(0,l.length)!=l)continue a;var n=
-1;for(d=e-a.length+1;n<a.length-1;n++)if(f(b.getLine(d+n))!=a[n])continue a;d=b.getLine(e+1-a.length);n=f(d);if(n.slice(n.length-a[0].length)!=a[0])continue a;return{from:k(e+1-a.length,r(d,n,d.length-a[0].length,f)),to:k(e,r(g,c,l.length,f))}}}function w(b,a,d,c){this.atOccurrence=!1;this.doc=b;d=d?b.clipPos(d):k(0,0);this.pos={from:d,to:d};if("object"==typeof c)var e=c.caseFold;else e=c,c=null;"string"==typeof a?(null==e&&(e=!1),this.matches=function(c,d){return(c?A:z)(b,a,d,e)}):(a=g(a,"gm"),this.matches=
-c&&!1===c.multiline?function(c,d){return(c?t:h)(b,a,d)}:function(c,d){return(c?y:l)(b,a,d)})}var k=c.Pos;if(String.prototype.normalize){var u=function(b){return b.normalize("NFD").toLowerCase()};var v=function(b){return b.normalize("NFD")}}else u=function(b){return b.toLowerCase()},v=function(b){return b};w.prototype={findNext:function(){return this.find(!1)},findPrevious:function(){return this.find(!0)},find:function(b){for(var a=this.matches(b,this.doc.clipPos(b?this.pos.from:this.pos.to));a&&0==
-c.cmpPos(a.from,a.to);)b?a.from.ch?a.from=k(a.from.line,a.from.ch-1):a=a.from.line==this.doc.firstLine()?null:this.matches(b,this.doc.clipPos(k(a.from.line-1))):a.to.ch<this.doc.getLine(a.to.line).length?a.to=k(a.to.line,a.to.ch+1):a=a.to.line==this.doc.lastLine()?null:this.matches(b,k(a.to.line+1,0));if(a)return this.pos=a,this.atOccurrence=!0,this.pos.match||!0;b=k(b?this.doc.firstLine():this.doc.lastLine()+1,0);this.pos={from:b,to:b};return this.atOccurrence=!1},from:function(){if(this.atOccurrence)return this.pos.from},
-to:function(){if(this.atOccurrence)return this.pos.to},replace:function(b,a){this.atOccurrence&&(b=c.splitLines(b),this.doc.replaceRange(b,this.pos.from,this.pos.to,a),this.pos.to=k(this.pos.from.line+b.length-1,b[b.length-1].length+(1==b.length?this.pos.from.ch:0)))}};c.defineExtension("getSearchCursor",function(b,a,c){return new w(this.doc,b,a,c)});c.defineDocExtension("getSearchCursor",function(b,a,c){return new w(this,b,a,c)});c.defineExtension("selectMatches",function(b,a){var d=[];for(b=this.getSearchCursor(b,
-this.getCursor("from"),a);b.findNext()&&!(0<c.cmpPos(b.to(),this.getCursor("to")));)d.push({anchor:b.from(),head:b.to()});d.length&&this.setSelections(d,0)})});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"))
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod)
+  else // Plain browser env
+    mod(CodeMirror)
+})(function(CodeMirror) {
+  "use strict"
+  var Pos = CodeMirror.Pos
+
+  function regexpFlags(regexp) {
+    var flags = regexp.flags
+    return flags != null ? flags : (regexp.ignoreCase ? "i" : "")
+      + (regexp.global ? "g" : "")
+      + (regexp.multiline ? "m" : "")
+  }
+
+  function ensureFlags(regexp, flags) {
+    var current = regexpFlags(regexp), target = current
+    for (var i = 0; i < flags.length; i++) if (target.indexOf(flags.charAt(i)) == -1)
+      target += flags.charAt(i)
+    return current == target ? regexp : new RegExp(regexp.source, target)
+  }
+
+  function maybeMultiline(regexp) {
+    return /\\s|\\n|\n|\\W|\\D|\[\^/.test(regexp.source)
+  }
+
+  function searchRegexpForward(doc, regexp, start) {
+    regexp = ensureFlags(regexp, "g")
+    for (var line = start.line, ch = start.ch, last = doc.lastLine(); line <= last; line++, ch = 0) {
+      regexp.lastIndex = ch
+      var string = doc.getLine(line), match = regexp.exec(string)
+      if (match)
+        return {from: Pos(line, match.index),
+                to: Pos(line, match.index + match[0].length),
+                match: match}
+    }
+  }
+
+  function searchRegexpForwardMultiline(doc, regexp, start) {
+    if (!maybeMultiline(regexp)) return searchRegexpForward(doc, regexp, start)
+
+    regexp = ensureFlags(regexp, "gm")
+    var string, chunk = 1
+    for (var line = start.line, last = doc.lastLine(); line <= last;) {
+      // This grows the search buffer in exponentially-sized chunks
+      // between matches, so that nearby matches are fast and don't
+      // require concatenating the whole document (in case we're
+      // searching for something that has tons of matches), but at the
+      // same time, the amount of retries is limited.
+      for (var i = 0; i < chunk; i++) {
+        if (line > last) break
+        var curLine = doc.getLine(line++)
+        string = string == null ? curLine : string + "\n" + curLine
+      }
+      chunk = chunk * 2
+      regexp.lastIndex = start.ch
+      var match = regexp.exec(string)
+      if (match) {
+        var before = string.slice(0, match.index).split("\n"), inside = match[0].split("\n")
+        var startLine = start.line + before.length - 1, startCh = before[before.length - 1].length
+        return {from: Pos(startLine, startCh),
+                to: Pos(startLine + inside.length - 1,
+                        inside.length == 1 ? startCh + inside[0].length : inside[inside.length - 1].length),
+                match: match}
+      }
+    }
+  }
+
+  function lastMatchIn(string, regexp, endMargin) {
+    var match, from = 0
+    while (from <= string.length) {
+      regexp.lastIndex = from
+      var newMatch = regexp.exec(string)
+      if (!newMatch) break
+      var end = newMatch.index + newMatch[0].length
+      if (end > string.length - endMargin) break
+      if (!match || end > match.index + match[0].length)
+        match = newMatch
+      from = newMatch.index + 1
+    }
+    return match
+  }
+
+  function searchRegexpBackward(doc, regexp, start) {
+    regexp = ensureFlags(regexp, "g")
+    for (var line = start.line, ch = start.ch, first = doc.firstLine(); line >= first; line--, ch = -1) {
+      var string = doc.getLine(line)
+      var match = lastMatchIn(string, regexp, ch < 0 ? 0 : string.length - ch)
+      if (match)
+        return {from: Pos(line, match.index),
+                to: Pos(line, match.index + match[0].length),
+                match: match}
+    }
+  }
+
+  function searchRegexpBackwardMultiline(doc, regexp, start) {
+    if (!maybeMultiline(regexp)) return searchRegexpBackward(doc, regexp, start)
+    regexp = ensureFlags(regexp, "gm")
+    var string, chunkSize = 1, endMargin = doc.getLine(start.line).length - start.ch
+    for (var line = start.line, first = doc.firstLine(); line >= first;) {
+      for (var i = 0; i < chunkSize && line >= first; i++) {
+        var curLine = doc.getLine(line--)
+        string = string == null ? curLine : curLine + "\n" + string
+      }
+      chunkSize *= 2
+
+      var match = lastMatchIn(string, regexp, endMargin)
+      if (match) {
+        var before = string.slice(0, match.index).split("\n"), inside = match[0].split("\n")
+        var startLine = line + before.length, startCh = before[before.length - 1].length
+        return {from: Pos(startLine, startCh),
+                to: Pos(startLine + inside.length - 1,
+                        inside.length == 1 ? startCh + inside[0].length : inside[inside.length - 1].length),
+                match: match}
+      }
+    }
+  }
+
+  var doFold, noFold
+  if (String.prototype.normalize) {
+    doFold = function(str) { return str.normalize("NFD").toLowerCase() }
+    noFold = function(str) { return str.normalize("NFD") }
+  } else {
+    doFold = function(str) { return str.toLowerCase() }
+    noFold = function(str) { return str }
+  }
+
+  // Maps a position in a case-folded line back to a position in the original line
+  // (compensating for codepoints increasing in number during folding)
+  function adjustPos(orig, folded, pos, foldFunc) {
+    if (orig.length == folded.length) return pos
+    for (var min = 0, max = pos + Math.max(0, orig.length - folded.length);;) {
+      if (min == max) return min
+      var mid = (min + max) >> 1
+      var len = foldFunc(orig.slice(0, mid)).length
+      if (len == pos) return mid
+      else if (len > pos) max = mid
+      else min = mid + 1
+    }
+  }
+
+  function searchStringForward(doc, query, start, caseFold) {
+    // Empty string would match anything and never progress, so we
+    // define it to match nothing instead.
+    if (!query.length) return null
+    var fold = caseFold ? doFold : noFold
+    var lines = fold(query).split(/\r|\n\r?/)
+
+    search: for (var line = start.line, ch = start.ch, last = doc.lastLine() + 1 - lines.length; line <= last; line++, ch = 0) {
+      var orig = doc.getLine(line).slice(ch), string = fold(orig)
+      if (lines.length == 1) {
+        var found = string.indexOf(lines[0])
+        if (found == -1) continue search
+        var start = adjustPos(orig, string, found, fold) + ch
+        return {from: Pos(line, adjustPos(orig, string, found, fold) + ch),
+                to: Pos(line, adjustPos(orig, string, found + lines[0].length, fold) + ch)}
+      } else {
+        var cutFrom = string.length - lines[0].length
+        if (string.slice(cutFrom) != lines[0]) continue search
+        for (var i = 1; i < lines.length - 1; i++)
+          if (fold(doc.getLine(line + i)) != lines[i]) continue search
+        var end = doc.getLine(line + lines.length - 1), endString = fold(end), lastLine = lines[lines.length - 1]
+        if (endString.slice(0, lastLine.length) != lastLine) continue search
+        return {from: Pos(line, adjustPos(orig, string, cutFrom, fold) + ch),
+                to: Pos(line + lines.length - 1, adjustPos(end, endString, lastLine.length, fold))}
+      }
+    }
+  }
+
+  function searchStringBackward(doc, query, start, caseFold) {
+    if (!query.length) return null
+    var fold = caseFold ? doFold : noFold
+    var lines = fold(query).split(/\r|\n\r?/)
+
+    search: for (var line = start.line, ch = start.ch, first = doc.firstLine() - 1 + lines.length; line >= first; line--, ch = -1) {
+      var orig = doc.getLine(line)
+      if (ch > -1) orig = orig.slice(0, ch)
+      var string = fold(orig)
+      if (lines.length == 1) {
+        var found = string.lastIndexOf(lines[0])
+        if (found == -1) continue search
+        return {from: Pos(line, adjustPos(orig, string, found, fold)),
+                to: Pos(line, adjustPos(orig, string, found + lines[0].length, fold))}
+      } else {
+        var lastLine = lines[lines.length - 1]
+        if (string.slice(0, lastLine.length) != lastLine) continue search
+        for (var i = 1, start = line - lines.length + 1; i < lines.length - 1; i++)
+          if (fold(doc.getLine(start + i)) != lines[i]) continue search
+        var top = doc.getLine(line + 1 - lines.length), topString = fold(top)
+        if (topString.slice(topString.length - lines[0].length) != lines[0]) continue search
+        return {from: Pos(line + 1 - lines.length, adjustPos(top, topString, top.length - lines[0].length, fold)),
+                to: Pos(line, adjustPos(orig, string, lastLine.length, fold))}
+      }
+    }
+  }
+
+  function SearchCursor(doc, query, pos, options) {
+    this.atOccurrence = false
+    this.doc = doc
+    pos = pos ? doc.clipPos(pos) : Pos(0, 0)
+    this.pos = {from: pos, to: pos}
+
+    var caseFold
+    if (typeof options == "object") {
+      caseFold = options.caseFold
+    } else { // Backwards compat for when caseFold was the 4th argument
+      caseFold = options
+      options = null
+    }
+
+    if (typeof query == "string") {
+      if (caseFold == null) caseFold = false
+      this.matches = function(reverse, pos) {
+        return (reverse ? searchStringBackward : searchStringForward)(doc, query, pos, caseFold)
+      }
+    } else {
+      query = ensureFlags(query, "gm")
+      if (!options || options.multiline !== false)
+        this.matches = function(reverse, pos) {
+          return (reverse ? searchRegexpBackwardMultiline : searchRegexpForwardMultiline)(doc, query, pos)
+        }
+      else
+        this.matches = function(reverse, pos) {
+          return (reverse ? searchRegexpBackward : searchRegexpForward)(doc, query, pos)
+        }
+    }
+  }
+
+  SearchCursor.prototype = {
+    findNext: function() {return this.find(false)},
+    findPrevious: function() {return this.find(true)},
+
+    find: function(reverse) {
+      var result = this.matches(reverse, this.doc.clipPos(reverse ? this.pos.from : this.pos.to))
+
+      // Implements weird auto-growing behavior on null-matches for
+      // backwards-compatibility with the vim code (unfortunately)
+      while (result && CodeMirror.cmpPos(result.from, result.to) == 0) {
+        if (reverse) {
+          if (result.from.ch) result.from = Pos(result.from.line, result.from.ch - 1)
+          else if (result.from.line == this.doc.firstLine()) result = null
+          else result = this.matches(reverse, this.doc.clipPos(Pos(result.from.line - 1)))
+        } else {
+          if (result.to.ch < this.doc.getLine(result.to.line).length) result.to = Pos(result.to.line, result.to.ch + 1)
+          else if (result.to.line == this.doc.lastLine()) result = null
+          else result = this.matches(reverse, Pos(result.to.line + 1, 0))
+        }
+      }
+
+      if (result) {
+        this.pos = result
+        this.atOccurrence = true
+        return this.pos.match || true
+      } else {
+        var end = Pos(reverse ? this.doc.firstLine() : this.doc.lastLine() + 1, 0)
+        this.pos = {from: end, to: end}
+        return this.atOccurrence = false
+      }
+    },
+
+    from: function() {if (this.atOccurrence) return this.pos.from},
+    to: function() {if (this.atOccurrence) return this.pos.to},
+
+    replace: function(newText, origin) {
+      if (!this.atOccurrence) return
+      var lines = CodeMirror.splitLines(newText)
+      this.doc.replaceRange(lines, this.pos.from, this.pos.to, origin)
+      this.pos.to = Pos(this.pos.from.line + lines.length - 1,
+                        lines[lines.length - 1].length + (lines.length == 1 ? this.pos.from.ch : 0))
+    }
+  }
+
+  CodeMirror.defineExtension("getSearchCursor", function(query, pos, caseFold) {
+    return new SearchCursor(this.doc, query, pos, caseFold)
+  })
+  CodeMirror.defineDocExtension("getSearchCursor", function(query, pos, caseFold) {
+    return new SearchCursor(this, query, pos, caseFold)
+  })
+
+  CodeMirror.defineExtension("selectMatches", function(query, caseFold) {
+    var ranges = []
+    var cur = this.getSearchCursor(query, this.getCursor("from"), caseFold)
+    while (cur.findNext()) {
+      if (CodeMirror.cmpPos(cur.to(), this.getCursor("to")) > 0) break
+      ranges.push({anchor: cur.from(), head: cur.to()})
+    }
+    if (ranges.length)
+      this.setSelections(ranges, 0)
+  })
+});

@@ -4,10 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-    <link rel="stylesheet" href="codemirror.css">
-    <script src="codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <script src="lib/codemirror.js"></script>
 
     <link rel="stylesheet" href="addons/dialog/dialog.css">
+    <link rel="stylesheet" href="addons/fold/foldgutter.css" />
+    <link rel="stylesheet" href="addons/hint/show-hint.css" />
+      
     <script src="addons/dialog/dialog.js"></script>
     <script src="addons/search/jump-to-line.js"></script>
     <script src="addons/search/match-highlighter.js"></script>
@@ -20,12 +23,17 @@
     <script src="addons/fold/indent-fold.js"></script>
     <script src="addons/fold/comment-fold.js"></script>
     <script src="addons/selection/active-line.js"></script>
+    <script src="addons/selection/selection-pointer.js"></script>
     <script src="addons/edit/closebrackets.js"></script>
     <script src="addons/comment/comment.js"></script>
     <script src="addons/show-invisibles.js"></script>
+    <script src="addons/hint/css-hint.js"></script>
+    <script src="addons/hint/html-hint.js"></script>
+    <script src="addons/hint/javascript-hint.js"></script>
+    <script src="addons/hint/show-hint.js"></script>
+    <script src="addons/hint/sql-hint.js"></script>
+    <script src="addons/hint/xml-hint.js"></script>
 
-    <link rel="stylesheet" href="addons/fold/foldgutter.css" />
-    
     <link rel="stylesheet" href="theme/bbedit.css"/>
     <link rel="stylesheet" href="theme/all-hallow-eve.css"/>
     <link rel="stylesheet" href="theme/idlefingers.css"/>
@@ -136,7 +144,127 @@
     <link rel="stylesheet" href="theme/clouds-midnight.css"/>
     <link rel="stylesheet" href="theme/snip-material.css"/>
      
-    <script src="modes/apl.js"></script><script src="modes/asciiarmor.js"></script><script src="modes/asn.1.js"></script><script src="modes/asterisk.js"></script><script src="modes/brainfuck.js"></script><script src="modes/clike.js"></script><script src="modes/clojure.js"></script><script src="modes/cmake.js"></script><script src="modes/cobol.js"></script><script src="modes/coffeescript.js"></script><script src="modes/commonlisp.js"></script><script src="modes/crystal.js"></script><script src="modes/css.js"></script><script src="modes/cypher.js"></script><script src="modes/d.js"></script><script src="modes/dart.js"></script><script src="modes/diff.js"></script><script src="modes/django.js"></script><script src="modes/dockerfile.js"></script><script src="modes/dtd.js"></script><script src="modes/dylan.js"></script><script src="modes/ebnf.js"></script><script src="modes/ecl.js"></script><script src="modes/eiffel.js"></script><script src="modes/elm.js"></script><script src="modes/erlang.js"></script><script src="modes/factor.js"></script><script src="modes/fcl.js"></script><script src="modes/forth.js"></script><script src="modes/fortran.js"></script><script src="modes/gas.js"></script><script src="modes/gfm.js"></script><script src="modes/gherkin.js"></script><script src="modes/go.js"></script><script src="modes/groovy.js"></script><script src="modes/haml.js"></script><script src="modes/handlebars.js"></script><script src="modes/haskell.js"></script><script src="modes/haskell-literate.js"></script><script src="modes/haxe.js"></script><script src="modes/htmlembedded.js"></script><script src="modes/htmlmixed.js"></script><script src="modes/http.js"></script><script src="modes/idl.js"></script><script src="modes/javascript.js"></script><script src="modes/jinja2.js"></script><script src="modes/jsx.js"></script><script src="modes/julia.js"></script><script src="modes/livescript.js"></script><script src="modes/lua.js"></script><script src="modes/markdown.js"></script><script src="modes/mathematica.js"></script><script src="modes/mbox.js"></script><script src="modes/mirc.js"></script><script src="modes/mllike.js"></script><script src="modes/modelica.js"></script><script src="modes/mscgen.js"></script><script src="modes/mumps.js"></script><script src="modes/nginx.js"></script><script src="modes/nsis.js"></script><script src="modes/ntriples.js"></script><script src="modes/octave.js"></script><script src="modes/oz.js"></script><script src="modes/pascal.js"></script><script src="modes/pegjs.js"></script><script src="modes/perl.js"></script><script src="modes/php.js"></script><script src="modes/pig.js"></script><script src="modes/powershell.js"></script><script src="modes/properties.js"></script><script src="modes/protobuf.js"></script><script src="modes/pug.js"></script><script src="modes/puppet.js"></script><script src="modes/python.js"></script><script src="modes/q.js"></script><script src="modes/r.js"></script><script src="modes/rpm.js"></script><script src="modes/rst.js"></script><script src="modes/ruby.js"></script><script src="modes/rust.js"></script><script src="modes/sas.js"></script><script src="modes/sass.js"></script><script src="modes/scheme.js"></script><script src="modes/shell.js"></script><script src="modes/sieve.js"></script><script src="modes/slim.js"></script><script src="modes/smalltalk.js"></script><script src="modes/smarty.js"></script><script src="modes/solr.js"></script><script src="modes/soy.js"></script><script src="modes/sparql.js"></script><script src="modes/spreadsheet.js"></script><script src="modes/sql.js"></script><script src="modes/stex.js"></script><script src="modes/stylus.js"></script><script src="modes/swift.js"></script><script src="modes/tcl.js"></script><script src="modes/textile.js"></script><script src="modes/tiddlywiki.js"></script><script src="modes/tiki.js"></script><script src="modes/toml.js"></script><script src="modes/tornado.js"></script><script src="modes/troff.js"></script><script src="modes/ttcn.js"></script><script src="modes/ttcn-cfg.js"></script><script src="modes/turtle.js"></script><script src="modes/twig.js"></script><script src="modes/vb.js"></script><script src="modes/vbscript.js"></script><script src="modes/velocity.js"></script><script src="modes/verilog.js"></script><script src="modes/vhdl.js"></script><script src="modes/vue.js"></script><script src="modes/webidl.js"></script><script src="modes/xml.js"></script><script src="modes/xquery.js"></script><script src="modes/yacas.js"></script><script src="modes/yaml.js"></script><script src="modes/yaml-frontmatter.js"></script><script src="modes/z80.js"></script>
+    <script src="modes/apl/apl.js"></script>
+    <script src="modes/asciiarmor/asciiarmor.js"></script>
+    <script src="modes/asn.1/asn.1.js"></script>
+    <script src="modes/asterisk/asterisk.js"></script>
+    <script src="modes/brainfuck/brainfuck.js"></script>
+    <script src="modes/clike/clike.js"></script>
+    <script src="modes/clojure/clojure.js"></script>
+    <script src="modes/cmake/cmake.js"></script>
+    <script src="modes/cobol/cobol.js"></script>
+    <script src="modes/coffeescript/coffeescript.js"></script>
+    <script src="modes/commonlisp/commonlisp.js"></script>
+    <script src="modes/crystal/crystal.js"></script>
+    <script src="modes/css/css.js"></script>
+    <script src="modes/cypher/cypher.js"></script>
+    <script src="modes/d/d.js"></script>
+    <script src="modes/dart/dart.js"></script>
+    <script src="modes/diff/diff.js"></script>
+    <script src="modes/django/django.js"></script>
+    <script src="modes/dockerfile/dockerfile.js"></script>
+    <script src="modes/dtd/dtd.js"></script>
+    <script src="modes/dylan/dylan.js"></script>
+    <script src="modes/ebnf/ebnf.js"></script>
+    <script src="modes/ecl/ecl.js"></script>
+    <script src="modes/eiffel/eiffel.js"></script>
+    <script src="modes/elm/elm.js"></script>
+    <script src="modes/erlang/erlang.js"></script>
+    <script src="modes/factor/factor.js"></script>
+    <script src="modes/fcl/fcl.js"></script>
+    <script src="modes/forth/forth.js"></script>
+    <script src="modes/fortran/fortran.js"></script>
+    <script src="modes/gas/gas.js"></script>
+    <script src="modes/gfm/gfm.js"></script>
+    <script src="modes/gherkin/gherkin.js"></script>
+    <script src="modes/go/go.js"></script>
+    <script src="modes/groovy/groovy.js"></script>
+    <script src="modes/haml/haml.js"></script>
+    <script src="modes/handlebars/handlebars.js"></script>
+    <script src="modes/haskell/haskell.js"></script>
+    <script src="modes/haskell-literate/haskell-literate.js"></script>
+    <script src="modes/haxe/haxe.js"></script>
+    <script src="modes/htmlembedded/htmlembedded.js"></script>
+    <script src="modes/htmlmixed/htmlmixed.js"></script>
+    <script src="modes/http/http.js"></script>
+    <script src="modes/idl/idl.js"></script>
+    <script src="modes/javascript/javascript.js"></script>
+    <script src="modes/jinja2/jinja2.js"></script>
+    <script src="modes/jsx/jsx.js"></script>
+    <script src="modes/julia/julia.js"></script>
+    <script src="modes/livescript/livescript.js"></script>
+    <script src="modes/lua/lua.js"></script>
+    <script src="modes/markdown/markdown.js"></script>
+    <script src="modes/mathematica/mathematica.js"></script>
+    <script src="modes/mbox/mbox.js"></script>
+    <script src="modes/mirc/mirc.js"></script>
+    <script src="modes/mllike/mllike.js"></script>
+    <script src="modes/modelica/modelica.js"></script>
+    <script src="modes/mscgen/mscgen.js"></script>
+    <script src="modes/mumps/mumps.js"></script>
+    <script src="modes/nginx/nginx.js"></script>
+    <script src="modes/nsis/nsis.js"></script>
+    <script src="modes/ntriples/ntriples.js"></script>
+    <script src="modes/octave/octave.js"></script>
+    <script src="modes/oz/oz.js"></script>
+    <script src="modes/pascalpascal.js"></script>
+    <script src="modes/pegjs/pegjs.js"></script>
+    <script src="modes/perl/perl.js"></script>
+    <script src="modes/php/php.js"></script>
+    <script src="modes/pig/pig.js"></script>
+    <script src="modes/powershell/powershell.js"></script>
+    <script src="modes/properties/properties.js"></script>
+    <script src="modes/protobuf/protobuf.js"></script>
+    <script src="modes/pug/pug.js"></script>
+    <script src="modes/puppet/puppet.js"></script>
+    <script src="modes/python/python.js"></script>
+    <script src="modes/q/q.js"></script>
+    <script src="modes/r/r.js"></script>
+    <script src="modes/rpm/rpm.js"></script>
+    <script src="modes/rst/rst.js"></script>
+    <script src="modes/ruby/ruby.js"></script>
+    <script src="modes/rust/rust.js"></script>
+    <script src="modes/sas/sas.js"></script>
+    <script src="modes/sass/sass.js"></script>
+    <script src="modes/scheme/scheme.js"></script>
+    <script src="modes/shell/shell.js"></script>
+    <script src="modes/sieve/sieve.js"></script>
+    <script src="modes/slim/slim.js"></script>
+    <script src="modes/smalltalk/smalltalk.js"></script>
+    <script src="modes/smarty/smarty.js"></script>
+    <script src="modes/solr/solr.js"></script>
+    <script src="modes/soy/soy.js"></script>
+    <script src="modes/sparql/sparql.js"></script>
+    <script src="modes/spreadsheet/spreadsheet.js"></script>
+    <script src="modes/sql/sql.js"></script>
+    <script src="modes/stex/stex.js"></script>
+    <script src="modes/stylus/stylus.js"></script>
+    <script src="modes/swift/swift.js"></script>
+    <script src="modes/tcl/tcl.js"></script>
+    <script src="modes/textile/textile.js"></script>
+    <script src="modes/tiddlywiki/tiddlywiki.js"></script>
+    <script src="modes/tiki/tiki.js"></script>
+    <script src="modes/toml/toml.js"></script>
+    <script src="modes/tornado/tornado.js"></script>
+    <script src="modes/troff/troff.js"></script>
+    <script src="modes/ttcn/ttcn.js"></script>
+    <script src="modes/ttcn-cfg/ttcn-cfg.js"></script>
+    <script src="modes/turtle/turtle.js"></script>
+    <script src="modes/twig/twig.js"></script>
+    <script src="modes/vb/vb.js"></script>
+    <script src="modes/vbscript/vbscript.js"></script>
+    <script src="modes/velocity/velocity.js"></script>
+    <script src="modes/verilog/verilog.js"></script>
+    <script src="modes/vhdl/vhdl.js"></script>
+    <script src="modes/vue/vue.js"></script>
+    <script src="modes/webidl/webidl.js"></script>
+    <script src="modes/xml/xml.js"></script>
+    <script src="modes/xquery/xquery.js"></script>
+    <script src="modes/yacas/yacas.js"></script>
+    <script src="modes/yaml/yaml.js"></script>
+    <script src="modes/yaml-frontmatter/yaml-frontmatter.js"></script>
+    <script src="modes/z80/z80.js"></script>
+
   </head>
   <style>
 
@@ -157,7 +285,7 @@
     <script>
       
       CodeMirror.keyMap["default"]["Cmd-/"] = "toggleComment";  // Add-on
-
+      
       var editor = CodeMirror(document.body, {
         lineNumbers: true,
         autofocus: true,
@@ -166,13 +294,19 @@
         foldGutter: true,
         showInvisibles: true,
         maxInvisibles: 16,
+        smartIndent: true,
         tabSize: 2,
         indentUnit: 2,
         lineWrapping: true,
         readOnly: false,
         autoCloseBrackets: true,
+        selectionPointer: true,
         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-        extraKeys: {"Cmd-F": "findPersistent"},
+        extraKeys: {
+          "Cmd-F": "findPersistent",
+          "Ctrl-Space": "autocomplete",
+          "Ctrl-I": "indentAuto"
+        },
         styleActiveLine: true
       });
       editor.on("change", function(instance, change) {

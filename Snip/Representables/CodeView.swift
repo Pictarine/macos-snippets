@@ -25,6 +25,7 @@ struct CodeView: NSViewRepresentable {
     let userController = WKUserContentController()
     userController.add(context.coordinator, name: CodeMirrorViewConstants.codeMirrorDidReady)
     userController.add(context.coordinator, name: CodeMirrorViewConstants.codeMirrorTextContentDidChange)
+    userController.add(context.coordinator, name: CodeMirrorViewConstants.codeMirrorLog)
     
     let configuration = WKWebViewConfiguration()
     configuration.preferences = preferences

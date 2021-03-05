@@ -1,8 +1,216 @@
-'use strict';(function(l){"object"==typeof exports&&"object"==typeof module?l(require("../../lib/codemirror")):"function"==typeof define&&define.amd?define(["../../lib/codemirror"],l):l(CodeMirror)})(function(l){function r(b,e){if(!b.hasOwnProperty(e))throw Error("Undefined state "+e+" in simple mode");}function q(b,e){if(!b)return/(?:)/;var d="";b instanceof RegExp?(b.ignoreCase&&(d="i"),b=b.source):b=String(b);return new RegExp((!1===e?"":"^")+"(?:"+b+")",d)}function u(b){if(!b)return null;if(b.apply)return b;
-if("string"==typeof b)return b.replace(/\./g," ");for(var e=[],d=0;d<b.length;d++)e.push(b[d]&&b[d].replace(/\./g," "));return e}function v(b,e){(b.next||b.push)&&r(e,b.next||b.push);this.regex=q(b.regex);this.token=u(b.token);this.data=b}function w(b,e){return function(d,a){if(a.pending){var c=a.pending.shift();0==a.pending.length&&(a.pending=null);d.pos+=c.text.length;return c.token}if(a.local){if(a.local.end&&d.match(a.local.end))c=a.local.endToken||null,a.local=a.localState=null;else{c=a.local.mode.token(d,
-a.localState);var g;a.local.endScan&&(g=a.local.endScan.exec(d.current()))&&(d.pos=d.start+g.index)}return c}for(var h=b[a.state],f=0;f<h.length;f++)if(c=h[f],g=(!c.data.sol||d.sol())&&d.match(c.regex)){c.data.next?a.state=c.data.next:c.data.push?((a.stack||(a.stack=[])).push(a.state),a.state=c.data.push):c.data.pop&&a.stack&&a.stack.length&&(a.state=a.stack.pop());if(c.data.mode){h=void 0;var m=e;f=a;var k=c.data.mode,n=c.token;if(k.persistent)for(var p=f.persistentStates;p&&!h;p=p.next)if(k.spec?
-t(k.spec,p.spec):k.mode==p.mode)h=p;m=h?h.mode:k.mode||l.getMode(m,k.spec);p=h?h.state:l.startState(m);k.persistent&&!h&&(f.persistentStates={mode:m,spec:k.spec,state:p,next:f.persistentStates});f.localState=p;f.local={mode:m,end:k.end&&q(k.end),endScan:k.end&&!1!==k.forceEnd&&q(k.end,!1),endToken:n&&n.join?n[n.length-1]:n}}c.data.indent&&a.indent.push(d.indentation()+e.indentUnit);c.data.dedent&&a.indent.pop();(h=c.token)&&h.apply&&(h=h(g));if(2<g.length&&c.token&&"string"!=typeof c.token){a.pending=
-[];for(f=2;f<g.length;f++)g[f]&&a.pending.push({text:g[f],token:c.token[f-1]});d.backUp(g[0].length-(g[1]?g[1].length:0));return h[0]}return h&&h.join?h[0]:h}d.next();return null}}function t(b,e){if(b===e)return!0;if(!b||"object"!=typeof b||!e||"object"!=typeof e)return!1;var d=0,a;for(a in b)if(b.hasOwnProperty(a)){if(!e.hasOwnProperty(a)||!t(b[a],e[a]))return!1;d++}for(a in e)e.hasOwnProperty(a)&&d--;return 0==d}function x(b,e){return function(d,a,c){if(d.local&&d.local.mode.indent)return d.local.mode.indent(d.localState,
-a,c);if(!(c=null==d.indent||d.local)&&(c=e.dontIndentStates)){a:{c=e.dontIndentStates;for(var g=0;g<c.length;g++)if(c[g]===d.state){c=!0;break a}c=void 0}c=-1<c}if(c)return l.Pass;c=d.indent.length-1;g=b[d.state];a:for(;;){for(var h=0;h<g.length;h++){var f=g[h];if(f.data.dedent&&!1!==f.data.dedentIfLineStart){var m=f.regex.exec(a);if(m&&m[0]){c--;if(f.next||f.push)g=b[f.next||f.push];a=a.slice(m[0].length);continue a}}}break}return 0>c?0:d.indent[c]}}l.defineSimpleMode=function(b,e){l.defineMode(b,
-function(b){return l.simpleMode(b,e)})};l.simpleMode=function(b,e){r(e,"start");var d={},a=e.meta||{},c=!1,g;for(g in e)if(g!=a&&e.hasOwnProperty(g))for(var h=d[g]=[],f=e[g],m=0;m<f.length;m++){var k=f[m];h.push(new v(k,e));if(k.indent||k.dedent)c=!0}b={startState:function(){return{state:"start",pending:null,local:null,localState:null,indent:c?[]:null}},copyState:function(a){var b={state:a.state,pending:a.pending,local:a.local,localState:null,indent:a.indent&&a.indent.slice(0)};a.localState&&(b.localState=
-l.copyState(a.local.mode,a.localState));a.stack&&(b.stack=a.stack.slice(0));for(var c=a.persistentStates;c;c=c.next)b.persistentStates={mode:c.mode,spec:c.spec,state:c.state==a.localState?b.localState:l.copyState(c.mode,c.state),next:b.persistentStates};return b},token:w(d,b),innerMode:function(a){return a.local&&{mode:a.local.mode,state:a.localState}},indent:x(d,a)};if(a)for(var n in a)a.hasOwnProperty(n)&&(b[n]=a[n]);return b}});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineSimpleMode = function(name, states) {
+    CodeMirror.defineMode(name, function(config) {
+      return CodeMirror.simpleMode(config, states);
+    });
+  };
+
+  CodeMirror.simpleMode = function(config, states) {
+    ensureState(states, "start");
+    var states_ = {}, meta = states.meta || {}, hasIndentation = false;
+    for (var state in states) if (state != meta && states.hasOwnProperty(state)) {
+      var list = states_[state] = [], orig = states[state];
+      for (var i = 0; i < orig.length; i++) {
+        var data = orig[i];
+        list.push(new Rule(data, states));
+        if (data.indent || data.dedent) hasIndentation = true;
+      }
+    }
+    var mode = {
+      startState: function() {
+        return {state: "start", pending: null,
+                local: null, localState: null,
+                indent: hasIndentation ? [] : null};
+      },
+      copyState: function(state) {
+        var s = {state: state.state, pending: state.pending,
+                 local: state.local, localState: null,
+                 indent: state.indent && state.indent.slice(0)};
+        if (state.localState)
+          s.localState = CodeMirror.copyState(state.local.mode, state.localState);
+        if (state.stack)
+          s.stack = state.stack.slice(0);
+        for (var pers = state.persistentStates; pers; pers = pers.next)
+          s.persistentStates = {mode: pers.mode,
+                                spec: pers.spec,
+                                state: pers.state == state.localState ? s.localState : CodeMirror.copyState(pers.mode, pers.state),
+                                next: s.persistentStates};
+        return s;
+      },
+      token: tokenFunction(states_, config),
+      innerMode: function(state) { return state.local && {mode: state.local.mode, state: state.localState}; },
+      indent: indentFunction(states_, meta)
+    };
+    if (meta) for (var prop in meta) if (meta.hasOwnProperty(prop))
+      mode[prop] = meta[prop];
+    return mode;
+  };
+
+  function ensureState(states, name) {
+    if (!states.hasOwnProperty(name))
+      throw new Error("Undefined state " + name + " in simple mode");
+  }
+
+  function toRegex(val, caret) {
+    if (!val) return /(?:)/;
+    var flags = "";
+    if (val instanceof RegExp) {
+      if (val.ignoreCase) flags = "i";
+      val = val.source;
+    } else {
+      val = String(val);
+    }
+    return new RegExp((caret === false ? "" : "^") + "(?:" + val + ")", flags);
+  }
+
+  function asToken(val) {
+    if (!val) return null;
+    if (val.apply) return val
+    if (typeof val == "string") return val.replace(/\./g, " ");
+    var result = [];
+    for (var i = 0; i < val.length; i++)
+      result.push(val[i] && val[i].replace(/\./g, " "));
+    return result;
+  }
+
+  function Rule(data, states) {
+    if (data.next || data.push) ensureState(states, data.next || data.push);
+    this.regex = toRegex(data.regex);
+    this.token = asToken(data.token);
+    this.data = data;
+  }
+
+  function tokenFunction(states, config) {
+    return function(stream, state) {
+      if (state.pending) {
+        var pend = state.pending.shift();
+        if (state.pending.length == 0) state.pending = null;
+        stream.pos += pend.text.length;
+        return pend.token;
+      }
+
+      if (state.local) {
+        if (state.local.end && stream.match(state.local.end)) {
+          var tok = state.local.endToken || null;
+          state.local = state.localState = null;
+          return tok;
+        } else {
+          var tok = state.local.mode.token(stream, state.localState), m;
+          if (state.local.endScan && (m = state.local.endScan.exec(stream.current())))
+            stream.pos = stream.start + m.index;
+          return tok;
+        }
+      }
+
+      var curState = states[state.state];
+      for (var i = 0; i < curState.length; i++) {
+        var rule = curState[i];
+        var matches = (!rule.data.sol || stream.sol()) && stream.match(rule.regex);
+        if (matches) {
+          if (rule.data.next) {
+            state.state = rule.data.next;
+          } else if (rule.data.push) {
+            (state.stack || (state.stack = [])).push(state.state);
+            state.state = rule.data.push;
+          } else if (rule.data.pop && state.stack && state.stack.length) {
+            state.state = state.stack.pop();
+          }
+
+          if (rule.data.mode)
+            enterLocalMode(config, state, rule.data.mode, rule.token);
+          if (rule.data.indent)
+            state.indent.push(stream.indentation() + config.indentUnit);
+          if (rule.data.dedent)
+            state.indent.pop();
+          var token = rule.token
+          if (token && token.apply) token = token(matches)
+          if (matches.length > 2 && rule.token && typeof rule.token != "string") {
+            state.pending = [];
+            for (var j = 2; j < matches.length; j++)
+              if (matches[j])
+                state.pending.push({text: matches[j], token: rule.token[j - 1]});
+            stream.backUp(matches[0].length - (matches[1] ? matches[1].length : 0));
+            return token[0];
+          } else if (token && token.join) {
+            return token[0];
+          } else {
+            return token;
+          }
+        }
+      }
+      stream.next();
+      return null;
+    };
+  }
+
+  function cmp(a, b) {
+    if (a === b) return true;
+    if (!a || typeof a != "object" || !b || typeof b != "object") return false;
+    var props = 0;
+    for (var prop in a) if (a.hasOwnProperty(prop)) {
+      if (!b.hasOwnProperty(prop) || !cmp(a[prop], b[prop])) return false;
+      props++;
+    }
+    for (var prop in b) if (b.hasOwnProperty(prop)) props--;
+    return props == 0;
+  }
+
+  function enterLocalMode(config, state, spec, token) {
+    var pers;
+    if (spec.persistent) for (var p = state.persistentStates; p && !pers; p = p.next)
+      if (spec.spec ? cmp(spec.spec, p.spec) : spec.mode == p.mode) pers = p;
+    var mode = pers ? pers.mode : spec.mode || CodeMirror.getMode(config, spec.spec);
+    var lState = pers ? pers.state : CodeMirror.startState(mode);
+    if (spec.persistent && !pers)
+      state.persistentStates = {mode: mode, spec: spec.spec, state: lState, next: state.persistentStates};
+
+    state.localState = lState;
+    state.local = {mode: mode,
+                   end: spec.end && toRegex(spec.end),
+                   endScan: spec.end && spec.forceEnd !== false && toRegex(spec.end, false),
+                   endToken: token && token.join ? token[token.length - 1] : token};
+  }
+
+  function indexOf(val, arr) {
+    for (var i = 0; i < arr.length; i++) if (arr[i] === val) return true;
+  }
+
+  function indentFunction(states, meta) {
+    return function(state, textAfter, line) {
+      if (state.local && state.local.mode.indent)
+        return state.local.mode.indent(state.localState, textAfter, line);
+      if (state.indent == null || state.local || meta.dontIndentStates && indexOf(state.state, meta.dontIndentStates) > -1)
+        return CodeMirror.Pass;
+
+      var pos = state.indent.length - 1, rules = states[state.state];
+      scan: for (;;) {
+        for (var i = 0; i < rules.length; i++) {
+          var rule = rules[i];
+          if (rule.data.dedent && rule.data.dedentIfLineStart !== false) {
+            var m = rule.regex.exec(textAfter);
+            if (m && m[0]) {
+              pos--;
+              if (rule.next || rule.push) rules = states[rule.next || rule.push];
+              textAfter = textAfter.slice(m[0].length);
+              continue scan;
+            }
+          }
+        }
+        break;
+      }
+      return pos < 0 ? 0 : state.indent[pos];
+    };
+  }
+});

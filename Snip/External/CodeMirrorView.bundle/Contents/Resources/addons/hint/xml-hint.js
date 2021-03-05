@@ -1,5 +1,132 @@
-'use strict';(function(p){"object"==typeof exports&&"object"==typeof module?p(require("../../lib/codemirror")):"function"==typeof define&&define.amd?define(["../../lib/codemirror"],p):p(CodeMirror)})(function(p){function u(c,f,b){return b?0<=c.indexOf(f):0==c.lastIndexOf(f,0)}var v=p.Pos;p.registerHelper("hint","xml",function(c,f){var b=f&&f.schemaInfo,h=f&&f.quoteChar||'"';f=f&&f.matchInMiddle;if(b){var k=c.getCursor(),a=c.getTokenAt(k);a.end>k.ch&&(a.end=k.ch,a.string=a.string.slice(0,k.ch-a.start));
-var l=p.innerMode(c.getMode(),a.state);if(l.mode.xmlCurrentTag){var t=[],m=!1,n=/\btag\b/.test(a.type)&&!/>$/.test(a.string),z=n&&/^\w/.test(a.string),w;if(z){var d=c.getLine(k.line).slice(Math.max(0,a.start-2),a.start);(d=/<\/$/.test(d)?"close":/<$/.test(d)?"open":null)&&(w=a.start-("close"==d?2:1))}else n&&"<"==a.string?d="open":n&&"</"==a.string&&(d="close");var x=l.mode.xmlCurrentTag(l.state);if(!n&&!x||d){if(z)var g=a.string;m=d;h=l.mode.xmlCurrentContext?l.mode.xmlCurrentContext(l.state):[];
-n=(l=h.length&&h[h.length-1])&&b[l];if((h=l?n&&n.children:b["!top"])&&"close"!=d)for(c=0;c<h.length;++c)g&&!u(h[c],g,f)||t.push("<"+h[c]);else if("close"!=d)for(var e in b)!b.hasOwnProperty(e)||"!top"==e||"!attrs"==e||g&&!u(e,g,f)||t.push("<"+e);l&&(!g||"close"==d&&u(l,g,f))&&t.push("</"+l+">")}else{e=(n=x&&b[x.name])&&n.attrs;b=b["!attrs"];if(!e&&!b)return;if(!e)e=b;else if(b){d={};for(var q in b)b.hasOwnProperty(q)&&(d[q]=b[q]);for(q in e)e.hasOwnProperty(q)&&(d[q]=e[q]);e=d}if("string"==a.type||
-"="==a.string){d=c.getRange(v(k.line,Math.max(0,k.ch-60)),v(k.line,"string"==a.type?a.start:a.end));b=d.match(/([^\s\u00a0=<>"']+)=$/);var r;if(!b||!e.hasOwnProperty(b[1])||!(r=e[b[1]]))return;"function"==typeof r&&(r=r.call(this,c));"string"==a.type&&(g=a.string,m=0,/['"]/.test(a.string.charAt(0))&&(h=a.string.charAt(0),g=a.string.slice(1),m++),b=a.string.length,/['"]/.test(a.string.charAt(b-1))&&(h=a.string.charAt(b-1),g=a.string.substr(m,b-2)),m&&(c=c.getLine(k.line),c.length>a.end&&c.charAt(a.end)==
-h&&a.end++),m=!0);for(c=0;c<r.length;++c)g&&!u(r[c],g,f)||t.push(h+r[c]+h)}else{"attribute"==a.type&&(g=a.string,m=!0);for(var y in e)!e.hasOwnProperty(y)||g&&!u(y,g,f)||t.push(y)}}return{list:t,from:m?v(k.line,null==w?a.start:w):k,to:m?v(k.line,a.end):k}}}})});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  var Pos = CodeMirror.Pos;
+
+  function matches(hint, typed, matchInMiddle) {
+    if (matchInMiddle) return hint.indexOf(typed) >= 0;
+    else return hint.lastIndexOf(typed, 0) == 0;
+  }
+
+  function getHints(cm, options) {
+    var tags = options && options.schemaInfo;
+    var quote = (options && options.quoteChar) || '"';
+    var matchInMiddle = options && options.matchInMiddle;
+    if (!tags) return;
+    var cur = cm.getCursor(), token = cm.getTokenAt(cur);
+    if (token.end > cur.ch) {
+      token.end = cur.ch;
+      token.string = token.string.slice(0, cur.ch - token.start);
+    }
+    var inner = CodeMirror.innerMode(cm.getMode(), token.state);
+    if (!inner.mode.xmlCurrentTag) return
+    var result = [], replaceToken = false, prefix;
+    var tag = /\btag\b/.test(token.type) && !/>$/.test(token.string);
+    var tagName = tag && /^\w/.test(token.string), tagStart;
+
+    if (tagName) {
+      var before = cm.getLine(cur.line).slice(Math.max(0, token.start - 2), token.start);
+      var tagType = /<\/$/.test(before) ? "close" : /<$/.test(before) ? "open" : null;
+      if (tagType) tagStart = token.start - (tagType == "close" ? 2 : 1);
+    } else if (tag && token.string == "<") {
+      tagType = "open";
+    } else if (tag && token.string == "</") {
+      tagType = "close";
+    }
+
+    var tagInfo = inner.mode.xmlCurrentTag(inner.state)
+    if (!tag && !tagInfo || tagType) {
+      if (tagName)
+        prefix = token.string;
+      replaceToken = tagType;
+      var context = inner.mode.xmlCurrentContext ? inner.mode.xmlCurrentContext(inner.state) : []
+      var inner = context.length && context[context.length - 1]
+      var curTag = inner && tags[inner]
+      var childList = inner ? curTag && curTag.children : tags["!top"];
+      if (childList && tagType != "close") {
+        for (var i = 0; i < childList.length; ++i) if (!prefix || matches(childList[i], prefix, matchInMiddle))
+          result.push("<" + childList[i]);
+      } else if (tagType != "close") {
+        for (var name in tags)
+          if (tags.hasOwnProperty(name) && name != "!top" && name != "!attrs" && (!prefix || matches(name, prefix, matchInMiddle)))
+            result.push("<" + name);
+      }
+      if (inner && (!prefix || tagType == "close" && matches(inner, prefix, matchInMiddle)))
+        result.push("</" + inner + ">");
+    } else {
+      // Attribute completion
+      var curTag = tagInfo && tags[tagInfo.name], attrs = curTag && curTag.attrs;
+      var globalAttrs = tags["!attrs"];
+      if (!attrs && !globalAttrs) return;
+      if (!attrs) {
+        attrs = globalAttrs;
+      } else if (globalAttrs) { // Combine tag-local and global attributes
+        var set = {};
+        for (var nm in globalAttrs) if (globalAttrs.hasOwnProperty(nm)) set[nm] = globalAttrs[nm];
+        for (var nm in attrs) if (attrs.hasOwnProperty(nm)) set[nm] = attrs[nm];
+        attrs = set;
+      }
+      if (token.type == "string" || token.string == "=") { // A value
+        var before = cm.getRange(Pos(cur.line, Math.max(0, cur.ch - 60)),
+                                 Pos(cur.line, token.type == "string" ? token.start : token.end));
+        var atName = before.match(/([^\s\u00a0=<>\"\']+)=$/), atValues;
+        if (!atName || !attrs.hasOwnProperty(atName[1]) || !(atValues = attrs[atName[1]])) return;
+        if (typeof atValues == 'function') atValues = atValues.call(this, cm); // Functions can be used to supply values for autocomplete widget
+        if (token.type == "string") {
+          prefix = token.string;
+          var n = 0;
+          if (/['"]/.test(token.string.charAt(0))) {
+            quote = token.string.charAt(0);
+            prefix = token.string.slice(1);
+            n++;
+          }
+          var len = token.string.length;
+          if (/['"]/.test(token.string.charAt(len - 1))) {
+            quote = token.string.charAt(len - 1);
+            prefix = token.string.substr(n, len - 2);
+          }
+          if (n) { // an opening quote
+            var line = cm.getLine(cur.line);
+            if (line.length > token.end && line.charAt(token.end) == quote) token.end++; // include a closing quote
+          }
+          replaceToken = true;
+        }
+        var returnHintsFromAtValues = function(atValues) {
+          if (atValues)
+            for (var i = 0; i < atValues.length; ++i) if (!prefix || matches(atValues[i], prefix, matchInMiddle))
+              result.push(quote + atValues[i] + quote);
+          return returnHints();
+        };
+        if (atValues && atValues.then) return atValues.then(returnHintsFromAtValues);
+        return returnHintsFromAtValues(atValues);
+      } else { // An attribute name
+        if (token.type == "attribute") {
+          prefix = token.string;
+          replaceToken = true;
+        }
+        for (var attr in attrs) if (attrs.hasOwnProperty(attr) && (!prefix || matches(attr, prefix, matchInMiddle)))
+          result.push(attr);
+      }
+    }
+    function returnHints() {
+      return {
+        list: result,
+        from: replaceToken ? Pos(cur.line, tagStart == null ? token.start : tagStart) : cur,
+        to: replaceToken ? Pos(cur.line, token.end) : cur
+      };
+    }
+    return returnHints();
+  }
+
+  CodeMirror.registerHelper("hint", "xml", getHints);
+});

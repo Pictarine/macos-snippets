@@ -1,14 +1,264 @@
-'use strict';var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.findInternal=function(b,d,g){b instanceof String&&(b=String(b));for(var k=b.length,h=0;h<k;h++){var l=b[h];if(d.call(g,l,h,b))return{i:h,v:l}}return{i:-1,v:void 0}};$jscomp.ASSUME_ES5=!1;$jscomp.ASSUME_NO_NATIVE_MAP=!1;$jscomp.ASSUME_NO_NATIVE_SET=!1;$jscomp.SIMPLE_FROUND_POLYFILL=!1;
-$jscomp.defineProperty=$jscomp.ASSUME_ES5||"function"==typeof Object.defineProperties?Object.defineProperty:function(b,d,g){b!=Array.prototype&&b!=Object.prototype&&(b[d]=g.value)};$jscomp.getGlobal=function(b){b=["object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global,b];for(var d=0;d<b.length;++d){var g=b[d];if(g&&g.Math==Math)return g}throw Error("Cannot find global object");};$jscomp.global=$jscomp.getGlobal(this);
-$jscomp.polyfill=function(b,d,g,k){if(d){g=$jscomp.global;b=b.split(".");for(k=0;k<b.length-1;k++){var h=b[k];h in g||(g[h]={});g=g[h]}b=b[b.length-1];k=g[b];d=d(k);d!=k&&null!=d&&$jscomp.defineProperty(g,b,{configurable:!0,writable:!0,value:d})}};$jscomp.polyfill("Array.prototype.find",function(b){return b?b:function(b,g){return $jscomp.findInternal(this,b,g).v}},"es6","es3");
-(function(b){"object"==typeof exports&&"object"==typeof module?b(require("../../lib/codemirror"),require("./searchcursor"),require("../dialog/dialog")):"function"==typeof define&&define.amd?define(["../../lib/codemirror","./searchcursor","../dialog/dialog"],b):b(CodeMirror)})(function(b){function d(a,c){"string"==typeof a?a=new RegExp(a.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,"\\$&"),c?"gi":"g"):a.global||(a=new RegExp(a.source,a.ignoreCase?"gi":"g"));return{token:function(c){a.lastIndex=c.pos;
-var b=a.exec(c.string);if(b&&b.index==c.pos)return c.pos+=b[0].length||1,"searching";b?c.pos=b.index:c.skipToEnd()}}}function g(){this.overlay=this.posFrom=this.posTo=this.lastQuery=this.query=null}function k(a){return a.state.search||(a.state.search=new g)}function h(a){return"string"==typeof a&&a==a.toLowerCase()}function l(a,c,b){return a.getSearchCursor(c,b,{caseFold:h(c),multiline:!0})}function z(a,c,b,f,e){a.openDialog(c,f,{value:b,selectValueOnOpen:!0,closeOnEnter:!1,onClose:function(){n(a)},
-onKeyDown:e})}function r(a,c,b,f,e){a.openDialog?a.openDialog(c,e,{value:f,selectValueOnOpen:!0}):e(prompt(b,f))}function A(a,c,b,f){if(a.openConfirm)a.openConfirm(c,f);else if(confirm(b))f[0]()}function u(a){return a.replace(/\\([nrt\\])/g,function(a,b){return"n"==b?"\n":"r"==b?"\r":"t"==b?"\t":"\\"==b?"\\":a})}function v(a){var b=a.match(/^\/(.*)\/([a-z]*)$/);if(b)try{a=new RegExp(b[1],-1==b[2].indexOf("i")?"":"i")}catch(C){}else a=u(a);if("string"==typeof a?""==a:a.test(""))a=/x^/;return a}function p(a,
-b,g){b.queryText=g;b.query=v(g);a.removeOverlay(b.overlay,h(b.query));b.overlay=d(b.query,h(b.query));a.addOverlay(b.overlay);a.showMatchesOnScrollbar&&(b.annotate&&(b.annotate.clear(),b.annotate=null),b.annotate=a.showMatchesOnScrollbar(b.query,h(b.query)))}function m(a,c,g,f){var e=k(a);if(e.query)return q(a,c);var d=a.getSelection()||e.lastQuery;d instanceof RegExp&&"x^"==d.source&&(d=null);if(g&&a.openDialog){var t=null,h=function(c,f){b.e_stop(f);c&&(c!=e.queryText&&(p(a,e,c),e.posFrom=e.posTo=
-a.getCursor()),t&&(t.style.opacity=1),q(a,f.shiftKey,function(b,c){var e;3>c.line&&document.querySelector&&(e=a.display.wrapper.querySelector(".CodeMirror-dialog"))&&e.getBoundingClientRect().bottom-4>a.cursorCoords(c,"window").top&&((t=e).style.opacity=.4)}))};z(a,w(a),d,h,function(c,e){var f=b.keyName(c),d=a.getOption("extraKeys");f=d&&d[f]||b.keyMap[a.getOption("keyMap")][f];if("findNext"==f||"findPrev"==f||"findPersistentNext"==f||"findPersistentPrev"==f)b.e_stop(c),p(a,k(a),e),a.execCommand(f);
-else if("find"==f||"findPersistent"==f)b.e_stop(c),h(e,c)});f&&d&&(p(a,e,d),q(a,c))}else r(a,w(a),"Search for:",d,function(b){b&&!e.query&&a.operation(function(){p(a,e,b);e.posFrom=e.posTo=a.getCursor();q(a,c)})})}function q(a,c,d){a.operation(function(){var f=k(a),e=l(a,f.query,c?f.posFrom:f.posTo);if(!e.find(c)&&(e=l(a,f.query,c?b.Pos(a.lastLine()):b.Pos(a.firstLine(),0)),!e.find(c)))return;a.setSelection(e.from(),e.to());a.scrollIntoView({from:e.from(),to:e.to()},20);f.posFrom=e.from();f.posTo=
-e.to();d&&d(e.from(),e.to())})}function n(a){a.operation(function(){var b=k(a);if(b.lastQuery=b.query)b.query=b.queryText=null,a.removeOverlay(b.overlay),b.annotate&&(b.annotate.clear(),b.annotate=null)})}function w(a){return'<span class="CodeMirror-search-label">'+a.phrase("Search:")+'</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">'+a.phrase("(Use /re/ syntax for regexp search)")+"</span>"}function B(a){return'<span class="CodeMirror-search-label">'+
-a.phrase("Replace?")+"</span> <button>"+a.phrase("Yes")+"</button> <button>"+a.phrase("No")+"</button> <button>"+a.phrase("All")+"</button> <button>"+a.phrase("Stop")+"</button> "}function x(a,b,d){a.operation(function(){for(var c=l(a,b);c.findNext();)if("string"!=typeof b){var e=a.getRange(c.from(),c.to()).match(b);c.replace(d.replace(/\$(\d)/g,function(a,b){return e[b]}))}else c.replace(d)})}function y(a,b){if(!a.getOption("readOnly")){var c=a.getSelection()||k(a).lastQuery,d='<span class="CodeMirror-search-label">'+
-(b?a.phrase("Replace all:"):a.phrase("Replace:"))+"</span>";r(a,d+(' <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">'+a.phrase("(Use /re/ syntax for regexp search)")+"</span>"),d,c,function(c){c&&(c=v(c),r(a,'<span class="CodeMirror-search-label">'+a.phrase("With:")+'</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/>',a.phrase("Replace with:"),"",function(e){e=u(e);if(b)x(a,c,e);else{n(a);
-var d=l(a,c,a.getCursor("from")),f=function(){var b=d.from(),h;if(!(h=d.findNext())&&(d=l(a,c),!(h=d.findNext())||b&&d.from().line==b.line&&d.from().ch==b.ch))return;a.setSelection(d.from(),d.to());a.scrollIntoView({from:d.from(),to:d.to()});A(a,B(a),a.phrase("Replace?"),[function(){g(h)},f,function(){x(a,c,e)}])},g=function(a){d.replace("string"==typeof c?e:e.replace(/\$(\d)/g,function(b,c){return a[c]}));f()};f()}}))})}}b.commands.find=function(a){n(a);m(a)};b.commands.findPersistent=function(a){n(a);
-m(a,!1,!0)};b.commands.findPersistentNext=function(a){m(a,!1,!0,!0)};b.commands.findPersistentPrev=function(a){m(a,!0,!0,!0)};b.commands.findNext=m;b.commands.findPrev=function(a){m(a,!0)};b.commands.clearSearch=n;b.commands.replace=y;b.commands.replaceAll=function(a){y(a,!0)}});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+// Define search commands. Depends on dialog.js or another
+// implementation of the openDialog method.
+
+// Replace works a little oddly -- it will do the replace on the next
+// Ctrl-G (or whatever is bound to findNext) press. You prevent a
+// replace by making sure the match is no longer selected when hitting
+// Ctrl-G.
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("./searchcursor"), require("../dialog/dialog"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "./searchcursor", "../dialog/dialog"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  // default search panel location
+  CodeMirror.defineOption("search", {bottom: false});
+
+  function searchOverlay(query, caseInsensitive) {
+    if (typeof query == "string")
+      query = new RegExp(query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), caseInsensitive ? "gi" : "g");
+    else if (!query.global)
+      query = new RegExp(query.source, query.ignoreCase ? "gi" : "g");
+
+    return {token: function(stream) {
+      query.lastIndex = stream.pos;
+      var match = query.exec(stream.string);
+      if (match && match.index == stream.pos) {
+        stream.pos += match[0].length || 1;
+        return "searching";
+      } else if (match) {
+        stream.pos = match.index;
+      } else {
+        stream.skipToEnd();
+      }
+    }};
+  }
+
+  function SearchState() {
+    this.posFrom = this.posTo = this.lastQuery = this.query = null;
+    this.overlay = null;
+  }
+
+  function getSearchState(cm) {
+    return cm.state.search || (cm.state.search = new SearchState());
+  }
+
+  function queryCaseInsensitive(query) {
+    return typeof query == "string" && query == query.toLowerCase();
+  }
+
+  function getSearchCursor(cm, query, pos) {
+    // Heuristic: if the query string is all lowercase, do a case insensitive search.
+    return cm.getSearchCursor(query, pos, {caseFold: queryCaseInsensitive(query), multiline: true});
+  }
+
+  function persistentDialog(cm, text, deflt, onEnter, onKeyDown) {
+    cm.openDialog(text, onEnter, {
+      value: deflt,
+      selectValueOnOpen: true,
+      closeOnEnter: false,
+      onClose: function() { clearSearch(cm); },
+      onKeyDown: onKeyDown,
+      bottom: cm.options.search.bottom
+    });
+  }
+
+  function dialog(cm, text, shortText, deflt, f) {
+    if (cm.openDialog) cm.openDialog(text, f, {value: deflt, selectValueOnOpen: true, bottom: cm.options.search.bottom});
+    else f(prompt(shortText, deflt));
+  }
+
+  function confirmDialog(cm, text, shortText, fs) {
+    if (cm.openConfirm) cm.openConfirm(text, fs);
+    else if (confirm(shortText)) fs[0]();
+  }
+
+  function parseString(string) {
+    return string.replace(/\\([nrt\\])/g, function(match, ch) {
+      if (ch == "n") return "\n"
+      if (ch == "r") return "\r"
+      if (ch == "t") return "\t"
+      if (ch == "\\") return "\\"
+      return match
+    })
+  }
+
+  function parseQuery(query) {
+    var isRE = query.match(/^\/(.*)\/([a-z]*)$/);
+    if (isRE) {
+      try { query = new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i"); }
+      catch(e) {} // Not a regular expression after all, do a string search
+    } else {
+      query = parseString(query)
+    }
+    if (typeof query == "string" ? query == "" : query.test(""))
+      query = /x^/;
+    return query;
+  }
+
+  function startSearch(cm, state, query) {
+    state.queryText = query;
+    state.query = parseQuery(query);
+    cm.removeOverlay(state.overlay, queryCaseInsensitive(state.query));
+    state.overlay = searchOverlay(state.query, queryCaseInsensitive(state.query));
+    cm.addOverlay(state.overlay);
+    if (cm.showMatchesOnScrollbar) {
+      if (state.annotate) { state.annotate.clear(); state.annotate = null; }
+      state.annotate = cm.showMatchesOnScrollbar(state.query, queryCaseInsensitive(state.query));
+    }
+  }
+
+  function doSearch(cm, rev, persistent, immediate) {
+    var state = getSearchState(cm);
+    if (state.query) return findNext(cm, rev);
+    var q = cm.getSelection() || state.lastQuery;
+    if (q instanceof RegExp && q.source == "x^") q = null
+    if (persistent && cm.openDialog) {
+      var hiding = null
+      var searchNext = function(query, event) {
+        CodeMirror.e_stop(event);
+        if (!query) return;
+        if (query != state.queryText) {
+          startSearch(cm, state, query);
+          state.posFrom = state.posTo = cm.getCursor();
+        }
+        if (hiding) hiding.style.opacity = 1
+        findNext(cm, event.shiftKey, function(_, to) {
+          var dialog
+          if (to.line < 3 && document.querySelector &&
+              (dialog = cm.display.wrapper.querySelector(".CodeMirror-dialog")) &&
+              dialog.getBoundingClientRect().bottom - 4 > cm.cursorCoords(to, "window").top)
+            (hiding = dialog).style.opacity = .4
+        })
+      };
+      persistentDialog(cm, getQueryDialog(cm), q, searchNext, function(event, query) {
+        var keyName = CodeMirror.keyName(event)
+        var extra = cm.getOption('extraKeys'), cmd = (extra && extra[keyName]) || CodeMirror.keyMap[cm.getOption("keyMap")][keyName]
+        if (cmd == "findNext" || cmd == "findPrev" ||
+          cmd == "findPersistentNext" || cmd == "findPersistentPrev") {
+          CodeMirror.e_stop(event);
+          startSearch(cm, getSearchState(cm), query);
+          cm.execCommand(cmd);
+        } else if (cmd == "find" || cmd == "findPersistent") {
+          CodeMirror.e_stop(event);
+          searchNext(query, event);
+        }
+      });
+      if (immediate && q) {
+        startSearch(cm, state, q);
+        findNext(cm, rev);
+      }
+    } else {
+      dialog(cm, getQueryDialog(cm), "Search for:", q, function(query) {
+        if (query && !state.query) cm.operation(function() {
+          startSearch(cm, state, query);
+          state.posFrom = state.posTo = cm.getCursor();
+          findNext(cm, rev);
+        });
+      });
+    }
+  }
+
+  function findNext(cm, rev, callback) {cm.operation(function() {
+    var state = getSearchState(cm);
+    var cursor = getSearchCursor(cm, state.query, rev ? state.posFrom : state.posTo);
+    if (!cursor.find(rev)) {
+      cursor = getSearchCursor(cm, state.query, rev ? CodeMirror.Pos(cm.lastLine()) : CodeMirror.Pos(cm.firstLine(), 0));
+      if (!cursor.find(rev)) return;
+    }
+    cm.setSelection(cursor.from(), cursor.to());
+    cm.scrollIntoView({from: cursor.from(), to: cursor.to()}, 20);
+    state.posFrom = cursor.from(); state.posTo = cursor.to();
+    if (callback) callback(cursor.from(), cursor.to())
+  });}
+
+  function clearSearch(cm) {cm.operation(function() {
+    var state = getSearchState(cm);
+    state.lastQuery = state.query;
+    if (!state.query) return;
+    state.query = state.queryText = null;
+    cm.removeOverlay(state.overlay);
+    if (state.annotate) { state.annotate.clear(); state.annotate = null; }
+  });}
+
+
+  function getQueryDialog(cm)  {
+    return '<span class="CodeMirror-search-label">' + cm.phrase("Search:") + '</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">' + cm.phrase("(Use /re/ syntax for regexp search)") + '</span>';
+  }
+  function getReplaceQueryDialog(cm) {
+    return ' <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">' + cm.phrase("(Use /re/ syntax for regexp search)") + '</span>';
+  }
+  function getReplacementQueryDialog(cm) {
+    return '<span class="CodeMirror-search-label">' + cm.phrase("With:") + '</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/>';
+  }
+  function getDoReplaceConfirm(cm) {
+    return '<span class="CodeMirror-search-label">' + cm.phrase("Replace?") + '</span> <button>' + cm.phrase("Yes") + '</button> <button>' + cm.phrase("No") + '</button> <button>' + cm.phrase("All") + '</button> <button>' + cm.phrase("Stop") + '</button> ';
+  }
+
+  function replaceAll(cm, query, text) {
+    cm.operation(function() {
+      for (var cursor = getSearchCursor(cm, query); cursor.findNext();) {
+        if (typeof query != "string") {
+          var match = cm.getRange(cursor.from(), cursor.to()).match(query);
+          cursor.replace(text.replace(/\$(\d)/g, function(_, i) {return match[i];}));
+        } else cursor.replace(text);
+      }
+    });
+  }
+
+  function replace(cm, all) {
+    if (cm.getOption("readOnly")) return;
+    var query = cm.getSelection() || getSearchState(cm).lastQuery;
+    var dialogText = '<span class="CodeMirror-search-label">' + (all ? cm.phrase("Replace all:") : cm.phrase("Replace:")) + '</span>';
+    dialog(cm, dialogText + getReplaceQueryDialog(cm), dialogText, query, function(query) {
+      if (!query) return;
+      query = parseQuery(query);
+      dialog(cm, getReplacementQueryDialog(cm), cm.phrase("Replace with:"), "", function(text) {
+        text = parseString(text)
+        if (all) {
+          replaceAll(cm, query, text)
+        } else {
+          clearSearch(cm);
+          var cursor = getSearchCursor(cm, query, cm.getCursor("from"));
+          var advance = function() {
+            var start = cursor.from(), match;
+            if (!(match = cursor.findNext())) {
+              cursor = getSearchCursor(cm, query);
+              if (!(match = cursor.findNext()) ||
+                  (start && cursor.from().line == start.line && cursor.from().ch == start.ch)) return;
+            }
+            cm.setSelection(cursor.from(), cursor.to());
+            cm.scrollIntoView({from: cursor.from(), to: cursor.to()});
+            confirmDialog(cm, getDoReplaceConfirm(cm), cm.phrase("Replace?"),
+                          [function() {doReplace(match);}, advance,
+                           function() {replaceAll(cm, query, text)}]);
+          };
+          var doReplace = function(match) {
+            cursor.replace(typeof query == "string" ? text :
+                           text.replace(/\$(\d)/g, function(_, i) {return match[i];}));
+            advance();
+          };
+          advance();
+        }
+      });
+    });
+  }
+
+  CodeMirror.commands.find = function(cm) {clearSearch(cm); doSearch(cm);};
+  CodeMirror.commands.findPersistent = function(cm) {clearSearch(cm); doSearch(cm, false, true);};
+  CodeMirror.commands.findPersistentNext = function(cm) {doSearch(cm, false, true, true);};
+  CodeMirror.commands.findPersistentPrev = function(cm) {doSearch(cm, true, true, true);};
+  CodeMirror.commands.findNext = doSearch;
+  CodeMirror.commands.findPrev = function(cm) {doSearch(cm, true);};
+  CodeMirror.commands.clearSearch = clearSearch;
+  CodeMirror.commands.replace = replace;
+  CodeMirror.commands.replaceAll = function(cm) {replace(cm, true);};
+});

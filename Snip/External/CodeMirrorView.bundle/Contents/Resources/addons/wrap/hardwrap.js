@@ -1,5 +1,160 @@
-'use strict';(function(k){"object"==typeof exports&&"object"==typeof module?k(require("../../lib/codemirror")):"function"==typeof define&&define.amd?define(["../../lib/codemirror"],k):k(CodeMirror)})(function(k){function p(c,a,b){for(var e=b.paragraphStart||c.getHelper(a,"paragraphStart"),d=a.line,f=c.firstLine();d>f;--d){var g=c.getLine(d);if(e&&e.test(g))break;if(!/\S/.test(g)){++d;break}}b=b.paragraphEnd||c.getHelper(a,"paragraphEnd");a=a.line+1;for(e=c.lastLine();a<=e;++a){g=c.getLine(a);if(b&&
-b.test(g)){++a;break}if(!/\S/.test(g))break}return{from:d,to:a}}function v(c,a,b,e){for(var d=a;d<c.length&&" "==c.charAt(d);)d++;for(;0<d&&!b.test(c.slice(d-1,d+1));--d);for(b=!0;;b=!1){var f=d;if(e)for(;" "==c.charAt(f-1);)--f;if(0==f&&b)d=a;else return{from:f,to:d}}}function n(c,a,b,e){a=c.clipPos(a);b=c.clipPos(b);var d=e.column||80,f=e.wrapOn||/\s\S|-[^\.\d]/;e=!1!==e.killTrailingSpace;var g=[],h="",q=a.line;a=c.getRange(a,b,!1);if(!a.length)return null;b=a[0].match(/^[ \t]*/)[0];b.length>=d&&
-(d=b.length+1);for(var r=0;r<a.length;++r){var l=a[r],n=h.length,p=0;h&&l&&!f.test(h.charAt(h.length-1)+l.charAt(0))&&(h+=" ",p=1);var t="";r&&(t=l.match(/^\s*/)[0],l=l.slice(t.length));h+=l;if(r){var u=h.length>d&&b==t&&v(h,d,f,e);u&&u.from==n&&u.to==n+p?(h=b+l,++q):g.push({text:[p?" ":""],from:m(q,n),to:m(q+1,t.length)})}for(;h.length>d;)l=v(h,d,f,e),g.push({text:["",b],from:m(q,l.from),to:m(q,l.to)}),h=b+h.slice(l.to),++q}g.length&&c.operation(function(){for(var b=0;b<g.length;++b){var a=g[b];
-(a.text||k.cmpPos(a.from,a.to))&&c.replaceRange(a.text,a.from,a.to)}});return g.length?{from:g[0].from,to:k.changeEnd(g[g.length-1])}:null}var m=k.Pos;k.defineExtension("wrapParagraph",function(c,a){a=a||{};c||(c=this.getCursor());c=p(this,c,a);return n(this,m(c.from,0),m(c.to-1),a)});k.commands.wrapLines=function(c){c.operation(function(){for(var a,b,e=c.listSelections(),d=c.lastLine()+1,f=e.length-1;0<=f;f--)b=e[f],b.empty()?(b=p(c,b.head,{}),a=m(b.from,0),b=m(b.to-1)):(a=b.from(),b=b.to()),b.line>=
-d||(d=a.line,n(c,a,b,{}))})};k.defineExtension("wrapRange",function(c,a,b){return n(this,c,a,b||{})});k.defineExtension("wrapParagraphsInRange",function(c,a,b){b=b||{};var e=this,d=[];for(c=c.line;c<=a.line;)c=p(e,m(c,0),b),d.push(c),c=c.to;var f=!1;d.length&&e.operation(function(){for(var a=d.length-1;0<=a;--a)f=f||n(e,m(d[a].from,0),m(d[a].to-1),b)});return f})});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  var Pos = CodeMirror.Pos;
+
+  function findParagraph(cm, pos, options) {
+    var startRE = options.paragraphStart || cm.getHelper(pos, "paragraphStart");
+    for (var start = pos.line, first = cm.firstLine(); start > first; --start) {
+      var line = cm.getLine(start);
+      if (startRE && startRE.test(line)) break;
+      if (!/\S/.test(line)) { ++start; break; }
+    }
+    var endRE = options.paragraphEnd || cm.getHelper(pos, "paragraphEnd");
+    for (var end = pos.line + 1, last = cm.lastLine(); end <= last; ++end) {
+      var line = cm.getLine(end);
+      if (endRE && endRE.test(line)) { ++end; break; }
+      if (!/\S/.test(line)) break;
+    }
+    return {from: start, to: end};
+  }
+
+  function findBreakPoint(text, column, wrapOn, killTrailingSpace, forceBreak) {
+    var at = column
+    while (at < text.length && text.charAt(at) == " ") at++
+    for (; at > 0; --at)
+      if (wrapOn.test(text.slice(at - 1, at + 1))) break;
+
+    if (!forceBreak && at <= text.match(/^[ \t]*/)[0].length) {
+      // didn't find a break point before column, in non-forceBreak mode try to
+      // find one after 'column'.
+      for (at = column + 1; at < text.length - 1; ++at) {
+        if (wrapOn.test(text.slice(at - 1, at + 1))) break;
+      }
+    }
+
+    for (var first = true;; first = false) {
+      var endOfText = at;
+      if (killTrailingSpace)
+        while (text.charAt(endOfText - 1) == " ") --endOfText;
+      if (endOfText == 0 && first) at = column;
+      else return {from: endOfText, to: at};
+    }
+  }
+
+  function wrapRange(cm, from, to, options) {
+    from = cm.clipPos(from); to = cm.clipPos(to);
+    var column = options.column || 80;
+    var wrapOn = options.wrapOn || /\s\S|-[^\.\d]/;
+    var forceBreak = options.forceBreak !== false;
+    var killTrailing = options.killTrailingSpace !== false;
+    var changes = [], curLine = "", curNo = from.line;
+    var lines = cm.getRange(from, to, false);
+    if (!lines.length) return null;
+    var leadingSpace = lines[0].match(/^[ \t]*/)[0];
+    if (leadingSpace.length >= column) column = leadingSpace.length + 1
+
+    for (var i = 0; i < lines.length; ++i) {
+      var text = lines[i], oldLen = curLine.length, spaceInserted = 0;
+      if (curLine && text && !wrapOn.test(curLine.charAt(curLine.length - 1) + text.charAt(0))) {
+        curLine += " ";
+        spaceInserted = 1;
+      }
+      var spaceTrimmed = "";
+      if (i) {
+        spaceTrimmed = text.match(/^\s*/)[0];
+        text = text.slice(spaceTrimmed.length);
+      }
+      curLine += text;
+      if (i) {
+        var firstBreak = curLine.length > column && leadingSpace == spaceTrimmed &&
+          findBreakPoint(curLine, column, wrapOn, killTrailing, forceBreak);
+        // If this isn't broken, or is broken at a different point, remove old break
+        if (!firstBreak || firstBreak.from != oldLen || firstBreak.to != oldLen + spaceInserted) {
+          changes.push({text: [spaceInserted ? " " : ""],
+                        from: Pos(curNo, oldLen),
+                        to: Pos(curNo + 1, spaceTrimmed.length)});
+        } else {
+          curLine = leadingSpace + text;
+          ++curNo;
+        }
+      }
+      while (curLine.length > column) {
+        var bp = findBreakPoint(curLine, column, wrapOn, killTrailing, forceBreak);
+        if (bp.from != bp.to ||
+            forceBreak && leadingSpace !== curLine.slice(0, bp.to)) {
+          changes.push({text: ["", leadingSpace],
+                        from: Pos(curNo, bp.from),
+                        to: Pos(curNo, bp.to)});
+          curLine = leadingSpace + curLine.slice(bp.to);
+          ++curNo;
+        } else {
+          break;
+        }
+      }
+    }
+    if (changes.length) cm.operation(function() {
+      for (var i = 0; i < changes.length; ++i) {
+        var change = changes[i];
+        if (change.text || CodeMirror.cmpPos(change.from, change.to))
+          cm.replaceRange(change.text, change.from, change.to);
+      }
+    });
+    return changes.length ? {from: changes[0].from, to: CodeMirror.changeEnd(changes[changes.length - 1])} : null;
+  }
+
+  CodeMirror.defineExtension("wrapParagraph", function(pos, options) {
+    options = options || {};
+    if (!pos) pos = this.getCursor();
+    var para = findParagraph(this, pos, options);
+    return wrapRange(this, Pos(para.from, 0), Pos(para.to - 1), options);
+  });
+
+  CodeMirror.commands.wrapLines = function(cm) {
+    cm.operation(function() {
+      var ranges = cm.listSelections(), at = cm.lastLine() + 1;
+      for (var i = ranges.length - 1; i >= 0; i--) {
+        var range = ranges[i], span;
+        if (range.empty()) {
+          var para = findParagraph(cm, range.head, {});
+          span = {from: Pos(para.from, 0), to: Pos(para.to - 1)};
+        } else {
+          span = {from: range.from(), to: range.to()};
+        }
+        if (span.to.line >= at) continue;
+        at = span.from.line;
+        wrapRange(cm, span.from, span.to, {});
+      }
+    });
+  };
+
+  CodeMirror.defineExtension("wrapRange", function(from, to, options) {
+    return wrapRange(this, from, to, options || {});
+  });
+
+  CodeMirror.defineExtension("wrapParagraphsInRange", function(from, to, options) {
+    options = options || {};
+    var cm = this, paras = [];
+    for (var line = from.line; line <= to.line;) {
+      var para = findParagraph(cm, Pos(line, 0), options);
+      paras.push(para);
+      line = para.to;
+    }
+    var madeChange = false;
+    if (paras.length) cm.operation(function() {
+      for (var i = paras.length - 1; i >= 0; --i)
+        madeChange = madeChange || wrapRange(cm, Pos(paras[i].from, 0), Pos(paras[i].to - 1), options);
+    });
+    return madeChange;
+  });
+});

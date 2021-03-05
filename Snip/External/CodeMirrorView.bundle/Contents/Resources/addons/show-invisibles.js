@@ -5,10 +5,10 @@
 
 ((mod) => {
     if (typeof exports === 'object' && typeof module === 'object') // CommonJS
-        return mod(require('codemirror/lib/codemirror'));
+        return mod(require('../lib/codemirror'));
     
     if (typeof define === 'function' && define.amd) // AMD
-        return define(['codemirror/lib/codemirror'], mod);
+        return define(['../lib/codemirror'], mod);
     
     mod(CodeMirror);
 })((CodeMirror) => {

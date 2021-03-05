@@ -1,5 +1,157 @@
-'use strict';(function(b){"object"==typeof exports&&"object"==typeof module?b(require("../../lib/codemirror")):"function"==typeof define&&define.amd?define(["../../lib/codemirror"],b):b(CodeMirror)})(function(b){function h(a,c,d,l){function e(d){var b=h(a,c);if(!b||b.to.line-b.from.line<k)return null;for(var f=a.findMarksAt(b.from),e=0;e<f.length;++e)if(f[e].__isFold&&"fold"!==l){if(!d)return null;b.cleared=!0;f[e].clear()}return b}if(d&&d.call){var h=d;d=null}else h=g(a,d,"rangeFinder");"number"==
-typeof c&&(c=b.Pos(c,0));var k=g(a,d,"minFoldSize"),f=e(!0);if(g(a,d,"scanUp"))for(;!f&&c.line>a.firstLine();)c=b.Pos(c.line-1,0),f=e(!1);if(f&&!f.cleared&&"unfold"!==l){var m=p(a,d,f);b.on(m,"mousedown",function(a){n.clear();b.e_preventDefault(a)});var n=a.markText(f.from,f.to,{replacedWith:m,clearOnEnter:g(a,d,"clearOnEnter"),__isFold:!0});n.on("clear",function(c,d){b.signal(a,"unfold",a,c,d)});b.signal(a,"fold",a,f.from,f.to)}}function p(a,c,d){a=g(a,c,"widget");"function"==typeof a&&(a=a(d.from,
-d.to));"string"==typeof a?(d=document.createTextNode(a),a=document.createElement("span"),a.appendChild(d),a.className="CodeMirror-foldmarker"):a&&(a=a.cloneNode(!0));return a}function g(a,c,d){return c&&void 0!==c[d]?c[d]:(a=a.options.foldOptions)&&void 0!==a[d]?a[d]:k[d]}b.newFoldFunction=function(a,c){return function(d,b){h(d,b,{rangeFinder:a,widget:c})}};b.defineExtension("foldCode",function(a,c,d){h(this,a,c,d)});b.defineExtension("isFolded",function(a){a=this.findMarksAt(a);for(var c=0;c<a.length;++c)if(a[c].__isFold)return!0});
-b.commands.toggleFold=function(a){a.foldCode(a.getCursor())};b.commands.fold=function(a){a.foldCode(a.getCursor(),null,"fold")};b.commands.unfold=function(a){a.foldCode(a.getCursor(),null,"unfold")};b.commands.foldAll=function(a){a.operation(function(){for(var c=a.firstLine(),d=a.lastLine();c<=d;c++)a.foldCode(b.Pos(c,0),null,"fold")})};b.commands.unfoldAll=function(a){a.operation(function(){for(var c=a.firstLine(),d=a.lastLine();c<=d;c++)a.foldCode(b.Pos(c,0),null,"unfold")})};b.registerHelper("fold",
-"combine",function(){var a=Array.prototype.slice.call(arguments,0);return function(c,d){for(var b=0;b<a.length;++b){var e=a[b](c,d);if(e)return e}}});b.registerHelper("fold","auto",function(a,b){for(var d=a.getHelpers(b,"fold"),c=0;c<d.length;c++){var e=d[c](a,b);if(e)return e}});var k={rangeFinder:b.fold.auto,widget:"\u2194",minFoldSize:0,scanUp:!1,clearOnEnter:!0};b.defineOption("foldOptions",null);b.defineExtension("foldOption",function(a,b){return g(this,a,b)})});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  function doFold(cm, pos, options, force) {
+    if (options && options.call) {
+      var finder = options;
+      options = null;
+    } else {
+      var finder = getOption(cm, options, "rangeFinder");
+    }
+    if (typeof pos == "number") pos = CodeMirror.Pos(pos, 0);
+    var minSize = getOption(cm, options, "minFoldSize");
+
+    function getRange(allowFolded) {
+      var range = finder(cm, pos);
+      if (!range || range.to.line - range.from.line < minSize) return null;
+      var marks = cm.findMarksAt(range.from);
+      for (var i = 0; i < marks.length; ++i) {
+        if (marks[i].__isFold && force !== "fold") {
+          if (!allowFolded) return null;
+          range.cleared = true;
+          marks[i].clear();
+        }
+      }
+      return range;
+    }
+
+    var range = getRange(true);
+    if (getOption(cm, options, "scanUp")) while (!range && pos.line > cm.firstLine()) {
+      pos = CodeMirror.Pos(pos.line - 1, 0);
+      range = getRange(false);
+    }
+    if (!range || range.cleared || force === "unfold") return;
+
+    var myWidget = makeWidget(cm, options, range);
+    CodeMirror.on(myWidget, "mousedown", function(e) {
+      myRange.clear();
+      CodeMirror.e_preventDefault(e);
+    });
+    var myRange = cm.markText(range.from, range.to, {
+      replacedWith: myWidget,
+      clearOnEnter: getOption(cm, options, "clearOnEnter"),
+      __isFold: true
+    });
+    myRange.on("clear", function(from, to) {
+      CodeMirror.signal(cm, "unfold", cm, from, to);
+    });
+    CodeMirror.signal(cm, "fold", cm, range.from, range.to);
+  }
+
+  function makeWidget(cm, options, range) {
+    var widget = getOption(cm, options, "widget");
+
+    if (typeof widget == "function") {
+      widget = widget(range.from, range.to);
+    }
+
+    if (typeof widget == "string") {
+      var text = document.createTextNode(widget);
+      widget = document.createElement("span");
+      widget.appendChild(text);
+      widget.className = "CodeMirror-foldmarker";
+    } else if (widget) {
+      widget = widget.cloneNode(true)
+    }
+    return widget;
+  }
+
+  // Clumsy backwards-compatible interface
+  CodeMirror.newFoldFunction = function(rangeFinder, widget) {
+    return function(cm, pos) { doFold(cm, pos, {rangeFinder: rangeFinder, widget: widget}); };
+  };
+
+  // New-style interface
+  CodeMirror.defineExtension("foldCode", function(pos, options, force) {
+    doFold(this, pos, options, force);
+  });
+
+  CodeMirror.defineExtension("isFolded", function(pos) {
+    var marks = this.findMarksAt(pos);
+    for (var i = 0; i < marks.length; ++i)
+      if (marks[i].__isFold) return true;
+  });
+
+  CodeMirror.commands.toggleFold = function(cm) {
+    cm.foldCode(cm.getCursor());
+  };
+  CodeMirror.commands.fold = function(cm) {
+    cm.foldCode(cm.getCursor(), null, "fold");
+  };
+  CodeMirror.commands.unfold = function(cm) {
+    cm.foldCode(cm.getCursor(), null, "unfold");
+  };
+  CodeMirror.commands.foldAll = function(cm) {
+    cm.operation(function() {
+      for (var i = cm.firstLine(), e = cm.lastLine(); i <= e; i++)
+        cm.foldCode(CodeMirror.Pos(i, 0), null, "fold");
+    });
+  };
+  CodeMirror.commands.unfoldAll = function(cm) {
+    cm.operation(function() {
+      for (var i = cm.firstLine(), e = cm.lastLine(); i <= e; i++)
+        cm.foldCode(CodeMirror.Pos(i, 0), null, "unfold");
+    });
+  };
+
+  CodeMirror.registerHelper("fold", "combine", function() {
+    var funcs = Array.prototype.slice.call(arguments, 0);
+    return function(cm, start) {
+      for (var i = 0; i < funcs.length; ++i) {
+        var found = funcs[i](cm, start);
+        if (found) return found;
+      }
+    };
+  });
+
+  CodeMirror.registerHelper("fold", "auto", function(cm, start) {
+    var helpers = cm.getHelpers(start, "fold");
+    for (var i = 0; i < helpers.length; i++) {
+      var cur = helpers[i](cm, start);
+      if (cur) return cur;
+    }
+  });
+
+  var defaultOptions = {
+    rangeFinder: CodeMirror.fold.auto,
+    widget: "\u2194",
+    minFoldSize: 0,
+    scanUp: false,
+    clearOnEnter: true
+  };
+
+  CodeMirror.defineOption("foldOptions", null);
+
+  function getOption(cm, options, name) {
+    if (options && options[name] !== undefined)
+      return options[name];
+    var editorOptions = cm.options.foldOptions;
+    if (editorOptions && editorOptions[name] !== undefined)
+      return editorOptions[name];
+    return defaultOptions[name];
+  }
+
+  CodeMirror.defineExtension("foldOption", function(options, name) {
+    return getOption(this, options, name);
+  });
+});

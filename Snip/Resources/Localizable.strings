@@ -18,8 +18,11 @@
 
 // EmptyState
 "Create_first_snippet" = "Hints";
-"Hint_1" = "Cmd+F to search words and regex";
-"Hint_2" = "Cmd+Z/Cmd+Y to undo/redo";
+"Hint_1" = "Cmd+F: search words and regex";
+"Hint_2" = "Cmd+Z/Cmd+Y: undo/redo";
+"Hint_3" = "Cmd+/: toggle comments";
+"Hint_4" = "Cmd+Space: toggle autocomplete";
+"Hint_5" = "Ctrl+I: auto indent";
 
 // GitHub
 "Connect_GitHub" = "Connect to Gist from GitHub";
