@@ -38,7 +38,7 @@ struct WelcomeView: View {
         .foregroundColor(themeTextColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       HStack {
-        Text("- Update for Big Sur compatibility\n- Fix code editor issue\n- Open folder when we add a new element\n- Add toolbar item\n- Sidebar can be expanded/collapsed\n PHP now has syntax highlighting without tags\n- Improve UI and clickable areas")
+        Text("- Improved performances\n- Added Dart support\n- Fix deeplinks\n- Added localization (en/de by David Keulert\n- Added tags category on sidebar\n- Added synced from Gist category on sidebar\n- Added Gist sync\n- Added autocomplete (ctrl+space)\n- Added auto indent shortcut (ctrl+I)\n- Added other keyboard shortcuts\n- Fixed UI bugs")
           .font(Font.custom("CourierNewPSMT", size: 12))
           .foregroundColor(themeTextColor)
         Spacer()
