@@ -1,0 +1,86 @@
+/* 
+  Localizable_de.strings
+  Snip
+
+  Created by Anthony Fernandez on 3/5/21.
+  Copyright © 2021 pictarine. All rights reserved.
+*/
+
+// Tooltips
+"Extract_Stack" = "Snippets aus StackOverflow extrahieren";
+"Open_Post" = "Original öffnen";
+"Preview" = "Vorschau anzeigen";
+"Add_Fav" = "Zu Favoriten hinzufügen";
+"Delete_Snip" = "Snippet löschen";
+"Snip_Infos" = "Snippet Info";
+"Size" = "Größe von";
+"Last_Update" = "Letztes Update am";
+
+// EmptyState
+"Create_first_snippet" = "Erstelle dein erstes Snippet";
+"Hint_1" = "Cmd+F zum Suchen von Wörtern und regulären Ausdrücken";
+"Hint_2" = "Cmd+Z/Cmd+Y für Rückgängig/Wiederherstellen";
+"Hint_3" = "Cmd+/: Kommentare einschalten";
+"Hint_4" = "Cmd+Space: Autovervollständigung einschalten";
+"Hint_5" = "Ctrl+I: Automatischer Einzug";
+
+// GitHub
+"Connect_GitHub" = "Mit Gist von GitHub verbinden";
+"Logout_GitHub" = "Von Github Ausloggen";
+"Validate_Logout_GitHub" = "Wirklich ausloggen?";
+
+// Deletion
+"Psst" = "Psst";
+"Delete_Desc" = "Sie sind im Begriff, das Snippet zu löschen";
+
+// Actions
+"New_Snippet" = "Snippet erstellen";
+"New_Folder" = "Ordner erstellen";
+"Add_Folder" = "Ordner hinzufügen";
+"Add_Snippet" = "Snippet hinzufügen";
+"Foler_From" = "Ordner erzeugen";
+"Rename" = "Umbenennen";
+"Delete" = "Löschen";
+"New_Tag" = "Tag hinzufügen";
+"Copy_Clipboard" = "In die Zwischenablage kopieren";
+
+// Sections
+"Favorites" = "Favoriten";
+"Local" = "Lokal";
+"External" = "Extern";
+"Tags" = "Tags";
+"Gist" = "Synchronisiert von Gist";
+
+// Placeholders
+"Placeholder_Folder" = "Neuer Ordner";
+"Placeholder_Snip" = "Neues Snippet";
+
+// CodeView options
+"CD_Text_size" = "CodeView Textgröße";
+"CD_Line_Wrapping" = "CodeView Zeilenumbruch";
+"CD_Invisible_Char" = "CodeView Unsichtbare Zeichen anzeigen";
+"CD_Theme" = "CodeView Theme";
+
+// General options
+"App_Theme" = "Theme";
+
+// Follower program
+"Need_You" = "Wir brauchen deine Hilfe!";
+"Need_You_Desc" = "Snip braucht deine Hilfe, um zu wachsen!\n\nWillst du Snip in deine Muttersprache übersetzen?\nWillst du bei unseren nächsten Features vom ersten Tag dabei sein?\n\nDann mach mit!";
+
+// Screen names
+"Welcome" = "Willkommen!";
+"Settings" = "Einstellungen";
+
+"Join" = "Mach mit";
+
+// General actions
+"Yes" = "Ja";
+"No" = "Nein";
+"Cancel" = "Abbrechen";
+"Close" = "Schließen";
+
+// Words
+"Char" = "Zeichen";
+"Words" = "Wörter";
+"Lines" = "Absätze";
