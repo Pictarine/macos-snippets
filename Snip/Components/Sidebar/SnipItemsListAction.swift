@@ -304,7 +304,7 @@ struct SnipItemsListAction {
         if let gistId = snip.gistId,
            gistId.count > 0 {
           
-          snip.syncState = .syncing
+          //snip.syncState = .syncing
           
           DispatchQueue.global().async {
             
