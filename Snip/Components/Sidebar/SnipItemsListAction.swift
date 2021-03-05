@@ -294,6 +294,7 @@ struct SnipItemsListAction {
         return snipItem.id == id
       }
       
+      let currentSnippets = current
       guard let snip = snipItem else { return }
       
       if snip.snippet != code {
@@ -306,8 +307,15 @@ struct SnipItemsListAction {
           snip.syncState = .syncing
           
           DispatchQueue.global().async {
-            let gistFile = GistFile(filename: snip.name, language: nil, size: 0, content: snip.snippet)
-            SyncManager.shared.updateGist(id: gistId, files: [gistFile])
+            
+            let gistFiles = currentSnippets.flatternSnippets.filter({ $0.gistId == snip.gistId })
+            let files = gistFiles.reduce([GistFile](), { res, item in
+                var arr = res
+                arr.append(GistFile(filename: item.name, language: nil, size: 0, content: item.snippet))
+                return arr
+            })
+            
+            SyncManager.shared.updateGist(id: gistId, files: files)
               .receive(on: DispatchQueue.main)
               .sink(receiveCompletion: { (completion) in
                 if case .failure(_) = completion {

@@ -156,9 +156,11 @@ class SyncManager: ObservableObject {
       "Accept": "application/vnd.github.v3+json"
     ]
     
-    let files: [[String: [String: String]]] = files.map({ file in
-      return [file.filename: [ "content": file.content ?? ""]]
-    })
+    let files = files.reduce([String: [String: String]]()) { (dict, file) -> [String: [String: String]] in
+      var dict = dict
+      dict[file.filename] = [ "content": file.content ?? ""]
+      return dict
+    }
     
     let bodyParams = [
       "files": files,
