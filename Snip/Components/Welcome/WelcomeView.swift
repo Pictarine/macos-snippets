@@ -38,7 +38,7 @@ struct WelcomeView: View {
         .foregroundColor(themeTextColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       HStack {
-        Text("- Improved performances\n- Added Dart support\n- Fix deeplinks\n- Added localization (en/de by David Keulert)\n- Added tags category on sidebar\n- Added synced from Gist category on sidebar\n- Added Gist sync\n- Added autocomplete (ctrl+space)\n- Added auto indent shortcut (ctrl+I)\n- Added other keyboard shortcuts\n- Fixed UI bugs")
+        Text("- Improved performances\n- Added Dart support\n- Fix deeplinks\n- Added localization (en/de by David Keulert)\n- Added tags category on sidebar\n- Added synced from Gist category on sidebar\n- Added Gist sync\n- Added autocomplete (ctrl+space)\n- Added auto indent shortcut (ctrl+I)\n- Added other keyboard shortcuts\n- Fixed UI bugs\n- Share code as a carbon.now.sh code screenshot")
           .font(Font.custom("CourierNewPSMT", size: 12))
           .foregroundColor(themeTextColor)
         Spacer()
