@@ -11,8 +11,7 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11
 
 ## [Download from mac App Store](https://apps.apple.com/us/app/id1527428847)
 
-![black_light_theme](https://user-images.githubusercontent.com/1506323/101370529-e48ce700-38a9-11eb-8a53-6cabada85a7e.png)
-
+![black_light_theme](https://user-images.githubusercontent.com/1506323/110323754-5560ae00-8015-11eb-98a3-7822772cbe00.png)
 
 ## Features
 
@@ -28,6 +27,7 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11
 * Light & Dark Mode
 * Theme selection
 * Atom file icons
+* Share snippet via [carbon.now.sh](https://carbon.now.sh/)
 * Create snippets via deeplinks from StackOverflow via [a Chrome Extension](https://chrome.google.com/webstore/detail/snip-extractor/fioamfejealgknedajclejcnbilifopf)
 
 
@@ -35,11 +35,13 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11
 
 [CodeMirror-SwiftUI](https://github.com/Pictarine/CodeMirror-SwiftUI) is a fork from [CodeMirror-Swift](https://github.com/ProxymanApp/CodeMirror-Swift) by [NghiaTranUIT](https://github.com/NghiaTranUIT) 🙏, repackaged for SwiftUI. 
 
-* CodeMirror v5.57.0
+* CodeMirror v5.59.4
 * Show/Hide invisible characters
 * Font size
 * Line Wrapping
 * 100+ themes available
+* Autocompletion hints (ctrl+space)
+* Reindent (ctrl+i)
 
 
 # Incoming
@@ -49,6 +51,12 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11
 - Search
 
 
+## Contributors
+
+* [DKeu](https://dkeu.de/) for german Translation
+
+
 ## Contributing
 
 Contributions are always welcome!
+

@@ -143,76 +143,79 @@ struct SnipItemsListAction {
   static func syncGists() -> SnipItemsListAction {
     return .init { current in
       
-      let currentSnips = current
-      
-      DispatchQueue.global().async {
-        SyncManager.shared.pullGists()
-          .sink(receiveCompletion: { (_) in },
-                receiveValue: { (gists) in
-                  
-                  Publishers.MergeMany(gists.map( { SyncManager.shared.pullGist(id: $0.id) }))
-                    .collect()
-                    .sink(receiveCompletion: { (_) in},
-                          receiveValue: { (gists) in
-                            
-                            var syncedSnips: [SnipItem] = []
-                            
-                            // Transform all Gists to snipItems
-                            gists.forEach { (gist) in
-                              gist.files.forEach { (_, file) in
-                                let snipItem = file.toSnipItem()
-                                snipItem.gistNodeId = gist.nodeId
-                                snipItem.gistId = gist.id
-                                snipItem.gistURL = gist.url
-                                snipItem.remoteURL = gist.url
-                                snipItem.syncState = .synced
-                                syncedSnips.append(snipItem)
-                              }
-                            }
-                            
-                            // Remove synced state of snips absent from Gists
-                            currentSnips.allGist.forEach { (snipItem) in
-                              let syncedSnip = syncedSnips.first(where: { $0.gistId == snipItem.gistId && $0.name == snipItem.name })
-                              if let syncedSnip = syncedSnip {
-                                DispatchQueue.main.async {
-                                  let snipToSync = snipItem
-                                  snipToSync.snippet = syncedSnip.snippet
-                                  snipToSync.syncState = .synced
-                                  snipToSync.gistId = syncedSnip.gistId
-                                  snipToSync.gistURL = syncedSnip.gistURL
-                                  snipToSync.gistNodeId = syncedSnip.gistNodeId
-                                  snipToSync.remoteURL = syncedSnip.remoteURL
-                                  SnippetManager.shared.trigger(action: .updateExistingItem(newestItem: snipToSync))
+      if SyncManager.shared.isAuthenticated {
+        let currentSnips = current
+        
+        DispatchQueue.global().async {
+          SyncManager.shared.pullGists()
+            .sink(receiveCompletion: { (_) in },
+                  receiveValue: { (gists) in
+                    
+                    Publishers.MergeMany(gists.map( { SyncManager.shared.pullGist(id: $0.id) }))
+                      .collect()
+                      .sink(receiveCompletion: { (_) in},
+                            receiveValue: { (gists) in
+                              
+                              var syncedSnips: [SnipItem] = []
+                              
+                              // Transform all Gists to snipItems
+                              gists.forEach { (gist) in
+                                gist.files.forEach { (_, file) in
+                                  let snipItem = file.toSnipItem()
+                                  snipItem.gistNodeId = gist.nodeId
+                                  snipItem.gistId = gist.id
+                                  snipItem.gistURL = gist.url
+                                  snipItem.remoteURL = gist.url
+                                  snipItem.syncState = .synced
+                                  syncedSnips.append(snipItem)
                                 }
                               }
-                              else {
-                                DispatchQueue.main.async {
-                                  let snipToSync = snipItem
-                                  snipToSync.gistId = nil
-                                  snipToSync.gistURL = nil
-                                  snipToSync.gistNodeId = nil
-                                  snipToSync.syncState = .local
-                                  SnippetManager.shared.trigger(action: .updateExistingItem(newestItem: snipToSync))
+                              
+                              // Remove synced state of snips absent from Gists
+                              currentSnips.allGist.forEach { (snipItem) in
+                                let syncedSnip = syncedSnips.first(where: { $0.gistId == snipItem.gistId && $0.name == snipItem.name })
+                                if let syncedSnip = syncedSnip {
+                                  DispatchQueue.main.async {
+                                    let snipToSync = snipItem
+                                    snipToSync.snippet = syncedSnip.snippet
+                                    snipToSync.syncState = .synced
+                                    snipToSync.gistId = syncedSnip.gistId
+                                    snipToSync.gistURL = syncedSnip.gistURL
+                                    snipToSync.gistNodeId = syncedSnip.gistNodeId
+                                    snipToSync.remoteURL = syncedSnip.remoteURL
+                                    SnippetManager.shared.trigger(action: .updateExistingItem(newestItem: snipToSync))
+                                  }
+                                }
+                                else {
+                                  DispatchQueue.main.async {
+                                    let snipToSync = snipItem
+                                    snipToSync.gistId = nil
+                                    snipToSync.gistURL = nil
+                                    snipToSync.gistNodeId = nil
+                                    snipToSync.syncState = .local
+                                    SnippetManager.shared.trigger(action: .updateExistingItem(newestItem: snipToSync))
+                                  }
                                 }
                               }
-                            }
-                            
-                            // Add Gists
-                            syncedSnips.forEach { (syncedSnip) in
-                              let snipItem = currentSnips.first(where: { $0.gistId == syncedSnip.gistId })
-                              if snipItem == nil {
-                                DispatchQueue.main.async {
-                                  SnippetManager.shared.trigger(action: .addSnippet(syncedSnip))
+                              
+                              // Add Gists
+                              syncedSnips.forEach { (syncedSnip) in
+                                let snipItem = currentSnips.first(where: { $0.gistId == syncedSnip.gistId })
+                                if snipItem == nil {
+                                  DispatchQueue.main.async {
+                                    SnippetManager.shared.trigger(action: .addSnippet(syncedSnip))
+                                  }
                                 }
                               }
-                            }
-                            
-                          })
-                    .store(in: &stores)
-                  
-                })
-          .store(in: &stores)
+                              
+                            })
+                      .store(in: &stores)
+                    
+                  })
+            .store(in: &stores)
+        }
       }
+      
     }
   }
   
