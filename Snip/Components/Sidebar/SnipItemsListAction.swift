@@ -164,6 +164,7 @@ struct SnipItemsListAction {
                                 snipItem.gistNodeId = gist.nodeId
                                 snipItem.gistId = gist.id
                                 snipItem.gistURL = gist.url
+                                snipItem.remoteURL = gist.url
                                 snipItem.syncState = .synced
                                 syncedSnips.append(snipItem)
                               }
@@ -177,6 +178,10 @@ struct SnipItemsListAction {
                                   let snipToSync = snipItem
                                   snipToSync.snippet = syncedSnip.snippet
                                   snipToSync.syncState = .synced
+                                  snipToSync.gistId = syncedSnip.gistId
+                                  snipToSync.gistURL = syncedSnip.gistURL
+                                  snipToSync.gistNodeId = syncedSnip.gistNodeId
+                                  snipToSync.remoteURL = syncedSnip.remoteURL
                                   SnippetManager.shared.trigger(action: .updateExistingItem(newestItem: snipToSync))
                                 }
                               }

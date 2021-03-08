@@ -32,7 +32,7 @@ struct GistFile: Codable {
 struct Gist: Codable {
   
   enum CodingKeys: String, CodingKey {
-    case url, id, files, nodeId = "node_id", isPublic = "public"
+    case url = "html_url", id, files, nodeId = "node_id", isPublic = "public"
   }
   
   let url: String
