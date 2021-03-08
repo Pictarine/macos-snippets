@@ -88,6 +88,22 @@ struct CodeActionsTopBar: View {
       ToolbarItem(placement: .status) {
         if viewModel.remoteURL != nil {
           Button(action: viewModel.openRemoteURL) {
+            Image(systemName: "curlybraces.square")
+          }
+          .help(NSLocalizedString("Open_Post", comment: ""))
+          .onHover { inside in
+            if inside {
+              NSCursor.pointingHand.push()
+            } else {
+              NSCursor.pop()
+            }
+          }
+        }
+      }
+      
+      ToolbarItem(placement: .status) {
+        if viewModel.snipCode.count > 0 {
+          Button(action: viewModel.shareCode) {
             Image(systemName: "square.and.arrow.up")
           }
           .help(NSLocalizedString("Open_Post", comment: ""))
@@ -202,6 +218,8 @@ final class CodeActionsViewModel: ObservableObject {
   @Published var remoteURL: String?
   @Published var isPreviewAvailable: Bool = false
   
+  var snipMode: String = "text"
+  
   var onRename: (String) -> Void
   var onToggleFavorite: () -> Void
   var onDelete: () -> Void
@@ -235,6 +253,7 @@ final class CodeActionsViewModel: ObservableObject {
         this.snipLastUpdate = snipItem.lastUpdateDate
         this.syncState = snipItem.syncState ?? .local
         this.remoteURL = snipItem.remoteURL
+        this.snipMode = snipItem.mode.name
         this.isPreviewAvailable = snipItem.mode == CodeMode.html.mode() || snipItem.mode == CodeMode.markdown.mode()
       }
   }
@@ -247,6 +266,16 @@ final class CodeActionsViewModel: ObservableObject {
     guard let sourceURL = remoteURL,
           let url = URL(string: sourceURL) else { return }
     NSWorkspace.shared.open(url)
+  }
+  
+  func shareCode() {
+    let baseURL = "https://carbon.now.sh/?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=blackboard&wt=none&l=\(snipMode)&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code="
+    
+    if let escapedCode = snipCode.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed),
+       let doubleEscapedCode = escapedCode.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed),
+       let carbonURL = URL(string: "\(baseURL)\(doubleEscapedCode)") {
+      NSWorkspace.shared.open(carbonURL)
+    }
   }
   
   func toggleSidebar() {

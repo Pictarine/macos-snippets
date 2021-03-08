@@ -19,14 +19,14 @@ public enum Endpoint {
   
   public func path() -> String {
     switch self {
-    case .token:
-      return "https://snip.picta-hub.io/github-token"
-    case .user:
-      return "https://api.github.com/user"
-    case .gists:
-      return "https://api.github.com/gists"
-    case .getGist(let id), .updateGist(let id):
-      return "https://api.github.com/gists/\(id)"
+      case .token:
+        return "https://snip.picta-hub.io/github-token"
+      case .user:
+        return "https://api.github.com/user"
+      case .gists:
+        return "https://api.github.com/gists"
+      case .getGist(let id), .updateGist(let id):
+        return "https://api.github.com/gists/\(id)"
     }
   }
 }
