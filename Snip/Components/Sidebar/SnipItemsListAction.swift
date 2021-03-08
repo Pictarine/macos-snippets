@@ -171,7 +171,7 @@ struct SnipItemsListAction {
                             
                             // Remove synced state of snips absent from Gists
                             currentSnips.allGist.forEach { (snipItem) in
-                              let syncedSnip = syncedSnips.first(where: { $0.gistId == snipItem.gistId })
+                              let syncedSnip = syncedSnips.first(where: { $0.gistId == snipItem.gistId && $0.name == snipItem.name })
                               if let syncedSnip = syncedSnip {
                                 DispatchQueue.main.async {
                                   let snipToSync = snipItem
