@@ -38,6 +38,7 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11
 * CodeMirror v5.59.4
 * Show/Hide invisible characters
 * Font size
+* Indent size: 2 or 4 spaces
 * Line Wrapping
 * 100+ themes available
 * Autocompletion hints (ctrl+space)
@@ -48,6 +49,7 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11
 
 - Create snippets from files
 - iCloud Sync & Restore
+- Share snippets with another iCloud account
 - Search
 
 
