@@ -47,20 +47,6 @@ struct CodeActionsTopBar: View {
                         bottom: 0,
                         trailing: 16))
     .toolbar {
-      ToolbarItem(placement: .navigation) {
-        Button(action: viewModel.toggleSidebar) {
-          Image(systemName: "sidebar.left")
-        }
-        .keyboardShortcut(KeyEquivalent.leftArrow, modifiers: [.command])
-        .onHover { inside in
-          if inside {
-            NSCursor.pointingHand.push()
-          } else {
-            NSCursor.pop()
-          }
-        }
-      }
-      
       ToolbarItem(placement: .status) {
         if syncManager.isAuthenticated {
           Button(action: viewModel.onUpload) {
@@ -276,10 +262,6 @@ final class CodeActionsViewModel: ObservableObject {
        let carbonURL = URL(string: "\(baseURL)\(doubleEscapedCode)") {
       NSWorkspace.shared.open(carbonURL)
     }
-  }
-  
-  func toggleSidebar() {
-    NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
   }
   
   var syncStateColor: Color {
