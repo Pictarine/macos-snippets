@@ -11,6 +11,7 @@ import SwiftUI
 @main
 struct SnipApp: App {
   
+  @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   var viewModel: SnipViewAppViewModel
   
   init() {
