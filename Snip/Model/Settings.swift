@@ -16,6 +16,7 @@ class Settings: ObservableObject {
     case theme = "codeview_active_theme"
     case lineWrapping = "codeview_line_wrapping"
     case textSize = "codeview_text_size"
+    case indentSize = "codeview_indent_size"
     case appTheme = "snip_app_theme"
   }
   
@@ -45,6 +46,12 @@ class Settings: ObservableObject {
     }
   }
   
+  @Published var codeViewIndentSize: Int = 2  {
+    didSet {
+      UserDefaults.standard.set(codeViewIndentSize, forKey: keys.indentSize.rawValue)
+    }
+  }
+  
   @Published var codeViewTheme : CodeViewTheme? = nil {
     didSet {
       guard let activeTheme = codeViewTheme else { return }
@@ -69,6 +76,10 @@ class Settings: ObservableObject {
     codeViewTextSize = UserDefaults.standard.integer(forKey: keys.textSize.rawValue)
     if codeViewTextSize == 0 {
       codeViewTextSize = 12
+    }
+    codeViewIndentSize = UserDefaults.standard.integer(forKey: keys.indentSize.rawValue)
+    if codeViewIndentSize == 0 {
+      codeViewIndentSize = 2
     }
   }
 }

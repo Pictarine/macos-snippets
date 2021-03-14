@@ -91,6 +91,7 @@ struct CodeView: NSViewRepresentable {
     context.coordinator.setFontSize(settings.codeViewTextSize)
     context.coordinator.setShowInvisibleCharacters(settings.codeViewShowInvisibleCharacters)
     context.coordinator.setLineWrapping(settings.codeViewLineWrapping)
+    context.coordinator.setIndentSize(settings.codeViewIndentSize)
   }
   
   func updateWhatsNecessary(elementGetter: (JavascriptCallback?) -> Void,

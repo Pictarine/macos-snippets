@@ -76,6 +76,10 @@ class CodeMirrorViewController: NSObject {
     callJavascript(javascriptString: "SetFontSize(\(value));")
   }
   
+  func setIndentSize(_ value: Int) {
+    callJavascript(javascriptString: "SetIndentUnit(\(value));")
+  }
+  
   func setDefaultTheme() {
     setMimeType("application/json")
   }

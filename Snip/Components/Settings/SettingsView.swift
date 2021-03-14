@@ -21,6 +21,9 @@ struct SettingsView: View {
   
   @State private var selectedTheme = 0
   @State private var selectedAppTheme = 0
+  @State private var selectedIndentSize = 0
+  
+  private let indentSizes = [2, 4]
   
   var body: some View {
     VStack(alignment: .leading) {
@@ -89,6 +92,31 @@ struct SettingsView: View {
         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
         Divider()
           .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
+        
+        HStack {
+          Text(NSLocalizedString("CD_Indent_Size", comment: ""))
+          .foregroundColor(themeTextColor)
+          Spacer()
+          Picker(selection: Binding<Int>(
+                  get: {
+                    let index = indentSizes.firstIndex(where: { $0 == settings.codeViewIndentSize}) ?? 0
+                    return index
+                  },
+                  set: {
+                    selectedIndentSize = $0
+                    settings.codeViewIndentSize = indentSizes[$0]
+                  }), label:
+                    EmptyView()
+          ) {
+            ForEach(0 ..< indentSizes.count) {
+              Text("\(indentSizes[$0])")
+            }
+          }
+          .pickerStyle(DefaultPickerStyle())
+          .frame(width: 40)
+        }
+        .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+        Divider()
         
         ToggleItem(option: Binding<Bool>(
                     get: {

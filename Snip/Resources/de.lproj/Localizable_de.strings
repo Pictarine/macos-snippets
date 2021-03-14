@@ -60,6 +60,7 @@
 "CD_Line_Wrapping" = "CodeView Zeilenumbruch";
 "CD_Invisible_Char" = "CodeView Unsichtbare Zeichen anzeigen";
 "CD_Theme" = "CodeView Theme";
+"CD_Indent_Size" = "CodeView Indent Size";
 
 // General options
 "App_Theme" = "Theme";
