@@ -43,6 +43,7 @@ Snip is a lightweight snippets manager built with SwiftUI + Combine for macOS 11
 * 100+ themes available
 * Autocompletion hints (ctrl+space)
 * Reindent (ctrl+i)
+* Auto close tags and brackets
 
 
 # Incoming
