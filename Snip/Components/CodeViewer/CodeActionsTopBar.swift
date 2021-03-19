@@ -54,7 +54,7 @@ struct CodeActionsTopBar: View {
             if viewModel.syncState == .syncing {
               ActivityIndicator()
                 .frame(width: 15, height: 15, alignment: .center)
-                .foregroundColor(.accent)
+                .foregroundColor(.accentDark)
             }
             else {
               Image(systemName: viewModel.syncState == .local ? "icloud" : "bolt.horizontal.icloud.fill")

@@ -94,7 +94,7 @@ struct ExternalSnippet: View {
             .background(Color.transparent)
         }
         .buttonStyle(PlainButtonStyle())
-        .background(Color.accent)
+        .background(Color.accentDark)
         .cornerRadius(4)
         .onHover { inside in
           if inside {

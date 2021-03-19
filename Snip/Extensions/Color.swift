@@ -20,7 +20,6 @@ extension Color {
   static let text = Color("Text")
   static let shadow = Color("Shadow")
   static let shadowTheme = Color("ShadowTheme")
-  static let accent = Color("Accent")
   static let accentDark = Color("AccentDark")
   static let transparent = Color.black.opacity(0.0001)
   

@@ -49,7 +49,7 @@ struct ModeSelectionView: View {
   }
   
   var addNewTag: some View {
-    CustomTextField(placeholder: Text(NSLocalizedString("New_Tag", comment: "")).foregroundColor(themeTextColor.opacity(0.7)),
+    CustomTextField(placeholder: Text(NSLocalizedString("New_Tag", comment: "")).foregroundColor(themeTextColor.opacity(0.8)),
                     text: $newTag,
                     commit: {
                       guard self.newTag.count > 1 else { return }
@@ -59,7 +59,7 @@ struct ModeSelectionView: View {
     })
       .frame(width: 60)
       .padding(4)
-      .overlay(RoundedRectangle(cornerRadius: 4).stroke(themeTextColor.opacity(0.7), lineWidth: 1))
+      .overlay(RoundedRectangle(cornerRadius: 4).stroke(themeTextColor.opacity(0.8), lineWidth: 1))
       .textFieldStyle(PlainTextFieldStyle())
   }
   

@@ -27,7 +27,7 @@ struct Sidebar: View {
       ZStack {
         VStack(alignment: .leading) {
           
-          logo
+          //logo
           
           List() {
             
@@ -71,7 +71,7 @@ struct Sidebar: View {
                   }) {
                     Text(NSLocalizedString("New_Snippet", comment: ""))
                       .font(.system(size: 14))
-                      .foregroundColor(Color.text)
+                      .foregroundColor(Color.white)
                   }
                   .buttonStyle(PlainButtonStyle())
                   .onHover { inside in
@@ -89,7 +89,7 @@ struct Sidebar: View {
                   }) {
                     Text(NSLocalizedString("New_Folder", comment: ""))
                       .font(.system(size: 14))
-                      .foregroundColor(Color.text)
+                      .foregroundColor(Color.white)
                   }
                   .buttonStyle(PlainButtonStyle())
                   .onHover { inside in
@@ -101,7 +101,7 @@ struct Sidebar: View {
                   }
                   .padding(.bottom, 8)
                 }
-                .background(Color.BLACK_500.opacity(0.8))
+                .background(Color.BLACK_500.opacity(0.9))
                 .frame(width: 100)
                 .cornerRadius(6)
                 .offset(x: 0, y: -8)

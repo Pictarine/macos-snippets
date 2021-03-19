@@ -117,6 +117,7 @@ struct SettingsView: View {
         }
         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
         Divider()
+          .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
         
         ToggleItem(option: Binding<Bool>(
                     get: {
@@ -182,8 +183,9 @@ struct SettingsView: View {
             .background(Color.transparent)
         }
         .buttonStyle(PlainButtonStyle())
-        .background(Color.accent)
+        .background(Color.accentDark)
         .cornerRadius(4)
+        .keyboardShortcut(KeyEquivalent.escape)
         .onHover { inside in
           if inside {
             NSCursor.pointingHand.push()
