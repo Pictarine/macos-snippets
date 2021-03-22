@@ -38,7 +38,7 @@ struct WelcomeView: View {
         .foregroundColor(themeTextColor)
         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
       HStack {
-        Text("- Fix sidebar icon not visible\n- Auto close tags and brackets\n- better search and replace dialog\n- Added indent size setting\n- Added default mode setting\n- New icon\n- Added autofocus when renaming a snippet\n- Disabled window tabbing")
+        Text("- Fix sidebar icon not visible\n- Auto close tags and brackets\n- better search and replace dialog\n- Added indent size setting\n- Added default mode setting\n- New icon\n- Disabled window tabbing")
           .font(Font.custom("CourierNewPSMT", size: 12))
           .foregroundColor(themeTextColor)
         Spacer()

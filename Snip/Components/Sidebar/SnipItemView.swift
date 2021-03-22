@@ -21,7 +21,7 @@ struct SnipItemView<Content: View>: View {
   
   @State private var isExpanded: Bool = false
   @State private var isEditingName = false
-  @State var hasTriggered: Bool = false
+  //@State var hasTriggered: Bool = false
   
   let content: () -> Content?
   
@@ -73,13 +73,13 @@ struct SnipItemView<Content: View>: View {
               .frame(maxWidth: .infinity, alignment: .leading)
               .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
               .background(themePrimaryColor)
-              .introspectTextField { textField in
+              /*.introspectTextField { textField in
                 if self.hasTriggered == false {
                   textField.becomeFirstResponder()
                   self.hasTriggered = true
                 }
               }
-              .onAppear(perform: {self.hasTriggered = false})
+              .onAppear(perform: {self.hasTriggered = false})*/
               .onHover { inside in
                 if inside {
                   NSCursor.iBeam.push()
@@ -180,13 +180,13 @@ struct SnipItemView<Content: View>: View {
               .frame(maxWidth: .infinity, alignment: .leading)
               .padding(.leading, 4)
               .background(themePrimaryColor)
-              .introspectTextField { textField in
+              /*.introspectTextField { textField in
                 if self.hasTriggered == false {
                   textField.becomeFirstResponder()
                   self.hasTriggered = true
                 }
               }
-              .onAppear(perform: {self.hasTriggered = false})
+              .onAppear(perform: {self.hasTriggered = false})*/
               .onHover { inside in
                 if inside {
                   NSCursor.iBeam.push()
