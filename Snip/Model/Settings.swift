@@ -18,6 +18,7 @@ class Settings: ObservableObject {
     case textSize = "codeview_text_size"
     case indentSize = "codeview_indent_size"
     case appTheme = "snip_app_theme"
+    case defaultMode = "snip_default_mode"
   }
   
   @Published var shouldOpenSettings : Bool = false
@@ -59,9 +60,19 @@ class Settings: ObservableObject {
     }
   }
   
+  @Published var defaultMode: CodeMode = CodeMode.text {
+    didSet {
+      UserDefaults.standard.set(defaultMode.rawValue, forKey: keys.defaultMode.rawValue)
+    }
+  }
+  
   init() {
     if let activeTheme = UserDefaults.standard.object(forKey: keys.theme.rawValue) as? String {
       codeViewTheme = CodeViewTheme(rawValue: activeTheme)
+    }
+    
+    if let snipetDefaultMode = UserDefaults.standard.object(forKey: keys.defaultMode.rawValue) as? String {
+      defaultMode = CodeMode(rawValue: snipetDefaultMode) ?? .text
     }
     
     if let appTheme = UserDefaults.standard.object(forKey: keys.appTheme.rawValue) as? String {

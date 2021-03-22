@@ -22,6 +22,7 @@ struct SettingsView: View {
   @State private var selectedTheme = 0
   @State private var selectedAppTheme = 0
   @State private var selectedIndentSize = 0
+  @State private var selectedMode = 0
   
   private let indentSizes = [2, 4]
   
@@ -85,6 +86,32 @@ struct SettingsView: View {
             ForEach(0 ..< CodeViewTheme.list.count) {
               Text(CodeViewTheme.list[$0].rawValue)
             }
+          }
+          .pickerStyle(DefaultPickerStyle())
+          .frame(width: 200)
+        }
+        .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+        Divider()
+          .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
+        
+        HStack {
+          Text(NSLocalizedString("CD_Theme", comment: ""))
+          .foregroundColor(themeTextColor)
+          Spacer()
+          Picker(selection: Binding<Int>(
+            get: {
+              let index = /*CodeMode.list().firstIndex(where: { (mode) -> Bool in
+                mode == self.viewModel.currentMode
+              }) ?? -1*/ 0
+              return index
+          },
+            set: {
+              selectedMode = $0
+          }),
+                 label: EmptyView()) {
+                  ForEach(0 ..< CodeMode.list().count, id: \.self) {
+                    Text(CodeMode.list()[$0].name)
+                  }
           }
           .pickerStyle(DefaultPickerStyle())
           .frame(width: 200)
