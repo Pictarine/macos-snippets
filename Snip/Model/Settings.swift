@@ -60,9 +60,9 @@ class Settings: ObservableObject {
     }
   }
   
-  @Published var defaultMode: CodeMode = CodeMode.text {
+  @Published var defaultMode: Mode = CodeMode.text.mode() {
     didSet {
-      UserDefaults.standard.set(defaultMode.rawValue, forKey: keys.defaultMode.rawValue)
+      UserDefaults.standard.setCodableObject(defaultMode, forKey: keys.defaultMode.rawValue)
     }
   }
   
@@ -71,8 +71,8 @@ class Settings: ObservableObject {
       codeViewTheme = CodeViewTheme(rawValue: activeTheme)
     }
     
-    if let snipetDefaultMode = UserDefaults.standard.object(forKey: keys.defaultMode.rawValue) as? String {
-      defaultMode = CodeMode(rawValue: snipetDefaultMode) ?? .text
+    if let snipetDefaultMode = UserDefaults.standard.codableObject(dataType: Mode.self, key: keys.defaultMode.rawValue) {
+      defaultMode = snipetDefaultMode 
     }
     
     if let appTheme = UserDefaults.standard.object(forKey: keys.appTheme.rawValue) as? String {

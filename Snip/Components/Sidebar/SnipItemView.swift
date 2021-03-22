@@ -14,6 +14,7 @@ struct SnipItemView<Content: View>: View {
   
   @ObservedObject var viewModel: SnipItemViewModel
   
+  @EnvironmentObject var settings: Settings
   @EnvironmentObject var appState: AppState
   
   @Environment(\.themePrimaryColor) var themePrimaryColor
@@ -114,7 +115,7 @@ struct SnipItemView<Content: View>: View {
         }
         
         Button(action: {
-          viewModel.onTrigger(.addSnippet(id: viewModel.snipItem.id))
+          viewModel.onTrigger(.addSnippet(id: viewModel.snipItem.id, settings: settings))
           isExpanded = true
         }) {
           Text(NSLocalizedString("Add_Snippet", comment: ""))

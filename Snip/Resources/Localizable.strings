@@ -64,6 +64,7 @@
 
 // General options
 "App_Theme" = "Application Theme";
+"Default_Mode" = "Default Mode";
 
 // Follower program
 "Need_You" = "We Need Your Help!";

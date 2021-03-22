@@ -26,7 +26,6 @@ struct SnipViewApp: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var settings: Settings
     
-    
     var body: some View {
         appNavigation
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -65,7 +64,7 @@ struct SnipViewApp: View {
                     .frame(width: 800, height: 600)
             case .settings:
                 SettingsView(viewModel: SettingsViewModel(isVisible: $settings.shouldOpenSettings))
-                    .frame(width: 800, height: 600)
+                    .frame(width: 800, height: 700)
             case .external:
                 ExternalSnippet(viewModel: ExternalSnippetViewModel(isVisible: $viewModel.snippetManager.hasExternalSnippetQueued,
                                                                     snipItem: $viewModel.snippetManager.tempSnipItem,

@@ -95,18 +95,19 @@ struct SettingsView: View {
           .padding(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
         
         HStack {
-          Text(NSLocalizedString("CD_Theme", comment: ""))
+          Text(NSLocalizedString("Default_Mode", comment: ""))
           .foregroundColor(themeTextColor)
           Spacer()
           Picker(selection: Binding<Int>(
             get: {
-              let index = /*CodeMode.list().firstIndex(where: { (mode) -> Bool in
-                mode == self.viewModel.currentMode
-              }) ?? -1*/ 0
+              let index = CodeMode.list().firstIndex(where: { (mode) -> Bool in
+                mode == settings.defaultMode
+              }) ?? -1
               return index
           },
             set: {
               selectedMode = $0
+              settings.defaultMode = CodeMode.list()[$0]
           }),
                  label: EmptyView()) {
                   ForEach(0 ..< CodeMode.list().count, id: \.self) {

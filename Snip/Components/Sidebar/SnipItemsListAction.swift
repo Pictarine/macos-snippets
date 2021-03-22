@@ -25,10 +25,13 @@ struct SnipItemsListAction {
     }
   }
   
-  static func addSnippet(id: String? = nil) -> SnipItemsListAction {
+  static func addSnippet(id: String? = nil, settings: Settings? = nil) -> SnipItemsListAction {
     return .init { current in
       
       let file = SnipItem.file(name: NSLocalizedString("New_Snippet", comment: "").capitalized)
+      if let settings = settings {
+        file.mode = settings.defaultMode
+      }
       
       if let idParentFolder = id {
         let snipItem = current.flatternSnippets.first { (snipItem) -> Bool in

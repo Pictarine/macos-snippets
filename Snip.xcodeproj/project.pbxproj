@@ -23,6 +23,7 @@
 		7936F89A24D845B600F09AE7 /* SnipItemsListAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */; };
 		7936F89F24DA02DD00F09AE7 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7936F89E24DA02DD00F09AE7 /* TextField.swift */; };
 		7947B90E25FE48C4005BF623 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7947B90D25FE48C4005BF623 /* AppDelegate.swift */; };
+		794CF88826089E8400408631 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CF88726089E8400408631 /* UserDefaults.swift */; };
 		794D27CE24F672E4006E3B3D /* SnipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794D27CD24F672E4006E3B3D /* SnipTests.swift */; };
 		794D27D924F68FF2006E3B3D /* Down in Frameworks */ = {isa = PBXBuildFile; productRef = 794D27D824F68FF2006E3B3D /* Down */; };
 		794D27DB24F6A19C006E3B3D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794D27DA24F6A19C006E3B3D /* Data.swift */; };
@@ -102,6 +103,7 @@
 		7936F89924D845B600F09AE7 /* SnipItemsListAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipItemsListAction.swift; sourceTree = "<group>"; };
 		7936F89E24DA02DD00F09AE7 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		7947B90D25FE48C4005BF623 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		794CF88726089E8400408631 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		794D27CB24F672E4006E3B3D /* SnipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		794D27CD24F672E4006E3B3D /* SnipTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnipTests.swift; sourceTree = "<group>"; };
 		794D27CF24F672E4006E3B3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				79284D6E250A23E900210E61 /* Bundle.swift */,
 				795D51EA252B686C00613D0F /* Binding.swift */,
 				79EC4826252CA90E00E45AC3 /* EnvironmentValues.swift */,
+				794CF88726089E8400408631 /* UserDefaults.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -587,6 +590,7 @@
 				79C612B92506B27F008672BA /* SettingsView.swift in Sources */,
 				79F07A2524D2F9C700469324 /* CodeActionsTopBar.swift in Sources */,
 				79956A4B24E58A0900B823E1 /* SyncManager.swift in Sources */,
+				794CF88826089E8400408631 /* UserDefaults.swift in Sources */,
 				79E82BA2257E37C0005B2CBD /* CodeMirrorViewController.swift in Sources */,
 				79AC7AE625F03B3F006431C8 /* SidebarTagView.swift in Sources */,
 				794DBE92252B454B000DFCF2 /* Theme.swift in Sources */,

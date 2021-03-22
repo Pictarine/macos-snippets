@@ -67,7 +67,7 @@ struct Sidebar: View {
                 VStack() {
                   Button(action: {
                     self.expand.toggle()
-                    self.viewModel.onTrigger(.addSnippet(id: nil))
+                    self.viewModel.onTrigger(.addSnippet(id: nil, settings: settings))
                   }) {
                     Text(NSLocalizedString("New_Snippet", comment: ""))
                       .font(.system(size: 14))
