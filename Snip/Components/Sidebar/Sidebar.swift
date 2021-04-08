@@ -234,6 +234,16 @@ struct Sidebar: View {
                       NSCursor.pop()
                     }
                   }
+                  .onTapGesture {
+                    showSortOptions.toggle()
+                  }
+                  .popover(isPresented: $showSortOptions) {
+                    VStack {
+                      Text("Sort snippet by")
+                    }
+                    .padding(16)
+                    .frame(width: 200)
+                  }
               }
               .padding(.bottom, 8)
               .padding(.top, 16)
