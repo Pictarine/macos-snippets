@@ -239,7 +239,41 @@ struct Sidebar: View {
                   }
                   .popover(isPresented: $showSortOptions) {
                     VStack {
-                      Text("Sort snippet by")
+                      Group {
+                        HStack {
+                          Text("Sort snippet")
+                          Spacer()
+                        }
+                        Divider()
+                        HStack {
+                          Button(action: {}) {
+                            Text("Alphabeticaly")
+                          }
+                          .frame(width: 100)
+                          Spacer()
+                        }
+                        HStack {
+                          Button(action: {}) {
+                            Text("Date creation")
+                          }
+                          .frame(width: 100)
+                          Spacer()
+                        }
+                        HStack {
+                          Button(action: {}) {
+                            Text("Last update")
+                          }
+                          .frame(width: 100)
+                          Spacer()
+                        }
+                        HStack {
+                          Button(action: {}) {
+                            Text("Folder first")
+                          }
+                          .frame(width: 100)
+                          Spacer()
+                        }
+                      }
                     }
                     .padding(16)
                     .frame(width: 200)
