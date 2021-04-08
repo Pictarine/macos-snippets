@@ -18,7 +18,8 @@ struct Sidebar: View {
   @ObservedObject var syncManager = SyncManager.shared
   @ObservedObject var viewModel: SideBarViewModel
   
-  @State private var showingLogoutAlert = false
+  @State private var showLogoutAlert = false
+  @State private var showSortOptions = false
   @State var expand = false
   
   var body: some View {
@@ -125,7 +126,7 @@ struct Sidebar: View {
         
         Button(action: {
           if self.syncManager.isAuthenticated {
-            self.showingLogoutAlert = true
+            self.showLogoutAlert = true
           }
           else {
             NSWorkspace.shared.open(SyncManager.oauthURL)
@@ -146,7 +147,7 @@ struct Sidebar: View {
           
         }
         .help(NSLocalizedString("Connect_GitHub", comment: ""))
-        .alert(isPresented: $showingLogoutAlert) {
+        .alert(isPresented: $showLogoutAlert) {
           Alert(title: Text(NSLocalizedString("Connect_GitHub", comment: "")),
                 message: Text(NSLocalizedString("Validate_Logout_GitHub", comment: "")),
                 primaryButton: .default(Text(NSLocalizedString("Yes", comment: "").uppercased()), action: {
@@ -220,6 +221,19 @@ struct Sidebar: View {
                     .foregroundColor(themeTextColor.opacity(0.6))
                   Spacer()
                 }
+                Spacer()
+                Image(systemName: "arrow.up.arrow.down.square.fill")
+                  .resizable()
+                  .scaledToFit()
+                  .frame(width: 15, height: 15, alignment: .center)
+                  .padding(.trailing, 16)
+                  .onHover { inside in
+                    if inside {
+                      NSCursor.pointingHand.push()
+                    } else {
+                      NSCursor.pop()
+                    }
+                  }
               }
               .padding(.bottom, 8)
               .padding(.top, 16)
