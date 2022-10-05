@@ -159,7 +159,7 @@
 		79F07A2424D2F9C700469324 /* CodeActionsTopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeActionsTopBar.swift; sourceTree = "<group>"; };
 		79F07A2824D3050500469324 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		79F91D8925F280E30067CFB9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable_de.strings; sourceTree = "<group>"; };
-		7D61C55228ED2CE000FFA1F8 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable_en.strings"; sourceTree = "<group>"; };
+		7D61C55328ED2E7100FFA1F8 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable_en.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -629,7 +629,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				79BDF6EB25ECF47200B153D9 /* en */,
-				7D61C55228ED2CE000FFA1F8 /* pt-BR */,
+				7D61C55328ED2E7100FFA1F8 /* pt-BR */,
 			);
 			name = Localizable_en.strings;
 			sourceTree = "<group>";
