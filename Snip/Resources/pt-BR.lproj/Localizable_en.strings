@@ -1,0 +1,88 @@
+/* 
+  Localizable_en.strings
+  Snip
+
+  Created by Junior on 01/03/2021.
+  Copyright © 2021 pictarine. All rights reserved.
+*/
+
+// Tooltips
+"Extract_Stack" = "Extrair snippets do StackOverflow";
+"Open_Post" = "Abrir postagem original";
+"Preview" = "Pré-visualizar";
+"Add_Fav" = "Adicionar aos favoritos";
+"Delete_Snip" = "Excluir snippet";
+"Snip_Infos" = "Informações do snippet";
+"Size" = "Tamanho";
+"Last_Update" = "Última atualização";
+
+// EmptyState
+"Create_first_snippet" = "Dicas";
+"Hint_1" = "Cmd+F: procure palavras e expressões regulares";
+"Hint_2" = "Cmd+Z/Cmd+Y: desfazer/refazer";
+"Hint_3" = "Cmd+/: comentar/descomentar";
+"Hint_4" = "Cmd+Space: autocompletar";
+"Hint_5" = "Ctrl+I: auto identar";
+
+// GitHub
+"Connect_GitHub" = "Conectar ao Gists do GitHub";
+"Logout_GitHub" = "Desconectar do Github";
+"Validate_Logout_GitHub" = "Você deseja desconectar do Github?";
+
+// Deletion
+"Psst" = "Psst";
+"Delete_Desc" = "Você está prestes a excluir um snippet.";
+
+// Actions
+"New_Snippet" = "Novo snippet";
+"New_Folder" = "Nova pasta";
+"Add_Folder" = "Adicionar pasta";
+"Add_Snippet" = "Adicionar snippet";
+"Foler_From" = "Pasta de";
+"Rename" = "Renomear";
+"Delete" = "Excluir";
+"New_Tag" = "Nova tag";
+"Copy_Clipboard" = "Copiar para a área de transferência";
+
+// Sections
+"Favorites" = "Favoritos";
+"Local" = "Local";
+"External" = "Externo";
+"Tags" = "Tags";
+"Gist" = "Sincronizado do Gist";
+
+// Placeholders
+"Placeholder_Folder" = "Nome da pasta";
+"Placeholder_Snip" = "Nome do Snippet";
+
+// CodeView options
+"CD_Text_size" = "Tamanho do texto do código";
+"CD_Line_Wrapping" = "Quebra de linha do código";
+"CD_Invisible_Char" = "Mostrar caracteres invisíveis";
+"CD_Theme" = "Tema do código";
+"CD_Indent_Size" = "Tamanho da indentação do código";
+
+// General options
+"App_Theme" = "Tema da aplicação";
+"Default_Mode" = "Modo padrão";
+
+// Follower program
+"Need_You" = "Precisamos de ajuda!";
+"Need_You_Desc" = "O Snip precisa de sua ajuda para crescer!\n\nDeseja traduzir o Snip para sua língua?\nDeseja ter acesso a novas funcionalidades antes de todo mundo?\nJunte-se a nós!";
+
+// Screen names
+"Welcome" = "Bem-vindo!";
+"Settings" = "Configurações";
+
+"Join" = "Junte-se a nós";
+
+// General actions
+"Yes" = "Sim";
+"No" = "Não";
+"Cancel" = "Cancelar";
+"Close" = "Fechar";
+
+// Words
+"Char" = "caracteres";
+"Words" = "palavras";
+"Lines" = "linhas";
